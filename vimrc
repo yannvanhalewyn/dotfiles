@@ -65,7 +65,7 @@ set history=500
 set ruler         " show the cursor position all the time
 set showcmd       " display incomplete commands
 set incsearch     " do incremental searching
-set hlsearch      " highlight matches
+" set hlsearch      " highlight matches
 set laststatus=2  " Always display the status line
 set autowrite     " Automatically :write before running commands
 
@@ -137,6 +137,15 @@ if executable('ag')
 endif
 
 " Airline
+set guifont=Liberation\ Mono\ for\ Powerline\ 10
+
+let g:Powerline_symbols = 'fancy'
+set encoding=utf-8
+set t_Co=256
+set fillchars+=stl:\ ,stlnc:\
+set term=xterm-256color
+set termencoding=utf-8
+
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -144,6 +153,16 @@ endif
 let g:airline_symbols.space = "\ua0"
 " let g:airline_theme='solarized'
 set t_Co=256
+
+  " powerline symbols
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
+
 
 :set smartcase
 :set ignorecase
@@ -274,4 +293,3 @@ filetype plugin indent on    " required
 autocmd FileType html,css EmmetInstall    " Use only with certain files
 let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
 
-" Airline prefs
