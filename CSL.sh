@@ -5,7 +5,7 @@
 
 ## VARIABLES
 dir=~/dotfiles
-files="bashrc gitignore_global vimrc bash_profile gitconfig profile tmux.conf"
+files="bashrc gitignore_global vimrc bash_profile gitconfig profile tmux.conf functions"
 
 ## GOT TO DIR
 echo "Changing to the $dir directory"
@@ -19,3 +19,6 @@ for file in $files; do
     echo "Creating symlink for .$file"
     ln -s $dir/$file ~/.$file
 done
+
+echo "Linking new profile"
+source ~/.bash_profile
