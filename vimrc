@@ -142,7 +142,7 @@ if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
 let g:airline_symbols.space = "\ua0"
-let g:airline_theme='solarized'
+" let g:airline_theme='solarized'
 set t_Co=256
 
 :set smartcase
@@ -260,6 +260,8 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 " Emmet
 Plugin 'mattn/emmet-vim'
+" CTRL-P
+Plugin 'kien/ctrlp.vim'
 " Airline status bar
 Plugin 'bling/vim-airline'
 
@@ -271,3 +273,5 @@ filetype plugin indent on    " required
 " Emmet prefs
 autocmd FileType html,css EmmetInstall    " Use only with certain files
 let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
+
+" Airline prefs
