@@ -137,7 +137,7 @@ if executable('ag')
 endif
 
 " Airline
-set guifont=Liberation\ Mono\ for\ Powerline\ 10
+set guifont=Liberation\ Mono\ for\ Powerline\ 12
 
 let g:Powerline_symbols = 'fancy'
 set encoding=utf-8
@@ -163,6 +163,13 @@ set t_Co=256
   let g:airline_symbols.readonly = ''
   let g:airline_symbols.linenr = ''
 
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+" Tab to toggle buffers
+:nnoremap <Tab> :bnext<CR>
+:nnoremap <S-Tab> :bprevious<CR>
 
 :set smartcase
 :set ignorecase
@@ -283,6 +290,10 @@ Plugin 'mattn/emmet-vim'
 Plugin 'kien/ctrlp.vim'
 " Airline status bar
 Plugin 'bling/vim-airline'
+" NerdTree
+Plugin 'scrooloose/nerdtree'
+" Endwise (Ruby)
+Plugin 'tpope/vim-endwise'
 
 
 " All of your Plugins must be added before the following line
