@@ -177,10 +177,12 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 " Color scheme
 set background=dark
+" color desert
 set encoding=utf-8
 
 " Highlight line number of where cursor currently is
 hi CursorLineNr guifg=#050505
+hi Comment ctermfg=8
 
 " Numbers
 set number
