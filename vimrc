@@ -18,17 +18,15 @@ let g:session_autoload = 'no'
 " Leader Mappings
 let mapleader = "\<Space>"
 map <Leader>w :update<CR>
-map <Leader>q :qall<CR>
-"
+map <Leader>q :bd<CR>
+map <Leader>n :NERDTreeToggle<CR>
+
 " RSpec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 
-
-" Toggle nerdtree with F10
-map <F10> :NERDTreeToggle<CR>
 " Current file in nerdtree
 map <F9> :NERDTreeFind<CR>
 
@@ -296,7 +294,8 @@ Plugin 'bling/vim-airline'
 Plugin 'scrooloose/nerdtree'
 " Endwise (Ruby)
 Plugin 'tpope/vim-endwise'
-
+" DelimitMate
+Plugin 'Raimondi/delimitMate'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
