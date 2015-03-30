@@ -129,3 +129,14 @@ gifify() {
 webmify(){
 	ffmpeg -i $1 -vcodec libvpx -acodec libvorbis -isync -copyts -aq 80 -threads 3 -qmax 30 -y $2 $1.webm
 }
+
+
+# Open a file in Google Chrome
+chrome() {
+  open -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome $1
+}
+
+# Open a file in FireFox
+firefox() {
+  open -a /Applications/Firefox.app/Contents/MacOS/firefox $1
+}
