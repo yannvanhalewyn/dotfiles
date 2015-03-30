@@ -17,7 +17,7 @@ let g:session_autoload = 'no'
 
 " Leader Mappings
 let mapleader = "\<Space>"
-map <Leader>w :update<CR>
+map <Leader>r :update<CR>
 map <Leader>q :bd<CR>
 map <Leader>n :NERDTreeToggle<CR>
 
@@ -296,6 +296,11 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-endwise'
 " DelimitMate
 Plugin 'Raimondi/delimitMate'
+" Snipmate
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'honza/vim-snippets'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -304,4 +309,3 @@ filetype plugin indent on    " required
 " Emmet prefs
 autocmd FileType html,css EmmetInstall    " Use only with certain files
 let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
-
