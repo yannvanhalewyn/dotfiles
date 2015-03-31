@@ -27,6 +27,7 @@ brew install homebrew/versions/bash-completion2
 
 # Install more recent versions of some OS X tools
 brew install vim --override-system-vi
+brew install tmux
 
 # Install other useful binaries
 brew install git
