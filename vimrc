@@ -297,10 +297,13 @@ Plugin 'tpope/vim-endwise'
 " DelimitMate
 Plugin 'Raimondi/delimitMate'
 " Snipmate
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
-Plugin 'honza/vim-snippets'
+" Plugin 'MarcWeber/vim-addon-mw-utils'
+" Plugin 'tomtom/tlib_vim'
+" Plugin 'garbas/vim-snipmate'
+" Plugin 'honza/vim-snippets'
+" UltiSnip
+Plugin 'SirVer/ultisnips'
+let g:UltiSnipsExpandTrigger="<c-w>"
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
