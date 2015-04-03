@@ -19,6 +19,14 @@ set undofile
 set undolevels=1000
 set undoreload=10000
 
+" When editing a file, always jump to the last known cursor position.
+" Don't do it for commit messages, when the position is invalid, or when
+" inside an event handler (happens when dropping a file on gvim).
+autocmd BufReadPost *
+  \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+  \   exe "normal g`\"" |
+  \ endif
+
 
 "/* KEY MAPPINGS
 "============================ */
@@ -27,14 +35,11 @@ set undoreload=10000
 :nnoremap <Tab> :bnext<CR>
 :nnoremap <S-Tab> :bprevious<CR>
 
-" set leader key
-let mapleader = "\<Space>"
-" close buffer
-map <Leader>q :bd<CR>
-" toggle NerdTree
-map <Leader>n :NERDTreeToggle<CR>
-" Switch between the last two files
-nnoremap <leader><leader> <c-^>
+let mapleader = "\<Space>"          " set leader key
+map <Leader>q :bd<CR>               " close buffer
+map <Leader>n :NERDTreeToggle<CR>   " toggle NerdTree
+nnoremap <leader><leader> <c-^>     " Switch between the last two files
+nnoremap <CR> o<esc>k               " Remap ENTER and SHIFT-ENTER to append or prepend newlines in normal mode
 
 " Spec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
