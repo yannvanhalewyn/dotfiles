@@ -19,7 +19,13 @@ let mapleader = "\<Space>"
 map <Leader>r :update<CR>
 map <Leader>q :bd<CR>
 map <Leader>n :NERDTreeToggle<CR>
-"
+
+" Spec.vim mappings
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
 
@@ -73,12 +79,6 @@ set showcmd       " display incomplete commands
 set incsearch     " do incremental searching
 set laststatus=2  " Always display the status line
 set autowrite     " Automatically :write before running commands
-
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
-  syntax on
-endif
 
 if filereadable(expand("~/.vimrc.bundles"))
   source ~/.vimrc.bundles
@@ -160,6 +160,8 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " Color scheme
 set background=dark
 " color desert
+syntax on
+colorscheme jellybeans
 set encoding=utf-8
 
 " Highlight line number of where cursor currently is
@@ -240,6 +242,8 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-endwise'
 " DelimitMate
 Plugin 'Raimondi/delimitMate'
+" vim-rspec
+Plugin 'thoughtbot/vim-rspec'
 " UltiSnip
 Plugin 'SirVer/ultisnips'
 " Otherwise it interferes with my tab completion..
