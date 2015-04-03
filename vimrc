@@ -8,9 +8,8 @@ set lazyredraw
 
 let g:ruby_path="~/.rvm/bin/ruby"
 
-let $PATH='/usr/local/bin:' . $PATH
-
-:au FocusLost * :wa "Save on focus lost
+"Save on focus lost
+:au FocusLost * :wa 
 
 " Sessions
 let g:session_autoload = 'no'
@@ -20,39 +19,48 @@ let mapleader = "\<Space>"
 map <Leader>r :update<CR>
 map <Leader>q :bd<CR>
 map <Leader>n :NERDTreeToggle<CR>
+"
+" Switch between the last two files
+nnoremap <leader><leader> <c-^>
 
-" RSpec.vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
+" Remap tab and shift-tab to switch buffers
+:nnoremap <Tab> :bnext<CR>
+:nnoremap <S-Tab> :bprevious<CR>
+
+" Remap ENTER and SHIFT-ENTER to append or prepend newlines in normal mode
+noremap <CR> o<esc>k
 
 " Current file in nerdtree
 map <F9> :NERDTreeFind<CR>
+
+
+" Tab completion
+" will insert tab at beginning of line,
+" will use completion if not at beginning
+set wildmode=list:longest,list:full
+set complete=.,w,t
+function! InsertTabWrapper()
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-p>"
+    endif
+endfunction
+inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 
 " Reduce timeout after <ESC> is recvd. This is only a good idea on fast links.
 set ttimeout
 set ttimeoutlen=20
 set notimeout
 
-" Edit another file in the same directory as the current file
-" uses expression to extract path from current file's path
-
 " highlight vertical column of cursor
 au WinLeave * set nocursorline nocursorcolumn
 au WinEnter * set cursorline 
 set cursorline 
 
-"key to insert mode with paste using F2 key
-map <F2> :set paste<CR>i
 " Leave paste mode on exit
 au InsertLeave * set nopaste
-
-" Command aliases
-cabbrev tp tabprev
-cabbrev tn tabnext
-cabbrev tf tabfirst
-cabbrev tl tablast
 
 set backspace=2   " Backspace deletes like most programs in insert mode
 set nocompatible  " Use Vim settings, rather then Vi settings
@@ -63,12 +71,8 @@ set history=500
 set ruler         " show the cursor position all the time
 set showcmd       " display incomplete commands
 set incsearch     " do incremental searching
-" set hlsearch      " highlight matches
 set laststatus=2  " Always display the status line
 set autowrite     " Automatically :write before running commands
-
-" Fuzzy finder: ignore stuff that can't be opened, and generated files
-let g:fuzzy_ignore = "*.png;*.PNG;*.JPG;*.jpg;*.GIF;*.gif;vendor/**;coverage/**;tmp/**;rdoc/**"
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -107,67 +111,47 @@ augroup vimrcEx
   autocmd BufRead,BufNewFile *.md setlocal textwidth=80
 augroup END
 
-" bind K to search word under cursor
-nnoremap K :Ag "\b<C-R><C-W>\b"<CR>:cw<CR>
-
 " Softtabs, 2 spaces
 set tabstop=2
 set shiftwidth=2
 set expandtab
 
-let g:rspec_command = 'call Send_to_Tmux("bin/rspec {spec}\n")'
-let g:rspec_runner = "os_x_iterm"
-
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
 
-" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-if executable('ag')
-  " Use Ag over Grep
-  set grepprg=ag\ --nogroup
-  let g:grep_cmd_opts = '--line-numbers --noheading'
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
-
-" Airline
+" ##############
+" ## Airline! ##
+" ##############
+"
 set guifont=Liberation\ Mono\ for\ Powerline\ 12
 
+" Colors and font
 let g:Powerline_symbols = 'fancy'
 set encoding=utf-8
 set t_Co=256
 set fillchars+=stl:\ ,stlnc:\
 set term=xterm-256color
 set termencoding=utf-8
-
 let g:airline_powerline_fonts = 1
+
+" The symbols
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
-let g:airline_symbols.space = "\ua0"
-" let g:airline_theme='solarized'
-set t_Co=256
 
-  " powerline symbols
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
 
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
-" Tab to toggle buffers
-:nnoremap <Tab> :bnext<CR>
-:nnoremap <S-Tab> :bprevious<CR>
 
 :set smartcase
 :set ignorecase
@@ -186,44 +170,17 @@ hi Comment ctermfg=8
 set number
 set numberwidth=5
 
-" Snippets are activated by Shift+Tab
-let g:snippetsEmu_key = "<S-Tab>"
-
 " Persistent undo
 set undodir=~/.vim/undo/
 set undofile
 set undolevels=1000
 set undoreload=10000
 
-:nnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
-:nnoremap <expr> yy (v:register ==# '"' ? '"+' : '') . 'yy'
-:nnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
-:xnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
-:xnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
-
-" convert hash rockets
-nmap <leader>rh :%s/\v:(\w+) \=\>/\1:/g<cr>
-
-" Tab completion
-" will insert tab at beginning of line,
-" will use completion if not at beginning
-set wildmode=list:longest,list:full
-set complete=.,w,t
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
-inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
-
-" Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
-let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
-
-" Switch between the last two files
-nnoremap <leader><leader> <c-^>
+" :nnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
+" :nnoremap <expr> yy (v:register ==# '"' ? '"+' : '') . 'yy'
+" :nnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
+" :xnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
+" :xnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
 
 " Get off my lawn
 nnoremap <Left> :echoe "Use h"<CR>
@@ -248,17 +205,8 @@ nnoremap <C-l> <C-w>l
 let g:syntastic_ruby_checkers = ['mri']
 let g:syntastic_enable_highlighting=0
 
-" Local config
-if filereadable($HOME . "/.vimrc.local")
-  source ~/.vimrc.local
-endif
-
 " Remove trailing whitespace on save for ruby files.
 au BufWritePre *.rb :%s/\s\+$//e
-
-" cmd n, cmd p for fwd/backward in search
-map <C-n> :cn<CR>
-map <C-p> :cp<CR>
 
 " Easy navigation between splits. Instead of ctrl-w + j. Just ctrl-j
 nnoremap <C-J> <C-W><C-J>
@@ -267,13 +215,9 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 
-
-
-
 " #############
 " ## VUNDLE! ##
 " #############
-set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
@@ -296,14 +240,10 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-endwise'
 " DelimitMate
 Plugin 'Raimondi/delimitMate'
-" Snipmate
-" Plugin 'MarcWeber/vim-addon-mw-utils'
-" Plugin 'tomtom/tlib_vim'
-" Plugin 'garbas/vim-snipmate'
-" Plugin 'honza/vim-snippets'
 " UltiSnip
 Plugin 'SirVer/ultisnips'
-let g:UltiSnipsExpandTrigger="<c-w>"
+" Otherwise it interferes with my tab completion..
+let g:UltiSnipsExpandTrigger="<S-tab>"
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
