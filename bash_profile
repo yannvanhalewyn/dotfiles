@@ -24,6 +24,8 @@ export GREP_COLOR='1;35;40'
 export PATH=/Users/$USER/bin:/Users/$USER/scripts:$PATH
 export PATH="/usr/local/bin:$PATH"
 
+export EDITOR=vim
+
 source ~/.profile
 
 # Git branch in prompt.

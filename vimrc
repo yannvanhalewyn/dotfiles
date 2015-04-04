@@ -6,6 +6,9 @@ set backspace=2     " Backspace deletes like most programs in insert mode
 set nocompatible    " Use Vim settings, rather then Vi settings
 set noswapfile      " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
 set showcmd         " display incomplete commands
+set lazyredraw      " don't redraw when don't have to"
+set laststatus=2    " Always display the status line (Arline bottom bar!)
+set autowrite       " Automatically :write before running commands
 filetype plugin indent on
 
 " Tabsize
@@ -18,6 +21,10 @@ set undodir=~/.vim/undo/
 set undofile
 set undolevels=1000
 set undoreload=10000
+
+" Open new split panes to right and bottom, which feels more natural
+set splitbelow
+set splitright
 
 " When editing a file, always jump to the last known cursor position.
 " Don't do it for commit messages, when the position is invalid, or when
@@ -36,7 +43,8 @@ autocmd BufReadPost *
 :nnoremap <S-Tab> :bprevious<CR>
 
 let mapleader = "\<Space>"          " set leader key
-map <Leader>q :bd<CR>               " close buffer
+" close buffer
+map <Leader>q :bd<CR>
 map <Leader>n :NERDTreeToggle<CR>   " toggle NerdTree
 nnoremap <leader><leader> <c-^>     " Switch between the last two files
 nnoremap <CR> o<esc>k               " Remap ENTER and SHIFT-ENTER to append or prepend newlines in normal mode
@@ -53,19 +61,34 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
+"Use TAB to complete when typing words, else inserts TABs as usual.
+function! Tab_Or_Complete()
+  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+    return "\<C-N>"
+  else
+    return "\<Tab>"
+  endif
+endfunction
+:inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
+
 
 "/* LAYOUT
 "============================ */
 
 " Color scheme
-set background=dark
+" set background=dark
 syntax on
 colorscheme jellybeans
 set encoding=utf-8
 
 " Highlight line number of where cursor currently is
-hi CursorLineNr guifg=#050505
-hi Comment ctermfg=8
+" hi CursorLineNr guifg=#050505
+" hi Comment ctermfg=8
+
+" highlight vertical column of cursor
+au WinLeave * set nocursorline nocursorcolumn
+au WinEnter * set cursorline 
+set cursorline 
 
 " Line numbers
 set number
@@ -142,6 +165,8 @@ Plugin 'tpope/vim-endwise'
 Plugin 'Raimondi/delimitMate'
 " vim-rspec
 Plugin 'thoughtbot/vim-rspec'
+" RSPEC synthax higlighting
+Plugin 'Keithbsmiley/rspec.vim'
 " UltiSnip
 Plugin 'SirVer/ultisnips'
 " Otherwise it interferes with my tab completion..
@@ -158,3 +183,6 @@ filetype plugin indent on    " required
 " EMMET
 autocmd FileType html,css EmmetInstall    " Use only with certain files
 let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
+
+" NERDTREE
+let NERDTreeShowHidden=1

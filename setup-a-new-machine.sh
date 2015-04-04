@@ -1,9 +1,4 @@
-# copy paste this file in bit by bit.
 
-
-# read migration.md where more migrationy tips are.
-
-# https://rvm.io
 # rvm for the rubiess
 curl -L https://get.rvm.io | bash -s stable --ruby
 

@@ -8,12 +8,6 @@ alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
 
-alias rm="rm -i"
-
-
-# setting up the sublime symlink
-# ln -sf "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ~/bin/subl
-
 # i <3 u cask
 alias cask='brew cask'
 
@@ -26,7 +20,6 @@ alias brwe=brew
 # be nice
 alias please=sudo
 alias hosts='sudo $EDITOR /etc/hosts'   # yes I occasionally 127.0.0.1 twitter.com ;)
-
 
 
 # Detect which `ls` flavor is in use
@@ -55,19 +48,11 @@ alias la="ls -la | awk '
 alias lsd='ls -l | grep "^d"'
 
 
-
-# `cat` with beautiful colors. requires Pygments installed.
-# 							   sudo easy_install -U Pygments
-alias c='pygmentize -O style=monokai -f console256 -g'
-
-# GIT STUFF
-
 # Undo a `git push`
 alias undopush="git push -f origin HEAD^:master"
 
 # git root
 alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
-
 
 
 # IP addresses
@@ -81,9 +66,6 @@ alias dig="dig +nocmd any +multiline +noall +answer"
 # Flush Directory Service cache
 alias flush="dscacheutil -flushcache"
 
-# Trim new lines and copy to clipboard
-alias trimcopy="tr -d '\n' | pbcopy"
-
 # Recursively delete `.DS_Store` files
 alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
 
@@ -96,7 +78,6 @@ alias fs="stat -f \"%z bytes\""
 
 # Empty the Trash on all mounted volumes and the main HDD
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; rm -rfv ~/.Trash"
-
 
 # One of @janmoesen’s ProTip™s
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
