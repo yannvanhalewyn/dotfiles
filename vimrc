@@ -26,6 +26,12 @@ set undoreload=10000
 set splitbelow
 set splitright
 
+"/* AUTOCOMMANDS
+"============================ */
+
+" Remove trailing whitespace on save for all files.
+au BufWritePre * :%s/\s\+$//e
+
 " When editing a file, always jump to the last known cursor position.
 " Don't do it for commit messages, when the position is invalid, or when
 " inside an event handler (happens when dropping a file on gvim).
@@ -43,17 +49,39 @@ autocmd BufReadPost *
 :nnoremap <S-Tab> :bprevious<CR>
 
 let mapleader = "\<Space>"          " set leader key
+
 " close buffer
 map <Leader>q :bd<CR>
-map <Leader>n :NERDTreeToggle<CR>   " toggle NerdTree
-nnoremap <leader><leader> <c-^>     " Switch between the last two files
-nnoremap <CR> o<esc>k               " Remap ENTER and SHIFT-ENTER to append or prepend newlines in normal mode
+
+" toggle NerdTree
+map <Leader>n :NERDTreeToggle<CR>
+
+" Switch between the last two files
+nnoremap <leader><leader> <c-^>
+
+" Map <leader>r to run ruby code
+nnoremap <leader>r :!ruby %<CR>
+
+" Map - an = to move a line up and down
+nnoremap - ddkP
+nnoremap = ddp
+
+" Surround with quotes / #{} for ruby vars in quotes / parens
+nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>
+vnoremap <leader>' <esc>`>a'<esc>`<i'<esc>
+vnoremap <leader>) <esc>`>a)<esc>`<i)<esc>
+vnoremap <leader># <esc>`>a}<esc>`<i#{<esc>
 
 " Spec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
+
+"Edit vimrc in split/source vimrc
+nnoremap <leader>ev :vsplit ~/dotfiles/vimrc<CR>
+nnoremap<leader>sv :source $MYVIMRC<CR>
 
 " Quicker window movement
 nnoremap <C-j> <C-w>j
@@ -71,14 +99,32 @@ function! Tab_Or_Complete()
 endfunction
 :inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
 
+" THIS IS A TEST
+" Use <leader> t to run according to the file type
+function! Run()
+  if &filetype == "cpp"
+    return "make"
+  elseif &filetype == "ruby"
+    echo "ruby %"
+  endif
+endfunction
+
+
+"/* ABBREVIATIONS (TYPOS)
+"============================ */
+
+:iabbrev adn and
+:iabbrev waht what
+:iabbrev tehn then
+:iabbrev succes success
+:iabbrev ressource resource
 
 "/* LAYOUT
 "============================ */
 
-" Color scheme
+" Syntax highlighting
 " set background=dark
 syntax on
-colorscheme jellybeans
 set encoding=utf-8
 
 " Highlight line number of where cursor currently is
@@ -97,8 +143,6 @@ set numberwidth=5
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
 
-" Remove trailing whitespace on save for ruby files.
-au BufWritePre *.rb :%s/\s\+$//e
 
 
 "/* AIRLINE
@@ -167,15 +211,24 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'thoughtbot/vim-rspec'
 " RSPEC synthax higlighting
 Plugin 'Keithbsmiley/rspec.vim'
+" NerdCommenter
+Plugin 'scrooloose/nerdcommenter'
+" Some snippets
+Plugin 'honza/vim-snippets'
 " UltiSnip
 Plugin 'SirVer/ultisnips'
 " Otherwise it interferes with my tab completion..
 let g:UltiSnipsExpandTrigger="<S-tab>"
 
+" Jellybeans color scheme
+Plugin 'nanotech/jellybeans.vim'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+" Use the colorscheme from above
+colorscheme jellybeans
 
 "/* PLUGIN SPECIFIC CONFIG
 "============================ */
