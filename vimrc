@@ -32,6 +32,10 @@ set splitright
 " Remove trailing whitespace on save for all files.
 au BufWritePre * :%s/\s\+$//e
 
+" Map <leader>r to run files with some extensions
+au FileType ruby nnoremap <leader>r :!ruby %<CR>
+au FileType cpp nnoremap <leader>r :!make<CR>
+
 " When editing a file, always jump to the last known cursor position.
 " Don't do it for commit messages, when the position is invalid, or when
 " inside an event handler (happens when dropping a file on gvim).
@@ -58,9 +62,6 @@ map <Leader>n :NERDTreeToggle<CR>
 
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
-
-" Map <leader>r to run ruby code
-nnoremap <leader>r :!ruby %<CR>
 
 " Map - an = to move a line up and down
 nnoremap - ddkP
@@ -89,6 +90,12 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
+" Change inside parens from outside the parens! - change inside next/last parens
+:onoremap in( :<c-u>normal! f(vi(<CR>
+:onoremap in) :<c-u>normal! f)vi)<CR>
+:onoremap il( :<c-u>normal! F(vi(<CR>
+:onoremap il) :<c-u>normal! F)vi)<CR>
+
 "Use TAB to complete when typing words, else inserts TABs as usual.
 function! Tab_Or_Complete()
   if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
@@ -98,16 +105,6 @@ function! Tab_Or_Complete()
   endif
 endfunction
 :inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
-
-" THIS IS A TEST
-" Use <leader> t to run according to the file type
-function! Run()
-  if &filetype == "cpp"
-    return "make"
-  elseif &filetype == "ruby"
-    echo "ruby %"
-  endif
-endfunction
 
 
 "/* ABBREVIATIONS (TYPOS)
@@ -133,8 +130,8 @@ set encoding=utf-8
 
 " highlight vertical column of cursor
 au WinLeave * set nocursorline nocursorcolumn
-au WinEnter * set cursorline 
-set cursorline 
+au WinEnter * set cursorline
+set cursorline
 
 " Line numbers
 set number
