@@ -17,10 +17,10 @@ set shiftwidth=2
 set expandtab
 
 " Persistent undo
-set undodir=~/.vim/undo/
-set undofile
-set undolevels=1000
-set undoreload=10000
+"set undodir=~/.vim/undo/
+"set undofile
+"set undolevels=1000
+"set undoreload=10000
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
@@ -52,10 +52,15 @@ autocmd BufReadPost *
 :nnoremap <Tab> :bnext<CR>
 :nnoremap <S-Tab> :bprevious<CR>
 
-let mapleader = "\<Space>"          " set leader key
+" set leader key
+let mapleader = "\<Space>"
 
-" close buffer
-map <Leader>q :bd<CR>
+" close buffer using a script in ~/.vim/plugin/bclose.vim
+" This closes the buffer but doesn't close the window! (pane).
+" It swaps it with the previouse buffer, or an empty one if needed.
+" This is to prevent some NERDTree quirks when closing buffs. Awesome!!
+map <Leader>q :Bclose<CR>
+map <Leader>Q :%bd<CR>
 
 " toggle NerdTree
 map <Leader>n :NERDTreeToggle<CR>
@@ -90,11 +95,20 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
-" Change inside parens from outside the parens! - change inside next/last parens
+" Change inside parens from outside the parens! - change inside next parens
 :onoremap in( :<c-u>normal! f(vi(<CR>
 :onoremap in) :<c-u>normal! f)vi)<CR>
+:onoremap in[ :<c-u>normal! f[vi[<CR>
+:onoremap in] :<c-u>normal! f]vi]<CR>
+:onoremap in{ :<c-u>normal! f{vi{<CR>
+:onoremap in} :<c-u>normal! f}vi}<CR>
+" Change inside last(prev)
 :onoremap il( :<c-u>normal! F(vi(<CR>
 :onoremap il) :<c-u>normal! F)vi)<CR>
+:onoremap il[ :<c-u>normal! F[vi[<CR>
+:onoremap il] :<c-u>normal! F]vi]<CR>
+:onoremap il{ :<c-u>normal! F{vi{<CR>
+:onoremap il} :<c-u>normal! F}vi}<CR>
 
 "Use TAB to complete when typing words, else inserts TABs as usual.
 function! Tab_Or_Complete()
@@ -115,6 +129,8 @@ endfunction
 :iabbrev tehn then
 :iabbrev succes success
 :iabbrev ressource resource
+:iabbrev ressources resources
+
 
 "/* LAYOUT
 "============================ */
@@ -210,6 +226,8 @@ Plugin 'thoughtbot/vim-rspec'
 Plugin 'Keithbsmiley/rspec.vim'
 " NerdCommenter
 Plugin 'scrooloose/nerdcommenter'
+" Rails.vim
+Plugin 'tpope/vim-rails'
 " Some snippets
 Plugin 'honza/vim-snippets'
 " UltiSnip

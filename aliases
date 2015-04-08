@@ -88,4 +88,4 @@ done
 alias mkdir="mkdir -pv"
 
 # Diff to colordiff
-alias diff="colordiff"
+alias diff="colordiff -wEBb"
