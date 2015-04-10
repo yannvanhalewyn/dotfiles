@@ -60,7 +60,7 @@ let mapleader = "\<Space>"
 " It swaps it with the previouse buffer, or an empty one if needed.
 " This is to prevent some NERDTree quirks when closing buffs. Awesome!!
 map <Leader>q :Bclose<CR>
-map <Leader>Q :%bd<CR>
+map <Leader>Q :Bonly<CR>
 
 " toggle NerdTree
 map <Leader>n :NERDTreeToggle<CR>
@@ -78,6 +78,7 @@ vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>
 vnoremap <leader>' <esc>`>a'<esc>`<i'<esc>
 vnoremap <leader>) <esc>`>a)<esc>`<i)<esc>
 vnoremap <leader># <esc>`>a}<esc>`<i#{<esc>
+vnoremap <leader>erb <esc>`>a %><esc>`<i<%= <esc>
 
 " Spec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>

@@ -10,7 +10,6 @@ export PATH=/Users/$USER/scripts:$PATH
 
 # Load ~/.aliases, ~/.functions and ~/.profile
 for file in ~/.{aliases,functions,profile}; do
-  echo "Sourcing $file"
   [ -r "$file" ] && source "$file"
 done
 unset file

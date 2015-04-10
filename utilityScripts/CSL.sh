@@ -5,7 +5,7 @@
 
 ## VARIABLES
 dir=~/dotfiles
-files="bashrc gitignore_global vimrc bash_profile gitconfig profile tmux.conf functions aliases"
+files="bashrc gitignore_global vimrc bash_profile gitconfig profile tmux.conf functions aliases osx"
 
 ## GOT TO DIR
 echo "Changing to the $dir directory"
@@ -24,7 +24,7 @@ done
 echo "Removing ~/.vim/plugin folder"
 rm -ri ~/.vim/plugin
 echo "Linking to .vim/plugin"
-ln -s $dir/.vim/plugin/ ~/.vim/plugin
+ln -s $dir/vim/plugin/ ~/.vim/plugin
 
 echo "Linking new profile"
 source ~/.bash_profile
