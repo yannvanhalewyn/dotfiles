@@ -2,6 +2,8 @@
 "============================ */
 
 :au FocusLost * :wa " Save on focus lost
+:au InsertLeave * :w  " Save when leaving insert mode
+:set autoread<      " Auto reload files when changed on disk
 set backspace=2     " Backspace deletes like most programs in insert mode
 set nocompatible    " Use Vim settings, rather then Vi settings
 set noswapfile      " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
@@ -10,6 +12,7 @@ set lazyredraw      " don't redraw when don't have to"
 set laststatus=2    " Always display the status line (Arline bottom bar!)
 set autowrite       " Automatically :write before running commands
 filetype plugin indent on
+:set completeopt=longest,menuone " Dont auto-jump to an autocompl
 
 " Tabsize
 set tabstop=2
@@ -215,6 +218,8 @@ Plugin 'mattn/emmet-vim'
 Plugin 'kien/ctrlp.vim'
 " Airline status bar
 Plugin 'bling/vim-airline'
+" Git wrapper/airline branch display
+Plugin 'tpope/vim-fugitive'
 " NerdTree
 Plugin 'scrooloose/nerdtree'
 " Endwise (Ruby)
@@ -235,6 +240,10 @@ Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'
 " Otherwise it interferes with my tab completion..
 let g:UltiSnipsExpandTrigger="<S-tab>"
+" Coffee script support
+Plugin 'kchmck/vim-coffee-script'
+" Linting
+Plugin 'scrooloose/syntastic'
 
 " Jellybeans color scheme
 Plugin 'nanotech/jellybeans.vim'
@@ -255,3 +264,6 @@ let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
 
 " NERDTREE
 let NERDTreeShowHidden=1
+
+" Syntastic
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['scss'] }
