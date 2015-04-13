@@ -30,6 +30,9 @@ brew install vim --override-system-vi
 brew install tmux
 brew install mysql
 
+# setup for tmux connecting to OSX pastebin
+brew install reattach-to-user-namespace
+
 # Install other useful binaries
 brew install git
 
