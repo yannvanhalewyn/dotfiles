@@ -13,6 +13,7 @@ set laststatus=2    " Always display the status line (Arline bottom bar!)
 set autowrite       " Automatically :write before running commands
 filetype plugin indent on
 :set completeopt=longest,menuone " Dont auto-jump to an autocompl
+set diffopt+=iwhite " ignore whitespace in vimdiff
 
 " Tabsize
 set tabstop=2
@@ -134,6 +135,8 @@ endfunction
 :iabbrev succes success
 :iabbrev ressource resource
 :iabbrev ressources resources
+:iabbrev widht width
+:iabbrev heigth height
 
 
 "/* LAYOUT
@@ -244,6 +247,8 @@ let g:UltiSnipsExpandTrigger="<S-tab>"
 Plugin 'kchmck/vim-coffee-script'
 " Linting
 Plugin 'scrooloose/syntastic'
+" Surround
+Plugin 'tpope/vim-surround'
 
 " Jellybeans color scheme
 Plugin 'nanotech/jellybeans.vim'
@@ -266,4 +271,4 @@ let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
 let NERDTreeShowHidden=1
 
 " Syntastic
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['scss'] }
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['scss', 'html'] }
