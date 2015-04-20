@@ -14,6 +14,8 @@ set autowrite       " Automatically :write before running commands
 filetype plugin indent on
 :set completeopt=longest,menuone " Dont auto-jump to an autocompl
 set diffopt+=iwhite " ignore whitespace in vimdiff
+syntax on           " Syntax highlighting
+set encoding=utf-8
 
 " Tabsize
 set tabstop=2
@@ -21,10 +23,10 @@ set shiftwidth=2
 set expandtab
 
 " Persistent undo
-"set undodir=~/.vim/undo/
-"set undofile
-"set undolevels=1000
-"set undoreload=10000
+set undodir=~/.vim/undo/
+set undofile
+set undolevels=1000
+set undoreload=10000
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
@@ -35,10 +37,6 @@ set splitright
 
 " Remove trailing whitespace on save for all files.
 au BufWritePre * :%s/\s\+$//e
-
-" Map <leader>r to run files with some extensions
-au FileType ruby nnoremap <leader>r :!ruby %<CR>
-au FileType cpp nnoremap <leader>r :!make<CR>
 
 " When editing a file, always jump to the last known cursor position.
 " Don't do it for commit messages, when the position is invalid, or when
@@ -150,11 +148,6 @@ endfunction
 "/* LAYOUT
 "============================ */
 
-" Syntax highlighting
-" set background=dark
-syntax on
-set encoding=utf-8
-
 " Highlight line number of where cursor currently is
 " hi CursorLineNr guifg=#050505
 " hi Comment ctermfg=8
@@ -211,7 +204,6 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 :set smartcase
 :set ignorecase
 :set noantialias
-
 
 
 "/* VUNDLE
@@ -282,3 +274,13 @@ let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['scss', 'ht
 
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=
+
+"/* FILETYPE SPECIFIC CONFIG
+"============================ */
+
+" Syntax highlighting for javascript templating
+au BufNewFile,BufRead *.tpl set syntax=jst
+
+" Map <leader>r to run files with some extensions
+au FileType ruby nnoremap <leader>r :!ruby %<CR>
+au FileType cpp nnoremap <leader>r :!make<CR>
