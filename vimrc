@@ -168,7 +168,8 @@ set list listchars=tab:»·,trail:·
 "/* AIRLINE
 "============================ */
 
-set guifont=Liberation\ Mono\ for\ Powerline\ 12
+"set guifont=Liberation\ Mono\ for\ Powerline\ 12
+set guifont=Monaco:h12
 
 " Colors and font
 let g:Powerline_symbols = 'fancy'
