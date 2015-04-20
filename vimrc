@@ -114,6 +114,14 @@ nnoremap <C-l> <C-w>l
 :onoremap il] :<c-u>normal! F]vi]<CR>
 :onoremap il{ :<c-u>normal! F{vi{<CR>
 :onoremap il} :<c-u>normal! F}vi}<CR>
+" Use default clipboard register
+if has("clipboard")
+  :nnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
+  :nnoremap <expr> yy (v:register ==# '"' ? '"+' : '') . 'yy'
+  :nnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
+  :xnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
+  :xnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
+endif
 
 "Use TAB to complete when typing words, else inserts TABs as usual.
 function! Tab_Or_Complete()
@@ -163,7 +171,8 @@ set numberwidth=5
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
 
-
+" The colorscheme
+colorscheme Tomorrow-Night-Eighties
 
 "/* AIRLINE
 "============================ */
@@ -258,9 +267,6 @@ Plugin 'nanotech/jellybeans.vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-" Use the colorscheme from above
-colorscheme jellybeans
-
 "/* PLUGIN SPECIFIC CONFIG
 "============================ */
 
@@ -273,3 +279,6 @@ let NERDTreeShowHidden=1
 
 " Syntastic
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['scss', 'html'] }
+
+" Weird bug in Tmux where background won't fill workspace.
+:set t_ut=
