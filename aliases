@@ -89,3 +89,6 @@ alias mkdir="mkdir -pv"
 
 # Diff to colordiff
 alias diff="colordiff -wEBb"
+
+# Run the local npm module binaries
+alias npm-exec='PATH=$(npm bin):$PATH'
