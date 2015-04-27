@@ -57,9 +57,7 @@ autocmd BufReadPost *
 let mapleader = "\<Space>"
 
 " close buffer using a script in ~/.vim/plugin/bclose.vim
-" This closes the buffer but doesn't close the window! (pane).
 " It swaps it with the previouse buffer, or an empty one if needed.
-" This is to prevent some NERDTree quirks when closing buffs. Awesome!!
 map <Leader>q :Bclose<CR>
 map <Leader>Q :Bonly<CR>
 
@@ -69,9 +67,16 @@ map <Leader>n :NERDTreeToggle<CR>
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
 
-" Map - an = to move a line up and down
+" Map - and = to move a line up and down
 nnoremap - ddkP
 nnoremap = ddp
+
+" Auto center!
+nmap G Gzz
+nmap n nzz
+nmap N Nzz
+nmap { {zz
+nmap } }zz
 
 " Surround with quotes / #{} for ruby vars in quotes / parens
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
