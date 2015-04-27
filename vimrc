@@ -46,7 +46,6 @@ autocmd BufReadPost *
   \   exe "normal g`\"" |
   \ endif
 
-
 "/* KEY MAPPINGS
 "============================ */
 
@@ -251,6 +250,8 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'scrooloose/syntastic'
 " Surround
 Plugin 'tpope/vim-surround'
+" Improved c++ syntax highlighting
+Plugin 'octol/vim-cpp-enhanced-highlight'
 
 " Jellybeans color scheme
 Plugin 'nanotech/jellybeans.vim'
@@ -269,8 +270,12 @@ let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
 " NERDTREE
 let NERDTreeShowHidden=1
 
+" CTRLP
+let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin'
+
 " Syntastic
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['scss', 'html'] }
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+"let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['scss', 'html'] }
 
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=
