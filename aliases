@@ -93,8 +93,9 @@ alias diff="mvimdiff"
 # Run the local npm module binaries
 alias npm-exec='PATH=$(npm bin):$PATH'
 
-# Take me to my code folder
+# Take me to my code/dotfiles folder
 alias code='cd /Users/yannvanhalewyn/Documents/code'
+alias dotf='cd ~/dotfiles'
 
 # Reattach to tmux
 alias ta='tmux attach'
