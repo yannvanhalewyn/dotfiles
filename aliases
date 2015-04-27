@@ -92,3 +92,9 @@ alias diff="colordiff -wEBb"
 
 # Run the local npm module binaries
 alias npm-exec='PATH=$(npm bin):$PATH'
+
+# Take me to my code folder
+alias code='cd /Users/yannvanhalewyn/Documents/code'
+
+# Reattach to tmux
+alias ta='tmux attach'
