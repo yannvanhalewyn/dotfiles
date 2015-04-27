@@ -5,7 +5,7 @@
 
 ## VARIABLES
 dir=/Users/yannvanhalewyn/dotfiles
-files="bashrc gitignore_global vimrc bash_profile gitconfig profile tmux.conf functions aliases osx vim"
+files="bashrc gitignore_global vimrc gvimrc bash_profile gitconfig profile tmux.conf functions aliases osx vim"
 
 ## GOT TO DIR
 echo "Changing to the $dir directory"

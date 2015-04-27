@@ -3,14 +3,13 @@
 
 :au FocusLost * :wa " Save on focus lost
 :au InsertLeave * :w  " Save when leaving insert mode
+set autowrite       " Automatically :write before running commands
 :set autoread<      " Auto reload files when changed on disk
 set backspace=2     " Backspace deletes like most programs in insert mode
 set nocompatible    " Use Vim settings, rather then Vi settings
 set noswapfile      " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
-set showcmd         " display incomplete commands
 set lazyredraw      " don't redraw when don't have to"
 set laststatus=2    " Always display the status line (Arline bottom bar!)
-set autowrite       " Automatically :write before running commands
 filetype plugin indent on
 :set completeopt=longest,menuone " Dont auto-jump to an autocompl
 set diffopt+=iwhite " ignore whitespace in vimdiff
@@ -147,14 +146,12 @@ endfunction
 :iabbrev ressources resources
 :iabbrev widht width
 :iabbrev heigth height
+:iabbrev ture ture
+:iabbrev flase false
 
 
 "/* LAYOUT
 "============================ */
-
-" Highlight line number of where cursor currently is
-" hi CursorLineNr guifg=#050505
-" hi Comment ctermfg=8
 
 " highlight vertical column of cursor
 au WinLeave * set nocursorline nocursorcolumn
@@ -173,9 +170,6 @@ colorscheme Tomorrow-Night-Eighties
 
 "/* AIRLINE
 "============================ */
-
-"set guifont=Liberation\ Mono\ for\ Powerline\ 12
-set guifont=Monaco:h12
 
 " Colors and font
 let g:Powerline_symbols = 'fancy'
@@ -247,8 +241,6 @@ Plugin 'tpope/vim-rails'
 Plugin 'honza/vim-snippets'
 " UltiSnip
 Plugin 'SirVer/ultisnips'
-" Otherwise it interferes with my tab completion..
-let g:UltiSnipsExpandTrigger="<S-tab>"
 " Coffee script support
 Plugin 'kchmck/vim-coffee-script'
 " Linting
@@ -281,6 +273,9 @@ let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin'
 " Syntastic
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 "let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['scss', 'html'] }
+
+" Ultisnip - else interference with tab completion
+let g:UltiSnipsExpandTrigger="<S-tab>"
 
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=
