@@ -6,7 +6,7 @@ export PATH=`echo ":$PATH:" | sed -e "s#:/usr/bin:#:#g" -e "s/^://" -e "s/:$//"`
 export PATH="/usr/local/bin:/usr/bin:$PATH"
 
 # Adding my scripts folder to $PATH
-export PATH=/Users/$USER/scripts:$PATH
+export PATH=/Users/$USER/scripts:/usr/local/sbin:$PATH
 
 # Load ~/.aliases, ~/.functions and ~/.profile
 for file in ~/.{aliases,functions,profile}; do
@@ -31,3 +31,8 @@ export PS1="\[$(tput setaf 3)\]\W\[$(tput setaf 2)\]\$(parse_git_branch) \[$(tpu
 
 # Don't totally know why this is here.
 export VERSIONER_PYTHON_PREFER_32_BIT=yes
+
+# Bash completion
+if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
+  . $(brew --prefix)/share/bash-completion/bash_completion
+fi

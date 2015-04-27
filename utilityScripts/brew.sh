@@ -17,24 +17,23 @@ brew upgrade
 #brew install gnu-sed --default-names
 
 
-# Install Bash 4
-# Note: don’t forget to add `/usr/local/bin/bash` to `/etc/shells` before running `chsh`.
-#brew install bash
-# regular bash-completion package is held back to an older release, so we get latest from versions.
-#   github.com/Homebrew/homebrew/blob/master/Library/Formula/bash-completion.rb#L3-L4
-#brew tap homebrew/versions
-#brew install homebrew/versions/bash-completion2
-
 # Install more recent versions of some OS X tools
 brew install vim --override-system-vi
 brew install tmux
 brew install mysql
+brew install git
+brew install boost
+brew install glm
+brew install sfml
+brew install sdl2
+brew install sdl2_mixer
+brew install sdl3_ttf
+brew install mysql
+brew tap homebrew/versions
+brew install homebrew/versions/bash-completion2
 
 # setup for tmux connecting to OSX pastebin
 brew install reattach-to-user-namespace
-
-# Install other useful binaries
-brew install git
 
 # Remove outdated versions from the cellar
 brew cleanup
