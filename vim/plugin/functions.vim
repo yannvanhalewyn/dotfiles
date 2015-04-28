@@ -15,3 +15,33 @@ function! s:RevealInFinder()
  redraw!
 endfunction
 command! Reveal call <SID>RevealInFinder()
+
+
+function! s:Search()
+  let query = inputdialog("Search for: ", "", "cancel")
+  if query == "" || query == "cancel"
+    echo "\nCan't search for nothing!"
+    return
+  endif
+
+  let dir = inputdialog("In dir: ", "", "cancel")
+  if dir == "cancel"
+    echo "Cancel!"
+    return
+  elseif dir != ""
+    let dir .= "/"
+  endif
+
+  let ext = inputdialog("With extension: ", "", "cancel")
+  if ext == "cancel"
+    echo "Cancel!"
+    return
+  endif
+  if ext != ""
+    let ext = "." . ext
+  endif
+
+  :execute "vimgrep /" . query . "/ " . fnameescape(dir) . "**/*" . fnameescape(ext)
+
+endfunction
+command! Find call <SID>Search()
