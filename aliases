@@ -99,3 +99,7 @@ alias dotf='cd ~/dotfiles'
 
 # Reattach to tmux
 alias ta='tmux attach'
+
+# Tmux pbcopy
+alias tmcopy='reattach-to-user-namespace pbcopy'
+alias tmpaste='reattach-to-user-namespace pbpaste'
