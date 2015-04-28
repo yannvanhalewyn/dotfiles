@@ -15,6 +15,7 @@ filetype plugin indent on
 set diffopt+=iwhite " ignore whitespace in vimdiff
 syntax on           " Syntax highlighting
 set encoding=utf-8
+set timeoutlen=600 ttimeoutlen=10 " faster timeout for escape key
 
 " Tabsize
 set tabstop=2
@@ -64,7 +65,7 @@ map <Leader>Q :Bonly<CR>
 map <Leader>n :NERDTreeToggle<CR>
 
 " Switch between the last two files
-nnoremap <leader><leader> <c-^>
+nnoremap <leader>b <c-^>
 
 " Map - and = to move a line up and down
 nnoremap - ddkP
@@ -249,9 +250,12 @@ Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
 " Improved c++ syntax highlighting
 Plugin 'octol/vim-cpp-enhanced-highlight'
-
+" Improved indentation after paste
+Plugin 'sickill/vim-pasta'
 " Jellybeans color scheme
 Plugin 'nanotech/jellybeans.vim'
+" Easymotion for crazy motions!
+Plugin 'lokaltog/vim-easymotion'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -272,7 +276,7 @@ let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin'
 
 " Syntastic
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
-"let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['scss', 'html'] }
+let g:syntastic_mode_map = { 'mode': 'passive' }
 
 " Ultisnip - else interference with tab completion
 let g:UltiSnipsExpandTrigger="<S-tab>"

@@ -11,5 +11,9 @@
 	trustExitCode = true
 [diff]
 	tool = gvimdiff
+[difftool]
+	prompt = false
 [alias]
 	d = difftool
+[push]
+	default = matching
