@@ -37,7 +37,7 @@ function! s:Search()
     echo "Cancel!"
     return
   endif
-  if ext != ""
+  if ext != "" && ext[0] != "."
     let ext = "." . ext
   endif
 

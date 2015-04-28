@@ -68,8 +68,8 @@ map <Leader>n :NERDTreeToggle<CR>
 nnoremap <leader>b <c-^>
 
 " Map - and = to move a line up and down
-nnoremap - ddkP
-nnoremap = ddp
+nnoremap - ddp
+nnoremap = ddkP
 
 " Auto center!
 nmap G Gzz
@@ -116,14 +116,16 @@ nnoremap <C-l> <C-w>l
 :onoremap il] :<c-u>normal! F]vi]<CR>
 :onoremap il{ :<c-u>normal! F{vi{<CR>
 :onoremap il} :<c-u>normal! F}vi}<CR>
+
 " Use default clipboard register
-if has("clipboard")
-  :nnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
-  :nnoremap <expr> yy (v:register ==# '"' ? '"+' : '') . 'yy'
-  :nnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
-  :xnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
-  :xnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
-endif
+"set clipboard=unnamed
+"if has("clipboard")
+  ":nnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
+  ":nnoremap <expr> yy (v:register ==# '"' ? '"+' : '') . 'yy'
+  ":nnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
+  ":xnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
+  ":xnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
+"endif
 
 "Use TAB to complete when typing words, else inserts TABs as usual.
 function! Tab_Or_Complete()
