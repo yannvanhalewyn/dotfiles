@@ -1,0 +1,21 @@
+// Shows smiley depending on wether or not the execution failed
+PS1=`if [ $? = 0 ]; then echo \[\e[33m\]^_^\[\e[0m\]; else echo \[\e[31m\]O_O\[\e[0m\]; fi`[\u@\h:\w]\$
+]]]]`
+
+// Changes color when exec fails
+PS1="\[\033[0;33m\][\!]\`if [[ \$? = "0" ]]; then echo "\\[\\033[32m\\]"; else echo "\\[\\033[31m\\]"; fi\`[\u.\h: \`if [[ `pwd|wc -c|tr -d " "` > 18 ]]; then echo "\\W"; else echo "\\w"; fi\`]\$\[\033[0m\] "; echo -ne "\033]0;`hostname -s`:`pwd`\007"]]"]"
+
+// Bigass multiline prompt with bunch number of files and size
+PS1="\n\[\033[35m\]\$(/bin/date)\n\[\033[32m\]\w\n\[\033[1;31m\]\u@\h: \[\033[1;34m\]\$(/usr/bin/tty | /usr/bin/sed -e 's:/dev/::'): \[\033[1;36m\]\$(/bin/ls -1 | /usr/bin/wc -l | /usr/bin/sed 's: ::g') files \[\033[1;33m\]\$(/bin/ls -lah | /usr/bin/grep -m 1 total | /usr/bin/sed 's/total //')b\[\033[0m\] -> \[\033[0m\]"
+"]]]]]]]]"
+
+// Use of color and basic info
+PS1="\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ ""]]]]]]]"
+
+:let g:airline_section_a = 'section A'
+:let g:airline_section_b = 'section B'
+:let g:airline_section_c = 'section C'
+:let g:airline_section_x = 'section X'
+:let g:airline_section_y = 'section Y'
+:let g:airline_section_z = 'section Z'
+

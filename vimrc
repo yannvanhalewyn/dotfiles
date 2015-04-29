@@ -63,13 +63,27 @@ map <Leader>Q :Bonly<CR>
 
 " toggle NerdTree
 map <Leader>n :NERDTreeToggle<CR>
+" Call vimux commands
+map <Leader>vm :call VimuxPromptCommand()<CR>
+map <Leader>vl :VimuxRunLastCommand<CR>
+map <Leader>vv :VimuxZoomRunner<CR>
+map <Leader>vq :VimuxCloseRunner<CR>
 
 " Switch between the last two files
 nnoremap <leader>b <c-^>
 
-" Map - and = to move a line up and down
-nnoremap - ddp
-nnoremap = ddkP
+" Moving lines/selection up and down - direct map for vim-pasta
+nmap <UP> ddkP
+nmap <DOWN> ddp
+nnoremap <LEFT> <<
+nnoremap <RIGHT> >>
+vmap <UP> dkPV`>kk
+vmap <DOWN> <esc>jjmm`<V`>dpV`mk
+vnoremap <LEFT> <V`>
+vnoremap <RIGHT> >V`>
+
+" Map @ in visual mode to execute reg in normal mode on every line
+vnoremap @ :normal@
 
 " Auto center!
 nmap G Gzz
@@ -116,6 +130,10 @@ nnoremap <C-l> <C-w>l
 :onoremap il] :<c-u>normal! F]vi]<CR>
 :onoremap il{ :<c-u>normal! F{vi{<CR>
 :onoremap il} :<c-u>normal! F}vi}<CR>
+
+" Yank from cursor to end, copy to "o reg and execute
+nnoremap <leader>o "oyy:<C-r>o<Backspace><CR>
+"nnoremap <leader>o Y:@"<CR>
 
 " Use default clipboard register
 "set clipboard=unnamed
@@ -175,12 +193,12 @@ colorscheme Tomorrow-Night-Eighties
 "============================ */
 
 " Colors and font
-let g:Powerline_symbols = 'fancy'
-set encoding=utf-8
-set t_Co=256
-set fillchars+=stl:\ ,stlnc:\
-set term=xterm-256color
-set termencoding=utf-8
+"let g:Powerline_symbols = 'fancy'
+"set encoding=utf-8
+"set t_Co=256
+"set fillchars+=stl:\ ,stlnc:\
+"set term=xterm-256color
+"set termencoding=utf-8
 let g:airline_powerline_fonts = 1
 
 " The symbols
@@ -234,6 +252,8 @@ Plugin 'tpope/vim-endwise'
 Plugin 'Raimondi/delimitMate'
 " vim-rspec
 Plugin 'thoughtbot/vim-rspec'
+" To send commands to TMUX (RSpec!!)
+Plugin 'benmills/vimux'
 " RSPEC synthax higlighting
 Plugin 'Keithbsmiley/rspec.vim'
 " NerdCommenter
@@ -282,6 +302,11 @@ let g:syntastic_mode_map = { 'mode': 'passive' }
 
 " Ultisnip - else interference with tab completion
 let g:UltiSnipsExpandTrigger="<S-tab>"
+
+" rspec-vim - Send to tmux pane if tmux
+if exists('$TMUX')
+  let g:rspec_command = 'call VimuxRunCommand("rspec {spec}\n")'
+endif
 
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=

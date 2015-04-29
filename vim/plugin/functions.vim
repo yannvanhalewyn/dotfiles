@@ -41,7 +41,10 @@ function! s:Search()
     let ext = "." . ext
   endif
 
-  :execute "vimgrep /" . query . "/ " . fnameescape(dir) . "**/*" . fnameescape(ext)
+  let command = "vimgrep /" . query . "/ " . fnameescape(dir) . "**/*" . fnameescape(ext)
+  echo "\n"
+  echo command
+  :execute command
 
 endfunction
 command! Find call <SID>Search()
