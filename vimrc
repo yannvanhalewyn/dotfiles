@@ -56,7 +56,7 @@ autocmd BufReadPost *
 " set leader key
 let mapleader = "\<Space>"
 
-" close buffer using a script in ~/.vim/plugin/bclose.vim
+" close buffer using a script in ~/.vim/plugin/BufOnly.vim
 " It swaps it with the previouse buffer, or an empty one if needed.
 map <Leader>q :Bclose<CR>
 map <Leader>Q :Bonly<CR>
@@ -64,7 +64,7 @@ map <Leader>Q :Bonly<CR>
 " toggle NerdTree
 map <Leader>n :NERDTreeToggle<CR>
 " Call vimux commands
-map <Leader>vm :call VimuxPromptCommand()<CR>
+map <Leader>vp :call VimuxPromptCommand()<CR>
 map <Leader>vl :VimuxRunLastCommand<CR>
 map <Leader>vv :VimuxZoomRunner<CR>
 map <Leader>vq :VimuxCloseRunner<CR>
@@ -94,6 +94,8 @@ nmap } }zz
 
 " Surround with quotes / #{} for ruby vars in quotes / parens
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+nmap <leader>= ^v$hS=
+nmap <leader>- ^v$hS-
 vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>
 vnoremap <leader>' <esc>`>a'<esc>`<i'<esc>
 vnoremap <leader>) <esc>`>a)<esc>`<i)<esc>
@@ -135,6 +137,8 @@ nnoremap <C-l> <C-w>l
 nnoremap <leader>o "oyy:<C-r>o<Backspace><CR>
 "nnoremap <leader>o Y:@"<CR>
 
+" Makes more sense
+map Y y$
 " Use default clipboard register
 "set clipboard=unnamed
 "if has("clipboard")
@@ -278,6 +282,11 @@ Plugin 'sickill/vim-pasta'
 Plugin 'nanotech/jellybeans.vim'
 " Easymotion for crazy motions!
 Plugin 'lokaltog/vim-easymotion'
+" For auto formatting
+" Plugin 'Chiel92/vim-autoformat'
+" For rails formatting
+Plugin 'KurtPreston/vim-autoformat-rails'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
