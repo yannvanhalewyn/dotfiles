@@ -63,6 +63,7 @@ map <Leader>Q :Bonly<CR>
 
 " toggle NerdTree
 map <Leader>n :NERDTreeToggle<CR>
+map <Leader>N :NERDTreeFind<CR>
 " Call vimux commands
 map <Leader>vp :call VimuxPromptCommand()<CR>
 map <Leader>vl :VimuxRunLastCommand<CR>
@@ -139,25 +140,6 @@ nnoremap <leader>o "oyy:<C-r>o<Backspace><CR>
 
 " Makes more sense
 map Y y$
-" Use default clipboard register
-"set clipboard=unnamed
-"if has("clipboard")
-  ":nnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
-  ":nnoremap <expr> yy (v:register ==# '"' ? '"+' : '') . 'yy'
-  ":nnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
-  ":xnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
-  ":xnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
-"endif
-
-"Use TAB to complete when typing words, else inserts TABs as usual.
-function! Tab_Or_Complete()
-  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
-    return "\<C-N>"
-  else
-    return "\<Tab>"
-  endif
-endfunction
-:inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
 
 
 "/* ABBREVIATIONS (TYPOS)
@@ -260,14 +242,14 @@ Plugin 'thoughtbot/vim-rspec'
 Plugin 'benmills/vimux'
 " RSPEC synthax higlighting
 Plugin 'Keithbsmiley/rspec.vim'
-" NerdCommenter
-Plugin 'scrooloose/nerdcommenter'
 " Rails.vim
 Plugin 'tpope/vim-rails'
 " Some snippets
 Plugin 'honza/vim-snippets'
-" UltiSnip
+" UltiSnips
 Plugin 'SirVer/ultisnips'
+" Supertab so that ultisnips and completions play nice
+Plugin 'ervandew/supertab'
 " Coffee script support
 Plugin 'kchmck/vim-coffee-script'
 " Linting
@@ -282,10 +264,10 @@ Plugin 'sickill/vim-pasta'
 Plugin 'nanotech/jellybeans.vim'
 " Easymotion for crazy motions!
 Plugin 'lokaltog/vim-easymotion'
-" For auto formatting
-" Plugin 'Chiel92/vim-autoformat'
 " For rails formatting
 Plugin 'KurtPreston/vim-autoformat-rails'
+" Easy commenting
+Plugin 'tomtom/tcomment_vim'
 
 
 " All of your Plugins must be added before the following line
@@ -309,13 +291,20 @@ let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin'
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 let g:syntastic_mode_map = { 'mode': 'passive' }
 
-" Ultisnip - else interference with tab completion
-let g:UltiSnipsExpandTrigger="<S-tab>"
+" Ultisnips
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " rspec-vim - Send to tmux pane if tmux
 if exists('$TMUX')
   let g:rspec_command = 'call VimuxRunCommand("rspec {spec}\n")'
 endif
+
+" TCommenter (Like TCommenter more, but got used to NerdTree comment
+" Mappings
+map <leader>cs :TCommentBlock<CR>
+map <leader>cc :TComment<CR>
+map <leader>ci :TCommentInline<CR>
 
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=
@@ -329,3 +318,6 @@ au BufNewFile,BufRead *.tpl set syntax=jst
 " Map <leader>r to run files with some extensions
 au FileType ruby nnoremap <leader>r :!ruby %<CR>
 au FileType cpp nnoremap <leader>r :!make<CR>
+
+" Spell check for .md files
+au FileType markdown setlocal spell
