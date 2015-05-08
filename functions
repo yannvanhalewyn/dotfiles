@@ -146,3 +146,8 @@ firefox() {
 paths() {
   echo $PATH | tr : '\n'
 }
+
+# Allows to write commit messages without the quotes (thanks Orenstein - http://www.github.com/r00k)
+function gc {
+  git commit -m "$*"
+}

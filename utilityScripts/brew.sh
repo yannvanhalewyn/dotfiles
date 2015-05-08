@@ -4,7 +4,7 @@
 brew update
 
 # Upgrade any already-installed formulae
-brew upgrade
+brew upgrade --all
 
 # Install GNU core utilities (those that come with OS X are outdated)
 # Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
@@ -27,7 +27,7 @@ brew install glm
 brew install sfml
 brew install sdl2
 brew install sdl2_mixer
-brew install sdl3_ttf
+brew install sdl2_ttf
 brew install mysql
 brew tap homebrew/versions
 brew install homebrew/versions/bash-completion2
