@@ -71,6 +71,9 @@ alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
 
 # Shortcuts
 alias g="git"
+alias ga="git add -A"
+alias gs="git status"
+alias gd="git diff"
 alias v="vim"
 
 # File size
@@ -103,3 +106,6 @@ alias ta='tmux attach'
 # Tmux pbcopy
 alias tmcopy='reattach-to-user-namespace pbcopy'
 alias tmpaste='reattach-to-user-namespace pbpaste'
+
+# Rails sqlite
+alias sqdev='sqlite3 db/development.sqlite3'
