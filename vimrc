@@ -68,7 +68,7 @@ map <Leader>N :NERDTreeFind<CR>
 map <Leader>vp :call VimuxPromptCommand()<CR>
 map <Leader>vl :VimuxRunLastCommand<CR>
 map <Leader>vv :VimuxZoomRunner<CR>
-map <Leader>vq :VimuxCloseRunner<CR>
+map <Leader>vc :VimuxCloseRunner<CR>
 
 " Switch between the last two files
 nnoremap <leader>b <c-^>
@@ -103,6 +103,8 @@ vnoremap <leader>) <esc>`>a)<esc>`<i)<esc>
 vnoremap <leader># <esc>`>a}<esc>`<i#{<esc>
 vnoremap <leader>erb <esc>`>a %><esc>`<i<%= <esc>
 
+" Breakout selection on own line
+vnoremap <leader><CR> <esc>a<CR><esc>`<i<CR><esc>
 " Spec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
@@ -287,8 +289,9 @@ let NERDTreeShowHidden=1
 " CTRLP
 let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin'
 
-" Syntastic
-let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+" Syntastic !c++14 is approximated by c++1y. Change this when
+" c++14 compiler options are available
+let g:syntastic_cpp_compiler_options = ' -std=c++1y -stdlib=libc++'
 let g:syntastic_mode_map = { 'mode': 'passive' }
 
 " Ultisnips
@@ -318,6 +321,7 @@ au BufNewFile,BufRead *.tpl set syntax=jst
 " Map <leader>r to run files with some extensions
 au FileType ruby nnoremap <leader>r :!ruby %<CR>
 au FileType cpp nnoremap <leader>r :!make<CR>
+au FileType cpp nnoremap <leader>l :SyntasticCheck<CR>
 
 " Spell check for .md files
 au FileType markdown setlocal spell
