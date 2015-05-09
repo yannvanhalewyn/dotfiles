@@ -16,6 +16,9 @@ set diffopt+=iwhite " ignore whitespace in vimdiff
 syntax on           " Syntax highlighting
 set encoding=utf-8
 set timeoutlen=600 ttimeoutlen=10 " faster timeout for escape key
+set wildmenu        " Showing a list of command completions
+set wildmode=longest,list,full
+
 
 " Tabsize
 set tabstop=2
@@ -32,6 +35,7 @@ set undoreload=10000
 set splitbelow
 set splitright
 
+
 "/* AUTOCOMMANDS
 "============================ */
 
@@ -46,12 +50,14 @@ autocmd BufReadPost *
   \   exe "normal g`\"" |
   \ endif
 
+
 "/* KEY MAPPINGS
 "============================ */
 
 " Remap tab and shift-tab to switch buffers
 :nnoremap <Tab> :bnext<CR>
 :nnoremap <S-Tab> :bprevious<CR>
+
 
 " set leader key
 let mapleader = "\<Space>"
@@ -61,9 +67,19 @@ let mapleader = "\<Space>"
 map <Leader>q :Bclose<CR>
 map <Leader>Q :Bonly<CR>
 
-" toggle NerdTree
+" toggle NerdTree / Gundo
 map <Leader>n :NERDTreeToggle<CR>
 map <Leader>N :NERDTreeFind<CR>
+map <Leader>g :GundoToggle<CR>
+
+" TCommenter (Like TCommenter more, but got used to NerdTree comment
+" Mappings
+map <leader>cs :TCommentBlock<CR>
+map <leader>cc :TComment<CR>
+map <leader>ci :TCommentInline<CR>
+" Sexy titles
+nmap <leader>ct yyppv$r=kkv$r=Vjj cs
+
 " Call vimux commands
 map <Leader>vp :call VimuxPromptCommand()<CR>
 map <Leader>vl :VimuxRunLastCommand<CR>
@@ -169,13 +185,10 @@ set cursorline
 
 " Line numbers
 set number
-set numberwidth=5
+" set relativenumber
 
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
-
-" The colorscheme
-colorscheme Tomorrow-Night-Eighties
 
 "/* AIRLINE
 "============================ */
@@ -262,19 +275,25 @@ Plugin 'tpope/vim-surround'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 " Improved indentation after paste
 Plugin 'sickill/vim-pasta'
-" Jellybeans color scheme
-Plugin 'nanotech/jellybeans.vim'
 " Easymotion for crazy motions!
 Plugin 'lokaltog/vim-easymotion'
 " For rails formatting
 Plugin 'KurtPreston/vim-autoformat-rails'
 " Easy commenting
 Plugin 'tomtom/tcomment_vim'
-
+" AG! search pleasures
+Plugin 'rking/ag.vim'
+" All the colorschemes of the world
+Plugin 'flazz/vim-colorschemes'
+" And more
+Plugin 'chriskempson/base16-vim'
+" Undo branching
+Plugin 'sjl/gundo.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+
 
 "/* PLUGIN SPECIFIC CONFIG
 "============================ */
@@ -285,6 +304,7 @@ let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
 
 " NERDTREE
 let NERDTreeShowHidden=1
+let NERDTreeAutoDeleteBuffer=1
 
 " CTRLP
 let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin'
@@ -303,14 +323,9 @@ if exists('$TMUX')
   let g:rspec_command = 'call VimuxRunCommand("rspec {spec}\n")'
 endif
 
-" TCommenter (Like TCommenter more, but got used to NerdTree comment
-" Mappings
-map <leader>cs :TCommentBlock<CR>
-map <leader>cc :TComment<CR>
-map <leader>ci :TCommentInline<CR>
-
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=
+
 
 "/* FILETYPE SPECIFIC CONFIG
 "============================ */
@@ -325,3 +340,8 @@ au FileType cpp nnoremap <leader>l :SyntasticCheck<CR>
 
 " Spell check for .md files
 au FileType markdown setlocal spell
+
+" The colorscheme
+set background=dark
+colorscheme base16-chalk
+au VimEnter AirlineTheme monochrome
