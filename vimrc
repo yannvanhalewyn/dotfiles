@@ -79,7 +79,7 @@ map <leader>cc :TComment<CR>
 map <leader>ci :TCommentInline<CR>
 " Sexy titles
 nmap <leader>ct yyppv$r=kkv$r=Vjj cs
-
+au filetype ruby nmap <leader>ct yyppv$r=kkv$r=Vjj cc
 " Call vimux commands
 map <Leader>vp :call VimuxPromptCommand()<CR>
 map <Leader>vl :VimuxRunLastCommand<CR>
@@ -289,6 +289,9 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'chriskempson/base16-vim'
 " Undo branching
 Plugin 'sjl/gundo.vim'
+" r-command for ruby blocks
+Plugin 'kana/vim-textobj-user'
+Plugin 'nelstrom/vim-textobj-rubyblock'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -311,8 +314,11 @@ let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin'
 
 " Syntastic !c++14 is approximated by c++1y. Change this when
 " c++14 compiler options are available
-let g:syntastic_cpp_compiler_options = ' -std=c++1y -stdlib=libc++'
-let g:syntastic_mode_map = { 'mode': 'passive' }
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+let g:syntastic_mode_map = { "mode": "passive" }
+" let g:syntastic_mode_map = {
+"     \ "mode": "passive",
+"     \ "active_filetypes": ["cpp", "ruby"] }
 
 " Ultisnips
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -322,6 +328,9 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 if exists('$TMUX')
   let g:rspec_command = 'call VimuxRunCommand("rspec {spec}\n")'
 endif
+
+" Rubyblocks
+runtime macros/matchit.vim
 
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=
@@ -343,5 +352,15 @@ au FileType markdown setlocal spell
 
 " The colorscheme
 set background=dark
-colorscheme base16-chalk
+colorscheme candyman
 au VimEnter AirlineTheme monochrome
+
+"
+"/* My favorite colorschemes
+"=========================== */
+
+" colorscheme base16-chalk
+" colorscheme base16-aterlierdune
+" colorscheme candyman
+" colorscheme zendune
+" colorscheme tomorrow-night
