@@ -1,3 +1,4 @@
 vim/undo/*
 !vim/undo/.keep
 vim/bundle/
+nvim/bundle/

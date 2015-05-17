@@ -30,3 +30,6 @@ export VERSIONER_PYTHON_PREFER_32_BIT=yes
 if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
   . $(brew --prefix)/share/bash-completion/bash_completion
 fi
+
+# True vim colors in neovim
+export NVIM_TUI_ENABLE_TRUE_COLOR=1

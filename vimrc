@@ -121,6 +121,7 @@ vnoremap <leader>erb <esc>`>a %><esc>`<i<%= <esc>
 
 " Breakout selection on own line
 vnoremap <leader><CR> <esc>a<CR><esc>`<i<CR><esc>
+
 " Spec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
@@ -327,6 +328,10 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 if exists('$TMUX')
   let g:rspec_command = 'call VimuxRunCommand("rspec {spec}\n")'
 endif
+
+" Neocomplete
+let g:neocomplete#enable_at_startup = 1
+
 
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=

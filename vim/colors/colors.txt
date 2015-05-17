@@ -1,3 +1,0 @@
-./                           Tomorrow-Night-Bright.vim    Tomorrow.vim                 molokai.vim
-../                          Tomorrow-Night-Eighties.vim  apprentice.vim               mustang.vim
-Tomorrow-Night-Blue.vim      Tomorrow-Night.vim           codeschool.vim               solarized.vim
