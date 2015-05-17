@@ -184,8 +184,8 @@ au WinEnter * set cursorline
 set cursorline
 
 " Line numbers
-set number
-" set relativenumber
+" set number
+set relativenumber
 
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
@@ -289,9 +289,8 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'chriskempson/base16-vim'
 " Undo branching
 Plugin 'sjl/gundo.vim'
-" r-command for ruby blocks
-Plugin 'kana/vim-textobj-user'
-Plugin 'nelstrom/vim-textobj-rubyblock'
+" Auto completion
+Plugin 'Shougo/neocomplete.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -310,7 +309,7 @@ let NERDTreeShowHidden=1
 let NERDTreeAutoDeleteBuffer=1
 
 " CTRLP
-let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin'
+let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin\|obj'
 
 " Syntastic !c++14 is approximated by c++1y. Change this when
 " c++14 compiler options are available
@@ -329,9 +328,6 @@ if exists('$TMUX')
   let g:rspec_command = 'call VimuxRunCommand("rspec {spec}\n")'
 endif
 
-" Rubyblocks
-runtime macros/matchit.vim
-
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=
 
@@ -344,16 +340,20 @@ au BufNewFile,BufRead *.tpl set syntax=jst
 
 " Map <leader>r to run files with some extensions
 au FileType ruby nnoremap <leader>r :!ruby %<CR>
-au FileType cpp nnoremap <leader>r :!make<CR>
+au FileType {cpp,make} nnoremap <leader>r :!make<CR>
 au FileType cpp nnoremap <leader>l :SyntasticCheck<CR>
+au FileType cpp set tabstop=4
+au FileType cpp set shiftwidth=4
 
 " Spell check for .md files
 au FileType markdown setlocal spell
 
 " The colorscheme
 set background=dark
-colorscheme candyman
+colorscheme jellybeans
 au VimEnter AirlineTheme monochrome
+
+
 
 "
 "/* My favorite colorschemes

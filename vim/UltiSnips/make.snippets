@@ -1,0 +1,43 @@
+snippet make "A basic c++ makefile layout" b
+# Compiler
+CC = g++
+
+# Flags
+CFLAGS = -c -Wall -std=c++11
+LDLFLAGS =
+
+# Directories
+SRCDIR = src/
+OBJDIR = obj/
+BINDIR = bin/
+
+# Executables
+EXEC = main
+EXEC := $(addprefix $(BINDIR), $(EXEC))
+
+# Sources
+SOURCES = $(wildcard src/*.cpp)
+HEADERS = $(wildcard src/*.h)
+OBJECTS = $(notdir $(SOURCES:.cpp=.o))
+OBJECTS := $(addprefix $(OBJDIR), $(OBJECTS))
+
+$(EXEC): $(OBJECTS)
+	$(CC) $(LDLFLAGS) $< -o $@
+
+$(OBJECTS): $(OBJDIR)%.o: $(SRCDIR)%.cpp $(HEADERS)
+	$(CC) $(CFLAGS) $< -o $@
+
+.PHONY: clean test run teststepped
+clean:
+	rm -f $(EXEC) $(OBJECTS)
+
+test:
+	@echo SOURCES = $(SOURCES)
+	@echo OBJECTS = $(OBJECTS)
+	@echo HEADERS = $(HEADERS)
+	@echo EXEC = $(EXEC)
+
+run:
+	./$(EXEC)
+endsnippet
+
