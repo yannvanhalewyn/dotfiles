@@ -17,6 +17,7 @@ set timeoutlen=600 ttimeoutlen=10 " faster timeout for escape key
 set smartcase       " caps sensitive searching
 set wildmenu        " Showing a list of command completions
 set wildmode=longest,list,full
+set history=200     " More ex-commands history
 
 " Tabsize
 set tabstop=2
@@ -149,6 +150,8 @@ nnoremap <leader>o "oyy:<C-r>o<Backspace><CR>
 " Makes more sense
 map Y y$
 
+" Go to help
+nmap H :help <c-r><c-w><cr>
 
 "/* ABBREVIATIONS (TYPOS)
 "============================ */
