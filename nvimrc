@@ -1,10 +1,22 @@
-" ================
-" GENERAL BEHAVIOR
-" ================
+"/* GENERAL BEHAVIOR
+"============================ */
 
-set relativenumber
-set nocompatible
-syntax on
+:au FocusLost * :wa " Save on focus lost
+:au InsertLeave * :w  " Save when leaving insert mode
+set autowrite       " Automatically :write before running commands
+:set autoread<      " Auto reload files when changed on disk
+set backspace=2     " Backspace deletes like most programs in insert mode
+set nocompatible    " Use Vim settings, rather then Vi settings
+set noswapfile      " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
+set lazyredraw      " don't redraw when don't have to"
+set laststatus=2    " Always display the status line (Arline bottom bar!)
+:set completeopt=longest,menuone " Dont auto-jump to an autocompl
+set diffopt+=iwhite " ignore whitespace in vimdiff
+set encoding=utf-8
+set timeoutlen=600 ttimeoutlen=10 " faster timeout for escape key
+set smartcase       " caps sensitive searching
+set wildmenu        " Showing a list of command completions
+set wildmode=longest,list,full
 
 " Tabsize
 set tabstop=2
@@ -21,6 +33,10 @@ set undoreload=10000
 set splitbelow
 set splitright
 
+
+"/* AUTOCOMMANDS
+"============================ */
+
 " Remove trailing whitespace on save for all files.
 au BufWritePre * :%s/\s\+$//e
 
@@ -33,7 +49,7 @@ autocmd BufReadPost *
   \ endif
 
 
-"/* MAPPINGS
+"/* KEY MAPPINGS
 "============================ */
 
 " Remap tab and shift-tab to switch buffers
@@ -48,6 +64,25 @@ let mapleader = "\<Space>"
 map <Leader>q :Bclose<CR>
 map <Leader>Q :Bonly<CR>
 
+" toggle NerdTree / Gundo
+map <Leader>n :NERDTreeToggle<CR>
+map <Leader>N :NERDTreeFind<CR>
+map <Leader>g :GundoToggle<CR>
+
+" TCommenter (Like TCommenter more, but got used to NerdTree comment
+" Mappings
+map <leader>cs :TCommentBlock<CR>
+map <leader>cc :TComment<CR>
+map <leader>ci :TCommentInline<CR>
+" Sexy titles
+nmap <leader>ct yyppv$r=kkv$r=Vjj cs
+au filetype ruby nmap <leader>ct yyppv$r=kkv$r=Vjj cc
+" Call vimux commands
+map <Leader>vp :call VimuxPromptCommand()<CR>
+map <Leader>vl :VimuxRunLastCommand<CR>
+map <Leader>vv :VimuxZoomRunner<CR>
+map <Leader>vc :VimuxCloseRunner<CR>
+
 " Moving lines/selection up and down - direct map for vim-pasta
 nmap <UP> ddkP
 nmap <DOWN> ddp
@@ -58,12 +93,30 @@ vmap <DOWN> <esc>jjmm`<V`>dpV`mk
 vnoremap <LEFT> <V`>
 vnoremap <RIGHT> >V`>
 
+" Map @ in visual mode to execute reg in normal mode on every line
+vnoremap @ :normal@
+
 " Auto center!
 nmap G Gzz
 nmap n nzz
 nmap N Nzz
 nmap { {zz
 nmap } }zz
+
+" Surround with quotes / #{} for ruby vars in quotes / parens
+nmap <leader>= ^v$hS=
+nmap <leader>- ^v$hS-
+vnoremap <leader># <esc>`>a}<esc>`<i#{<esc>
+vnoremap <leader>erb <esc>`>a %><esc>`<i<%= <esc>
+
+" Breakout selection on own line
+vnoremap <leader><CR> <esc>a<CR><esc>`<i<CR><esc>
+
+" Spec.vim mappings
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
 
 "Edit vimrc in split/source vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
@@ -75,70 +128,124 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
+" Yank from cursor to end, copy to "o reg and execute
+nnoremap <leader>o "oyy:<C-r>o<Backspace><CR>
+"nnoremap <leader>o Y:@"<CR>
+
+" Makes more sense
+map Y y$
+
+
+"/* ABBREVIATIONS (TYPOS)
+"============================ */
+
+:iabbrev adn and
+:iabbrev waht what
+:iabbrev tehn then
+:iabbrev succes success
+:iabbrev ressource resource
+:iabbrev ressources resources
+:iabbrev widht width
+:iabbrev heigth height
+:iabbrev ture ture
+:iabbrev flase false
+
+
+"/* AIRLINE
+"============================ */
+
+let g:airline_powerline_fonts = 1 " This actually makes the top buffer bar have the 's
+" The symbols
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+
 
 "/* VUNDLE
 "============================ */
 
 filetype off                  " required
 
+" Set correct editor root path
+if has('nvim')
+  let s:editor_root=expand("~/.nvim")
+else
+  let s:editor_root=expand("~/.vim")
+endif
+
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.nvim/bundle/Vundle.vim
+execute "set rtp+=" . s:editor_root . "/bundle/Vundle.vim"
+call vundle#rc(s:editor_root . "/bundle")
 call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 " Emmet
-" Plugin 'mattn/emmet-vim'
+Plugin 'mattn/emmet-vim'
 " CTRL-P
 Plugin 'kien/ctrlp.vim'
 " Airline status bar
 Plugin 'bling/vim-airline'
 " Git wrapper/airline branch display
-" Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 " NerdTree
-" Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdtree'
 " Endwise (Ruby)
-" Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-endwise'
 " DelimitMate
-" Plugin 'Raimondi/delimitMate'
+Plugin 'Raimondi/delimitMate'
 " vim-rspec
-" Plugin 'thoughtbot/vim-rspec'
+Plugin 'thoughtbot/vim-rspec'
 " To send commands to TMUX (RSpec!!)
-" Plugin 'benmills/vimux'
+Plugin 'benmills/vimux'
 " RSPEC synthax higlighting
-" Plugin 'Keithbsmiley/rspec.vim'
+Plugin 'Keithbsmiley/rspec.vim'
 " Rails.vim
 " Plugin 'tpope/vim-rails'
 " Some snippets
-" Plugin 'honza/vim-snippets'
+Plugin 'honza/vim-snippets'
 " UltiSnips
-" Plugin 'SirVer/ultisnips'
+Plugin 'SirVer/ultisnips'
 " Supertab so that ultisnips and completions play nice
-" Plugin 'ervandew/supertab'
+Plugin 'ervandew/supertab'
 " Coffee script support
 " Plugin 'kchmck/vim-coffee-script'
 " Linting
 " Plugin 'scrooloose/syntastic'
 " Surround
-" Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-surround'
 " Improved c++ syntax highlighting
-" Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'octol/vim-cpp-enhanced-highlight'
 " Improved indentation after paste
-" Plugin 'sickill/vim-pasta'
+Plugin 'sickill/vim-pasta'
 " Easymotion for crazy motions!
-" Plugin 'lokaltog/vim-easymotion'
+Plugin 'lokaltog/vim-easymotion'
 " For rails formatting
 " Plugin 'KurtPreston/vim-autoformat-rails'
 " Easy commenting
-" Plugin 'tomtom/tcomment_vim'
+Plugin 'tomtom/tcomment_vim'
 " AG! search pleasures
-" Plugin 'rking/ag.vim'
+Plugin 'rking/ag.vim'
 " All the colorschemes of the world
 Plugin 'flazz/vim-colorschemes'
 " And more
 Plugin 'chriskempson/base16-vim'
 " Undo branching
-" Plugin 'sjl/gundo.vim'
+Plugin 'sjl/gundo.vim'
 " Auto completion
 " Plugin 'Shougo/neocomplete.vim'
 
@@ -147,5 +254,69 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 
 
+"/* PLUGIN SPECIFIC CONFIG
+"============================ */
+
+" EMMET
+autocmd FileType html,css EmmetInstall    " Use only with certain files
+let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
+
+" NERDTREE
+let NERDTreeShowHidden=1
+let NERDTreeAutoDeleteBuffer=1
+
+" CTRLP
+let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin\|obj'
+
+" Syntastic !c++14 is approximated by c++1y. Change this when
+" c++14 compiler options are available
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+let g:syntastic_mode_map = { "mode": "passive" }
+" let g:syntastic_mode_map = {
+"     \ "mode": "passive",
+"     \ "active_filetypes": ["cpp", "ruby"] }
+
+" Ultisnips
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" rspec-vim - Send to tmux pane if tmux
+if exists('$TMUX')
+  let g:rspec_command = 'call VimuxRunCommand("rspec {spec}\n")'
+endif
+
+" Neocomplete
+let g:neocomplete#enable_at_startup = 1
+
+" Weird bug in Tmux where background won't fill workspace.
+:set t_ut=
+
+
+"/* FILETYPE SPECIFIC CONFIG
+"============================ */
+
+" Syntax highlighting for javascript templating
+au BufNewFile,BufRead *.tpl set syntax=jst
+
+" Map <leader>r to run files with some extensions
+au FileType ruby nnoremap <leader>r :!ruby %<CR>
+au FileType {cpp,make} nnoremap <leader>r :!make<CR>
+au FileType cpp nnoremap <leader>l :SyntasticCheck<CR>
+au FileType cpp set tabstop=4
+au FileType cpp set shiftwidth=4
+
+" Spell check for .md files
+au FileType markdown setlocal spell
+
+
+"/* LAYOUT
+"================================ */
+
 filetype on
-color apprentice
+
+" Display extra whitespace
+set list listchars=tab:»·,trail:·
+
+set relativenumber
+syntax on
+color codeschool

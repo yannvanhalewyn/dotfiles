@@ -10,15 +10,13 @@ set nocompatible    " Use Vim settings, rather then Vi settings
 set noswapfile      " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
 set lazyredraw      " don't redraw when don't have to"
 set laststatus=2    " Always display the status line (Arline bottom bar!)
-filetype plugin indent on
 :set completeopt=longest,menuone " Dont auto-jump to an autocompl
 set diffopt+=iwhite " ignore whitespace in vimdiff
-syntax on           " Syntax highlighting
 set encoding=utf-8
 set timeoutlen=600 ttimeoutlen=10 " faster timeout for escape key
+set smartcase       " caps sensitive searching
 set wildmenu        " Showing a list of command completions
 set wildmode=longest,list,full
-
 
 " Tabsize
 set tabstop=2
@@ -58,7 +56,6 @@ autocmd BufReadPost *
 :nnoremap <Tab> :bnext<CR>
 :nnoremap <S-Tab> :bprevious<CR>
 
-
 " set leader key
 let mapleader = "\<Space>"
 
@@ -86,9 +83,6 @@ map <Leader>vl :VimuxRunLastCommand<CR>
 map <Leader>vv :VimuxZoomRunner<CR>
 map <Leader>vc :VimuxCloseRunner<CR>
 
-" Switch between the last two files
-nnoremap <leader>b <c-^>
-
 " Moving lines/selection up and down - direct map for vim-pasta
 nmap <UP> ddkP
 nmap <DOWN> ddp
@@ -110,12 +104,8 @@ nmap { {zz
 nmap } }zz
 
 " Surround with quotes / #{} for ruby vars in quotes / parens
-nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 nmap <leader>= ^v$hS=
 nmap <leader>- ^v$hS-
-vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>
-vnoremap <leader>' <esc>`>a'<esc>`<i'<esc>
-vnoremap <leader>) <esc>`>a)<esc>`<i)<esc>
 vnoremap <leader># <esc>`>a}<esc>`<i#{<esc>
 vnoremap <leader>erb <esc>`>a %><esc>`<i<%= <esc>
 
@@ -129,7 +119,7 @@ map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 
 "Edit vimrc in split/source vimrc
-nnoremap <leader>ev :vsplit ~/dotfiles/vimrc<CR>
+nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap<leader>sv :source $MYVIMRC<CR>
 
 " Quicker window movement
@@ -176,33 +166,10 @@ map Y y$
 :iabbrev flase false
 
 
-"/* LAYOUT
-"============================ */
-
-" highlight vertical column of cursor
-au WinLeave * set nocursorline nocursorcolumn
-au WinEnter * set cursorline
-set cursorline
-
-" Line numbers
-" set number
-set relativenumber
-
-" Display extra whitespace
-set list listchars=tab:»·,trail:·
-
 "/* AIRLINE
 "============================ */
 
-" Colors and font
-"let g:Powerline_symbols = 'fancy'
-"set encoding=utf-8
-"set t_Co=256
-"set fillchars+=stl:\ ,stlnc:\
-"set term=xterm-256color
-"set termencoding=utf-8
-let g:airline_powerline_fonts = 1
-
+let g:airline_powerline_fonts = 1 " This actually makes the top buffer bar have the 's
 " The symbols
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -222,18 +189,22 @@ let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 
-:set smartcase
-:set ignorecase
-:set noantialias
-
 
 "/* VUNDLE
 "============================ */
 
 filetype off                  " required
 
+" Set correct editor root path
+if has('nvim')
+  let s:editor_root=expand("~/.nvim")
+else
+  let s:editor_root=expand("~/.vim")
+endif
+
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+execute "set rtp+=" . s:editor_root . "/bundle/Vundle.vim"
+call vundle#rc(s:editor_root . "/bundle")
 call vundle#begin()
 
 " let Vundle manage Vundle, required
@@ -332,7 +303,6 @@ endif
 " Neocomplete
 let g:neocomplete#enable_at_startup = 1
 
-
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=
 
@@ -353,14 +323,27 @@ au FileType cpp set shiftwidth=4
 " Spell check for .md files
 au FileType markdown setlocal spell
 
+
+"/* LAYOUT
+"============================ */
+
+" highlight vertical column of cursor
+au WinLeave * set nocursorline nocursorcolumn
+au WinEnter * set cursorline
+set cursorline
+
+" Line numbers
+set relativenumber
+
+" Display extra whitespace
+set list listchars=tab:»·,trail:·
+
 " The colorscheme
 set background=dark
 colorscheme jellybeans
 au VimEnter AirlineTheme monochrome
 
 
-
-"
 "/* My favorite colorschemes
 "=========================== */
 

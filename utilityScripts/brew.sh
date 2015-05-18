@@ -18,7 +18,7 @@ brew upgrade --all
 
 
 # Install more recent versions of some OS X tools
-brew install vim --override-system-vi
+brew install vim --override-system-vi --with-lua
 brew install tmux
 brew install mysql
 brew install git
