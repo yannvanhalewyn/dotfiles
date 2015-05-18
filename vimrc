@@ -70,12 +70,11 @@ map <Leader>N :NERDTreeFind<CR>
 map <Leader>g :GundoToggle<CR>
 
 " TCommenter (Like TCommenter more, but got used to NerdTree comment
-" Mappings
 map <leader>cs :TCommentBlock<CR>
 map <leader>cc :TComment<CR>
 map <leader>ci :TCommentInline<CR>
 " Sexy titles
-nmap <leader>ct yyppv$r=kkv$r=Vjj cs
+nmap <leader>ct yyppVr=kkVr=Vjj cs
 au filetype ruby nmap <leader>ct yyppv$r=kkv$r=Vjj cc
 " Call vimux commands
 map <Leader>vp :call VimuxPromptCommand()<CR>
@@ -190,83 +189,73 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 
 
-"/* VUNDLE
+"/* VIM-PLUG
 "============================ */
 
-filetype off                  " required
-
-" Set correct editor root path
+let g:plug_threads=1
 if has('nvim')
   let s:editor_root=expand("~/.nvim")
 else
   let s:editor_root=expand("~/.vim")
 endif
+call plug#begin()
 
-" set the runtime path to include Vundle and initialize
-execute "set rtp+=" . s:editor_root . "/bundle/Vundle.vim"
-call vundle#rc(s:editor_root . "/bundle")
-call vundle#begin()
-
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
 " Emmet
-Plugin 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim'
 " CTRL-P
-Plugin 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim'
 " Airline status bar
-Plugin 'bling/vim-airline'
+Plug 'bling/vim-airline'
 " Git wrapper/airline branch display
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 " NerdTree
-Plugin 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
 " Endwise (Ruby)
-Plugin 'tpope/vim-endwise'
+Plug 'tpope/vim-endwise'
 " DelimitMate
-Plugin 'Raimondi/delimitMate'
+Plug 'Raimondi/delimitMate'
 " vim-rspec
-Plugin 'thoughtbot/vim-rspec'
+Plug 'thoughtbot/vim-rspec'
 " To send commands to TMUX (RSpec!!)
-Plugin 'benmills/vimux'
+Plug 'benmills/vimux'
 " RSPEC synthax higlighting
-Plugin 'Keithbsmiley/rspec.vim'
+Plug 'Keithbsmiley/rspec.vim'
 " Rails.vim
-Plugin 'tpope/vim-rails'
+Plug 'tpope/vim-rails'
 " Some snippets
-Plugin 'honza/vim-snippets'
+Plug 'honza/vim-snippets'
 " UltiSnips
-Plugin 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 " Supertab so that ultisnips and completions play nice
-Plugin 'ervandew/supertab'
+Plug 'ervandew/supertab'
 " Coffee script support
-Plugin 'kchmck/vim-coffee-script'
+Plug 'kchmck/vim-coffee-script'
 " Linting
-Plugin 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic'
 " Surround
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 " Improved c++ syntax highlighting
-Plugin 'octol/vim-cpp-enhanced-highlight'
+Plug 'octol/vim-cpp-enhanced-highlight'
 " Improved indentation after paste
-Plugin 'sickill/vim-pasta'
+Plug 'sickill/vim-pasta'
 " Easymotion for crazy motions!
-Plugin 'lokaltog/vim-easymotion'
+Plug 'lokaltog/vim-easymotion'
 " For rails formatting
-Plugin 'KurtPreston/vim-autoformat-rails'
+Plug 'KurtPreston/vim-autoformat-rails'
 " Easy commenting
-Plugin 'tomtom/tcomment_vim'
+Plug 'tomtom/tcomment_vim'
 " AG! search pleasures
-Plugin 'rking/ag.vim'
+Plug 'rking/ag.vim'
 " All the colorschemes of the world
-Plugin 'flazz/vim-colorschemes'
+Plug 'flazz/vim-colorschemes'
 " And more
-Plugin 'chriskempson/base16-vim'
+Plug 'chriskempson/base16-vim'
 " Undo branching
-Plugin 'sjl/gundo.vim'
+Plug 'sjl/gundo.vim'
 " Auto completion
-Plugin 'Shougo/neocomplete.vim'
+Plug 'Shougo/neocomplete.vim'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call plug#end()            " required
 
 
 "/* PLUGIN SPECIFIC CONFIG
@@ -327,13 +316,14 @@ au FileType markdown setlocal spell
 "/* LAYOUT
 "============================ */
 
+" Basic
+set relativenumber
+syntax on
+
 " highlight vertical column of cursor
 au WinLeave * set nocursorline nocursorcolumn
 au WinEnter * set cursorline
 set cursorline
-
-" Line numbers
-set relativenumber
 
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
