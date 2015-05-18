@@ -255,7 +255,7 @@ Plug 'sjl/gundo.vim'
 " Auto completion
 Plug 'Shougo/neocomplete.vim'
 
-call plug#end()            " required
+call plug#end()
 
 
 "/* PLUGIN SPECIFIC CONFIG
