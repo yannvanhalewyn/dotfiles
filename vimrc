@@ -152,7 +152,7 @@ nnoremap <leader>o "oyy:<C-r>o<Backspace><CR>
 map Y y$
 
 " Go to help
-nmap H :help <c-r><c-w><cr>
+nmap <leader>H :help <c-r><c-w><cr>
 
 "/* ABBREVIATIONS (TYPOS)
 "============================ */
