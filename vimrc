@@ -107,6 +107,7 @@ nmap } }zz
 nmap <leader>= ^v$hS=
 nmap <leader>- ^v$hS-
 vnoremap <leader># <esc>`>a}<esc>`<i#{<esc>
+nmap <leader># viw<leader>#
 vnoremap <leader>erb <esc>`>a %><esc>`<i<%= <esc>
 
 " Breakout selection on own line

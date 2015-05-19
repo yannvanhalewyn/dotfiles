@@ -11,11 +11,19 @@ function f() {
 }
 
 
-# cd into whatever is the forefront Finder window.
+# cd into forefront finder window
 cdf() {  # short for cdfinder
   cd "`osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)'`"
 }
 
+# Print the forefront finder window
+function pwf() {
+  osascript 2>/dev/null <<EOF
+    tell application "Finder"
+      return POSIX path of (target of window 1 as alias)
+    end tell
+EOF
+}
 
 # Start an HTTP server from a directory, optionally specifying the port
 function server() {
@@ -151,3 +159,36 @@ paths() {
 function gc {
   git commit -m "$*"
 }
+
+# go to the node-docs of current node version
+node-docs () {
+  local open_cmd
+  if [[ "$OSTYPE" = darwin* ]]
+  then
+    open_cmd='open'
+  else
+    open_cmd='xdg-open'
+  fi
+  $open_cmd "http://nodejs.org/docs/$(node --version)/api/all.html#all_$1"
+}
+
+# print out the path of a given file
+function printpath {
+  if (($# == 0)); then
+    pwd
+  else
+    echo $(cd $(dirname $1); pwd)/$(basename $1)
+  fi
+}
+
+function copypath {
+  if [ "$TMUX" ]; then
+    local attach='reattach-to-user-namespace'
+  fi
+  local filepath=$(printpath $1)
+  echo $filepath | $attach pbcopy
+  echo "Copied '$filepath' to clipboard"
+}
+
+# Search through history
+function hs { history | grep $* }
