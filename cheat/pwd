@@ -1,0 +1,8 @@
+# Print working dir when in a symlinked dir
+pwd -P
+
+ex:
+cd ~
+cd .vim
+pwd     --> /Users/yannvanhalewyn/.vim
+pwd -P  --> /Users/yannvanhalewyn/dotfiles/vim

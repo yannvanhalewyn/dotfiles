@@ -1,0 +1,8 @@
+# Including zmv
+autoload -U zmv
+
+# Looping over all files with an index
+i=0; for x in *; do ((++i)); echo $i; echo $x; done
+
+# Printing out all files recursively and ordered by date modified
+find . -print0 | xargs -0 -n 100 stat -f"%m %Sm %N" | sort -n|awk '{$1="";print}'

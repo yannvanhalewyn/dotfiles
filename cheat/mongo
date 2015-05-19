@@ -1,0 +1,156 @@
+# ===================
+# starting the server
+# ===================
+
+# Start mongod (server) on custom db path
+mongod --dbpath {path}
+
+# Start mongod with a config file
+mongod --config /usr/local/etc/mongod.conf
+
+# ============
+# In Mongo CLI
+# ============
+
+# Show all databases
+show dbs
+
+# Use a database. This creates one implicitely if none found
+# It will only be persisted when a row gets inserted
+use {{dbname}}
+
+# Print out the current database
+db
+
+# Show collections in current db
+show collections
+
+# ========================================================================================
+# Creating Data     ⇒     db.{{collectionname}}.insert([array of documents] OR {document})
+# ========================================================================================
+# This creates a collection if none found.
+
+# Entering a document
+db.{{collectionname}}.insert( {
+  item: "ABC1",
+  details: {
+     model: "14Q3",
+     manufacturer: "XYZ Company"
+  },
+  stock: [ { size: "S", qty: 25 }, { size: "M", qty: 50 } ],
+  category: "clothing"
+});
+
+# Inserting an array of documents
+db.{{collectionname}}.insert( [
+  {
+    name: "user1",
+    age: 35,
+    status: "A"
+  },
+  {
+    name: "user2",
+    age: 33,
+    status: "C"
+  },
+  {
+    name: "user2",
+    age: 33,
+    status: "C"
+  }
+]);
+
+# ============================================================================================
+# Query database    ⇒   db.{{collectionname}}.find({ query }, { projection })
+# ============================================================================================
+
+# SELECT * FROM {{table}}
+db.{{collectionname}}.find();
+
+# Conditionals
+# ------------
+# SELECT * FROM {{table}} WHERE item = "ABC1"
+db.{{collectionname}}.find({ item: "ABC1"});
+# SELECT * FROM {{table}} WHERE status != "A"
+db.{{collectionname}}.find({ status: {$ne: "A"}});
+# SELECT * FROM {{table}} WHERE status = "A" AND age = 50
+db.{{collectionname}}.find({ status: {$ne: "A"}, age: 50 });
+# SELECT * FROM {{table}} WHERE status = "A" OR age = 50    ⇒ ( { $or: [ {{array of evals}} ] } )
+db.{{collectionname}}.find({ $or: [ {status: "A"}, {age: 50} ]});
+# SELECT * FROM {{table}} WHERE age > 40
+db.{{collectionname}}.find({ age: {$gt: 40} });
+# SELECT * FROM {{table}} WHERE age < 40
+db.{{collectionname}}.find({ age: {$lt: 40} });
+# SELECT * FROM {{table}} WHERE age > 25 AND age <= 50
+db.{{collectionname}}.find({ age: { $gt: 25, $lt: 50 }})
+# SELECT * FROM {{table}} WHERE item LIKE "AB%"
+db.{{collectionname}}.find({item: /^AB/});
+# SELECT * FROM {{table}} WHERE status = "A" SORT BY user_id ASC
+db.{{collectionname}}.find({status: "A"}).sort({user_id: 1})
+# SELECT * FROM {{table}} WHERE status = "A" SORT BY user_id DESC
+db.{{collectionname}}.find({status: "A"}).sort({user_id: -1})
+# SELECT COUNT(*) FROM {{table}}
+db.{{collectionname}}.count() OR db.{{collectionname}}.find().count()
+# SELECT COUNT(user_id) FROM {{table}}
+db.{{collectionname}}.count({ user_id: { $exists: true}})
+# SELECT COUNT(*) FROM users WHERE age > 40
+db.{{collectionname}}.count({age: {$gt: 40}})
+
+
+# Projections (Whatever will be returned)
+# ---------------------------------------
+# SELECT item, details, _id FROM {{table}}
+db.{{collectionname}}.find({}, { item: 1, details: 1}); # The _id is always returned unless specified as _id: 0
+# SELECT item FROM {{table}}
+db.{{collectionname}}.find({}, { item: 1, _id: 0});
+
+# SELECT item, stock FROM {{table}} WHERE item LIKE "%BC%"
+db.{{collectionname}}.find({item: /BC/}, { item: 1, stock: 1, _id: 0 })
+
+
+# ===============================================================================================
+# Altering tables     ⇒   db.{{collectionname}}.update({ query }, { update method }, { options })
+# ===============================================================================================
+
+# Note: Since collections do not follow a certain schema to the bone as most
+# SQL databases, there isn't really a ALTER TABLE method in mongo. If you do want to
+# add fields to collections, the update method is the closest. With update you
+# can set all fields to a certain value, adding the field on a row if necessary ($set).
+# You can also make that field dissapear ($unset)! The multi: true argument is important!
+
+# ALTER TABLE users ADD join_date DATETIME
+db.users.update({}, { $set: { join_date: new Date() }}, { multi: true })
+# ALTER TABLE users DROP COLUMN join_date
+db.users.update({}, { $unset: { join_date: "" }}, { multi: true })
+# Incrementing a value on a table  (e.g. where the age is 32)   ⇒  db.{{collectionname}}.update({query}, {$inc: { field: amount, field: amount }});
+db.users.update({age: 32}, {$inc: {age: 1}})
+
+
+# ==========================================================================
+# Removing      ⇒     db.{{collectionname}}.remove( { query }, { options } )
+# ==========================================================================
+
+# DELETE FROM users
+db.users.remove();
+# DELETE FROM users WHERE age = 32
+db.users.remove({age: 32})
+# DELETE FROM users WHERE age = 32 LIMIT 1
+db.users.remove({age:32}, {justOne: true})
+
+
+# ==========
+# Variables!
+# ==========
+
+# You can declare heap variables and insert them later.
+var user = { user_id: "abc123", age: 55, status: "A" }
+
+# Editing the variable
+user.user_id = "abc1234"; user.age = 21; user.status = "C";
+
+# Adding fields to the var
+user.foo = "Bar";
+
+# Inserting the variable
+db.users.insert(user)
+

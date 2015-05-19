@@ -1,0 +1,5 @@
+# Move results from a search to a target
+# "file" can be any word/symbol
+{search} | xargs -0 -I file mv file target/
+
+Example: find . -name '*.dat' -print0 | xargs -0 -I file mv file target/

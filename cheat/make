@@ -1,0 +1,41 @@
+# Compiler
+CC = g++
+
+# Flags
+CFLAGS = -c -Wall -std=c++11 -Iinc/
+LDLFLAGS = -lSDL2 -lSDL2_mixer -lSDL2_ttf -framework OpenGL -shared
+
+# Directories
+SRCDIR = src/
+OBJDIR = lib/
+BINDIR = bin/
+
+# Executables
+EXEC = libBengine.a
+EXEC := $(addprefix $(BINDIR), $(EXEC))
+
+# Sources
+SOURCES = $(wildcard src/*.cpp)
+HEADERS = $(wildcard inc/*.h)
+OBJECTS = $(notdir $(SOURCES:.cpp=.o))
+OBJECTS := $(addprefix $(OBJDIR), $(OBJECTS))
+
+$(EXEC): $(OBJECTS)
+  ar rcs $(EXEC)
+  #$(CC) $(LDLFLAGS) $(OBJECTS) -o $@
+
+$(OBJECTS): $(OBJDIR)%.o: $(SRCDIR)%.cpp $(HEADERS)
+  $(CC) $(CFLAGS) $< -o $@
+
+.PHONY: clean test run teststepped
+clean:
+  rm -f $(EXEC) $(OBJECTS)
+
+test:
+  @echo SOURCES = $(SOURCES)
+  @echo OBJECTS = $(OBJECTS)
+  @echo HEADERS = $(HEADERS)
+  @echo EXEC = $(EXEC)
+
+run:
+  ./$(EXEC)

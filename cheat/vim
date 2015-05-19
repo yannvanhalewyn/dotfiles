@@ -1,0 +1,3 @@
+:r {file}       insert from file
+
+gU{motion} # Uppercase all characters under motion. gu for LOWERCASE, g~ for invert
