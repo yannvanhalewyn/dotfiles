@@ -24,6 +24,9 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 
+" Linesize and wraps
+set textwidth=80
+
 " Persistent undo
 set undodir=~/.vim/undo/
 set undofile
@@ -326,8 +329,10 @@ au FileType cpp nnoremap <leader>l :SyntasticCheck<CR>
 au FileType cpp set tabstop=4
 au FileType cpp set shiftwidth=4
 
-" Spell check for .md files
+" Markdown
 au FileType markdown setlocal spell
+au FileType markdown nnoremap <leader>sh "zyy"zpVr-
+au FileType markdown nnoremap <leader>h "zyy"zpVr=
 
 
 "/* LAYOUT
