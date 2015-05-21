@@ -1,3 +1,31 @@
 :r {file}       insert from file
+# This is awesome, it puts the shell output into the file under the cursor
+:r !{cmd}           =>  Puts the {cmd} output under the cursor                  Ex: :r !ls puts all files in curdir under cursor
 
-gU{motion} # Uppercase all characters under motion. gu for LOWERCASE, g~ for invert
+
+gU{motion}          ⇒   Uppercase all characters under motion. gu for LOWERCASE, g~ for invert
+gv                  ⇒   Reselects last visual mode selection
+
+ ========================
+ Insert mode control keys
+ ========================
+
+<c-v>{any key}      =>    Prints the terminal code of pressed key,              Ex: <esc> becomes 
+                          useful for saving makros as txt.
+<C-o>               =>    Go to normal mode for 1 command
+<C-r>=              =>    Evaluates an expression and inserts it.               Ex.: <C-r>=112*33 3696
+<C-v>{123}          =>    Insert character's decimal code (up to 255),
+                          or <C-v><tab> inserts real tab
+<C-v>u{1234}        =>    Enter 4-digit hex char.                               Ex.: <C-v>u00bf ¿
+<C-K>{char}{char}   =>    Enter digraph.                                        Ex.: <C-K>=> ⇒
+<C-r><C-w>          =>    In ex-mode, get the word under the cursor
+<C-r><C-a>          =>    In ex-mode, get the WORD under the cursor
+
+
+bash
+var counter;
+for (counter=1; counter <= 10; counter++) {
+  // do something with counter
+};
+
+

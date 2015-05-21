@@ -1,0 +1,21 @@
+# xargs can take piped input and use them as arguments for a command
+echo 1 2 3 | xargs touch                            => touch receives args 1 2 3 (creates the three files)
+echo 1 2 3 | xargs echo hi                          => echo's "hi 1 2 3"
+# You can use -n {num} to say how many args get send each time the command is ran
+# Default is all of them.
+echo 1 2 3 | xargs -n 1 echo hi                     => echo's "hi 1" newline "hi 2" newline "hi 3"
+# You can tell where in the command you want to reuse the args using -I
+echo 1 2 3 | xargs -n 1 -I{} echo 'test {} test {}' => prints 'test 1 test 1','test 2 test 2', ..
+
+# find all file name ending with .pdf and remove them
+find -name *.pdf | xargs rm -rf
+
+# if file name contains spaces you should use this instead
+find -name *.pdf | xargs -I{} rm -rf '{}'
+
+# Will show every .pdf like:
+#	&toto.pdf=
+#	&titi.pdf=
+# -n1 => One file by one file. ( -n2 => 2 files by 2 files )
+
+find -name *.pdf | xargs -I{} -n1 echo '&{}='

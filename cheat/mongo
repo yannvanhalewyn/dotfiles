@@ -19,6 +19,9 @@ show dbs
 # It will only be persisted when a row gets inserted
 use {{dbname}}
 
+# Delete current database
+db.dropDatabase()
+
 # Print out the current database
 db
 

@@ -35,7 +35,7 @@
 
 # Querying
     page.has_xpath?('//table/tr')
-    page.has_css?('table tr.foo')
+    page.has_css?('table tr.foo') # Moved to has_selector
     page.has_content?('foo')
     page.should have_xpath('//table/tr')
     page.should have_css('table tr.foo')
