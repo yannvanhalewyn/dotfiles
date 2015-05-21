@@ -197,12 +197,13 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 "============================ */
 
 let g:plug_threads=1
+" Set correct editor root path
 if has('nvim')
   let s:editor_root=expand("~/.nvim")
 else
   let s:editor_root=expand("~/.vim")
 endif
-call plug#begin()
+call plug#begin(s:editor_root . "/plugged")
 
 " Emmet
 Plug 'mattn/emmet-vim'
@@ -244,8 +245,6 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'sickill/vim-pasta'
 " Easymotion for crazy motions!
 Plug 'lokaltog/vim-easymotion'
-" For rails formatting
-Plug 'KurtPreston/vim-autoformat-rails'
 " Easy commenting
 Plug 'tomtom/tcomment_vim'
 " AG! search pleasures
@@ -257,7 +256,13 @@ Plug 'chriskempson/base16-vim'
 " Undo branching
 Plug 'sjl/gundo.vim'
 " Auto completion
-Plug 'Shougo/neocomplete.vim'
+" Plug 'Shougo/neocomplete.vim'
+" Youcompleteme
+Plug 'Valloric/YouCompleteMe'
+" Vim startify
+Plug 'mhinz/vim-startify'
+" Aligning stuff
+Plug 'junegunn/vim-easy-align'
 
 call plug#end()
 
@@ -274,7 +279,7 @@ let NERDTreeShowHidden=1
 let NERDTreeAutoDeleteBuffer=1
 
 " CTRLP
-let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin\|obj'
+let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin\|obj\|undo'
 
 " Syntastic !c++14 is approximated by c++1y. Change this when
 " c++14 compiler options are available
@@ -288,6 +293,12 @@ let g:syntastic_mode_map = { "mode": "passive" }
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
+" You complete me
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:ycm_global_ycm_extra_conf = s:editor_root . "/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+
 " rspec-vim - Send to tmux pane if tmux
 if exists('$TMUX')
   let g:rspec_command = 'call VimuxRunCommand("rspec {spec}\n")'
@@ -295,6 +306,23 @@ endif
 
 " Neocomplete
 let g:neocomplete#enable_at_startup = 1
+
+" The command to make text into multiline shizzle ⇒   :'<,'>normal 0v$hS'i\d0A,
+" http://www.cowsays.com
+let g:startify_custom_header = [
+\'         ________________________',
+\'        < Stay hungry my friend. >',
+\'         ------------------------',
+\'                \   ^__^',
+\'                 \  (oo)\_______',
+\'                    (__)\       )\/\ ',
+\'                        ||----w |',
+\'                        ||     ||',
+\''
+\]
+
+" Easy Align
+vmap <Enter> <Plug>(EasyAlign)
 
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=

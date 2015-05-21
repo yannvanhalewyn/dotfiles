@@ -17,6 +17,7 @@ set timeoutlen=600 ttimeoutlen=10 " faster timeout for escape key
 set smartcase       " caps sensitive searching
 set wildmenu        " Showing a list of command completions
 set wildmode=longest,list,full
+set history=200   " More ex-commands history
 
 " Tabsize
 set tabstop=2
@@ -70,12 +71,11 @@ map <Leader>N :NERDTreeFind<CR>
 map <Leader>g :GundoToggle<CR>
 
 " TCommenter (Like TCommenter more, but got used to NerdTree comment
-" Mappings
 map <leader>cs :TCommentBlock<CR>
 map <leader>cc :TComment<CR>
 map <leader>ci :TCommentInline<CR>
 " Sexy titles
-nmap <leader>ct yyppv$r=kkv$r=Vjj cs
+nmap <leader>ct yyppVr=kkVr=Vjj cs
 au filetype ruby nmap <leader>ct yyppv$r=kkv$r=Vjj cc
 " Call vimux commands
 map <Leader>vp :call VimuxPromptCommand()<CR>
@@ -107,6 +107,7 @@ nmap } }zz
 nmap <leader>= ^v$hS=
 nmap <leader>- ^v$hS-
 vnoremap <leader># <esc>`>a}<esc>`<i#{<esc>
+nmap <leader># viw<leader>#
 vnoremap <leader>erb <esc>`>a %><esc>`<i<%= <esc>
 
 " Breakout selection on own line
@@ -135,6 +136,8 @@ nnoremap <leader>o "oyy:<C-r>o<Backspace><CR>
 " Makes more sense
 map Y y$
 
+" Go to help
+nmap <leader>H :help <c-r><c-w><cr>
 
 "/* ABBREVIATIONS (TYPOS)
 "============================ */
@@ -175,7 +178,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 
 
-"/* VUNDLE
+"/* VIM-PLUG
 "============================ */
 
 
@@ -185,12 +188,8 @@ if has('nvim')
 else
   let s:editor_root=expand("~/.vim")
 endif
-
-" set the runtime path to include Vundle and initialize
 call plug#begin(s:editor_root . "/plugged")
 
-" let Vundle manage Vundle, required
-Plug 'gmarik/Vundle.vim'
 " Emmet
 Plug 'mattn/emmet-vim'
 " CTRL-P
@@ -212,7 +211,7 @@ Plug 'benmills/vimux'
 " RSPEC synthax higlighting
 Plug 'Keithbsmiley/rspec.vim'
 " Rails.vim
-" Plug 'tpope/vim-rails'
+Plug 'tpope/vim-rails'
 " Some snippets
 Plug 'honza/vim-snippets'
 " UltiSnips
@@ -231,8 +230,6 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'sickill/vim-pasta'
 " Easymotion for crazy motions!
 Plug 'lokaltog/vim-easymotion'
-" For rails formatting
-" Plug 'KurtPreston/vim-autoformat-rails'
 " Easy commenting
 Plug 'tomtom/tcomment_vim'
 " AG! search pleasures
@@ -245,8 +242,15 @@ Plug 'chriskempson/base16-vim'
 Plug 'sjl/gundo.vim'
 " Auto completion
 " Plug 'Shougo/neocomplete.vim'
+" Youcompleteme
+Plug 'Valloric/YouCompleteMe'
+" Vim startify
+Plug 'mhinz/vim-startify'
+" Aligning stuff
+Plug 'junegunn/vim-easy-align'
 
 call plug#end()
+
 
 "/* PLUGIN SPECIFIC CONFIG
 "============================ */
@@ -260,7 +264,7 @@ let NERDTreeShowHidden=1
 let NERDTreeAutoDeleteBuffer=1
 
 " CTRLP
-let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin\|obj'
+let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin\|obj\|undo'
 
 " Syntastic !c++14 is approximated by c++1y. Change this when
 " c++14 compiler options are available
@@ -274,6 +278,12 @@ let g:syntastic_mode_map = { "mode": "passive" }
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
+" You complete me
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:ycm_global_ycm_extra_conf = s:editor_root . "/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+
 " rspec-vim - Send to tmux pane if tmux
 if exists('$TMUX')
   let g:rspec_command = 'call VimuxRunCommand("rspec {spec}\n")'
@@ -281,6 +291,23 @@ endif
 
 " Neocomplete
 let g:neocomplete#enable_at_startup = 1
+
+" The command to make text into multiline shizzle ⇒   :'<,'>normal 0v$hS'i\d0A,
+" http://www.cowsays.com
+let g:startify_custom_header = [
+\'         ________________________',
+\'        < Stay hungry my friend. >',
+\'         ------------------------',
+\'                \   ^__^',
+\'                 \  (oo)\_______',
+\'                    (__)\       )\/\ ',
+\'                        ||----w |',
+\'                        ||     ||',
+\''
+\]
+
+" Easy Align
+vmap <Enter> <Plug>(EasyAlign)
 
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=
@@ -304,13 +331,27 @@ au FileType markdown setlocal spell
 
 
 "/* LAYOUT
-"================================ */
+"============================ */
 
-filetype on
+" Basic
+set relativenumber
+syntax on
+
+
 
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
 
-set relativenumber
-syntax on
-color codeschool
+" The colorscheme
+set background=dark
+colorscheme codeschool
+
+
+"/* My favorite colorschemes
+"=========================== */
+
+" colorscheme base16-chalk
+" colorscheme base16-aterlierdune
+" colorscheme candyman
+" colorscheme zendune
+" colorscheme tomorrow-night
