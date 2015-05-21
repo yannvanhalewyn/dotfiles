@@ -1,5 +1,40 @@
+# ============
+# General ruby
+# ============
 snippet doc
 ## ${1:Method Description}
 #  @param1  ${2:TYPE}     ${3:NAME}      ${4:Description}
 #  @returns ${5:Description}
+endsnippet
+
+# ============
+# Visual wraps
+# ============
+snippet ife "wraps selected statements in if/else" b
+if ${1:condition}
+	${0:${VISUAL: #assertions}}
+else
+	${2:# code}
+end
+endsnippet
+
+snippet if "wraps selected statements in if" b
+if ${1:condition}
+	${0:${VISUAL: #assertions}}
+end
+endsnippet
+
+# ============
+# RSPEC Blocks
+# ============
+snippet context "wraps selection in context block" b
+context "${1}" do
+	${0:${VISUAL: #assertions}}
+end
+endsnippet
+
+snippet describe "wraps selection in describe block" b
+describe "${1}" do
+	${0:${VISUAL: #assertions}}
+end
 endsnippet
