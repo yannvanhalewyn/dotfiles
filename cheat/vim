@@ -30,3 +30,7 @@ gq{motion}        => Rewraps lines to newlines that exceed textwidth (word sensi
 <C-K>{char}{char} => Enter digraph.                                        Ex.: <C-K>=> ⇒
 <C-r><C-w>        => In ex-mode, get the word under the cursor
 <C-r><C-a>        => In ex-mode, get the WORD under the cursor
+
+# Substitutions in visual mode. This changes everything matchin {target} to
+# {destination}
+:s/\%V{target}/{destination}/g

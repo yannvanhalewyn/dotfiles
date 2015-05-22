@@ -1,3 +1,15 @@
+#
+#  8888888888',8888' d888888o.   8 8888        8 8 888888888o.      ,o888888o.
+#         ,8',8888'.`8888:' `88. 8 8888        8 8 8888    `88.    8888     `88.
+#        ,8',8888' 8.`8888.   Y8 8 8888        8 8 8888     `88 ,8 8888       `8.
+#       ,8',8888'  `8.`8888.     8 8888        8 8 8888     ,88 88 8888
+#      ,8',8888'    `8.`8888.    8 8888        8 8 8888.   ,88' 88 8888
+#     ,8',8888'      `8.`8888.   8 8888        8 8 888888888P'  88 8888
+#    ,8',8888'        `8.`8888.  8 8888888888888 8 8888`8b      88 8888
+#   ,8',8888'     8b   `8.`8888. 8 8888        8 8 8888 `8b.    `8 8888       .8'
+#  ,8',8888'      `8b.  ;8.`8888 8 8888        8 8 8888   `8b.     8888     ,88'
+# ,8',8888888888888`Y8888P ,88P' 8 8888        8 8 8888     `88.    `8888888P'
+
 # ===============
 # OH-MY-ZSH SETUP
 # ===============
@@ -47,5 +59,6 @@ export PATH=`echo ":$PATH:" | sed -e "s#:/usr/bin:#:#g" -e "s/^://" -e "s/:$//"`
 # add /usr/local/bin and /usr/bin in that order
 export PATH="/usr/local/bin:/usr/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export PATH="$HOME/scripts:$PATH"

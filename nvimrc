@@ -1,19 +1,14 @@
-" NNNNNNNN        NNNNNNNNVVVVVVVV           VVVVVVVVIIIIIIIIIIMMMMMMMM               MMMMMMMMRRRRRRRRRRRRRRRRR           CCCCCCCCCCCCC
-" N:::::::N       N::::::NV::::::V           V::::::VI::::::::IM:::::::M             M:::::::MR::::::::::::::::R       CCC::::::::::::C
-" N::::::::N      N::::::NV::::::V           V::::::VI::::::::IM::::::::M           M::::::::MR::::::RRRRRR:::::R    CC:::::::::::::::C
-" N:::::::::N     N::::::NV::::::V           V::::::VII::::::IIM:::::::::M         M:::::::::MRR:::::R     R:::::R  C:::::CCCCCCCC::::C
-" N::::::::::N    N::::::N V:::::V           V:::::V   I::::I  M::::::::::M       M::::::::::M  R::::R     R:::::R C:::::C       CCCCCC
-" N:::::::::::N   N::::::N  V:::::V         V:::::V    I::::I  M:::::::::::M     M:::::::::::M  R::::R     R:::::RC:::::C
-" N:::::::N::::N  N::::::N   V:::::V       V:::::V     I::::I  M:::::::M::::M   M::::M:::::::M  R::::RRRRRR:::::R C:::::C
-" N::::::N N::::N N::::::N    V:::::V     V:::::V      I::::I  M::::::M M::::M M::::M M::::::M  R:::::::::::::RR  C:::::C
-" N::::::N  N::::N:::::::N     V:::::V   V:::::V       I::::I  M::::::M  M::::M::::M  M::::::M  R::::RRRRRR:::::R C:::::C
-" N::::::N   N:::::::::::N      V:::::V V:::::V        I::::I  M::::::M   M:::::::M   M::::::M  R::::R     R:::::RC:::::C
-" N::::::N    N::::::::::N       V:::::V:::::V         I::::I  M::::::M    M:::::M    M::::::M  R::::R     R:::::RC:::::C
-" N::::::N     N:::::::::N        V:::::::::V          I::::I  M::::::M     MMMMM     M::::::M  R::::R     R:::::R C:::::C       CCCCCC
-" N::::::N      N::::::::N         V:::::::V         II::::::IIM::::::M               M::::::MRR:::::R     R:::::R  C:::::CCCCCCCC::::C
-" N::::::N       N:::::::N          V:::::V          I::::::::IM::::::M               M::::::MR::::::R     R:::::R   CC:::::::::::::::C
-" N::::::N        N::::::N           V:::V           I::::::::IM::::::M               M::::::MR::::::R     R:::::R     CCC::::::::::::C
-" NNNNNNNN         NNNNNNN            VVV            IIIIIIIIIIMMMMMMMM               MMMMMMMMRRRRRRRR     RRRRRRR        CCCCCCCCCCCCC
+"                                                           .         .
+" b.             8 `8.`888b           ,8'  8 8888          ,8.       ,8.          8 888888888o.      ,o888888o.
+" 888o.          8  `8.`888b         ,8'   8 8888         ,888.     ,888.         8 8888    `88.    8888     `88.
+" Y88888o.       8   `8.`888b       ,8'    8 8888        .`8888.   .`8888.        8 8888     `88 ,8 8888       `8.
+" .`Y888888o.    8    `8.`888b     ,8'     8 8888       ,8.`8888. ,8.`8888.       8 8888     ,88 88 8888
+" 8o. `Y888888o. 8     `8.`888b   ,8'      8 8888      ,8'8.`8888,8^8.`8888.      8 8888.   ,88' 88 8888
+" 8`Y8o. `Y88888o8      `8.`888b ,8'       8 8888     ,8' `8.`8888' `8.`8888.     8 888888888P'  88 8888
+" 8   `Y8o. `Y8888       `8.`888b8'        8 8888    ,8'   `8.`88'   `8.`8888.    8 8888`8b      88 8888
+" 8      `Y8o. `Y8        `8.`888'         8 8888   ,8'     `8.`'     `8.`8888.   8 8888 `8b.    `8 8888       .8'
+" 8         `Y8o.`         `8.`8'          8 8888  ,8'       `8        `8.`8888.  8 8888   `8b.     8888     ,88'
+" 8            `Yo          `8.`           8 8888 ,8'         `         `8.`8888. 8 8888     `88.    `8888888P'
 
 "/* GENERAL BEHAVIOR
 "============================ */
@@ -99,9 +94,13 @@ nmap <Leader>gc :Gcommit<CR>
 map <leader>cs :TCommentBlock<CR>
 map <leader>cc :TComment<CR>
 map <leader>ci :TCommentInline<CR>
+
 " Sexy titles
 nmap <leader>ct yyppVr=kkVr=Vjj cs
 au filetype ruby nmap <leader>ct yyppv$r=kkv$r=Vjj cc
+" Fun with figlet
+nmap <Leader>ft 0mm"zY:r !figlet -w 120 -f broadway <c-r>z<CR>V`m ccdd
+
 " Call vimux commands
 map <Leader>vp :call VimuxPromptCommand()<CR>
 map <Leader>vl :VimuxRunLastCommand<CR>
@@ -160,6 +159,9 @@ nnoremap <leader>o "oyy:<C-r>o<Backspace><CR>
 
 " Makes more sense
 map Y y$
+
+" Open new line between {}
+imap <c-c> <CR><ESC>O
 
 " Go to help
 nmap <leader>H :help <c-r><c-w><cr>
@@ -273,6 +275,8 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'mhinz/vim-startify'
 " Aligning stuff
 Plug 'junegunn/vim-easy-align'
+" JS Syntax and indentation
+Plug 'pangloss/vim-javascript'
 
 call plug#end()
 
