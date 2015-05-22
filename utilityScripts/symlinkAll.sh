@@ -5,7 +5,7 @@
 
 ## VARIABLES
 dir=/Users/yannvanhalewyn/dotfiles
-files="bashrc bash_profile bash_prompt gitignore_global vimrc gvimrc gitconfig profile tmux.conf functions aliases osx vim nvim nvimrc zshrc cheat"
+files="bash_profile bash_prompt gitignore_global vimrc gvimrc gitconfig profile tmux.conf functions aliases osx vim nvim nvimrc zshrc cheat"
 
 ## GOT TO DIR
 echo "Changing to the $dir directory"
@@ -19,6 +19,3 @@ for file in $files; do
     echo "Creating symlink for .$file"
     ln -s $dir/$file ~/.$file
 done
-
-echo "Linking new profile"
-source ~/.bash_profile
