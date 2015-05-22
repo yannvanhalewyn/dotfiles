@@ -15,13 +15,15 @@ ZSH_CUSTOM=/Users/yannvanhalewyn/.zsh
 # very useful was grunt, scans the gruntfile and shows all
 # available commands with description
 # last-working-dir is also nice
-plugins=(git npm gem rvm)
+plugins=(git npm gem rvm vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
 # ============
 # CUSTOM SETUP
 # ============
+bindkey '\e[A' history-beginning-search-backward
+bindkey '\e[B' history-beginning-search-forward
 
 # Load ~/.aliases and ~/.functions
 for file in ~/.{aliases,functions}; do

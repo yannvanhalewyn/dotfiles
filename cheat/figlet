@@ -1,0 +1,23 @@
+# A loop to display all fonts
+for font in $(figlet -I 2)/^*.flc; do
+echo "\nFONT => $font";
+figlet -w 120 -f $font Hello World\!;
+done
+
+# Some useful options
+-k => Prevents smushing of characters
+-c => Centers output (based on textwidth)
+-w => Sets textwidth
+-f => Selects font
+
+===========================
+Some very cool figlet fonts
+===========================
+
+# Here's a little script that prints out all my favorite figlet fonts
+set -A favo_fonts acrobatic banner3-D broadway doh isometric1 larry3d nancyj-fancy nvscript script serifcap smisome1 starwars stop univers
+for font in $favo_fonts; do
+echo "\nFONT => $font";
+figlet -w 120 -f $font Hello World\!;
+done
+unset favo_fonts;
