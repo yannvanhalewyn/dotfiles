@@ -1,3 +1,20 @@
+" NNNNNNNN        NNNNNNNNVVVVVVVV           VVVVVVVVIIIIIIIIIIMMMMMMMM               MMMMMMMMRRRRRRRRRRRRRRRRR           CCCCCCCCCCCCC
+" N:::::::N       N::::::NV::::::V           V::::::VI::::::::IM:::::::M             M:::::::MR::::::::::::::::R       CCC::::::::::::C
+" N::::::::N      N::::::NV::::::V           V::::::VI::::::::IM::::::::M           M::::::::MR::::::RRRRRR:::::R    CC:::::::::::::::C
+" N:::::::::N     N::::::NV::::::V           V::::::VII::::::IIM:::::::::M         M:::::::::MRR:::::R     R:::::R  C:::::CCCCCCCC::::C
+" N::::::::::N    N::::::N V:::::V           V:::::V   I::::I  M::::::::::M       M::::::::::M  R::::R     R:::::R C:::::C       CCCCCC
+" N:::::::::::N   N::::::N  V:::::V         V:::::V    I::::I  M:::::::::::M     M:::::::::::M  R::::R     R:::::RC:::::C
+" N:::::::N::::N  N::::::N   V:::::V       V:::::V     I::::I  M:::::::M::::M   M::::M:::::::M  R::::RRRRRR:::::R C:::::C
+" N::::::N N::::N N::::::N    V:::::V     V:::::V      I::::I  M::::::M M::::M M::::M M::::::M  R:::::::::::::RR  C:::::C
+" N::::::N  N::::N:::::::N     V:::::V   V:::::V       I::::I  M::::::M  M::::M::::M  M::::::M  R::::RRRRRR:::::R C:::::C
+" N::::::N   N:::::::::::N      V:::::V V:::::V        I::::I  M::::::M   M:::::::M   M::::::M  R::::R     R:::::RC:::::C
+" N::::::N    N::::::::::N       V:::::V:::::V         I::::I  M::::::M    M:::::M    M::::::M  R::::R     R:::::RC:::::C
+" N::::::N     N:::::::::N        V:::::::::V          I::::I  M::::::M     MMMMM     M::::::M  R::::R     R:::::R C:::::C       CCCCCC
+" N::::::N      N::::::::N         V:::::::V         II::::::IIM::::::M               M::::::MRR:::::R     R:::::R  C:::::CCCCCCCC::::C
+" N::::::N       N:::::::N          V:::::V          I::::::::IM::::::M               M::::::MR::::::R     R:::::R   CC:::::::::::::::C
+" N::::::N        N::::::N           V:::V           I::::::::IM::::::M               M::::::MR::::::R     R:::::R     CCC::::::::::::C
+" NNNNNNNN         NNNNNNN            VVV            IIIIIIIIIIMMMMMMMM               MMMMMMMMRRRRRRRR     RRRRRRR        CCCCCCCCCCCCC
+
 "/* GENERAL BEHAVIOR
 "============================ */
 
@@ -72,6 +89,11 @@ map <Leader>Q :Bonly<CR>
 map <Leader>n :NERDTreeToggle<CR>
 map <Leader>N :NERDTreeFind<CR>
 map <Leader>g :GundoToggle<CR>
+
+" Fugitive mappings
+nmap <Leader>gs :Gstatus<CR>
+nmap <Leader>gd :Gvdiff<CR>
+nmap <Leader>gc :Gcommit<CR>
 
 " TCommenter (Like TCommenter more, but got used to NerdTree comment
 map <leader>cs :TCommentBlock<CR>
@@ -267,7 +289,8 @@ let NERDTreeShowHidden=1
 let NERDTreeAutoDeleteBuffer=1
 
 " CTRLP
-let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin\|obj\|undo'
+let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin\|obj\|undo\|vim/plugged'
+let g:ctrlp_clear_cache_on_exit=0
 
 " Syntastic !c++14 is approximated by c++1y. Change this when
 " c++14 compiler options are available
