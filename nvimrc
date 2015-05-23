@@ -16,13 +16,13 @@
 au  FocusLost * :wa               " Save on focus lost
 au  InsertLeave * :w              " Save when leaving insert mode
 set autowrite                     " Automatically :write before running commands
-set autoread<                    " Auto reload files when changed on disk
+set autoread<                     " Auto reload files when changed on disk
 set backspace=2                   " Backspace deletes like most programs in insert mode
 set nocompatible                  " Use Vim settings, rather then Vi settings
 set noswapfile                    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
 set lazyredraw                    " don't redraw when don't have to"
 set laststatus=2                  " Always display the status line (Arline bottom bar!)
-set completeopt=longest,menuone  " Dont auto-jump to an autocompl
+set completeopt=longest,menuone   " Dont auto-jump to an autocompl
 set diffopt+=iwhite               " ignore whitespace in vimdiff
 set encoding=utf-8
 set timeoutlen=600 ttimeoutlen=10 " faster timeout for escape key
@@ -193,66 +193,33 @@ else
 endif
 call plug#begin(s:editor_root . "/plugged")
 
-" Emmet
-Plug 'mattn/emmet-vim'
-" CTRL-P
-Plug 'kien/ctrlp.vim'
-" Airline status bar
-Plug 'bling/vim-airline'
-" Git wrapper/airline branch display
-Plug 'tpope/vim-fugitive'
-" NerdTree
-Plug 'scrooloose/nerdtree'
-" Endwise (Ruby)
-Plug 'tpope/vim-endwise'
-" DelimitMate
-Plug 'Raimondi/delimitMate'
-" vim-rspec
-Plug 'thoughtbot/vim-rspec'
-" To send commands to TMUX (RSpec!!)
-Plug 'benmills/vimux'
-" RSPEC synthax higlighting
-Plug 'Keithbsmiley/rspec.vim'
-" Rails.vim
-Plug 'tpope/vim-rails'
-" Some snippets
-Plug 'honza/vim-snippets'
-" UltiSnips
-Plug 'SirVer/ultisnips'
-" Supertab so that ultisnips and completions play nice
-Plug 'ervandew/supertab'
-" Coffee script support
-" Plug 'kchmck/vim-coffee-script'
-" Linting
-" Plug 'scrooloose/syntastic'
-" Surround
-Plug 'tpope/vim-surround'
-" Improved c++ syntax highlighting
-Plug 'octol/vim-cpp-enhanced-highlight'
-" Improved indentation after paste
-Plug 'sickill/vim-pasta'
-" Easymotion for crazy motions!
-Plug 'lokaltog/vim-easymotion'
-" Easy commenting
-Plug 'tomtom/tcomment_vim'
-" AG! search pleasures
-Plug 'rking/ag.vim'
-" All the colorschemes of the world
-Plug 'flazz/vim-colorschemes'
-" And more
-Plug 'chriskempson/base16-vim'
-" Undo branching
-Plug 'sjl/gundo.vim'
-" Auto completion
-" Plug 'Shougo/neocomplete.vim'
-" Youcompleteme
-Plug 'Valloric/YouCompleteMe'
-" Vim startify
-Plug 'mhinz/vim-startify'
-" Aligning stuff
-Plug 'junegunn/vim-easy-align'
-" JS Syntax and indentation
-Plug 'pangloss/vim-javascript'
+Plug 'bling/vim-airline'                " Airline status bar
+Plug 'tpope/vim-fugitive'               " Git wrapper/airline branch display
+Plug 'scrooloose/nerdtree'              " NerdTree
+Plug 'kien/ctrlp.vim'                   " CTRL-P
+Plug 'lokaltog/vim-easymotion'          " Easymotion for crazy motions!
+Plug 'sjl/gundo.vim'                    " Undo branching
+Plug 'Valloric/YouCompleteMe'           " Youcompleteme
+Plug 'rking/ag.vim'                     " AG! search pleasures
+Plug 'Raimondi/delimitMate'             " Matching brackets and quotes
+Plug 'tpope/vim-endwise'                " Add matching 'end' in ruby/shell
+Plug 'SirVer/ultisnips'                 " UltiSnips
+Plug 'honza/vim-snippets'               " Some snippets
+Plug 'ervandew/supertab'                " Supertab so that ultisnips and completions play nice
+Plug 'tpope/vim-surround'               " Surround
+Plug 'tpope/vim-rails'                  " Rails.vim
+Plug 'mhinz/vim-startify'               " Vim startify
+Plug 'tomtom/tcomment_vim'              " Easy commenting
+Plug 'sickill/vim-pasta'                " Improved indentation after paste
+Plug 'mattn/emmet-vim'                  " Emmet
+Plug 'thoughtbot/vim-rspec'             " vim-rspec
+Plug 'benmills/vimux'                   " To send commands to TMUX (RSpec!!)
+Plug 'Keithbsmiley/rspec.vim'           " RSPEC synthax higlighting
+Plug 'octol/vim-cpp-enhanced-highlight' " Improved c++ syntax highlighting
+Plug 'pangloss/vim-javascript'          " JS Syntax and indentation
+Plug 'flazz/vim-colorschemes'           " All the colorschemes of the world
+Plug 'chriskempson/base16-vim'          " And more
+Plug 'junegunn/vim-easy-align'          " Aligning stuff
 
 call plug#end()
 
@@ -279,14 +246,6 @@ let NERDTreeAutoDeleteBuffer=1
 let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin\|obj\|undo\|vim/plugged'
 let g:ctrlp_clear_cache_on_exit=0
 
-" Syntastic !c++14 is approximated by c++1y. Change this when
-" c++14 compiler options are available
-let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
-let g:syntastic_mode_map = { "mode": "passive" }
-" let g:syntastic_mode_map = {
-"     \ "mode": "passive",
-"     \ "active_filetypes": ["cpp", "ruby"] }
-
 " Ultisnips
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
@@ -301,9 +260,6 @@ let g:ycm_global_ycm_extra_conf = s:editor_root . "/plugged/YouCompleteMe/third_
 if exists('$TMUX')
   let g:rspec_command = 'call VimuxRunCommand("rspec {spec}\n")'
 endif
-
-" Neocomplete
-let g:neocomplete#enable_at_startup = 1
 
 " The command to make text into multiline shizzle ⇒   :'<,'>normal 0v$hS'i\d0A,
 " http://www.cowsays.com
