@@ -1,3 +1,29 @@
 snippet cl "console.log" b
-console.log(${VISUAL:value})
+console.log(${1:${VISUAL:value}});
+endsnippet
+
+snippet if "Wraps visual selection in if" b
+if (${1:Condition}) {
+	${2:${VISUAL:\/\/ code}}
+}
+endsnippet
+
+snippet ife "Wraps visual selection in if" b
+if (${2:Condition}) {
+	${2:${VISUAL:\/\/ If code}}
+} else {
+	${3:// Else code}
+}
+endsnippet
+
+snippet iferr "rethrow an error" b
+if (${1:err}) throw $1;
+endsnippet
+
+snippet exp "Exports a node js module" b
+module.exports = ${1};
+endsnippet
+
+snippet req "A require statement for node modules" b
+var ${2:$1} = require('${1}');
 endsnippet
