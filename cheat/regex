@@ -1,0 +1,26 @@
+()       =>     Precedence, just like math, and capture group
+.        =>     any character or digit (event \t)
+*        =>     0 or more. Ex.: /(.*)-(.*)/ ATTENTION! It take ZERO or more
+                patterns, so that example also matches "-"
++        =>     Matches 1 or more of the chars. Ex: /DWD+X/ matches 'DWDX', 'DWDDX', ..
+?        =>     POSTFIX, put it after a char and the regex passes if or if not that char is
+                there. Ex: /(.+),? (.+)/ works for '2000, 89AB' AND '2000 89AB' but NOT
+                '2902,29092'
+{}       =>     COUNT, tells how many of preceding element are expected
+{m,n}    =>     COUNT BETWEEN, we expect number of instances of preceding char to be
+                between m and n
+[]       =>     SET of CHARS, used to create and array of valid chars. Ex.: [aeiou]
+                will match 1 instance of a vowel.
+[m-n]    =>     A range of chars (ex: [A-Z] wil match any uppercase letters, [0-9] any
+                digits etc..)
+^        =>     At the start of a pattern, matches the beginning of input text. Ex.:
+                /^mask/ matches with 'mask size' but not 'unmask'
+[^x]     =>     Match any char that is not in the set. Ex.: To everything inside
+                braces: /{[^}]+}/ - reads Find a brace, then any char but brace,
+                then another brace.
+$        =>     At the end of a pattern, matches the end of input text. Ex.: /mask$/
+                matches 'unmask', but not 'mask size'
+
+\b       =>     matches boundary between word and non-word character. This doesn't really
+                match a char, but a transition. Ex.: /\bage\b/ matches 'the age
+                of' but not 'you have aged a lot'. This equals [A-Za-z0-9_]
