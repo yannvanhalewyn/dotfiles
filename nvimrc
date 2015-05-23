@@ -13,23 +13,23 @@
 "/* GENERAL BEHAVIOR
 "============================ */
 
-:au FocusLost * :wa " Save on focus lost
-:au InsertLeave * :w  " Save when leaving insert mode
-set autowrite       " Automatically :write before running commands
-:set autoread<      " Auto reload files when changed on disk
-set backspace=2     " Backspace deletes like most programs in insert mode
-set nocompatible    " Use Vim settings, rather then Vi settings
-set noswapfile      " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
-set lazyredraw      " don't redraw when don't have to"
-set laststatus=2    " Always display the status line (Arline bottom bar!)
-:set completeopt=longest,menuone " Dont auto-jump to an autocompl
-set diffopt+=iwhite " ignore whitespace in vimdiff
+au  FocusLost * :wa               " Save on focus lost
+au  InsertLeave * :w              " Save when leaving insert mode
+set autowrite                     " Automatically :write before running commands
+set autoread<                    " Auto reload files when changed on disk
+set backspace=2                   " Backspace deletes like most programs in insert mode
+set nocompatible                  " Use Vim settings, rather then Vi settings
+set noswapfile                    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
+set lazyredraw                    " don't redraw when don't have to"
+set laststatus=2                  " Always display the status line (Arline bottom bar!)
+set completeopt=longest,menuone  " Dont auto-jump to an autocompl
+set diffopt+=iwhite               " ignore whitespace in vimdiff
 set encoding=utf-8
 set timeoutlen=600 ttimeoutlen=10 " faster timeout for escape key
-set smartcase       " caps sensitive searching
-set wildmenu        " Showing a list of command completions
+set smartcase                     " caps sensitive searching
+set wildmenu                      " Showing a list of command completions
 set wildmode=longest,list,full
-set history=200   " More ex-commands history
+set history=200                   " More ex-commands history
 
 " Tabsize
 set tabstop=2
@@ -68,32 +68,38 @@ autocmd BufReadPost *
 "/* KEY MAPPINGS
 "============================ */
 
-" Remap tab and shift-tab to switch buffers
-:nnoremap <Tab> :bnext<CR>
-:nnoremap <S-Tab> :bprevious<CR>
-
 " set leader key
 let mapleader = "\<Space>"
 
+" Remap tab and shift-tab to switch buffers
+nnoremap <Tab>   :bnext<CR>
+nnoremap <S-Tab> :bprevious<CR>
+
 " close buffer using a script in ~/.vim/plugin/BufOnly.vim
 " It swaps it with the previouse buffer, or an empty one if needed.
-map <Leader>q :Bclose<CR>
-map <Leader>Q :Bonly<CR>
+map <Leader>q    :Bclose<CR>
+map <Leader>Q    :Bonly<CR>
 
 " toggle NerdTree / Gundo
-map <Leader>n :NERDTreeToggle<CR>
-map <Leader>N :NERDTreeFind<CR>
-map <Leader>g :GundoToggle<CR>
+map <Leader>n    :NERDTreeToggle<CR>
+map <Leader>N    :NERDTreeFind<CR>
+map <Leader>g    :GundoToggle<CR>
 
 " Fugitive mappings
-nmap <Leader>gs :Gstatus<CR>
-nmap <Leader>gd :Gvdiff<CR>
-nmap <Leader>gc :Gcommit<CR>
+nmap <Leader>gs  :Gstatus<CR>
+nmap <Leader>gd  :Gvdiff<CR>
+nmap <Leader>gc  :Gcommit<CR>
 
 " TCommenter (Like TCommenter more, but got used to NerdTree comment
-map <leader>cs :TCommentBlock<CR>
-map <leader>cc :TComment<CR>
-map <leader>ci :TCommentInline<CR>
+map <leader>cs   :TCommentBlock<CR>
+map <leader>cc   :TComment<CR>
+map <leader>ci   :TCommentInline<CR>
+
+" Call vimux commands
+map <Leader>vp   :call VimuxPromptCommand()<CR>
+map <Leader>vl   :VimuxRunLastCommand<CR>
+map <Leader>vv   :VimuxZoomRunner<CR>
+map <Leader>vc   :VimuxCloseRunner<CR>
 
 " Sexy titles
 nmap <leader>ct yyppVr=kkVr=Vjj cs
@@ -101,20 +107,14 @@ au filetype ruby nmap <leader>ct yyppv$r=kkv$r=Vjj cc
 " Fun with figlet
 nmap <Leader>ft 0mm"zY:r !figlet -w 120 -f broadway <c-r>z<CR>V`m ccdd
 
-" Call vimux commands
-map <Leader>vp :call VimuxPromptCommand()<CR>
-map <Leader>vl :VimuxRunLastCommand<CR>
-map <Leader>vv :VimuxZoomRunner<CR>
-map <Leader>vc :VimuxCloseRunner<CR>
-
 " Moving lines/selection up and down - direct map for vim-pasta
-nmap <UP> ddkP
-nmap <DOWN> ddp
-nnoremap <LEFT> <<
+nmap        <UP> ddkP
+nmap      <DOWN> ddp
+nnoremap  <LEFT> <<
 nnoremap <RIGHT> >>
-vmap <UP> dkPV`>kk
-vmap <DOWN> <esc>jjmm`<V`>dpV`mk
-vnoremap <LEFT> <V`>
+vmap        <UP> dkPV`>kk
+vmap      <DOWN> <esc>jjmm`<V`>dpV`mk
+vnoremap  <LEFT> <V`>
 vnoremap <RIGHT> >V`>
 
 " Map @ in visual mode to execute reg in normal mode on every line
@@ -128,10 +128,10 @@ nmap { {zz
 nmap } }zz
 
 " Surround with quotes / #{} for ruby vars in quotes / parens
-nmap <leader>= ^v$hS=
-nmap <leader>- ^v$hS-
-vnoremap <leader># <esc>`>a}<esc>`<i#{<esc>
-nmap <leader># viw<leader>#
+nmap     <leader>=   ^v$hS=
+nmap     <leader>-   ^v$hS-
+vnoremap <leader>#   <esc>`>a}<esc>`<i#{<esc>
+nmap     <leader>#   viw<leader>#
 vnoremap <leader>erb <esc>`>a %><esc>`<i<%= <esc>
 
 " Breakout selection on own line
@@ -145,7 +145,7 @@ map <Leader>a :call RunAllSpecs()<CR>
 
 "Edit vimrc in split/source vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
-nnoremap<leader>sv :source $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " Quicker window movement
 nnoremap <C-j> <C-w>j
@@ -155,59 +155,35 @@ nnoremap <C-l> <C-w>l
 
 " Yank from cursor to end, copy to "o reg and execute
 nnoremap <leader>o "oyy:<C-r>o<Backspace><CR>
-"nnoremap <leader>o Y:@"<CR>
 
 " Makes more sense
 map Y y$
 
 " Open new line between {}
 imap <c-c> <CR><ESC>O
+nmap <CR>  a<CR><ESC>O
 
 " Go to help
 nmap <leader>H :help <c-r><c-w><cr>
 
+
 "/* ABBREVIATIONS (TYPOS)
 "============================ */
 
-:iabbrev adn and
-:iabbrev waht what
-:iabbrev tehn then
-:iabbrev succes success
-:iabbrev ressource resource
-:iabbrev ressources resources
-:iabbrev widht width
-:iabbrev heigth height
-:iabbrev ture ture
-:iabbrev flase false
-
-
-"/* AIRLINE
-"============================ */
-
-let g:airline_powerline_fonts = 1 " This actually makes the top buffer bar have the 's
-" The symbols
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-
-" powerline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
-
-" Enable the list of buffers
-let g:airline#extensions#tabline#enabled = 1
-" Show just the filename
-let g:airline#extensions#tabline#fnamemod = ':t'
+iabbrev adn        and
+iabbrev waht       what
+iabbrev tehn       then
+iabbrev succes     success
+iabbrev ressource  resource
+iabbrev ressources resources
+iabbrev widht      width
+iabbrev heigth     height
+iabbrev ture       ture
+iabbrev flase      false
 
 
 "/* VIM-PLUG
 "============================ */
-
 
 " Set correct editor root path
 if has('nvim')
@@ -284,6 +260,13 @@ call plug#end()
 "/* PLUGIN SPECIFIC CONFIG
 "============================ */
 
+" AIRLINE
+let g:airline_powerline_fonts = 1
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+
 " EMMET
 autocmd FileType html,css EmmetInstall    " Use only with certain files
 let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
@@ -338,6 +321,11 @@ let g:startify_custom_header = [
 
 " Easy Align
 vmap <Enter> <Plug>(EasyAlign)
+if !exists('g:easy_align_delimiters')
+  let g:easy_align_delimiters = {}
+endif
+" Ignore groups override so that it looks for the chars in comments
+let g:easy_align_delimiters['"'] = { 'pattern': '"', 'ignore_groups': ['String'] }
 
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=
@@ -368,8 +356,6 @@ au FileType markdown nnoremap <leader>h "zyy"zpVr=
 " Basic
 set relativenumber
 syntax on
-
-
 
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
