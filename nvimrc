@@ -20,7 +20,7 @@ set autoread<                     " Auto reload files when changed on disk
 set backspace=2                   " Backspace deletes like most programs in insert mode
 set nocompatible                  " Use Vim settings, rather then Vi settings
 set noswapfile                    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
-set lazyredraw                    " don't redraw when don't have to"
+set lazyredraw                    " don't redraw when don't have to
 set laststatus=2                  " Always display the status line (Arline bottom bar!)
 set completeopt=longest,menuone   " Dont auto-jump to an autocompl
 set diffopt+=iwhite               " ignore whitespace in vimdiff
@@ -30,6 +30,7 @@ set smartcase                     " caps sensitive searching
 set wildmenu                      " Showing a list of command completions
 set wildmode=longest,list,full
 set history=200                   " More ex-commands history
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
 
 " Tabsize
 set tabstop=2
@@ -77,35 +78,56 @@ nnoremap <S-Tab> :bprevious<CR>
 
 " close buffer using a script in ~/.vim/plugin/BufOnly.vim
 " It swaps it with the previouse buffer, or an empty one if needed.
-map <Leader>q    :Bclose<CR>
-map <Leader>Q    :Bonly<CR>
-
+map  <Leader>q  :Bclose<CR>
+map  <Leader>Q  :Bonly<CR>
 " toggle NerdTree / Gundo
-map <Leader>n    :NERDTreeToggle<CR>
-map <Leader>N    :NERDTreeFind<CR>
-map <Leader>g    :GundoToggle<CR>
-
+map  <Leader>n  :NERDTreeToggle<CR>
+map  <Leader>N  :NERDTreeFind<CR>
+map  <Leader>g  :GundoToggle<CR>
 " Fugitive mappings
-nmap <Leader>gs  :Gstatus<CR>
-nmap <Leader>gd  :Gvdiff<CR>
-nmap <Leader>gc  :Gcommit<CR>
-
+nmap <Leader>gs :Gstatus<CR>
+nmap <Leader>gd :Gvdiff<CR>
+nmap <Leader>gc :Gcommit<CR>
 " TCommenter (Like TCommenter more, but got used to NerdTree comment
-map <leader>cs   :TCommentBlock<CR>
-map <leader>cc   :TComment<CR>
-map <leader>ci   :TCommentInline<CR>
-
+map  <Leader>cs :TCommentBlock<CR>
+map  <Leader>cc :TComment<CR>
+map  <Leader>ci :TCommentInline<CR>
 " Call vimux commands
-map <Leader>vp   :call VimuxPromptCommand()<CR>
-map <Leader>vl   :VimuxRunLastCommand<CR>
-map <Leader>vv   :VimuxZoomRunner<CR>
-map <Leader>vc   :VimuxCloseRunner<CR>
+map  <Leader>vp :call VimuxPromptCommand()<CR>
+map  <Leader>vl :VimuxRunLastCommand<CR>
+map  <Leader>vv :VimuxZoomRunner<CR>
+map  <Leader>vc :VimuxCloseRunner<CR>
+" Spec.vim mappings
+map  <Leader>t  :call RunCurrentSpecFile()<CR>
+map  <Leader>s  :call RunNearestSpec()<CR>
+map  <Leader>l  :call RunLastSpec()<CR>
+map  <Leader>a  :call RunAllSpecs()<CR>
+
+" Surround with quotes / #{} for ruby vars in quotes / parens
+nmap      <Leader>=   ^v$hS=
+nmap      <Leader>-   ^v$hS-
+vnoremap  <Leader>#   <esc>`>a}<esc>`<i#{<esc>
+nmap      <Leader>#   viw<Leader>#
+vnoremap  <Leader>erb <esc>`>a %><esc>`<i<%= <esc>
+
+" Breakout selection on own line
+vnoremap <Leader><CR> <esc>a<CR><esc>`<i<CR><esc>
+
+"Edit vimrc in split/source vimrc
+nnoremap <Leader>ev  :vsplit $MYVIMRC<CR>
+nnoremap <Leader>sv  :source $MYVIMRC<CR>
 
 " Sexy titles
-nmap <leader>ct yyppVr=kkVr=Vjj cs
-au filetype ruby nmap <leader>ct yyppv$r=kkv$r=Vjj cc
-" Fun with figlet
+nmap <Leader>ct yyppVr=kkVr=Vjj cs
+au filetype ruby nmap <Leader>ct yyppv$r=kkv$r=Vjj cc
 nmap <Leader>ft 0mm"zY:r !figlet -w 120 -f broadway <c-r>z<CR>V`m ccdd
+
+" Yank from cursor to end, copy to "o reg and execute
+nnoremap <Leader>o "oyy:<C-r>o<Backspace><CR>
+
+" Go to help
+nmap <Leader>H :help <c-r><c-w><cr>
+
 
 " Moving lines/selection up and down - direct map for vim-pasta
 nmap        <UP> ddkP
@@ -127,34 +149,11 @@ nmap N Nzz
 nmap { {zz
 nmap } }zz
 
-" Surround with quotes / #{} for ruby vars in quotes / parens
-nmap     <leader>=   ^v$hS=
-nmap     <leader>-   ^v$hS-
-vnoremap <leader>#   <esc>`>a}<esc>`<i#{<esc>
-nmap     <leader>#   viw<leader>#
-vnoremap <leader>erb <esc>`>a %><esc>`<i<%= <esc>
-
-" Breakout selection on own line
-vnoremap <leader><CR> <esc>a<CR><esc>`<i<CR><esc>
-
-" Spec.vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
-
-"Edit vimrc in split/source vimrc
-nnoremap <leader>ev :vsplit $MYVIMRC<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
-
 " Quicker window movement
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
-
-" Yank from cursor to end, copy to "o reg and execute
-nnoremap <leader>o "oyy:<C-r>o<Backspace><CR>
 
 " Makes more sense
 map Y y$
@@ -163,9 +162,8 @@ map Y y$
 imap <c-c> <CR><ESC>O
 nmap <CR>  a<CR><ESC>O
 
-" Go to help
-nmap <leader>H :help <c-r><c-w><cr>
-
+" Term mappings (nvim)
+tmap <c-w><c-w> <c-\><c-n><c-w><c-w>
 
 "/* ABBREVIATIONS (TYPOS)
 "============================ */
@@ -294,11 +292,12 @@ let g:easy_align_delimiters['"'] = { 'pattern': '"', 'ignore_groups': ['String']
 au BufNewFile,BufRead *.tpl set syntax=jst
 
 " Map <leader>r to run files with some extensions
-au FileType ruby nnoremap <leader>r :!ruby %<CR>
+au FileType ruby       nnoremap <leader>r :!ruby %<CR>
 au FileType {cpp,make} nnoremap <leader>r :!make<CR>
-au FileType cpp nnoremap <leader>l :SyntasticCheck<CR>
-au FileType cpp set tabstop=4
-au FileType cpp set shiftwidth=4
+au FileType {js}       nnoremap <Leader>r :!node <c-r>%<cr>
+au FileType cpp        nnoremap <leader>l :SyntasticCheck<CR>
+au FileType cpp        set      tabstop=4
+au FileType cpp        set      shiftwidth=4
 
 " Markdown
 au FileType markdown setlocal spell
@@ -325,7 +324,7 @@ colorscheme codeschool
 "=========================== */
 
 " colorscheme base16-chalk
-" colorscheme base16-aterlierdune
+" colorscheme base16-aterlierdune set bg=dark
 " colorscheme candyman
 " colorscheme zendune
 " colorscheme tomorrow-night
