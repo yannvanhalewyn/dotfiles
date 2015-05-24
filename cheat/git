@@ -58,7 +58,9 @@ git checkout {thecommit}~1 filename # Checkout a file from one commit earlier
 
 # Creating and applying patches
 git format-patch master --stdout > patchname.patch
-git apply --stat patchname.patch         # check what changed
-git apply --check fix_empty_poster.patch # see how easy the patch is to apply. No output is good!
-git am --signoff < patchname.patch       # APPLY!
+git apply --stat patchname.patch          # check what changed
+git apply --check fix_empty_poster.patch  # see how easy the patch is to apply. No output is good!
+git am --signoff < patchname.patch        # APPLY!
 
+# Storing credentials if git push doesn't remember
+git config credential.helper store        # Then push and reeenter creds
