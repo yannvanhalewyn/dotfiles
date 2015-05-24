@@ -1,0 +1,35 @@
+# ~/.tmuxinator/js.yml
+
+name: javascript-project
+root:
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+# Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
+# startup_window: logs
+
+windows:
+  - editor:
+      layout: 4e3f,158x48,0,0[158x38,0,0,0,158x9,0,39{79x9,0,39,1,78x9,80,39,2}]
+      panes:
+        - nvim
+        -
+        -
+  - shell:
+      layout: d450,158x48,0,0{79x48,0,0,3,78x48,80,0,4}
+      panes:
+        -
+        -

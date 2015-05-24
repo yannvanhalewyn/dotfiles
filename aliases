@@ -63,6 +63,7 @@ alias flush="dscacheutil -flushcache"
 
 # Recursively delete `.DS_Store` files
 alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
+alias cleanlogs="sudo rm -rf /private/var/log/asl/*.asl"
 
 # Show paths in a readable manner
 alias paths='echo $PATH | sed "s/:/\\n/g"'
@@ -76,6 +77,7 @@ alias ga="git add"
 alias gaa="git add -A"
 alias gs="git status"
 alias gd="git diff"
+alias gsha="git rev-parse HEAD"
 alias groot='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
 alias galiases="alias | grep -P \"(g|undopush)\w*='git\""
 alias gdotf='open "http://www.github.com/yannvanhalewyn/dotfiles"'
@@ -111,6 +113,14 @@ alias ts='tmux new-session -s'
 alias tl='tmux list-sessions'
 alias tkss='tmux kill-session -t'
 alias tksv='tmux kill-server'
+alias tmn='tmuxinator'
+alias tmnl='tmuxinator list'
+alias tmne='tmuxinator edit'
+alias tmnn='tmuxinator new'
+alias tmnjs='tmuxinator start javascript-project'
+alias tmnr='tmuxinator start rails'
+alias tmnd='tmuxinator start dotfiles'
+
 
 # Tmux pbcopy
 alias tmcopy='reattach-to-user-namespace pbcopy'
