@@ -20,7 +20,7 @@ set autoread<                     " Auto reload files when changed on disk
 set backspace=2                   " Backspace deletes like most programs in insert mode
 set nocompatible                  " Use Vim settings, rather then Vi settings
 set noswapfile                    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
-set lazyredraw                    " don't redraw when don't have to"
+set lazyredraw                    " don't redraw when don't have to
 set laststatus=2                  " Always display the status line (Arline bottom bar!)
 set completeopt=longest,menuone   " Dont auto-jump to an autocompl
 set diffopt+=iwhite               " ignore whitespace in vimdiff
