@@ -31,7 +31,6 @@ set wildmenu                      " Showing a list of command completions
 set wildmode=longest,list,full    " get a shell like completion
 set history=200                   " More ex-commands history
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
-set shellcmdflag=-ic              " make :! cmds interactive, aka aware of aliases/functions
 
 " Tabsize
 set softtabstop=2
