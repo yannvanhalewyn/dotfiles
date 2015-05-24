@@ -31,7 +31,7 @@ set wildmenu                      " Showing a list of command completions
 set wildmode=longest,list,full    " get a shell like completion
 set history=200                   " More ex-commands history
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
-set pastetoggle=<leader>p         " paste mode
+set shellcmdflag=-ic              " make :! cmds interactive, aka aware of aliases/functions
 
 " Tabsize
 set softtabstop=2
@@ -76,6 +76,7 @@ let mapleader = "\<Space>"
 " Remap tab and shift-tab to switch buffers
 nnoremap <Tab>   :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
+nnoremap <leader>p :set invpaste<CR>
 
 " close buffer using a script in ~/.vim/plugin/BufOnly.vim
 " It swaps it with the previouse buffer, or an empty one if needed.
@@ -216,6 +217,7 @@ Plug 'benmills/vimux'                   " To send commands to TMUX (RSpec!!)
 Plug 'Keithbsmiley/rspec.vim'           " RSPEC synthax higlighting
 Plug 'octol/vim-cpp-enhanced-highlight' " Improved c++ syntax highlighting
 Plug 'pangloss/vim-javascript'          " JS Syntax and indentation
+Plug 'mustache/vim-mustache-handlebars' " Syntax for handlebars/mustache
 Plug 'flazz/vim-colorschemes'           " All the colorschemes of the world
 Plug 'chriskempson/base16-vim'          " And more
 Plug 'junegunn/vim-easy-align'          " Aligning stuff
@@ -321,6 +323,7 @@ set background=dark
 colorscheme codeschool
 
 
+
 "/* My favorite colorschemes
 "=========================== */
 
@@ -329,3 +332,4 @@ colorscheme codeschool
 " colorscheme candyman
 " colorscheme zendune
 " colorscheme tomorrow-night
+set clipboard=unnamed
