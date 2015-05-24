@@ -66,6 +66,7 @@ alias gs="git status"
 alias gd="git diff"
 alias groot='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
 alias galiases="alias | grep -P \"(g|undopush)\w*='git\""
+alias gdotf='open "http://www.github.com/yannvanhalewyn/dotfiles"'
 alias v="nvim"
 
 # File size
@@ -114,3 +115,6 @@ alias -s rb=vim
 
 # Mongodb
 alias mongod='mongod --config /usr/local/etc/mongod.conf'
+
+# Simple server
+alias simserv='open "http://localhost:8000"; python -m SimpleHTTPServer'

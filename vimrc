@@ -13,26 +13,26 @@
 "/* GENERAL BEHAVIOR
 "============================ */
 
-:au FocusLost * :wa " Save on focus lost
-:au InsertLeave * :w  " Save when leaving insert mode
-set autowrite       " Automatically :write before running commands
-:set autoread<      " Auto reload files when changed on disk
-set backspace=2     " Backspace deletes like most programs in insert mode
-set nocompatible    " Use Vim settings, rather then Vi settings
-set noswapfile      " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
-set lazyredraw      " don't redraw when don't have to"
-set laststatus=2    " Always display the status line (Arline bottom bar!)
-:set completeopt=longest,menuone " Dont auto-jump to an autocompl
-set diffopt+=iwhite " ignore whitespace in vimdiff
-set encoding=utf-8
+au  FocusLost * :wa               " Save on focus lost
+au  InsertLeave * :w              " Save when leaving insert mode
+set autowrite                     " Automatically :write before running commands
+set autoread<                     " Auto reload files when changed on disk
+set backspace=2                   " Backspace deletes like most programs in insert mode
+set nocompatible                  " Use Vim settings, rather then Vi settings
+set noswapfile                    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
+set lazyredraw                    " don't redraw when don't have to"
+set laststatus=2                  " Always display the status line (Arline bottom bar!)
+set completeopt=longest,menuone   " Dont auto-jump to an autocompl
+set diffopt+=iwhite               " ignore whitespace in vimdiff
+set encoding=utf-8                " Encoding
 set timeoutlen=600 ttimeoutlen=10 " faster timeout for escape key
-set smartcase       " caps sensitive searching
-set wildmenu        " Showing a list of command completions
-set wildmode=longest,list,full
-set history=200     " More ex-commands history
+set smartcase                     " caps sensitive searching
+set wildmenu                      " Showing a list of command completions
+set wildmode=longest,list,full    " Have a zsh like completion in cmd mode
+set history=200                   " More ex-commands history
 
 " Tabsize
-set tabstop=2
+set softtabstop=2
 set shiftwidth=2
 set expandtab
 
@@ -217,64 +217,33 @@ else
 endif
 call plug#begin(s:editor_root . "/plugged")
 
-" Emmet
-Plug 'mattn/emmet-vim'
-" CTRL-P
-Plug 'kien/ctrlp.vim'
-" Airline status bar
-Plug 'bling/vim-airline'
-" Git wrapper/airline branch display
-Plug 'tpope/vim-fugitive'
-" NerdTree
-Plug 'scrooloose/nerdtree'
-" Endwise (Ruby)
-Plug 'tpope/vim-endwise'
-" DelimitMate
-Plug 'Raimondi/delimitMate'
-" vim-rspec
-Plug 'thoughtbot/vim-rspec'
-" To send commands to TMUX (RSpec!!)
-Plug 'benmills/vimux'
-" RSPEC synthax higlighting
-Plug 'Keithbsmiley/rspec.vim'
-" Rails.vim
-Plug 'tpope/vim-rails'
-" Some snippets
-Plug 'honza/vim-snippets'
-" UltiSnips
-Plug 'SirVer/ultisnips'
-" Supertab so that ultisnips and completions play nice
-Plug 'ervandew/supertab'
-" Coffee script support
-Plug 'kchmck/vim-coffee-script'
-" Linting
-Plug 'scrooloose/syntastic'
-" Surround
-Plug 'tpope/vim-surround'
-" Improved c++ syntax highlighting
-Plug 'octol/vim-cpp-enhanced-highlight'
-" Improved indentation after paste
-Plug 'sickill/vim-pasta'
-" Easymotion for crazy motions!
-Plug 'lokaltog/vim-easymotion'
-" Easy commenting
-Plug 'tomtom/tcomment_vim'
-" AG! search pleasures
-Plug 'rking/ag.vim'
-" All the colorschemes of the world
-Plug 'flazz/vim-colorschemes'
-" And more
-Plug 'chriskempson/base16-vim'
-" Undo branching
-Plug 'sjl/gundo.vim'
-" Auto completion
-" Plug 'Shougo/neocomplete.vim'
-" Youcompleteme
-Plug 'Valloric/YouCompleteMe'
-" Vim startify
-Plug 'mhinz/vim-startify'
-" Aligning stuff
-Plug 'junegunn/vim-easy-align'
+Plug 'mattn/emmet-vim'                   " Emmet
+Plug 'kien/ctrlp.vim'                    " CTRL-P
+Plug 'bling/vim-airline'                 " Airline status bar
+Plug 'tpope/vim-fugitive'                " Git wrapper/airline branch display
+Plug 'scrooloose/nerdtree'               " NerdTree
+Plug 'tpope/vim-endwise'                 " Endwise (Ruby)
+Plug 'Raimondi/delimitMate'              " DelimitMate
+Plug 'thoughtbot/vim-rspec'              " vim-rspec
+Plug 'benmills/vimux'                    " To send commands to TMUX (RSpec!!)
+Plug 'Keithbsmiley/rspec.vim'            " RSPEC synthax higlighting
+Plug 'tpope/vim-rails'                   " Rails.vim
+Plug 'honza/vim-snippets'                " Some snippets
+Plug 'SirVer/ultisnips'                  " UltiSnips
+Plug 'ervandew/supertab'                 " Supertab so that ultisnips and completions play nice
+Plug 'tpope/vim-surround'                " Surround
+Plug 'octol/vim-cpp-enhanced-highlight'  " Improved c++ syntax highlighting
+Plug 'sickill/vim-pasta'                 " Improved indentation after paste
+Plug 'lokaltog/vim-easymotion'           " Easymotion for crazy motions!
+Plug 'tomtom/tcomment_vim'               " Easy commenting
+Plug 'rking/ag.vim'                      " AG! search pleasures
+Plug 'flazz/vim-colorschemes'            " All the colorschemes of the world
+Plug 'chriskempson/base16-vim'           " And more
+Plug 'sjl/gundo.vim'                     " Undo branching
+" Plug 'Shougo/neocomplete.vim'          " Auto completion
+Plug 'Valloric/YouCompleteMe'            " Youcompleteme
+Plug 'mhinz/vim-startify'                " Vim startify
+Plug 'junegunn/vim-easy-align'           " Aligning stuff
 
 call plug#end()
 
@@ -293,23 +262,15 @@ let NERDTreeAutoDeleteBuffer=1
 " CTRLP
 let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin\|obj\|undo'
 
-" Syntastic !c++14 is approximated by c++1y. Change this when
-" c++14 compiler options are available
-let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
-let g:syntastic_mode_map = { "mode": "passive" }
-" let g:syntastic_mode_map = {
-"     \ "mode": "passive",
-"     \ "active_filetypes": ["cpp", "ruby"] }
-
 " Ultisnips
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsJumpForwardTrigger      = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger     = "<s-tab>"
 
 " You complete me
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_select_completion   = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
-let g:ycm_global_ycm_extra_conf = s:editor_root . "/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+let g:SuperTabDefaultCompletionType    = '<C-n>'
+let g:ycm_global_ycm_extra_conf        = s:editor_root . "/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
 
 " rspec-vim - Send to tmux pane if tmux
 if exists('$TMUX')
@@ -350,7 +311,7 @@ au BufNewFile,BufRead *.tpl set syntax=jst
 au FileType ruby nnoremap <leader>r :!ruby %<CR>
 au FileType {cpp,make} nnoremap <leader>r :!make<CR>
 au FileType cpp nnoremap <leader>l :SyntasticCheck<CR>
-au FileType cpp set tabstop=4
+au FileType cpp set softtabstop=4
 au FileType cpp set shiftwidth=4
 
 " Spell check for .md files

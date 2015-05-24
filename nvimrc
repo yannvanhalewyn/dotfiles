@@ -24,16 +24,17 @@ set lazyredraw                    " don't redraw when don't have to
 set laststatus=2                  " Always display the status line (Arline bottom bar!)
 set completeopt=longest,menuone   " Dont auto-jump to an autocompl
 set diffopt+=iwhite               " ignore whitespace in vimdiff
-set encoding=utf-8
+set encoding=utf-8                " Set encoding
 set timeoutlen=600 ttimeoutlen=10 " faster timeout for escape key
 set smartcase                     " caps sensitive searching
 set wildmenu                      " Showing a list of command completions
-set wildmode=longest,list,full
+set wildmode=longest,list,full    " get a shell like completion
 set history=200                   " More ex-commands history
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
+set pastetoggle=<leader>p         " paste mode
 
 " Tabsize
-set tabstop=2
+set softtabstop=2
 set shiftwidth=2
 set expandtab
 
@@ -296,7 +297,7 @@ au FileType ruby       nnoremap <leader>r :!ruby %<CR>
 au FileType {cpp,make} nnoremap <leader>r :!make<CR>
 au FileType {js}       nnoremap <Leader>r :!node <c-r>%<cr>
 au FileType cpp        nnoremap <leader>l :SyntasticCheck<CR>
-au FileType cpp        set      tabstop=4
+au FileType cpp        set      softtabstop=4
 au FileType cpp        set      shiftwidth=4
 
 " Markdown
