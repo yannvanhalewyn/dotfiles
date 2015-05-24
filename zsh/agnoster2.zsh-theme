@@ -31,6 +31,8 @@ SEGMENT_SEPARATOR=''
 # Begin a segment
 # Takes two arguments, background and foreground. Both can be omitted,
 # rendering default background/foreground.
+# From 'character higlighting in zshzle, color options are:
+# black, red, green, yellow, blue, magenta, cyan and white
 prompt_segment() {
   local bg fg
   [[ -n $1 ]] && bg="%K{$1}" || bg="%k"
@@ -157,11 +159,20 @@ prompt_status() {
   [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
 }
 
+# If vi-normal mode, shows an extra segment
+# black, red, green, yellow, blue, magenta, cyan and white
+prompt_vi() {
+  if [[ -n ${VIMODE} ]]; then
+    prompt_segment green white "V"
+  fi
+}
+
 ## Main prompt
 build_prompt() {
   RETVAL=$?
   prompt_status
   prompt_virtualenv
+  prompt_vi
   prompt_dir
   prompt_git
   prompt_hg

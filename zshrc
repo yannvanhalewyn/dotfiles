@@ -24,10 +24,13 @@ COMPLETION_WAITING_DOTS="true"
 
 ZSH_CUSTOM=/Users/yannvanhalewyn/.zsh
 
+skip_global_compinit=1
+
 # very useful was grunt, scans the gruntfile and shows all
 # available commands with description
 # last-working-dir is also nice
-plugins=(git npm gem rvm vi-mode)
+# plugins=(git vi-mode brew gem rake)
+plugins=(git vi-mode brew)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -59,3 +62,13 @@ export PATH="/usr/local/sbin:$PATH"
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export PATH="$HOME/scripts:$PATH"
+
+# ===========================
+# Helper to check for vi-mode
+# ===========================
+VIMODE=
+function zle-keymap-select {
+ VIMODE="${${KEYMAP/vicmd/1}/(main|viins)/}"
+ zle reset-prompt
+}
+zle -N zle-keymap-select
