@@ -55,3 +55,10 @@ git status                                              # Show the changes from 
 # To recover a file!
 git log --diff-filter=D --summary # (Find the commit that deleted the file)
 git checkout {thecommit}~1 filename # Checkout a file from one commit earlier
+
+# Creating and applying patches
+git format-patch master --stdout > patchname.patch
+git apply --stat patchname.patch         # check what changed
+git apply --check fix_empty_poster.patch # see how easy the patch is to apply. No output is good!
+git am --signoff < patchname.patch       # APPLY!
+
