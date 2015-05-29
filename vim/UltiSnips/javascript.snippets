@@ -27,3 +27,9 @@ endsnippet
 snippet req "A require statement for node modules" b
 var ${2:$1} = require('${1}');
 endsnippet
+
+snippet module "Wrapper for module pattern" b
+(function() {
+	${1:${VISUAL}}
+}())
+endsnippet
