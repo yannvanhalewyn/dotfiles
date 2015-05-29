@@ -30,6 +30,7 @@ set smartcase                     " caps sensitive searching
 set wildmenu                      " Showing a list of command completions
 set wildmode=longest,list,full    " get a shell like completion
 set history=200                   " More ex-commands history
+set hlsearch                      " Show what 'n' would go to
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
 
 " Tabsize
@@ -98,6 +99,7 @@ map  <Leader>vp :call VimuxPromptCommand()<CR>
 map  <Leader>vl :VimuxRunLastCommand<CR>
 map  <Leader>vv :VimuxZoomRunner<CR>
 map  <Leader>vc :VimuxCloseRunner<CR>
+map  <Leader>vs :VimuxInterruptRunner<CR>
 " Spec.vim mappings
 map  <Leader>t  :call RunCurrentSpecFile()<CR>
 map  <Leader>s  :call RunNearestSpec()<CR>
@@ -128,7 +130,6 @@ nnoremap <Leader>o "oyy:<C-r>o<Backspace><CR>
 
 " Go to help
 nmap <Leader>H :help <c-r><c-w><cr>
-
 
 " Moving lines/selection up and down - direct map for vim-pasta
 nmap        <UP> ddkP
@@ -162,6 +163,9 @@ map Y y$
 " Open new line between {}
 imap <c-c> <CR><ESC>O
 nmap <CR>  a<CR><ESC>O
+
+" Recentering while typing
+inoremap <c-z> <c-o>zz
 
 " Term mappings (nvim)
 tmap <c-w><c-w> <c-\><c-n><c-w><c-w>
@@ -212,6 +216,7 @@ Plug 'tomtom/tcomment_vim'              " Easy commenting
 Plug 'sickill/vim-pasta'                " Improved indentation after paste
 Plug 'mattn/emmet-vim'                  " Emmet
 Plug 'thoughtbot/vim-rspec'             " vim-rspec
+Plug 'geekjuice/vim-mocha'              " Same as thoughtbots vim-rspec
 Plug 'benmills/vimux'                   " To send commands to TMUX (RSpec!!)
 Plug 'Keithbsmiley/rspec.vim'           " RSPEC synthax higlighting
 Plug 'octol/vim-cpp-enhanced-highlight' " Improved c++ syntax highlighting
@@ -256,10 +261,12 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
 let g:ycm_global_ycm_extra_conf = s:editor_root . "/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
 
-" rspec-vim - Send to tmux pane if tmux
+" vim-mocha and vim-rspec in tmux
 if exists('$TMUX')
-  let g:rspec_command = 'call VimuxRunCommand("rspec {spec}\n")'
-endif
+  let g:rspec_command = 'VimuxRunCommand("rspec {spec}\n")'
+  let g:mocha_js_command = 'VimuxRunCommand("mocha {spec}")'
+endi
+
 
 " The command to make text into multiline shizzle ⇒   :'<,'>normal 0v$hS'i\d0A,
 " http://www.cowsays.com
@@ -296,7 +303,12 @@ au BufNewFile,BufRead *.tpl set syntax=jst
 " Map <leader>r to run files with some extensions
 au FileType ruby       nnoremap <leader>r :!ruby %<CR>
 au FileType {cpp,make} nnoremap <leader>r :!make<CR>
-au FileType {js}       nnoremap <Leader>r :!node <c-r>%<cr>
+if exists('$TMUX')
+  au FileType javascript nnoremap <Leader>r :call VimuxRunCommand('node <c-r>%')<cr>
+else
+  au FileType javascript nnoremap <Leader>r :!node <c-r>%<cr>
+endif
+au FileType javascript nnoremap <Leader>t :call VimuxRunCommand('mocha <c-r>%')<cr>
 au FileType cpp        nnoremap <leader>l :SyntasticCheck<CR>
 au FileType cpp        set      softtabstop=4
 au FileType cpp        set      shiftwidth=4
@@ -322,7 +334,6 @@ set background=dark
 colorscheme codeschool
 
 
-
 "/* My favorite colorschemes
 "=========================== */
 
@@ -331,4 +342,3 @@ colorscheme codeschool
 " colorscheme candyman
 " colorscheme zendune
 " colorscheme tomorrow-night
-set clipboard=unnamed

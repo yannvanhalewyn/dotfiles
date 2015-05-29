@@ -30,7 +30,7 @@ skip_global_compinit=1
 # available commands with description
 # last-working-dir is also nice
 # plugins=(git vi-mode brew gem rake)
-plugins=(git vi-mode brew)
+plugins=(git vi-mode brew npm)
 
 source $ZSH/oh-my-zsh.sh
 

@@ -102,6 +102,8 @@ alias diff="mvimdiff"
 
 # Run the local npm module binaries
 alias npm-exec='PATH=$(npm bin):$PATH'
+alias npml='npm ls --depth=0'
+alias npmlg='npm ls -g --depth=0'
 
 # Take me to my code/dotfiles folder
 alias code='cd /Users/yannvanhalewyn/Documents/code'
