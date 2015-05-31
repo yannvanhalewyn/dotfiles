@@ -308,8 +308,10 @@ if exists('$TMUX')
 else
   au FileType javascript nnoremap <Leader>r :!node <c-r>%<cr>
 endif
+
 au FileType javascript nnoremap <Leader>t :call VimuxRunCommand('mocha <c-r>%')<cr>
-au FileType cpp        nnoremap <leader>l :SyntasticCheck<CR>
+au FileType javascript vnoremap <Leader>be d?describe<CR>o<CR>beforeEach(function() {<CR>});<esc>P<esc>
+au FileType cpp        nnoremap <Leader>l :SyntasticCheck<CR>
 au FileType cpp        set      softtabstop=4
 au FileType cpp        set      shiftwidth=4
 
@@ -331,7 +333,7 @@ set list listchars=tab:»·,trail:·
 
 " The colorscheme
 set background=dark
-colorscheme codeschool
+colorscheme gruvbox
 
 
 "/* My favorite colorschemes
@@ -342,3 +344,5 @@ colorscheme codeschool
 " colorscheme candyman
 " colorscheme zendune
 " colorscheme tomorrow-night
+" colorscheme gruvbox
+" colorscheme codeschool

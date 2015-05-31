@@ -79,6 +79,7 @@ alias gs="git status"
 alias gd="git diff"
 alias gsha="git rev-parse HEAD"
 alias groot='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
+alias gropen='open $(git config --get remote.origin.url)'
 alias galiases="alias | grep -P \"(g|undopush)\w*='git\""
 alias gdotf='open "http://www.github.com/yannvanhalewyn/dotfiles"'
 alias v="nvim"
