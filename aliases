@@ -143,3 +143,7 @@ alias mongod='mongod --config /usr/local/etc/mongod.conf'
 
 # Simple server
 alias simserv='open "http://localhost:8000"; python -m SimpleHTTPServer'
+alias phpserv='open "http://localhost:8000"; php -S localhost:8000'
+
+# Download youtube mp3
+alias yt2mp3='youtube-dl -f 141'

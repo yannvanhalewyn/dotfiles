@@ -27,10 +27,11 @@ ZSH_CUSTOM=/Users/yannvanhalewyn/.zsh
 skip_global_compinit=1
 
 # very useful was grunt, scans the gruntfile and shows all
-# available commands with description
+# available commands with description.
+# Other cool ones: brew, gem, rake, vi-mode, npm
 # last-working-dir is also nice
-# plugins=(git vi-mode brew gem rake)
-plugins=(git vi-mode brew npm)
+# plugins=(git vi-mode brew gem rake npm colorize)
+plugins=(git vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
