@@ -34,3 +34,6 @@ gq{motion}        => Rewraps lines to newlines that exceed textwidth (word sensi
 # Substitutions in visual mode. This changes everything matchin {target} to
 # {destination}
 :s/\%V{target}/{destination}/g
+
+# Swapping splits
+<c-w>r (normal mode)

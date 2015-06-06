@@ -2,40 +2,42 @@
 CC = g++
 
 # Flags
-CFLAGS = -c -Wall -std=c++11 -Iinc/
-LDLFLAGS = -lSDL2 -lSDL2_mixer -lSDL2_ttf -framework OpenGL -shared
+CFLAGS = -c -Wall -std=c++11
+LDLFLAGS =
 
 # Directories
-SRCDIR = src/
-OBJDIR = lib/
+OBJDIR = obj/
 BINDIR = bin/
 
 # Executables
-EXEC = libBengine.a
+EXEC = main
 EXEC := $(addprefix $(BINDIR), $(EXEC))
 
 # Sources
-SOURCES = $(wildcard src/*.cpp)
-HEADERS = $(wildcard inc/*.h)
+SOURCES = $(wildcard *.cpp)
+HEADERS = $(wildcard *.h)
 OBJECTS = $(notdir $(SOURCES:.cpp=.o))
 OBJECTS := $(addprefix $(OBJDIR), $(OBJECTS))
 
 $(EXEC): $(OBJECTS)
-  ar rcs $(EXEC)
-  #$(CC) $(LDLFLAGS) $(OBJECTS) -o $@
+	@[[ -d $(BINDIR) ]] || mkdir $(BINDIR)
+	$(CC) $(LDLFLAGS) $(OBJECTS) -o $@
 
 $(OBJECTS): $(OBJDIR)%.o: $(SRCDIR)%.cpp $(HEADERS)
-  $(CC) $(CFLAGS) $< -o $@
+	@[[ -d $(OBJDIR) ]] || mkdir $(OBJDIR)
+	$(CC) $(CFLAGS) $< -o $@
 
 .PHONY: clean test run teststepped
 clean:
-  rm -f $(EXEC) $(OBJECTS)
+	rm -f $(EXEC) $(OBJECTS)
+	rmdir $(OBJDIR) $(SRCDIR)
 
 test:
-  @echo SOURCES = $(SOURCES)
-  @echo OBJECTS = $(OBJECTS)
-  @echo HEADERS = $(HEADERS)
-  @echo EXEC = $(EXEC)
+	@echo SOURCES = $(SOURCES)
+	@echo OBJECTS = $(OBJECTS)
+	@echo HEADERS = $(HEADERS)
+	@echo EXEC = $(EXEC)
 
 run:
-  ./$(EXEC)
+	@./$(EXEC)
+
