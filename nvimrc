@@ -99,7 +99,7 @@ map  <Leader>vp :call VimuxPromptCommand()<CR>
 map  <Leader>vl :VimuxRunLastCommand<CR>
 map  <Leader>vv :VimuxZoomRunner<CR>
 map  <Leader>vc :VimuxCloseRunner<CR>
-map  <Leader>vs :VimuxInterruptRunner<CR>
+map  <Leader>vk :VimuxInterruptRunner<CR>
 " Spec.vim mappings
 map  <Leader>t  :call RunCurrentSpecFile()<CR>
 map  <Leader>s  :call RunNearestSpec()<CR>
@@ -211,7 +211,7 @@ Plug 'honza/vim-snippets'               " Some snippets
 Plug 'ervandew/supertab'                " Supertab so that ultisnips and completions play nice
 Plug 'tpope/vim-surround'               " Surround
 Plug 'tpope/vim-rails'                  " Rails.vim
-Plug 'mhinz/vim-startify'               " Vim startify
+" Plug 'mhinz/vim-startify'               " Vim startify
 Plug 'tomtom/tcomment_vim'              " Easy commenting
 Plug 'sickill/vim-pasta'                " Improved indentation after paste
 Plug 'mattn/emmet-vim'                  " Emmet
@@ -303,13 +303,13 @@ au BufNewFile,BufRead *.tpl set syntax=jst
 " Map <leader>r to run files with some extensions
 au FileType ruby       nnoremap <leader>r :!ruby %<CR>
 au FileType {cpp,make} nnoremap <leader>r :!make<CR>
+au FileType html       nnoremap <leader>r :!open %<CR>
 if exists('$TMUX')
   au FileType javascript nnoremap <Leader>r :call VimuxRunCommand('node <c-r>%')<cr>
 else
   au FileType javascript nnoremap <Leader>r :!node <c-r>%<cr>
 endif
 
-au FileType javascript nnoremap <Leader>t :call VimuxRunCommand('mocha <c-r>%')<cr>
 au FileType javascript vnoremap <Leader>be d?describe<CR>o<CR>beforeEach(function() {<CR>});<esc>P<esc>
 au FileType cpp        nnoremap <Leader>l :SyntasticCheck<CR>
 au FileType cpp        set      softtabstop=4

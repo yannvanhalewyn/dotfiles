@@ -229,7 +229,7 @@ Plug 'benmills/vimux'                    " To send commands to TMUX (RSpec!!)
 Plug 'Keithbsmiley/rspec.vim'            " RSPEC synthax higlighting
 Plug 'tpope/vim-rails'                   " Rails.vim
 Plug 'honza/vim-snippets'                " Some snippets
-Plug 'SirVer/ultisnips'                  " UltiSnips
+" Plug 'SirVer/ultisnips'                  " UltiSnips
 Plug 'ervandew/supertab'                 " Supertab so that ultisnips and completions play nice
 Plug 'tpope/vim-surround'                " Surround
 Plug 'octol/vim-cpp-enhanced-highlight'  " Improved c++ syntax highlighting
@@ -240,8 +240,8 @@ Plug 'rking/ag.vim'                      " AG! search pleasures
 Plug 'flazz/vim-colorschemes'            " All the colorschemes of the world
 Plug 'chriskempson/base16-vim'           " And more
 Plug 'sjl/gundo.vim'                     " Undo branching
-" Plug 'Shougo/neocomplete.vim'          " Auto completion
-Plug 'Valloric/YouCompleteMe'            " Youcompleteme
+Plug 'Shougo/neocomplete.vim'          " Auto completion
+" Plug 'Valloric/YouCompleteMe'            " Youcompleteme
 Plug 'mhinz/vim-startify'                " Vim startify
 Plug 'junegunn/vim-easy-align'           " Aligning stuff
 
