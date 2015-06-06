@@ -30,6 +30,12 @@ endsnippet
 
 snippet module "Wrapper for module pattern" b
 (function() {
-	${1:${VISUAL}}
+
+	var $1 = {
+		$2
+	};
+
+	module.exports = $1;
+
 }())
 endsnippet
