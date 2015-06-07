@@ -30,11 +30,16 @@ set smartcase                     " caps sensitive searching
 set wildmenu                      " Showing a list of command completions
 set wildmode=longest,list,full    " get a shell like completion
 set history=200                   " More ex-commands history
+set hlsearch                      " Show what 'n' would go to
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
 
 " Tabsize
 set softtabstop=2
 set shiftwidth=2
 set expandtab
+
+" Linesize and wraps
+set textwidth=80
 
 " Persistent undo
 set undodir=~/.vim/undo/
@@ -65,35 +70,66 @@ autocmd BufReadPost *
 "/* KEY MAPPINGS
 "============================ */
 
-" Remap tab and shift-tab to switch buffers
-:nnoremap <Tab> :bnext<CR>
-:nnoremap <S-Tab> :bprevious<CR>
-
 " set leader key
 let mapleader = "\<Space>"
+
+" Remap tab and shift-tab to switch buffers
+nnoremap <Tab>   :bnext<CR>
+nnoremap <S-Tab> :bprevious<CR>
+nnoremap <leader>p :set invpaste<CR>
 
 " close buffer using a script in ~/.vim/plugin/BufOnly.vim
 " It swaps it with the previouse buffer, or an empty one if needed.
 map <Leader>q :Bclose<CR>
 map <Leader>Q :Bonly<CR>
-
 " toggle NerdTree / Gundo
 map <Leader>n :NERDTreeToggle<CR>
 map <Leader>N :NERDTreeFind<CR>
 map <Leader>g :GundoToggle<CR>
-
+" Fugitive mappings
+nmap <Leader>gs :Gstatus<CR>
+nmap <Leader>gd :Gvdiff<CR>
+nmap <Leader>gc :Gcommit<CR>
 " TCommenter (Like TCommenter more, but got used to NerdTree comment
-map <leader>cs :TCommentBlock<CR>
-map <leader>cc :TComment<CR>
-map <leader>ci :TCommentInline<CR>
-" Sexy titles
-nmap <leader>ct yyppVr=kkVr=Vjj cs
-au filetype ruby nmap <leader>ct yyppv$r=kkv$r=Vjj cc
+map  <Leader>cs :TCommentBlock<CR>
+map  <Leader>cc :TComment<CR>
+map  <Leader>ci :TCommentInline<CR>
 " Call vimux commands
 map <Leader>vp :call VimuxPromptCommand()<CR>
 map <Leader>vl :VimuxRunLastCommand<CR>
 map <Leader>vv :VimuxZoomRunner<CR>
 map <Leader>vc :VimuxCloseRunner<CR>
+map  <Leader>vk :VimuxInterruptRunner<CR>
+" Spec.vim mappings
+map  <Leader>t  :call RunCurrentSpecFile()<CR>
+map  <Leader>s  :call RunNearestSpec()<CR>
+map  <Leader>l  :call RunLastSpec()<CR>
+map  <Leader>a  :call RunAllSpecs()<CR>
+
+" Surround with quotes / #{} for ruby vars in quotes / parens
+nmap      <Leader>=   ^v$hS=
+nmap      <Leader>-   ^v$hS-
+vnoremap  <Leader>#   <esc>`>a}<esc>`<i#{<esc>
+nmap      <Leader>#   viw<Leader>#
+vnoremap  <Leader>erb <esc>`>a %><esc>`<i<%= <esc>
+
+" Breakout selection on own line
+vnoremap <Leader><CR> <esc>a<CR><esc>`<i<CR><esc>
+
+"Edit vimrc in split/source vimrc
+nnoremap <Leader>ev  :vsplit $MYVIMRC<CR>
+nnoremap <Leader>sv  :source $MYVIMRC<CR>
+
+" Sexy titles
+nmap <Leader>ct yyppVr=kkVr=Vjj cs
+au filetype ruby nmap <Leader>ct yyppv$r=kkv$r=Vjj cc
+nmap <Leader>ft 0mm"zY:r !figlet -w 120 -f broadway <c-r>z<CR>V`m ccdd
+
+" Yank from cursor to end, copy to "o reg and execute
+nnoremap <Leader>o "oyy:<C-r>o<Backspace><CR>
+
+" Go to help
+nmap <Leader>H :help <c-r><c-w><cr>
 
 " Moving lines/selection up and down - direct map for vim-pasta
 nmap <UP> ddkP
@@ -115,134 +151,81 @@ nmap N Nzz
 nmap { {zz
 nmap } }zz
 
-" Surround with quotes / #{} for ruby vars in quotes / parens
-nmap <leader>= ^v$hS=
-nmap <leader>- ^v$hS-
-vnoremap <leader># <esc>`>a}<esc>`<i#{<esc>
-nmap <leader># viw<leader>#
-vnoremap <leader>erb <esc>`>a %><esc>`<i<%= <esc>
-
-" Breakout selection on own line
-vnoremap <leader><CR> <esc>a<CR><esc>`<i<CR><esc>
-
-" Spec.vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
-
-"Edit vimrc in split/source vimrc
-nnoremap <leader>ev :vsplit $MYVIMRC<CR>
-nnoremap<leader>sv :source $MYVIMRC<CR>
-
 " Quicker window movement
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
-" Change inside parens from outside the parens! - change inside next parens
-:onoremap in( :<c-u>normal! f(vi(<CR>
-:onoremap in) :<c-u>normal! f)vi)<CR>
-:onoremap in[ :<c-u>normal! f[vi[<CR>
-:onoremap in] :<c-u>normal! f]vi]<CR>
-:onoremap in{ :<c-u>normal! f{vi{<CR>
-:onoremap in} :<c-u>normal! f}vi}<CR>
-" Change inside last(prev)
-:onoremap il( :<c-u>normal! F(vi(<CR>
-:onoremap il) :<c-u>normal! F)vi)<CR>
-:onoremap il[ :<c-u>normal! F[vi[<CR>
-:onoremap il] :<c-u>normal! F]vi]<CR>
-:onoremap il{ :<c-u>normal! F{vi{<CR>
-:onoremap il} :<c-u>normal! F}vi}<CR>
-
-" Yank from cursor to end, copy to "o reg and execute
-nnoremap <leader>o "oyy:<C-r>o<Backspace><CR>
-"nnoremap <leader>o Y:@"<CR>
-
 " Makes more sense
 map Y y$
 
-" Go to help
-nmap <leader>H :help <c-r><c-w><cr>
+" Open new line between {}
+imap <c-c> <CR><ESC>O
+nmap <CR>  a<CR><ESC>O
+
+" Recentering while typing
+inoremap <c-z> <c-o>zz
+
+" Term mappings (nvim)
+if has('nvim')
+  tmap <c-w><c-w> <c-\><c-n><c-w><c-w>
+endif
 
 "/* ABBREVIATIONS (TYPOS)
 "============================ */
 
-:iabbrev adn and
-:iabbrev waht what
-:iabbrev tehn then
-:iabbrev succes success
-:iabbrev ressource resource
-:iabbrev ressources resources
-:iabbrev widht width
-:iabbrev heigth height
-:iabbrev ture ture
-:iabbrev flase false
-
-
-"/* AIRLINE
-"============================ */
-
-let g:airline_powerline_fonts = 1 " This actually makes the top buffer bar have the 's
-" The symbols
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-
-" powerline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
-
-" Enable the list of buffers
-let g:airline#extensions#tabline#enabled = 1
-" Show just the filename
-let g:airline#extensions#tabline#fnamemod = ':t'
+iabbrev adn and
+iabbrev waht what
+iabbrev tehn then
+iabbrev succes success
+iabbrev ressource resource
+iabbrev ressources resources
+iabbrev widht width
+iabbrev heigth height
+iabbrev ture ture
+iabbrev flase false
 
 
 "/* VIM-PLUG
 "============================ */
 
-let g:plug_threads=1
 " Set correct editor root path
 if has('nvim')
   let s:editor_root=expand("~/.nvim")
 else
+  let g:plug_threads=1    " Some bug where ruby runtime isn't working
   let s:editor_root=expand("~/.vim")
 endif
 call plug#begin(s:editor_root . "/plugged")
 
-Plug 'mattn/emmet-vim'                   " Emmet
-Plug 'kien/ctrlp.vim'                    " CTRL-P
 Plug 'bling/vim-airline'                 " Airline status bar
 Plug 'tpope/vim-fugitive'                " Git wrapper/airline branch display
 Plug 'scrooloose/nerdtree'               " NerdTree
-Plug 'tpope/vim-endwise'                 " Endwise (Ruby)
-Plug 'Raimondi/delimitMate'              " DelimitMate
-Plug 'thoughtbot/vim-rspec'              " vim-rspec
-Plug 'benmills/vimux'                    " To send commands to TMUX (RSpec!!)
-Plug 'Keithbsmiley/rspec.vim'            " RSPEC synthax higlighting
-Plug 'tpope/vim-rails'                   " Rails.vim
-Plug 'honza/vim-snippets'                " Some snippets
+Plug 'kien/ctrlp.vim'                    " CTRL-P
+Plug 'lokaltog/vim-easymotion'           " Easymotion for crazy motions!
+Plug 'sjl/gundo.vim'                     " Undo branching
+" Plug 'Shougo/neocomplete.vim'            " Auto completion
+Plug 'rking/ag.vim'                      " AG! search pleasures
+Plug 'Raimondi/delimitMate'              " Matching brackets and quotes
+Plug 'tpope/vim-endwise'                 " Add matching 'end' in ruby/shell
 Plug 'SirVer/ultisnips'                  " UltiSnips
+Plug 'honza/vim-snippets'                " Some snippets
 Plug 'ervandew/supertab'                 " Supertab so that ultisnips and completions play nice
 Plug 'tpope/vim-surround'                " Surround
-Plug 'octol/vim-cpp-enhanced-highlight'  " Improved c++ syntax highlighting
-Plug 'sickill/vim-pasta'                 " Improved indentation after paste
-Plug 'lokaltog/vim-easymotion'           " Easymotion for crazy motions!
+Plug 'tpope/vim-rails'                   " Rails.vim
 Plug 'tomtom/tcomment_vim'               " Easy commenting
-Plug 'rking/ag.vim'                      " AG! search pleasures
+Plug 'sickill/vim-pasta'                 " Improved indentation after paste
+Plug 'mattn/emmet-vim'                   " Emmet
+Plug 'thoughtbot/vim-rspec'              " vim-rspec
+Plug 'geekjuice/vim-mocha'              " Same as thoughtbots vim-rspec
+Plug 'benmills/vimux'                    " To send commands to TMUX (RSpec!!)
+Plug 'Keithbsmiley/rspec.vim'            " RSPEC synthax higlighting
+Plug 'octol/vim-cpp-enhanced-highlight'  " Improved c++ syntax highlighting
+Plug 'pangloss/vim-javascript'          " JS Syntax and indentation
+Plug 'mustache/vim-mustache-handlebars' " Syntax for handlebars/mustache
 Plug 'flazz/vim-colorschemes'            " All the colorschemes of the world
 Plug 'chriskempson/base16-vim'           " And more
-Plug 'sjl/gundo.vim'                     " Undo branching
-Plug 'Shougo/neocomplete.vim'          " Auto completion
-" Plug 'Valloric/YouCompleteMe'            " Youcompleteme
-Plug 'mhinz/vim-startify'                " Vim startify
 Plug 'junegunn/vim-easy-align'           " Aligning stuff
 
 call plug#end()
@@ -250,6 +233,13 @@ call plug#end()
 
 "/* PLUGIN SPECIFIC CONFIG
 "============================ */
+
+" AIRLINE
+let g:airline_powerline_fonts = 1
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
 
 " EMMET
 autocmd FileType html,css EmmetInstall    " Use only with certain files
@@ -260,7 +250,8 @@ let NERDTreeShowHidden=1
 let NERDTreeAutoDeleteBuffer=1
 
 " CTRLP
-let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin\|obj\|undo'
+let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin\|obj\|undo\|vim/plugged'
+let g:ctrlp_clear_cache_on_exit=0
 
 " Ultisnips
 let g:UltiSnipsJumpForwardTrigger      = "<tab>"
@@ -272,9 +263,10 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType    = '<C-n>'
 let g:ycm_global_ycm_extra_conf        = s:editor_root . "/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
 
-" rspec-vim - Send to tmux pane if tmux
+" vim-mocha and vim-rspec in tmux
 if exists('$TMUX')
-  let g:rspec_command = 'call VimuxRunCommand("rspec {spec}\n")'
+  let g:rspec_command = 'VimuxRunCommand("rspec {spec}\n")'
+  let g:mocha_js_command = 'VimuxRunCommand("mocha {spec}")'
 endif
 
 " Neocomplete
@@ -296,6 +288,11 @@ let g:startify_custom_header = [
 
 " Easy Align
 vmap <Enter> <Plug>(EasyAlign)
+if !exists('g:easy_align_delimiters')
+  let g:easy_align_delimiters = {}
+endif
+" Ignore groups override so that it looks for the chars in comments
+let g:easy_align_delimiters['"'] = { 'pattern': '"', 'ignore_groups': ['String'] }
 
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=
@@ -310,12 +307,22 @@ au BufNewFile,BufRead *.tpl set syntax=jst
 " Map <leader>r to run files with some extensions
 au FileType ruby nnoremap <leader>r :!ruby %<CR>
 au FileType {cpp,make} nnoremap <leader>r :!make<CR>
-au FileType cpp nnoremap <leader>l :SyntasticCheck<CR>
+au FileType html       nnoremap <leader>r :!open %<CR>
+if exists('$TMUX')
+  au FileType javascript nnoremap <Leader>r :call VimuxRunCommand('node <c-r>%')<cr>
+else
+  au FileType javascript nnoremap <Leader>r :!node <c-r>%<cr>
+endif
+
+au FileType javascript vnoremap <Leader>be d?describe<CR>o<CR>beforeEach(function() {<CR>});<esc>P<esc>
+au FileType cpp        nnoremap <Leader>l :SyntasticCheck<CR>
 au FileType cpp set softtabstop=4
 au FileType cpp set shiftwidth=4
 
-" Spell check for .md files
+" Markdown
 au FileType markdown setlocal spell
+au FileType markdown nnoremap <leader>sh "zyy"zpVr-
+au FileType markdown nnoremap <leader>h "zyy"zpVr=
 
 
 "/* LAYOUT
@@ -325,25 +332,21 @@ au FileType markdown setlocal spell
 set relativenumber
 syntax on
 
-" highlight vertical column of cursor
-au WinLeave * set nocursorline nocursorcolumn
-au WinEnter * set cursorline
-set cursorline
-
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
 
 " The colorscheme
 set background=dark
-colorscheme jellybeans
-au VimEnter AirlineTheme monochrome
+colorscheme gruvbox
 
 
 "/* My favorite colorschemes
 "=========================== */
 
 " colorscheme base16-chalk
-" colorscheme base16-aterlierdune
+" colorscheme base16-aterlierdune set bg=dark
 " colorscheme candyman
 " colorscheme zendune
 " colorscheme tomorrow-night
+" colorscheme gruvbox
+" colorscheme codeschool

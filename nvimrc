@@ -168,7 +168,9 @@ nmap <CR>  a<CR><ESC>O
 inoremap <c-z> <c-o>zz
 
 " Term mappings (nvim)
-tmap <c-w><c-w> <c-\><c-n><c-w><c-w>
+if has('nvim')
+  tmap <c-w><c-w> <c-\><c-n><c-w><c-w>
+endif
 
 "/* ABBREVIATIONS (TYPOS)
 "============================ */
@@ -192,6 +194,7 @@ iabbrev flase      false
 if has('nvim')
   let s:editor_root=expand("~/.nvim")
 else
+  let g:plug_threads=1    " Some bug where ruby runtime isn't working
   let s:editor_root=expand("~/.vim")
 endif
 call plug#begin(s:editor_root . "/plugged")
@@ -211,7 +214,6 @@ Plug 'honza/vim-snippets'               " Some snippets
 Plug 'ervandew/supertab'                " Supertab so that ultisnips and completions play nice
 Plug 'tpope/vim-surround'               " Surround
 Plug 'tpope/vim-rails'                  " Rails.vim
-" Plug 'mhinz/vim-startify'               " Vim startify
 Plug 'tomtom/tcomment_vim'              " Easy commenting
 Plug 'sickill/vim-pasta'                " Improved indentation after paste
 Plug 'mattn/emmet-vim'                  " Emmet
@@ -252,21 +254,23 @@ let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin\|obj\|undo\|vim/plugged'
 let g:ctrlp_clear_cache_on_exit=0
 
 " Ultisnips
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsJumpForwardTrigger      = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger     = "<s-tab>"
 
 " You complete me
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_select_completion   = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
-let g:ycm_global_ycm_extra_conf = s:editor_root . "/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+let g:SuperTabDefaultCompletionType    = '<C-n>'
+let g:ycm_global_ycm_extra_conf        = s:editor_root . "/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
 
 " vim-mocha and vim-rspec in tmux
 if exists('$TMUX')
   let g:rspec_command = 'VimuxRunCommand("rspec {spec}\n")'
   let g:mocha_js_command = 'VimuxRunCommand("mocha {spec}")'
-endi
+endif
 
+" Neocomplete
+let g:neocomplete#enable_at_startup = 1
 
 " The command to make text into multiline shizzle ⇒   :'<,'>normal 0v$hS'i\d0A,
 " http://www.cowsays.com
