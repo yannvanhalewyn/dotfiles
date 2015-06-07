@@ -199,3 +199,8 @@ function copypath {
 
 # Search through history
 function hs { history | grep $* }
+
+# Symbolic link to realpath of file
+function link {
+  ln -s $(realpath "$1") "$2"
+}
