@@ -205,7 +205,7 @@ Plug 'scrooloose/nerdtree'               " NerdTree
 Plug 'kien/ctrlp.vim'                    " CTRL-P
 Plug 'lokaltog/vim-easymotion'           " Easymotion for crazy motions!
 Plug 'sjl/gundo.vim'                     " Undo branching
-" Plug 'Shougo/neocomplete.vim'            " Auto completion
+Plug 'Valloric/YouCompleteMe'           " Youcompleteme
 Plug 'rking/ag.vim'                      " AG! search pleasures
 Plug 'Raimondi/delimitMate'              " Matching brackets and quotes
 Plug 'tpope/vim-endwise'                 " Add matching 'end' in ruby/shell
@@ -227,6 +227,7 @@ Plug 'mustache/vim-mustache-handlebars' " Syntax for handlebars/mustache
 Plug 'flazz/vim-colorschemes'            " All the colorschemes of the world
 Plug 'chriskempson/base16-vim'           " And more
 Plug 'junegunn/vim-easy-align'           " Aligning stuff
+Plug 'tpope/vim-unimpaired'             " Good mappings
 
 call plug#end()
 
@@ -268,9 +269,6 @@ if exists('$TMUX')
   let g:rspec_command = 'VimuxRunCommand("rspec {spec}\n")'
   let g:mocha_js_command = 'VimuxRunCommand("mocha {spec}")'
 endif
-
-" Neocomplete
-let g:neocomplete#enable_at_startup = 1
 
 " The command to make text into multiline shizzle ⇒   :'<,'>normal 0v$hS'i\d0A,
 " http://www.cowsays.com
