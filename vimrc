@@ -24,11 +24,11 @@ set lazyredraw                    " don't redraw when don't have to
 set laststatus=2                  " Always display the status line (Arline bottom bar!)
 set completeopt=longest,menuone   " Dont auto-jump to an autocompl
 set diffopt+=iwhite               " ignore whitespace in vimdiff
-set encoding=utf-8                " Encoding
+set encoding=utf-8                " Set encoding
 set timeoutlen=600 ttimeoutlen=10 " faster timeout for escape key
 set smartcase                     " caps sensitive searching
 set wildmenu                      " Showing a list of command completions
-set wildmode=longest,list,full    " Have a zsh like completion in cmd mode
+set wildmode=longest,list,full    " get a shell like completion
 set history=200                   " More ex-commands history
 
 " Tabsize
@@ -229,7 +229,7 @@ Plug 'benmills/vimux'                    " To send commands to TMUX (RSpec!!)
 Plug 'Keithbsmiley/rspec.vim'            " RSPEC synthax higlighting
 Plug 'tpope/vim-rails'                   " Rails.vim
 Plug 'honza/vim-snippets'                " Some snippets
-" Plug 'SirVer/ultisnips'                  " UltiSnips
+Plug 'SirVer/ultisnips'                  " UltiSnips
 Plug 'ervandew/supertab'                 " Supertab so that ultisnips and completions play nice
 Plug 'tpope/vim-surround'                " Surround
 Plug 'octol/vim-cpp-enhanced-highlight'  " Improved c++ syntax highlighting
