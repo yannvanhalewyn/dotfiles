@@ -66,6 +66,10 @@ autocmd BufReadPost *
   \   exe "normal g`\"" |
   \ endif
 
+" Don't pop back a position when exiting insert mode
+autocmd InsertEnter * let CursorColumnI = col('.')
+autocmd CursorMovedI * let CursorColumnI = col('.')
+autocmd InsertLeave * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif
 
 "/* KEY MAPPINGS
 "============================ */
@@ -160,12 +164,17 @@ nnoremap <C-l> <C-w>l
 " Makes more sense
 map Y y$
 
+" Magical regex
+nmap / /\v
+
 " Open new line between {}
 imap <c-c> <CR><ESC>O
-nmap <CR>  a<CR><ESC>O
 
 " Recentering while typing
 inoremap <c-z> <c-o>zz
+
+" Tag finder and navigation
+nmap <c-t> :CtrlPTag<CR>
 
 " Term mappings (nvim)
 if has('nvim')
@@ -218,7 +227,7 @@ Plug 'tomtom/tcomment_vim'              " Easy commenting
 Plug 'sickill/vim-pasta'                " Improved indentation after paste
 Plug 'mattn/emmet-vim'                  " Emmet
 Plug 'thoughtbot/vim-rspec'             " vim-rspec
-Plug 'geekjuice/vim-mocha'              " Same as thoughtbots vim-rspec
+Plug 'yannvanhalewyn/vim-mocha'         " Same as thoughtbots vim-rspec
 Plug 'benmills/vimux'                   " To send commands to TMUX (RSpec!!)
 Plug 'Keithbsmiley/rspec.vim'           " RSPEC synthax higlighting
 Plug 'octol/vim-cpp-enhanced-highlight' " Improved c++ syntax highlighting
@@ -245,6 +254,12 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " EMMET
 autocmd FileType html,css EmmetInstall    " Use only with certain files
 let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
+
+" DELIMITMATE
+let g:delimitMate_expand_cr=2
+let g:delimitMate_expand_space=2
+let g:delimitMate_jump_expansion=1
+let g:delimitMate_balance_matchpairs=1
 
 " NERDTREE
 let NERDTreeShowHidden=1
@@ -306,6 +321,7 @@ au BufNewFile,BufRead *.tpl set syntax=jst
 au FileType ruby       nnoremap <leader>r :!ruby %<CR>
 au FileType {cpp,make} nnoremap <leader>r :!make<CR>
 au FileType html       nnoremap <leader>r :!open %<CR>
+au FileType vim        nnoremap <leader>r :source %<CR>:call Test()<CR>
 if exists('$TMUX')
   au FileType javascript nnoremap <Leader>r :call VimuxRunCommand('node <c-r>%')<cr>
 else
@@ -348,3 +364,4 @@ colorscheme gruvbox
 " colorscheme tomorrow-night
 " colorscheme gruvbox
 " colorscheme codeschool
+nnoremap <c-[> :pop<CR>
