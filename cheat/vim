@@ -35,5 +35,15 @@ gq{motion}        => Rewraps lines to newlines that exceed textwidth (word sensi
 # {destination}
 :s/\%V{target}/{destination}/g
 
-# Swapping splits
-<c-w>r (normal mode)
+# =========================
+# Window Command Mode (C-w)
+# =========================
+Ctrl W + R - To rotate windows up/left.
+Ctrl W + r - To rotate windows down/right.
+
+# With navigation keys
+Ctrl W + L - Move the current window to the "far right"
+Ctrl W + H - Move the current window to the "far left"
+Ctrl W + J - Move the current window to the "very bottom"
+Ctrl W + K - Move the current window to the "very top"
+Check out :help window-moving for more information
