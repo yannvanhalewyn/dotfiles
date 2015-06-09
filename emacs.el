@@ -14,7 +14,7 @@
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")))
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
 (require 'package)
 (package-initialize)
 (add-to-list 'load-path (concat user-emacs-directory "config"))
@@ -26,6 +26,14 @@
 (require 'evil)
 (evil-mode 1)
 
+;; Hide splash screen
+(setq inhibit-startup-message t)
+;; No backup files
+(setq make-backup-files nil)
+;; Remember cursor position of files when opening
+(setq save-place-file "~/.emacs.d/saveplace")
+(setq-default save-place t)
+(require 'saveplace)
 
 ;; Evil mode key bindings
 (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
@@ -34,6 +42,7 @@
 (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
 (define-key evil-normal-state-map (kbd "M-F") 'dired)
 (define-key evil-normal-state-map (kbd "M-b") 'ibuffer)
+(define-key evil-normal-state-map (kbd "-") 'delete-other-windows)
 
 ;; Dired mode mappings
 (add-hook 'dired-mode-hook (lambda ()
@@ -42,6 +51,8 @@
     (define-key dired-mode-map "c" 'dired-create-directory)
     (define-key dired-mode-map "/" 'dired-isearch-filenames)
 ))
+
+(global-set-key (kbd "M-q") 'evil-quit-all)
 
 ;; Fuzzy file finder ignores/setup
 (setq fiplr-ignored-globs '((directories (".git" ".svn" "*vim"))
@@ -61,14 +72,49 @@
 		    :foreground "Black"
 		    :background "DarkOrange"
 		    :box nil)
-(setq powerline-defaul-separator 'arrow)
+(setq powerline-defaul-separator 'arrow) ;; Not working
+;; Smooth scroll
+(setq scroll-margin 5
+      scroll-conservatively 9999
+      scroll-step 1)
 
 ;; Leader keys
 (evil-leader/set-key "n" 'neotree-toggle)
 (evil-leader/set-key "b" 'ibuffer)
 (evil-leader/set-key "w" 'other-window)
 (evil-leader/set-key "gs" 'magit-status)
+(evil-leader/set-key "cc" 'comment-or-uncomment-region)
+(evil-leader/set-key "q" 'kill-this-buffer)
+(evil-leader/set-key "pp" 'list-packages)
+(evil-leader/set-key "j" 'ace-jump-line-mode)
+(evil-leader/set-key "h" 'ace-jump-word-mode)
 
 ;; Delimiters
 (require 'autopair)
 (autopair-global-mode t)
+
+;; Surround
+(require 'evil-surround)
+(global-evil-surround-mode 1)
+
+;; Magit something the plugin told me, have no idea
+(setq magit-last-seen-setup-instructions "1.4.0")
+
+;; Escape out of everything
+(defun minibuffer-keyboard-quit ()
+    "Abort recursive edit.
+In Delete Selection mode, if the mark is active, just deactivate it;
+then it takes a second \\[keyboard-quit] to abort the minibuffer."
+    (interactive)
+    (if (and delete-selection-mode transient-mark-mode mark-active)
+	(setq deactivate-mark  t)
+      (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+      (abort-recursive-edit)))
+(define-key evil-normal-state-map [escape] 'keyboard-quit)
+(define-key evil-visual-state-map [escape] 'keyboard-quit)
+(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+(global-set-key [escape] 'evil-exit-emacs-state)
