@@ -20,3 +20,5 @@
 	d = difftool
 [push]
 	default = matching
+[init]
+	templatedir = ~/.git_template
