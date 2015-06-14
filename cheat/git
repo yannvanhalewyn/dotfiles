@@ -64,3 +64,6 @@ git am --signoff < patchname.patch        # APPLY!
 
 # Storing credentials if git push doesn't remember
 git config credential.helper store        # Then push and reeenter creds
+
+# Removing a file from repo (but keeps it locally)
+git rm --cached file.txt    # add -r for directory

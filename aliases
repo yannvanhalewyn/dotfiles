@@ -23,9 +23,6 @@ alias -- -="cd -"
 # i <3 u cask
 alias cask='brew cask'
 
-# sometimes i forget
-alias where=which
-
 #typos
 alias brwe=brew
 
@@ -78,6 +75,8 @@ alias gaa="git add -A"
 alias gs="git status"
 alias gd="git diff"
 alias gsha="git rev-parse HEAD"
+alias gstl="git stash list"
+alias gdorigin="git diff origin/master"
 alias groot='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
 alias gropen='open $(git config --get remote.origin.url)'
 alias galiases="alias | grep -P \"(g|undopush)\w*='git\""

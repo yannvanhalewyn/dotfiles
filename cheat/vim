@@ -47,3 +47,13 @@ Ctrl W + H - Move the current window to the "far left"
 Ctrl W + J - Move the current window to the "very bottom"
 Ctrl W + K - Move the current window to the "very top"
 Check out :help window-moving for more information
+
+# ==========
+# Easy Align
+# ==========
+:{RANGE}EasyAlign {regex} {opts}
+
+# For aligning rhs comments:
+:`<,`>EasyAlign /\/\// {'ig': [], 'lm': 20}  
+# ig: ignore groups (else the comment would not be taken into account
+# lm: left margin -> Move it up as far as you want
