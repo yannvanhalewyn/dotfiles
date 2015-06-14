@@ -16,7 +16,7 @@
 au  FocusLost * :wa               " Save on focus lost
 au  InsertLeave * :w              " Save when leaving insert mode
 set autowrite                     " Automatically :write before running commands
-set autoread<                     " Auto reload files when changed on disk
+set autoread                      " Auto reload files when changed on disk
 set backspace=2                   " Backspace deletes like most programs in insert mode
 set nocompatible                  " Use Vim settings, rather then Vi settings
 set noswapfile                    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
@@ -31,6 +31,7 @@ set wildmenu                      " Showing a list of command completions
 set wildmode=longest,list,full    " get a shell like completion
 set history=200                   " More ex-commands history
 set hlsearch                      " Show what 'n' would go to
+set formatoptions+=j              " remove comment chars when joining lines
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
 
 " Tabsize
@@ -66,11 +67,6 @@ autocmd BufReadPost *
   \   exe "normal g`\"" |
   \ endif
 
-" Don't pop back a position when exiting insert mode
-autocmd InsertEnter * let CursorColumnI = col('.')
-autocmd CursorMovedI * let CursorColumnI = col('.')
-autocmd InsertLeave * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif
-
 "/* KEY MAPPINGS
 "============================ */
 
@@ -104,6 +100,8 @@ map <Leader>vl :VimuxRunLastCommand<CR>
 map <Leader>vv :VimuxZoomRunner<CR>
 map <Leader>vc :VimuxCloseRunner<CR>
 map  <Leader>vk :VimuxInterruptRunner<CR>
+nmap  <a-j>     :VimuxScrollDownInspect<CR>
+nmap  <a-k>     :VimuxScrollUpInspect<CR>
 " Spec.vim mappings
 map  <Leader>t  :call RunCurrentSpecFile()<CR>
 map  <Leader>s  :call RunNearestSpec()<CR>
@@ -134,6 +132,9 @@ nnoremap <Leader>o "oyy:<C-r>o<Backspace><CR>
 
 " Go to help
 nmap <Leader>H :help <c-r><c-w><cr>
+
+" Map return to opening a newline
+nnoremap <CR> i<CR><esc>O
 
 " Moving lines/selection up and down - direct map for vim-pasta
 nmap <UP> ddkP
@@ -208,35 +209,37 @@ else
 endif
 call plug#begin(s:editor_root . "/plugged")
 
-Plug 'bling/vim-airline'                 " Airline status bar
-Plug 'tpope/vim-fugitive'                " Git wrapper/airline branch display
-Plug 'scrooloose/nerdtree'               " NerdTree
-Plug 'kien/ctrlp.vim'                    " CTRL-P
-Plug 'lokaltog/vim-easymotion'           " Easymotion for crazy motions!
-Plug 'sjl/gundo.vim'                     " Undo branching
-Plug 'Valloric/YouCompleteMe'           " Youcompleteme
-Plug 'rking/ag.vim'                      " AG! search pleasures
-Plug 'Raimondi/delimitMate'              " Matching brackets and quotes
-Plug 'tpope/vim-endwise'                 " Add matching 'end' in ruby/shell
-Plug 'SirVer/ultisnips'                  " UltiSnips
-Plug 'honza/vim-snippets'                " Some snippets
-Plug 'ervandew/supertab'                 " Supertab so that ultisnips and completions play nice
-Plug 'tpope/vim-surround'                " Surround
-Plug 'tpope/vim-rails'                   " Rails.vim
-Plug 'tomtom/tcomment_vim'               " Easy commenting
-Plug 'sickill/vim-pasta'                 " Improved indentation after paste
-Plug 'mattn/emmet-vim'                   " Emmet
-Plug 'thoughtbot/vim-rspec'              " vim-rspec
-Plug 'yannvanhalewyn/vim-mocha'              " Same as thoughtbots vim-rspec
-Plug 'benmills/vimux'                    " To send commands to TMUX (RSpec!!)
-Plug 'Keithbsmiley/rspec.vim'            " RSPEC synthax higlighting
-Plug 'octol/vim-cpp-enhanced-highlight'  " Improved c++ syntax highlighting
-Plug 'pangloss/vim-javascript'          " JS Syntax and indentation
-Plug 'mustache/vim-mustache-handlebars' " Syntax for handlebars/mustache
-Plug 'flazz/vim-colorschemes'            " All the colorschemes of the world
-Plug 'chriskempson/base16-vim'           " And more
-Plug 'junegunn/vim-easy-align'           " Aligning stuff
-Plug 'tpope/vim-unimpaired'             " Good mappings
+Plug 'bling/vim-airline'                               " Airline status bar
+Plug 'tpope/vim-fugitive'                              " Git wrapper/airline branch display
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}   " NerdTree
+Plug 'kien/ctrlp.vim'                                  " CTRL-P
+Plug 'lokaltog/vim-easymotion',                        " Easymotion for crazy motions!
+Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}            " Undo branching
+" Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-complete'}
+Plug 'marijnh/tern_for_vim', {'for': 'javascript'}
+Plug 'rking/ag.vim', {'on': 'Ag'}                      " AG! search pleasures
+Plug 'Raimondi/delimitMate'                            " Matching brackets and quotes
+Plug 'tpope/vim-endwise', {'for': ['ruby','sh']}       " Add matching 'end' in ruby/shell
+Plug 'SirVer/ultisnips'                                " UltiSnips
+Plug 'honza/vim-snippets'                              " Some snippets
+Plug 'ervandew/supertab'                               " Supertab so that ultisnips and completions play nice
+Plug 'tpope/vim-surround'                              " Surround
+Plug 'tpope/vim-rails', {'for': 'ruby'}                " Rails.vim
+Plug 'tomtom/tcomment_vim'                             " Easy commenting
+Plug 'sickill/vim-pasta'                               " Improved indentation after paste
+Plug 'mattn/emmet-vim', {'for': 'html'}                " Emmet
+Plug 'thoughtbot/vim-rspec', {'for': 'ruby'}           " vim-rspec
+Plug 'yannvanhalewyn/vim-mocha', {'for': 'javascript'} " Same as thoughtbots vim-rspec
+Plug 'yannvanhalewyn/vim-run'                          " Run files of different FT
+Plug 'benmills/vimux'                                  " To send commands to TMUX (RSpec!!)
+Plug 'Keithbsmiley/rspec.vim', {'for': 'ruby'}         " RSPEC synthax higlighting
+Plug 'octol/vim-cpp-enhanced-highlight', {'for':'cpp'} " Improved c++ syntax highlighting
+Plug 'pangloss/vim-javascript', {'for': 'javascript'}  " JS Syntax and indentation
+Plug 'mustache/vim-mustache-handlebars'                " Syntax for handlebars/mustache
+Plug 'flazz/vim-colorschemes'                          " All the colorschemes of the world
+Plug 'chriskempson/base16-vim'                         " And more
+Plug 'junegunn/vim-easy-align'                         " Aligning stuff
+Plug 'tpope/vim-unimpaired'                            " Good mappings
 
 call plug#end()
 
@@ -266,7 +269,7 @@ let NERDTreeShowHidden=1
 let NERDTreeAutoDeleteBuffer=1
 
 " CTRLP
-let g:ctrlp_custom_ignore = 'tmp\|node_modules\|bin\|obj\|undo\|vim/plugged'
+let g:ctrlp_custom_ignore = 'tmp\|node_modules\|obj/\|undo\|vim/plugged'
 let g:ctrlp_clear_cache_on_exit=0
 
 " Ultisnips
@@ -316,23 +319,12 @@ let g:easy_align_delimiters['"'] = { 'pattern': '"', 'ignore_groups': ['String']
 
 " Syntax highlighting for javascript templating
 au BufNewFile,BufRead *.tpl set syntax=jst
-
-" Map <leader>r to run files with some extensions
-au FileType ruby nnoremap <leader>r :!ruby %<CR>
-au FileType {cpp,make} nnoremap <leader>r :!make<CR>
-au FileType html       nnoremap <leader>r :!open %<CR>
-au FileType vim        nnoremap <leader>r :source %<CR>:call Test()<CR>
-if exists('$TMUX')
-  au FileType javascript nnoremap <Leader>r :call VimuxRunCommand('node <c-r>%')<cr>
-else
-  au FileType javascript nnoremap <Leader>r :!node <c-r>%<cr>
-endif
-
+" JS mocha
 au FileType javascript vnoremap <Leader>be d?describe<CR>o<CR>beforeEach(function() {<CR>});<esc>P<esc>
+" CPP
 au FileType cpp        nnoremap <Leader>l :SyntasticCheck<CR>
 au FileType cpp set softtabstop=4
 au FileType cpp set shiftwidth=4
-
 " Markdown
 au FileType markdown setlocal spell
 au FileType markdown nnoremap <leader>sh "zyy"zpVr-
@@ -357,6 +349,8 @@ colorscheme gruvbox
 "/* My favorite colorschemes
 "=========================== */
 
+" colorscheme jellybeans
+" colorscheme solarized
 " colorscheme base16-chalk
 " colorscheme base16-aterlierdune set bg=dark
 " colorscheme candyman
@@ -364,4 +358,3 @@ colorscheme gruvbox
 " colorscheme tomorrow-night
 " colorscheme gruvbox
 " colorscheme codeschool
-nnoremap <c-[> :pop<CR>
