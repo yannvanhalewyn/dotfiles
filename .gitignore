@@ -2,3 +2,5 @@ vim/undo/*
 !vim/undo/.keep
 vim/plugged/
 nvim/plugged/
+vim/flavors/
+nvim/.netrwhist
