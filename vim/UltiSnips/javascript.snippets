@@ -25,7 +25,7 @@ module.exports = ${1};
 endsnippet
 
 snippet req "A require statement for node modules" b
-var ${2:$1} = require('${1}');
+var ${2:${1/.*\///g}} = require('${1:lib}')$3;
 endsnippet
 
 snippet module "Wrapper for module pattern" b

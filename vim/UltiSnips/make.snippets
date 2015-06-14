@@ -1,43 +1,79 @@
-snippet make "A basic c++ makefile layout" b
+snippet makecpp "A generic c++ makefile layout" b
 # Compiler
 CC = g++
 
 # Flags
-CFLAGS = -c -Wall -std=c++11
+CFLAGS = -c -Wall -std=c++1y
 LDLFLAGS =
 
 # Directories
-SRCDIR = src/
-OBJDIR = obj/
-BINDIR = bin/
+SRCDIR = src
+OBJDIR = obj
+BINDIR = bin
 
 # Executables
 EXEC = main
-EXEC := $(addprefix $(BINDIR), $(EXEC))
+EXEC := $(addprefix $(BINDIR)/, $(EXEC))
 
 # Sources
-SOURCES = $(wildcard src/*.cpp)
-HEADERS = $(wildcard src/*.h)
-OBJECTS = $(notdir $(SOURCES:.cpp=.o))
-OBJECTS := $(addprefix $(OBJDIR), $(OBJECTS))
+SOURCES := $(shell find $(SRCDIR) -name '*.cpp')
+HEADERS := $(shell find $(SRCDIR) -name '*.hpp')
+OBJECTS := $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 
 $(EXEC): $(OBJECTS)
-	$(CC) $(LDLFLAGS) $< -o $@
+	@[ -d $(BINDIR) ] || (mkdir $(BINDIR) && echo "made $(BINDIR) dir")
+	$(CC) $(LDLFLAGS) $^ -o $@
 
-$(OBJECTS): $(OBJDIR)%.o: $(SRCDIR)%.cpp $(HEADERS)
+$(OBJECTS): $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(HEADERS)
+	@[ -d $(dir $@) ] || (mkdir -p $(dir $@) && echo "made dir $(dir $@)")
 	$(CC) $(CFLAGS) $< -o $@
 
-.PHONY: clean test run teststepped
+# Helpers
 clean:
 	rm -f $(EXEC) $(OBJECTS)
 
-test:
+print_vars:
 	@echo SOURCES = $(SOURCES)
 	@echo OBJECTS = $(OBJECTS)
 	@echo HEADERS = $(HEADERS)
 	@echo EXEC = $(EXEC)
 
-run:
-	./$(EXEC)
+run: $(EXEC)
+	@./$(EXEC)
+
+.PHONY: clean test run print_vars
 endsnippet
 
+
+snippet makejava "A generic java makefile" b
+# Compiler
+JC = javac
+
+# Directories
+SRCDIR = src
+CLSSDIR = classes
+
+#FLAGS
+JFLAGS = -g -deprecation -d $(CLSSDIR)
+
+# Sources
+SOURCES := $(shell find $(SRCDIR) -name '*.java')
+OBJECTS := $(SOURCES:$(SRCDIR)/%.java=$(CLSSDIR)/%.class)
+
+$(OBJECTS): $(SOURCES)
+	@[ -d $(CLSSDIR) ] || mkdir $(CLSSDIR)
+	$(JC) $(JFLAGS) $(SOURCES)
+
+# Helpers
+clean:
+	rm -rf $(CLSSDIR)
+
+print_vars:
+	@echo SOURCES = $(SOURCES)
+	@echo OBJECTS = $(OBJECTS)
+
+run: $(OBJECTS)
+	@java -cp $(CLSSDIR) vm.Test
+
+PHONY: clean test run teststepped
+endsnippet
