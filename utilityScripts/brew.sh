@@ -47,6 +47,8 @@ brew install tree
 brew install youtube-dl
 brew install zlib
 brew install webkit2png
+brew install rename
+brew install gifify
 
 # setup for tmux connecting to OSX pastebin
 brew install reattach-to-user-namespace

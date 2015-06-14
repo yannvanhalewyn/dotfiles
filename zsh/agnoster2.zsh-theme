@@ -134,7 +134,11 @@ prompt_hg() {
 
 # Dir: current working directory
 prompt_dir() {
-  prompt_segment blue black '%c'
+  if [[ -n ${VIMODE} ]]; then
+    prompt_segment red black '%c'
+  else
+    prompt_segment blue black '%c'
+  fi
 }
 
 # Virtualenv: current working virtualenv
@@ -163,7 +167,7 @@ prompt_status() {
 # black, red, green, yellow, blue, magenta, cyan and white
 prompt_vi() {
   if [[ -n ${VIMODE} ]]; then
-    prompt_segment green white "V"
+    # prompt_segment green white "V"
   fi
 }
 
