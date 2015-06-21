@@ -24,3 +24,6 @@ set guioptions-=L
 :nnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
 :xnoremap <expr> y (v:register ==# '"' ? '"+' : '') . 'y'
 :xnoremap <expr> Y (v:register ==# '"' ? '"+' : '') . 'Y'
+
+set bg=light
+color solarized

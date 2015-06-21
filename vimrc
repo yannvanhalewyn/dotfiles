@@ -107,6 +107,8 @@ map  <Leader>t  :call RunCurrentSpecFile()<CR>
 map  <Leader>s  :call RunNearestSpec()<CR>
 map  <Leader>l  :call RunLastSpec()<CR>
 map  <Leader>a  :call RunAllSpecs()<CR>
+" UltisnipsEdit
+map <Leader>u   :UltiSnipsEdit<CR>
 
 " Surround with quotes / #{} for ruby vars in quotes / parens
 nmap      <Leader>=   ^v$hS=
@@ -213,13 +215,14 @@ Plug 'bling/vim-airline'                               " Airline status bar
 Plug 'tpope/vim-fugitive'                              " Git wrapper/airline branch display
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}   " NerdTree
 Plug 'kien/ctrlp.vim'                                  " CTRL-P
-Plug 'lokaltog/vim-easymotion',                        " Easymotion for crazy motions!
-Plug 'sjl/gundo.vim', {'on': 'GundoToggle'}            " Undo branching
-" Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-complete'}
+Plug 'lokaltog/vim-easymotion'                         " Easymotion for crazy motions!
+" Plug 'sjl/gundo.vim'                          " Undo branchin
+" g
+Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'frozen': 1}
 Plug 'marijnh/tern_for_vim', {'for': 'javascript'}
 Plug 'rking/ag.vim', {'on': 'Ag'}                      " AG! search pleasures
 Plug 'Raimondi/delimitMate'                            " Matching brackets and quotes
-Plug 'tpope/vim-endwise', {'for': ['ruby','sh']}       " Add matching 'end' in ruby/shell
+Plug 'tpope/vim-endwise', {'for': ['ruby','sh','vim']}       " Add matching 'end' in ruby/shell
 Plug 'SirVer/ultisnips'                                " UltiSnips
 Plug 'honza/vim-snippets'                              " Some snippets
 Plug 'ervandew/supertab'                               " Supertab so that ultisnips and completions play nice
@@ -322,9 +325,12 @@ au BufNewFile,BufRead *.tpl set syntax=jst
 " JS mocha
 au FileType javascript vnoremap <Leader>be d?describe<CR>o<CR>beforeEach(function() {<CR>});<esc>P<esc>
 " CPP
-au FileType cpp        nnoremap <Leader>l :SyntasticCheck<CR>
-au FileType cpp set softtabstop=4
-au FileType cpp set shiftwidth=4
+au FileType {cpp,java} set softtabstop=4
+au FileType {cpp,java} set shiftwidth=4
+au FileType cpp nmap ga :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
+au FileType cpp nmap gi ^YgaGo<ESC>o<ESC>pI<c-r>=expand("%:t:r")<CR>::<ESC>A<BS> {<CR><ESC>O<F37>
+au FileType {ruby,javascript} set softtabstop=2
+au FileType {ruby,javascript} set shiftwidth=2
 " Markdown
 au FileType markdown setlocal spell
 au FileType markdown nnoremap <leader>sh "zyy"zpVr-
