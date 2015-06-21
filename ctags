@@ -4,6 +4,7 @@
 --exclude=log
 --exclude=tmp
 --exclude=node_modules
+--extra=+f
 
 --langdef=js
 --langmap=js:.js

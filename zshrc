@@ -73,3 +73,6 @@ function zle-keymap-select {
  zle reset-prompt
 }
 zle -N zle-keymap-select
+
+# I have a function named md, oh-my-zsh has an alias
+unalias md

@@ -188,6 +188,11 @@ function link {
   ln -s $(realpath "$1") "$2"
 }
 
+# Follow binary symlinks
 function where {
   realpath $(which "$1")
+}
+
+function goto {
+  cd $(dirname $(where "$1"))
 }
