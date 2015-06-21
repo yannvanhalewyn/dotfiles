@@ -38,3 +38,54 @@ describe "${1}" do
 	${0:${VISUAL: #assertions}}
 end
 endsnippet
+
+snippet init "Initializer" b
+def initialize(${2:args})
+`!p
+snip >> 1;
+result = ""
+argList = t[2].split(",")
+
+for arg in argList:
+    dep = "@" + arg.strip() + " = " + arg.strip() + "\n"
+    result += snip.mkline(dep)
+
+snip.rv = result.rstrip()`
+end
+endsnippet
+
+snippet cl "Class" b
+class ${1:`!p snip.rv = snip.basename.capitalize()`}
+	$2
+end
+endsnippet
+
+snippet bb "require and call byebug" b
+require 'byebug'
+byebug
+endsnippet
+
+# ==========================
+# # A global python function
+# ==========================
+# global !p
+# def functionName(args):
+#     result = ""
+#     argList = args.split(",")
+#
+#     for arg in argList:
+#         dep = "@" + arg.strip() + " = " + arg.strip() + "\n"
+#         result += dep
+#
+#     return result.rstrip()
+# endglobal
+#
+# ====================
+# # Use it like this:
+# ====================
+# snippet wow "description" b
+# def methodWithArgs ${2:args}
+# `!p snip.rv = functionName(t[2])`
+# end
+# endsnippet
+#

@@ -23,6 +23,12 @@ snippet inc "include" b
 #include "$1"
 endsnippet
 
+snippet cwd "Get current working directory" b
+// #include <unistd.h>
+char path[256];
+getcwd(path, 255);
+endsnippet
+
 snippet copyright "a cpp copyright header" b
 /*
  * Copyright (c) 2015, Yann Vanhalewyn

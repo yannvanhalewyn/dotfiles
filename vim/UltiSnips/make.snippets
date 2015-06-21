@@ -53,6 +53,9 @@ JC = javac
 SRCDIR = src
 CLSSDIR = classes
 
+# Files
+MAIN = ${1:Main}
+
 #FLAGS
 JFLAGS = -g -deprecation -d $(CLSSDIR)
 
@@ -73,7 +76,97 @@ print_vars:
 	@echo OBJECTS = $(OBJECTS)
 
 run: $(OBJECTS)
-	@java -cp $(CLSSDIR) vm.Test
+	@java -cp $(CLSSDIR) $(MAIN)
 
-PHONY: clean test run teststepped
+PHONY: clean run print_vars
+endsnippet
+
+snippet makepkg "compile and package c++ mac App" b
+# Compiler
+CC = g++
+# Flags
+CFLAGS = -c -Wall -std=c++11
+LDLFLAGS = # -lSDL2 -lSDL2_mixer -lSDL2_ttf -framework OpenGL -framework CoreFoundation
+
+# Directories
+SRCDIR = src
+OBJDIR = obj
+BINDIR = bin
+RSCDIR = Resources
+
+# Executables
+EXEC = main
+EXEC := $(addprefix $(BINDIR)/, $(EXEC))
+
+# Files
+SOURCES := $(shell find $(SRCDIR) -name '*.cpp')
+HEADERS := $(shell find $(SRCDIR) -name '*.hpp')
+OBJECTS := $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
+RESOURCES := $(shell find $(RSCDIR) -type f)
+
+# Package
+PKGNAME = ${1:App}
+PKG := $(PKGNAME).app
+PKGCONTENTS := $(PKG)/Contents
+PKGEXEC := $(PKGCONTENTS)/MacOS/$(PKGNAME)
+PKGRSCDIR := $(PKGCONTENTS)/Resources
+PKGRESOURCES := $(RESOURCES:$(RSCDIR)/%=$(PKGRSCDIR)/%)
+
+# ======
+# Making
+# ======
+
+# Depends on the resources and the executable
+$(PKG): $(PKGRESOURCES) $(PKGEXEC)
+
+# Copy all resources not copied yet or updated after last copy, that's what
+# make's make (pun intended)
+$(PKGRESOURCES): $(PKGRSCDIR)/%: $(RSCDIR)/%
+	@[ -d $(dir $@) ] || mkdir -p $(dir $@)
+	cp $< $@
+
+# Copy the executable
+$(PKGEXEC): $(EXEC)
+	@[ -d $(dir $@) ] || mkdir -p $(dir $@)
+	cp $(EXEC) $(PKGEXEC)
+
+# Link the objects to create a binary executable
+$(EXEC): $(OBJECTS)
+	@[ -d $(BINDIR) ] || mkdir $(BINDIR)
+	$(CC) $(LDLFLAGS) $^ -o $@
+
+# Compile all sources into objects
+$(OBJECTS): $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(HEADERS)
+	@[ -d $(dir $@) ] || mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $< -o $@
+
+# =======
+# Helpers
+# =======
+clean:
+	rm -f $(EXEC) $(OBJECTS)
+	rm -rf $(PKG)
+
+print_vars:
+	@echo SOURCES: $(SOURCES)
+	@echo OBJECTS: $(OBJECTS)
+	@echo HEADERS: $(HEADERS)
+	@echo EXEC: $(EXEC)
+	@echo RESOURCES: $(RESOURCES) "\n"
+	@echo PKGNAME: $(PKGNAME) "\n"
+	@echo PKGCONTENTS: $(PKGCONTENTS) "\n"
+	@echo PKGEXEDIR: $(PKGEXEDIR) "\n"
+	@echo PKGRSCDIR: $(PKGRSCDIR) "\n"
+	@echo RESOURCES: $(RESOURCES) "\n"
+	@echo PKGRESOURCES: $(PKGRESOURCES) "\n"
+
+# Create/Update and run the binary (Will not create/update the package)
+run: $(EXEC)
+	@./$(EXEC)
+
+# Create/Update and run the package
+run_package: $(PKG)
+	@open $(PKG)
+
+.PHONY: clean clean_all print_vars run run_package
 endsnippet
