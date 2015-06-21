@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# cow files dir
+dir=$(dirname $(dirname $(greadlink -f $(which cowsay))))/share/cows
+
+function print_title() {
+  echo "\n\n$1"
+  for (( times = 0; times < ${#1}; times++ )); do
+    printf "="
+  done
+  echo ""
+}
+
+for file in $dir/*; do
+  cow_file=$(basename $file)
+  print_title $cow_file
+  cowsay -f $cow_file Hi there.
+done
+

@@ -1,0 +1,5 @@
+msg="Hello World\!"
+if test $# -gt 0; then msg=$1; fi
+for font in {standard,acrobatic,banner3-D,broadway,doh,isometric1,larry3d,nancyj-fancy,nvscript,script,serifcap,smisome1,starwars,stop,univers}; do
+echo "\nFONT => $font"; figlet -w 120 -f $font $msg;
+done; unset msg;

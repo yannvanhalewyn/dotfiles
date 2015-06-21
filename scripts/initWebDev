@@ -1,0 +1,30 @@
+#!/bin/sh
+
+echo "Setting up webdevelopment structure!"
+
+while getopts ":n:" opt; do
+    case $opt in
+        n)
+            echo "Making a new folder: $OPTARG" >&2
+            mkdir $OPTARG
+            cd $OPTARG
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            ;;
+    esac
+done
+
+
+echo "Creating index.html file "
+touch index.html
+echo "Creating css/ js/ and fonts/ folders"
+mkdir css js fonts
+echo "Creating css/style.css"
+touch css/style.css
+echo "Creating js/app.js"
+touch js/app.js
+echo "Creating readme.md"
+touch readme.md
+echo "-- DONE!"
+echo

@@ -1,0 +1,2 @@
+clear
+cat $1 | xargs -I {} cowsay {}
