@@ -54,6 +54,19 @@ Check out :help window-moving for more information
 :{RANGE}EasyAlign {regex} {opts}
 
 # For aligning rhs comments:
-:`<,`>EasyAlign /\/\// {'ig': [], 'lm': 20}  
+:`<,`>EasyAlign /\/\// {'ig': [], 'lm': 20}
 # ig: ignore groups (else the comment would not be taken into account
 # lm: left margin -> Move it up as far as you want
+#
+# ==========
+# # SPELLING
+# ==========
+
+# Set spellchecking on
+set spell
+
+zg  # Mark word as acceptable
+zug # Undo zg - remove last word from acceptable list
+z=  # Show list of possible replacements
+]s  # Jump to next wrongly spelled word
+[s  # Jump to previous wrongly spelled word

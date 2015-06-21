@@ -1,0 +1,19 @@
+# Convert iso to img
+hdiutil convert -format UDRW -o ~/path/to/target.img ~/path/to/ubuntu.iso
+
+# Find mount name for usb disk
+run `diskutil list`
+-- insert drive --
+run `diskutil list`
+-- find matching drive. (e.g.: /dev/disk1)
+
+# unmount disk
+run `diskutil unmountDisk /dev/disk{N}`
+
+# build img
+run `sudo dd if=path/to/disk.img.dmg of=/dev/disk{N} bs=1m`
+
+DONE!
+
+# eject
+diskutil eject /dev/disk{N}
