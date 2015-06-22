@@ -10,56 +10,32 @@
 #  ,8',8888'      `8b.  ;8.`8888 8 8888        8 8 8888   `8b.     8888     ,88'
 # ,8',8888888888888`Y8888P ,88P' 8 8888        8 8 8888     `88.    `8888888P'
 
-# ===============
-# OH-MY-ZSH SETUP
-# ===============
+# =======
+# Antigen
+# =======
 
-export ZSH=/Users/yannvanhalewyn/.oh-my-zsh
+source "$HOME/.antigen/antigen.zsh"
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle git
+antigen bundle vi-mode
+antigen-theme "$HOME/.zsh/agnoster"
+antigen-apply
+setopt PROMPT_SUBST
 
-ZSH_THEME="agnoster2" # cool one is jonathan, mira, agnoster
-
-ENABLE_CORRECTION="true"
-
-COMPLETION_WAITING_DOTS="true"
-
-ZSH_CUSTOM=/Users/yannvanhalewyn/.zsh
-
-skip_global_compinit=1
-
-# very useful was grunt, scans the gruntfile and shows all
-# available commands with description.
-# Other cool ones: brew, gem, rake, vi-mode, npm
-# last-working-dir is also nice
-# plugins=(git vi-mode brew gem rake npm colorize)
-plugins=(git vi-mode)
-
-source $ZSH/oh-my-zsh.sh
-
-# ============
-# CUSTOM SETUP
-# ============
-bindkey '\e[A' history-beginning-search-backward
-bindkey '\e[B' history-beginning-search-forward
-
-# Load ~/.aliases and ~/.functions
-for file in ~/.{aliases,functions}; do
-  [ -r "$file" ] && source "$file"
-done
-unset file
+# ========
+# History
+# ========
+HISTFILE=$HOME/.zhistory       # enable history saving on shell exit
+setopt APPEND_HISTORY          # append rather than overwrite history file.
+HISTSIZE=1200                  # lines of history to maintain memory
+SAVEHIST=1000                  # lines of history to maintain in history file.
 
 export EDITOR='nvim'
+source "$HOME/.aliases"
+source "$HOME/.functions"
 
-# ====
-# PATH
-# ====
-
-# Changin the order of usr/bin and usr/local/bin
-# remove /usr/local/bin and /usr/bin
-export PATH=`echo ":$PATH:" | sed -e "s#:/usr/local/bin:#:#g" -e "s/^://" -e "s/:$//"`
-export PATH=`echo ":$PATH:" | sed -e "s#:/usr/bin:#:#g" -e "s/^://" -e "s/:$//"`
-# add /usr/local/bin and /usr/bin in that order
-export PATH="/usr/local/bin:/usr/bin:$PATH"
-export PATH="/usr/local/sbin:$PATH"
+bindkey '\e[A' history-beginning-search-backward
+bindkey '\e[B' history-beginning-search-forward
 
 # ===========================
 # Helper to check for vi-mode
@@ -70,6 +46,3 @@ function zle-keymap-select {
  zle reset-prompt
 }
 zle -N zle-keymap-select
-
-# I have a function named md, oh-my-zsh has an alias
-unalias md
