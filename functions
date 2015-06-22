@@ -181,7 +181,9 @@ function copypath {
 }
 
 # Search through history
-function hs { history | grep $* }
+function hs {
+  history | grep $*
+}
 
 # Symbolic link to realpath of file
 function link {

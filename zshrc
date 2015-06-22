@@ -61,9 +61,6 @@ export PATH=`echo ":$PATH:" | sed -e "s#:/usr/bin:#:#g" -e "s/^://" -e "s/:$//"`
 export PATH="/usr/local/bin:/usr/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-export PATH="$HOME/scripts:$PATH"
-
 # ===========================
 # Helper to check for vi-mode
 # ===========================

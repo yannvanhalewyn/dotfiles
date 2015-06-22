@@ -136,8 +136,6 @@ alias bubu="brew update && brew upgrade --all && brew cleanup"
 # Mysql
 alias mysqlstatus='mysqladmin -u root -p ping'
 
-alias -s rb=vim
-
 # Mongodb
 alias mongod='mongod --config /usr/local/etc/mongod.conf'
 

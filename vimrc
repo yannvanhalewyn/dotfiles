@@ -218,7 +218,7 @@ Plug 'kien/ctrlp.vim'                                  " CTRL-P
 Plug 'lokaltog/vim-easymotion'                         " Easymotion for crazy motions!
 " Plug 'sjl/gundo.vim'                          " Undo branchin
 " g
-Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'frozen': 1}
+" Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'frozen': 1}
 Plug 'marijnh/tern_for_vim', {'for': 'javascript'}
 Plug 'rking/ag.vim', {'on': 'Ag'}                      " AG! search pleasures
 Plug 'Raimondi/delimitMate'                            " Matching brackets and quotes
