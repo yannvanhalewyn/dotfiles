@@ -206,7 +206,7 @@ iabbrev flase false
 if has('nvim')
   let s:editor_root=expand("~/.nvim")
 else
-  let g:plug_threads=1    " Some bug where ruby runtime isn't working
+  " let g:plug_threads=1    " Some bug where ruby runtime isn't working
   let s:editor_root=expand("~/.vim")
 endif
 call plug#begin(s:editor_root . "/plugged")
@@ -216,9 +216,8 @@ Plug 'tpope/vim-fugitive'                              " Git wrapper/airline bra
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}   " NerdTree
 Plug 'kien/ctrlp.vim'                                  " CTRL-P
 Plug 'lokaltog/vim-easymotion'                         " Easymotion for crazy motions!
-" Plug 'sjl/gundo.vim'                          " Undo branchin
-" g
-" Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'frozen': 1}
+" Plug 'sjl/gundo.vim'                          " Undo branching
+Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'frozen': 1}
 Plug 'marijnh/tern_for_vim', {'for': 'javascript'}
 Plug 'rking/ag.vim', {'on': 'Ag'}                      " AG! search pleasures
 Plug 'Raimondi/delimitMate'                            " Matching brackets and quotes

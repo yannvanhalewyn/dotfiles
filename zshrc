@@ -21,6 +21,7 @@ antigen bundle vi-mode
 antigen-theme "$HOME/.zsh/agnoster"
 antigen-apply
 setopt PROMPT_SUBST
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 # ========
 # History

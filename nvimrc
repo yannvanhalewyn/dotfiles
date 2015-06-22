@@ -216,13 +216,12 @@ Plug 'tpope/vim-fugitive'                              " Git wrapper/airline bra
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}   " NerdTree
 Plug 'kien/ctrlp.vim'                                  " CTRL-P
 Plug 'lokaltog/vim-easymotion'                         " Easymotion for crazy motions!
-" Plug 'sjl/gundo.vim'                          " Undo branchin
-" g
+" Plug 'sjl/gundo.vim'                                   " Undo branching
 Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'frozen': 1}
 Plug 'marijnh/tern_for_vim', {'for': 'javascript'}
 Plug 'rking/ag.vim', {'on': 'Ag'}                      " AG! search pleasures
 Plug 'Raimondi/delimitMate'                            " Matching brackets and quotes
-Plug 'tpope/vim-endwise', {'for': ['ruby','sh','vim']}       " Add matching 'end' in ruby/shell
+Plug 'tpope/vim-endwise', {'for': ['ruby','sh','vim']} " Add matching 'end' in ruby/shell
 Plug 'SirVer/ultisnips'                                " UltiSnips
 Plug 'honza/vim-snippets'                              " Some snippets
 Plug 'ervandew/supertab'                               " Supertab so that ultisnips and completions play nice

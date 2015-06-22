@@ -15,7 +15,7 @@ brew cask install silverlight
 #brew cask install xld
 
 # dev
-brew cask install iterm2
+brew cask install iterm2-nightly
 brew cask install sublime-text
 brew cask install appcode
 brew cask install mamp
