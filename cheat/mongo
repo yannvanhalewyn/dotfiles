@@ -1,3 +1,13 @@
+# ==============
+# # NOMENCLATURE
+# ==============
+Mongo      |  MySQL
+-----------+-------
+database   |  DATABASE
+collection |  TABLE
+document   |  ENTRY
+
+
 # ===================
 # starting the server
 # ===================
@@ -22,10 +32,10 @@ use {{dbname}}
 # Delete current database
 db.dropDatabase()
 
-# Print out the current database
+# Print out the current database name
 db
 
-# Show collections in current db
+# Show collections in current db (~= SQL tables)
 show collections
 
 # ========================================================================================
@@ -119,7 +129,12 @@ db.{{collectionname}}.find({item: /BC/}, { item: 1, stock: 1, _id: 0 })
 # SQL databases, there isn't really a ALTER TABLE method in mongo. If you do want to
 # add fields to collections, the update method is the closest. With update you
 # can set all fields to a certain value, adding the field on a row if necessary ($set).
-# You can also make that field dissapear ($unset)! The multi: true argument is important!
+# You can also make that field dissapear ($unset)! The multi: true argument is
+# necessary if you want to ALTER TABLE. Without it only the first found document
+# will be updated.
+# !! WARNING don't try to set data explicitly !!
+# db.{{name}}.update({}, {title: "thetitle"}, {multi: true}) WILL corrupt the entire database. (no joke)
+# us {$set: {title: "theTitle"}}
 
 # ALTER TABLE users ADD join_date DATETIME
 db.users.update({}, { $set: { join_date: new Date() }}, { multi: true })

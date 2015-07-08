@@ -1,0 +1,29 @@
+# Login
+heroku login
+
+# Create
+heroku create
+
+# Push to heroku
+git push heroku master
+
+# Check if instance is running
+heroku ps:scale web=1
+
+# Go to heroku website
+heroku open
+
+# View logs
+heroku logs --tail
+
+# ProcFile
+# A procfile is a file in the root dir that explicitly explains the task(s) that
+# need to be running when app starts. Simplest form is:
+web: node server.js
+
+# =======
+# SCALING
+# =======
+
+# Check how many dynos are running
+heroku ps

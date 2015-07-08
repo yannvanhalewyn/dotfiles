@@ -1,0 +1,5 @@
+# WAV to MP3
+ffmpeg -i input.wav -codec:a libmp3lame -qscale:a 2 output.mp3
+
+# With xargs
+ls | xargs -I {} ffmpeg -i {} -codec:a libmp3lame -qscale:a 2 {}.mp3
