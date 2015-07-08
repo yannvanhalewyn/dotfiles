@@ -47,3 +47,8 @@ function zle-keymap-select {
  zle reset-prompt
 }
 zle -N zle-keymap-select
+
+# =====
+# RBENV
+# =====
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi

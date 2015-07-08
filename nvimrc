@@ -13,8 +13,10 @@
 "/* GENERAL BEHAVIOR
 "============================ */
 
-au  FocusLost * :wa               " Save on focus lost
-au  InsertLeave * :w              " Save when leaving insert mode
+augroup AUTOSAVE
+  au  FocusLost * :wa               " Save on focus lost
+  au  InsertLeave * :w              " Save when leaving insert mode
+augroup END
 set autowrite                     " Automatically :write before running commands
 set autoread                      " Auto reload files when changed on disk
 set backspace=2                   " Backspace deletes like most programs in insert mode
@@ -120,6 +122,9 @@ vnoremap  <Leader>erb <esc>`>a %><esc>`<i<%= <esc>
 " Breakout selection on own line
 vnoremap <Leader><CR> <esc>a<CR><esc>`<i<CR><esc>
 
+" Rotate windows
+nnoremap <Leader>w <c-w>r
+
 "Edit vimrc in split/source vimrc
 nnoremap <Leader>ev  :vsplit $MYVIMRC<CR>
 nnoremap <Leader>sv  :source $MYVIMRC<CR>
@@ -161,7 +166,7 @@ nmap } }zz
 " Quicker window movement
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
+nnoremap <BS> <C-w>h
 nnoremap <C-l> <C-w>l
 
 " Makes more sense
@@ -170,19 +175,14 @@ map Y y$
 " Magical regex
 nmap / /\v
 
-" Open new line between {}
-imap <c-c> <CR><ESC>O
-
 " Recentering while typing
 inoremap <c-z> <c-o>zz
 
 " Tag finder and navigation
 nmap <c-t> :CtrlPTag<CR>
 
-" Term mappings (nvim)
-if has('nvim')
-  tmap <c-w><c-w> <c-\><c-n><c-w><c-w>
-endif
+" this thing is annoying
+nmap ' <NOP>
 
 "/* ABBREVIATIONS (TYPOS)
 "============================ */
@@ -216,9 +216,11 @@ Plug 'tpope/vim-fugitive'                              " Git wrapper/airline bra
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}   " NerdTree
 Plug 'kien/ctrlp.vim'                                  " CTRL-P
 Plug 'lokaltog/vim-easymotion'                         " Easymotion for crazy motions!
+Plug 'majutsushi/tagbar'
 " Plug 'sjl/gundo.vim'                                   " Undo branching
 Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'frozen': 1}
-Plug 'marijnh/tern_for_vim', {'for': 'javascript'}
+" Plug 'marijnh/tern_for_vim', {'for': 'javascript'}
+Plug 'rhysd/clever-f.vim'
 Plug 'rking/ag.vim', {'on': 'Ag'}                      " AG! search pleasures
 Plug 'Raimondi/delimitMate'                            " Matching brackets and quotes
 Plug 'tpope/vim-endwise', {'for': ['ruby','sh','vim']} " Add matching 'end' in ruby/shell
@@ -229,7 +231,7 @@ Plug 'tpope/vim-surround'                              " Surround
 Plug 'tpope/vim-rails', {'for': 'ruby'}                " Rails.vim
 Plug 'tomtom/tcomment_vim'                             " Easy commenting
 Plug 'sickill/vim-pasta'                               " Improved indentation after paste
-Plug 'mattn/emmet-vim', {'for': 'html'}                " Emmet
+Plug 'mattn/emmet-vim'                                 " Emmet
 Plug 'thoughtbot/vim-rspec', {'for': 'ruby'}           " vim-rspec
 Plug 'yannvanhalewyn/vim-mocha', {'for': 'javascript'} " Same as thoughtbots vim-rspec
 Plug 'yannvanhalewyn/vim-run'                          " Run files of different FT
@@ -242,6 +244,13 @@ Plug 'flazz/vim-colorschemes'                          " All the colorschemes of
 Plug 'chriskempson/base16-vim'                         " And more
 Plug 'junegunn/vim-easy-align'                         " Aligning stuff
 Plug 'tpope/vim-unimpaired'                            " Good mappings
+
+Plug 'kana/vim-textobj-user'
+Plug 'nelstrom/vim-textobj-rubyblock', {'for': 'ruby'}
+Plug 'wellle/targets.vim'
+Plug 'Shutnik/jshint2.vim', {'for': 'javascript'}
+
+runtime macros/matchit.vim
 
 call plug#end()
 
@@ -263,8 +272,8 @@ let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
 " DELIMITMATE
 let g:delimitMate_expand_cr=2
 let g:delimitMate_expand_space=2
-let g:delimitMate_jump_expansion=1
-let g:delimitMate_balance_matchpairs=1
+" let g:delimitMate_jump_expansion=1
+" let g:delimitMate_balance_matchpairs=1
 
 " NERDTREE
 let NERDTreeShowHidden=1
@@ -289,6 +298,9 @@ if exists('$TMUX')
   let g:rspec_command = 'VimuxRunCommand("rspec {spec}\n")'
   let g:mocha_js_command = 'VimuxRunCommand("mocha {spec}")'
 endif
+
+" Tagbar
+nmap gt :TagbarToggle<CR>
 
 " The command to make text into multiline shizzle ⇒   :'<,'>normal 0v$hS'i\d0A,
 " http://www.cowsays.com
@@ -340,16 +352,18 @@ au FileType markdown nnoremap <leader>h "zyy"zpVr=
 "============================ */
 
 " Basic
-set relativenumber
+" set relativenumber
+set number
+set scrolljump=5
 syntax on
 
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
 
 " The colorscheme
-au VimEnter * set background=light
-au VimEnter * colorscheme solarized
-au VimEnter * AirlineTheme solarized
+au VimEnter * set background=dark
+au VimEnter * colorscheme base16-flat
+au VimEnter * AirlineTheme base16
 
 "/* My favorite colorschemes
 "=========================== */
@@ -363,4 +377,4 @@ au VimEnter * AirlineTheme solarized
 " colorscheme tomorrow-night
 " colorscheme gruvbox
 " colorscheme codeschool
-nnoremap <c-[> :pop<CR>
+" colorscheme lucius (bg=dark)
