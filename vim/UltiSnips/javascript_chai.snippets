@@ -77,8 +77,20 @@ endsnippet
 # ======
 # Custom
 # ======
-snippet desc "A describe block for chai" b
-describe ('${1:decription}', function() {
+snippet des "A describe block for chai" b
+describe('${1:decription}', function() {
+	${2:${VISUAL}}
+}); // End of describe '$1'
+endsnippet
+
+snippet con "Context block" b
+context("$1", function() {
+	${2:${VISUAL}}
+}); // End of context '$1'
+endsnippet
+
+snippet it "An it block" b
+it("$1", function() {
 	${2:${VISUAL}}
 });
 endsnippet
@@ -99,10 +111,10 @@ afterEach(function() {
 });
 endsnippet
 
-snippet .hbc "sinon-chai have been called" b
-.have.been.called();
+snippet hbc "sinon-chai have been called" i
+have.been.called;
 endsnippet
 
-snippet .hbcw "sinon-chai have been called with" b
-.have.been.calledWith(${1:args});
+snippet hbcw "sinon-chai have been called with" i
+have.been.calledWith(${1:args});
 endsnippet

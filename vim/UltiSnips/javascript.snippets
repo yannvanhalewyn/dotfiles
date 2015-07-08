@@ -2,6 +2,10 @@ snippet cl "console.log" b
 console.log(${1:${VISUAL:value}});
 endsnippet
 
+snippet ce "console.error" b
+console.error(${1:${VISUAL:value}});
+endsnippet
+
 snippet if "Wraps visual selection in if" b
 if (${1:Condition}) {
 	${2:${VISUAL:\/\/ code}}
@@ -9,7 +13,7 @@ if (${1:Condition}) {
 endsnippet
 
 snippet ife "Wraps visual selection in if" b
-if (${2:Condition}) {
+if (${1:Condition}) {
 	${2:${VISUAL:\/\/ If code}}
 } else {
 	${3:// Else code}
@@ -20,6 +24,12 @@ snippet iferr "rethrow an error" b
 if (${1:err}) throw $1;
 endsnippet
 
+snippet for "A for loop" b
+for (var ${1:i} = 0; $1 < ${2:count}; $1++) {
+	${3:${VISUAL}}
+}
+endsnippet
+
 snippet exp "Exports a node js module" b
 module.exports = ${1};
 endsnippet
@@ -28,8 +38,22 @@ snippet req "A require statement for node modules" b
 var ${2:${1/.*\///g}} = require('${1:lib}')$3;
 endsnippet
 
+snippet inc "An include statment for node module" b
+var ${2:${1/.*\///g}} = include('${1:lib}')$3;
+endsnippet
+
+snippet req, "  , la = require('la')" b
+  , ${2:${1/.*\///g}} = require('${1:lib}')$3
+endsnippet
+
+snippet inc, "  , la = include('la')" b
+  , ${2:${1/.*\///g}} = include('${1:lib}')$2
+endsnippet
+
 snippet module "Wrapper for module pattern" b
 (function() {
+
+	"use strict";
 
 	var $1 = {
 		$2
@@ -38,4 +62,21 @@ snippet module "Wrapper for module pattern" b
 	module.exports = $1;
 
 }())
+endsnippet
+
+snippet @jsx "JSX Header" b
+/** @jsx React.DOM */
+endsnippet
+
+snippet beautify "Prints out an entire (JSON) object" i
+JSON.stringify(${1:OBJECT}, null, 2)
+endsnippet
+
+snippet stacktrace "Prints out the stack trace" b
+var e = new Error('dummy');
+var stack = e.stack.replace(/^[^\(]+?[\n$]/gm, '')
+	.replace(/^\s+at\s+/gm, '')
+	.replace(/^Object.<anonymous>\s*\(/gm, '{anonymous}()@')
+	.split('\n');
+console.log(stack);
 endsnippet
