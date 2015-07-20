@@ -47,7 +47,7 @@ snippet req, "  , la = require('la')" b
 endsnippet
 
 snippet inc, "  , la = include('la')" b
-  , ${2:${1/.*\///g}} = include('${1:lib}')$2
+  , ${2:${1/.*\///g}} = include('${1:lib}')$3
 endsnippet
 
 snippet module "Wrapper for module pattern" b
@@ -55,17 +55,94 @@ snippet module "Wrapper for module pattern" b
 
 	"use strict";
 
-	var $1 = {
-		$2
-	};
+	var $1 = $2
 
 	module.exports = $1;
 
 }())
 endsnippet
 
-snippet @jsx "JSX Header" b
-/** @jsx React.DOM */
+snippet reactclass "A react class in a module pattern" b
+(function() {
+
+	"use strict";
+
+	var React = require('react');
+
+	var $1 = React.createClass({
+		render: function() {
+			return <p>$1</p>;
+		}
+	});
+
+	module.exports = $1;
+
+}())
+endsnippet
+
+snippet expressRouter "A CRUD router for express" b
+(function() {
+
+	"use strict";
+
+	var ${1:RouterName}Router = require('express').Router()
+	  , Controller = require('../controllers/${2:controllerPath}')
+
+	$1Router.get('/', Controller.index);
+	$1Router.get('/:${3:resource}_id', Controller.show);
+	$1Router.post('/', Controller.create);
+	$1Router.put('/:$3_id', Controller.update);
+	$1Router.delete('/:$3_id', Controller.destroy);
+
+	module.exports = $1Router;
+
+}())
+endsnippet
+
+snippet expressController "A CRUD controller for express" b
+(function() {
+
+	module.exports = {
+		index: function(req, res) {
+			res.send("P INDEX");
+		},
+
+		show: function(req, res) {
+			res.send("Show " + req.params.${1:resource}_id)
+		},
+
+		create: function(req, res) {
+			res.send("CREATE " + req.body);
+		},
+
+		update: function(req, res) {
+			res.send("UPDATE " + req.params.$1_id);
+		},
+
+		destroy: function(req, res) {
+			res.send("DESTROY " + req.params.$1_id);
+		}
+	};
+
+}())
+endsnippet
+
+snippet bbcollection "A Backbone collection" b
+(function() {
+
+	"use strict";
+
+	var Backbone = require('backbone');
+
+	var $1Model = Backbone.Model.extend({});
+
+	var ${1:ResourceName}Collection = Backbone.Collection.extend({
+		model: $1Model,
+	});
+
+	module.exports = $1Collection;
+
+}())
 endsnippet
 
 snippet beautify "Prints out an entire (JSON) object" i
