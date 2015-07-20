@@ -2,7 +2,7 @@
 heroku login
 
 # Create
-heroku create
+heroku create # should use --region eu
 
 # Push to heroku
 git push heroku master
@@ -20,6 +20,18 @@ heroku logs --tail
 # A procfile is a file in the root dir that explicitly explains the task(s) that
 # need to be running when app starts. Simplest form is:
 web: node server.js
+
+# List addons (services) available in europe
+# For neo4j I should use graphenedb, it's available in europe
+# Or graphstory, seems a little better. No idea.
+heroku addons:services --region eu
+
+# Check the set config vars
+heroku config  # prints out all env vars
+
+# For the config vars, make a .env file on root with:
+FB_AUTH_KEY=xxx
+etc..
 
 # =======
 # SCALING

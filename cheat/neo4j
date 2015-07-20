@@ -1,0 +1,87 @@
+NEO4J
+=====
+
+Creating Nodes
+--------------
+CREATE (ee:Person {name: "Emil", from: "Sweden"})
+
+Finding Nodes
+-------------
+MATCH (ee:Person) WHERE ee.name = "Emil" RETURN ee
+
+# or shorthand
+MATCH (tom {name: "Tom Hanks"}) RETURN tom
+
+# Find 10 peoples names
+MATCH (people:Person) RETURN people.name LIMIT 10
+
+# Find variable >
+MATCH (nineties:MOVIE) WHERE nineties.released > 1990 AND nineties.released < 2000
+RETURN nineties.title
+
+# Find relationship
+MATCH (tom:Person {name: "Tom Hanks"})-[:ACTED_IN]->(tomHanksMovies)
+RETURN tom, tomHanksMovies
+
+# Find reversed relationships!
+MATCH (cloudatlat {title: "Cloud Atlas"})<-[:DIRECTED]-(directors)
+RETURN directors.name
+
+# Find parrallel relationships!
+MATCH (tom:Person {name: "Tom Hanks"})-[:ACTED_IN]->(m)<-[:ACTED_IN]-(coActors)
+RETURN coActors, tom, m
+
+# Find any relationships!
+MATCH (people:Person)-[relatedTo]-(:Movie {title: "Cloud Atlas"})
+RETURN people.name, Type(relatedTo), relatedTo
+
+# Find a number of relational hops to something
+MATCH (bacon:Person {name:"Kevin Bacon"})-[*1-4]-(hollywood)
+RETURN DISTINCT hollywood
+
+# Shortest path to
+MATCH p=shortestPath(
+  (bacon:Person {name:"Kevin Bacon"})-[*]-(meg:Person {name:"Meg Ryan"})
+)
+RETURN p
+
+# AWESOME!! Find recommended people and the people in between
+# This example finds people who TOM hasn't yet worket with but his co-actors have
+# AND someone who can introduce him to the potential coactor ORDERED by importance!!!
+MATCH (tom:Person {name: "Tom Hands"})-[:ACTED_IN]->(m)<-[:ACTED_IN]-(coActors),
+      (coActors)-[:ACTED_IN]->(m2)<-[:ACTED_IN]-(cocoActors)
+WHERE NOT (tom)-[:ACTED_IN]->(m2)
+RETURN cocoActors.name, count(*) AS Strength ORDER BY Strength DESC
+
+!! THIS IS AWESOME. The top result is Tom Cruise. Let's find someone to
+introduce Tom Hanks to Tom Cruise
+MATCH (tom:Person {name: "Tom Hanks"})-[:ACTED_IN]->(m)<-[:ACTED_IN]-(coActors),
+      (coActors)-[:ACTED_IN]->(m2)<-[:ACTED_IN]-(cruise:Person {name: "Tom Cruise"})
+return tom, m, coActors, m2, cruise
+
+
+
+Create a bunch of entities and relationships
+--------------------------------------------
+MATCH (ee:Person) WHERE ee.name = "Emil"
+CREATE (js:Person {name: "Johan", from: "Sweden", learn: "surfing"}),
+(ir:Person {name: "Ian", from: "England", title: "author"}),
+(rvb:Person {name: "Rik", from: "Belgium", per:"Orval"}),
+(ally:Person {name: "Allison", from: "California", hobby: "surfing"}),
+(ee)-[:KNOWS {since:2001}]->(js),
+(ee)-[:KNOWS {rating: 5}]->(ir),
+(js)-[:KNOWS]->(ir),(js)-[:KNOWS]->(rvb),
+(ir)-[:KNOWS]->(js),(ir)-[:KNOWS]->(ally),
+(rvb)-[:KNOWS]->(ally)
+
+Pattern matching
+----------------
+MATCH (ee:Person)-[:KNOWS]-(friends)
+WHERE ee.name = "Emil" 
+RETURN ee, friends
+
+DELETING EVERYTHING
+-------------------
+MATCH (a:Person),(m:Movie) OPTIONAL MATCH (a)-[r1]-(), (m)-[r2]-() DELETE a,r1,m,r2
+# Note - If there is a relationship you're not allowed to destroy the node.
+# That's the reason for the optional match.
