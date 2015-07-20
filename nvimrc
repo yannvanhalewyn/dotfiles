@@ -76,8 +76,8 @@ autocmd BufReadPost *
 let mapleader = "\<Space>"
 
 " Remap tab and shift-tab to switch buffers
-nnoremap <Tab>   :bnext<CR>
-nnoremap <S-Tab> :bprevious<CR>
+nnoremap <Tab>   :tabnext<CR>
+nnoremap <S-Tab> :tabprevious<CR>
 nnoremap <leader>p :set invpaste<CR>
 
 " close buffer using a script in ~/.vim/plugin/BufOnly.vim
@@ -249,6 +249,8 @@ Plug 'kana/vim-textobj-user'
 Plug 'nelstrom/vim-textobj-rubyblock', {'for': 'ruby'}
 Plug 'wellle/targets.vim'
 Plug 'Shutnik/jshint2.vim', {'for': 'javascript'}
+Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}
+
 
 runtime macros/matchit.vim
 
@@ -302,25 +304,17 @@ endif
 " Tagbar
 nmap gt :TagbarToggle<CR>
 
-" The command to make text into multiline shizzle ⇒   :'<,'>normal 0v$hS'i\d0A,
-" http://www.cowsays.com
-let g:startify_custom_header = [
-\'         ________________________',
-\'        < Stay hungry my friend. >',
-\'         ------------------------',
-\'                \   ^__^',
-\'                 \  (oo)\_______',
-\'                    (__)\       )\/\ ',
-\'                        ||----w |',
-\'                        ||     ||',
-\''
-\]
-
 " Easy Align
 vmap <Enter> <Plug>(EasyAlign)
 if !exists('g:easy_align_delimiters')
   let g:easy_align_delimiters = {}
 endif
+
+" JSDOC
+let g:jsdoc_allow_input_prompt=1
+let g:jsdoc_input_description=1
+let g:jsdoc_default_mapping=0
+
 " Ignore groups override so that it looks for the chars in comments
 let g:easy_align_delimiters['"'] = { 'pattern': '"', 'ignore_groups': ['String'] }
 
@@ -364,6 +358,7 @@ set list listchars=tab:»·,trail:·
 au VimEnter * set background=dark
 au VimEnter * colorscheme base16-flat
 au VimEnter * AirlineTheme base16
+au VimEnter * hi Search guifg=wheat guibg=none
 
 "/* My favorite colorschemes
 "=========================== */
