@@ -1,20 +1,22 @@
-"
-" `8.`888b           ,8'  8 8888          ,8.       ,8.          8 888888888o.      ,o888888o.
-"  `8.`888b         ,8'   8 8888         ,888.     ,888.         8 8888    `88.    8888     `88.
-"   `8.`888b       ,8'    8 8888        .`8888.   .`8888.        8 8888     `88 ,8 8888       `8.
-"    `8.`888b     ,8'     8 8888       ,8.`8888. ,8.`8888.       8 8888     ,88 88 8888
-"     `8.`888b   ,8'      8 8888      ,8'8.`8888,8^8.`8888.      8 8888.   ,88' 88 8888
-"      `8.`888b ,8'       8 8888     ,8' `8.`8888' `8.`8888.     8 888888888P'  88 8888
-"       `8.`888b8'        8 8888    ,8'   `8.`88'   `8.`8888.    8 8888`8b      88 8888
-"        `8.`888'         8 8888   ,8'     `8.`'     `8.`8888.   8 8888 `8b.    `8 8888       .8'
-"         `8.`8'          8 8888  ,8'       `8        `8.`8888.  8 8888   `8b.     8888     ,88'
-"          `8.`           8 8888 ,8'         `         `8.`8888. 8 8888     `88.    `8888888P'
+"                                           .         .
+"  `8.`888b           ,8'  8 8888          ,8.       ,8.          8 888888888o.      ,o888888o.
+"   `8.`888b         ,8'   8 8888         ,888.     ,888.         8 8888    `88.    8888     `88.
+"    `8.`888b       ,8'    8 8888        .`8888.   .`8888.        8 8888     `88 ,8 8888       `8.
+"     `8.`888b     ,8'     8 8888       ,8.`8888. ,8.`8888.       8 8888     ,88 88 8888
+"      `8.`888b   ,8'      8 8888      ,8'8.`8888,8^8.`8888.      8 8888.   ,88' 88 8888
+"       `8.`888b ,8'       8 8888     ,8' `8.`8888' `8.`8888.     8 888888888P'  88 8888
+"        `8.`888b8'        8 8888    ,8'   `8.`88'   `8.`8888.    8 8888`8b      88 8888
+"         `8.`888'         8 8888   ,8'     `8.`'     `8.`8888.   8 8888 `8b.    `8 8888       .8'
+"          `8.`8'          8 8888  ,8'       `8        `8.`8888.  8 8888   `8b.     8888     ,88'
+"           `8.`           8 8888 ,8'         `         `8.`8888. 8 8888     `88.    `8888888P'
 
 "/* GENERAL BEHAVIOR
 "============================ */
 
-au  FocusLost * :wa               " Save on focus lost
-au  InsertLeave * :w              " Save when leaving insert mode
+augroup AUTOSAVE
+  au  FocusLost * :wa               " Save on focus lost
+  au  InsertLeave * :w              " Save when leaving insert mode
+augroup END
 set autowrite                     " Automatically :write before running commands
 set autoread                      " Auto reload files when changed on disk
 set backspace=2                   " Backspace deletes like most programs in insert mode
@@ -39,11 +41,8 @@ set softtabstop=2
 set shiftwidth=2
 set expandtab
 
-" Linesize and wraps
-set textwidth=80
-
 " Persistent undo
-set undodir=~/.vim/undo/
+set undodir=~/.vim/undo
 set undofile
 set undolevels=1000
 set undoreload=10000
@@ -51,7 +50,6 @@ set undoreload=10000
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
-
 
 "/* AUTOCOMMANDS
 "============================ */
@@ -74,18 +72,18 @@ autocmd BufReadPost *
 let mapleader = "\<Space>"
 
 " Remap tab and shift-tab to switch buffers
-nnoremap <Tab>   :bnext<CR>
-nnoremap <S-Tab> :bprevious<CR>
+nnoremap <Tab>   :tabnext<CR>
+nnoremap <S-Tab> :tabprevious<CR>
 nnoremap <leader>p :set invpaste<CR>
 
 " close buffer using a script in ~/.vim/plugin/BufOnly.vim
 " It swaps it with the previouse buffer, or an empty one if needed.
-map <Leader>q :Bclose<CR>
-map <Leader>Q :Bonly<CR>
+map  <Leader>q  :Bclose<CR>
+map  <Leader>Q  :Bonly<CR>
 " toggle NerdTree / Gundo
-map <Leader>n :NERDTreeToggle<CR>
-map <Leader>N :NERDTreeFind<CR>
-map <Leader>g :GundoToggle<CR>
+map  <Leader>n  :NERDTreeToggle<CR>
+map  <Leader>N  :NERDTreeFind<CR>
+map  <Leader>g  :GundoToggle<CR>
 " Fugitive mappings
 nmap <Leader>gs :Gstatus<CR>
 nmap <Leader>gd :Gvdiff<CR>
@@ -95,10 +93,10 @@ map  <Leader>cs :TCommentBlock<CR>
 map  <Leader>cc :TComment<CR>
 map  <Leader>ci :TCommentInline<CR>
 " Call vimux commands
-map <Leader>vp :call VimuxPromptCommand()<CR>
-map <Leader>vl :VimuxRunLastCommand<CR>
-map <Leader>vv :VimuxZoomRunner<CR>
-map <Leader>vc :VimuxCloseRunner<CR>
+map  <Leader>vp :call VimuxPromptCommand()<CR>
+map  <Leader>vl :VimuxRunLastCommand<CR>
+map  <Leader>vv :VimuxZoomRunner<CR>
+map  <Leader>vc :VimuxCloseRunner<CR>
 map  <Leader>vk :VimuxInterruptRunner<CR>
 nmap  <a-j>     :VimuxScrollDownInspect<CR>
 nmap  <a-k>     :VimuxScrollUpInspect<CR>
@@ -120,6 +118,9 @@ vnoremap  <Leader>erb <esc>`>a %><esc>`<i<%= <esc>
 " Breakout selection on own line
 vnoremap <Leader><CR> <esc>a<CR><esc>`<i<CR><esc>
 
+" Rotate windows
+nnoremap <Leader>w <c-w>r
+
 "Edit vimrc in split/source vimrc
 nnoremap <Leader>ev  :vsplit $MYVIMRC<CR>
 nnoremap <Leader>sv  :source $MYVIMRC<CR>
@@ -139,13 +140,13 @@ nmap <Leader>H :help <c-r><c-w><cr>
 nnoremap <CR> i<CR><esc>O
 
 " Moving lines/selection up and down - direct map for vim-pasta
-nmap <UP> ddkP
-nmap <DOWN> ddp
-nnoremap <LEFT> <<
+nmap        <UP> ddkP
+nmap      <DOWN> ddp
+nnoremap  <LEFT> <<
 nnoremap <RIGHT> >>
-vmap <UP> dkPV`>kk
-vmap <DOWN> <esc>jjmm`<V`>dpV`mk
-vnoremap <LEFT> <V`>
+vmap        <UP> dkPV`>kk
+vmap      <DOWN> <esc>jjmm`<V`>dpV`mk
+vnoremap  <LEFT> <V`>
 vnoremap <RIGHT> >V`>
 
 " Map @ in visual mode to execute reg in normal mode on every line
@@ -161,7 +162,7 @@ nmap } }zz
 " Quicker window movement
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
+nnoremap <BS> <C-w>h
 nnoremap <C-l> <C-w>l
 
 " Makes more sense
@@ -170,78 +171,77 @@ map Y y$
 " Magical regex
 nmap / /\v
 
-" Open new line between {}
-imap <c-c> <CR><ESC>O
-
 " Recentering while typing
 inoremap <c-z> <c-o>zz
 
 " Tag finder and navigation
 nmap <c-t> :CtrlPTag<CR>
 
-" Term mappings (nvim)
-if has('nvim')
-  tmap <c-w><c-w> <c-\><c-n><c-w><c-w>
-endif
+" this thing is annoying
+nmap ' <NOP>
 
 "/* ABBREVIATIONS (TYPOS)
 "============================ */
 
-iabbrev adn and
-iabbrev waht what
-iabbrev tehn then
-iabbrev succes success
-iabbrev ressource resource
+iabbrev adn        and
+iabbrev waht       what
+iabbrev tehn       then
+iabbrev succes     success
+iabbrev ressource  resource
 iabbrev ressources resources
-iabbrev widht width
-iabbrev heigth height
-iabbrev ture ture
-iabbrev flase false
+iabbrev widht      width
+iabbrev heigth     height
+iabbrev ture       ture
+iabbrev flase      false
 
 
 "/* VIM-PLUG
 "============================ */
 
 " Set correct editor root path
-if has('nvim')
-  let s:editor_root=expand("~/.nvim")
-else
-  " let g:plug_threads=1    " Some bug where ruby runtime isn't working
-  let s:editor_root=expand("~/.vim")
-endif
+let s:editor_root=expand("~/.vim")
 call plug#begin(s:editor_root . "/plugged")
 
+" Favorites
 Plug 'bling/vim-airline'                               " Airline status bar
 Plug 'tpope/vim-fugitive'                              " Git wrapper/airline branch display
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}   " NerdTree
 Plug 'kien/ctrlp.vim'                                  " CTRL-P
-Plug 'lokaltog/vim-easymotion'                         " Easymotion for crazy motions!
-" Plug 'sjl/gundo.vim'                          " Undo branching
-Plug 'Valloric/YouCompleteMe', {'do': './install.sh --clang-completer', 'frozen': 1}
-Plug 'marijnh/tern_for_vim', {'for': 'javascript'}
-Plug 'rking/ag.vim', {'on': 'Ag'}                      " AG! search pleasures
 Plug 'Raimondi/delimitMate'                            " Matching brackets and quotes
-Plug 'tpope/vim-endwise', {'for': ['ruby','sh','vim']}       " Add matching 'end' in ruby/shell
 Plug 'SirVer/ultisnips'                                " UltiSnips
-Plug 'honza/vim-snippets'                              " Some snippets
-Plug 'ervandew/supertab'                               " Supertab so that ultisnips and completions play nice
 Plug 'tpope/vim-surround'                              " Surround
-Plug 'tpope/vim-rails', {'for': 'ruby'}                " Rails.vim
-Plug 'tomtom/tcomment_vim'                             " Easy commenting
-Plug 'sickill/vim-pasta'                               " Improved indentation after paste
-Plug 'mattn/emmet-vim', {'for': 'html'}                " Emmet
-Plug 'thoughtbot/vim-rspec', {'for': 'ruby'}           " vim-rspec
 Plug 'yannvanhalewyn/vim-mocha', {'for': 'javascript'} " Same as thoughtbots vim-rspec
-Plug 'yannvanhalewyn/vim-run'                          " Run files of different FT
+Plug 'ervandew/supertab'                               " Supertab so that ultisnips and completions play nice
+Plug 'tomtom/tcomment_vim'                             " Easy commenting
 Plug 'benmills/vimux'                                  " To send commands to TMUX (RSpec!!)
-Plug 'Keithbsmiley/rspec.vim', {'for': 'ruby'}         " RSPEC synthax higlighting
-Plug 'octol/vim-cpp-enhanced-highlight', {'for':'cpp'} " Improved c++ syntax highlighting
+
+" Useful
+Plug 'lokaltog/vim-easymotion'                         " Easymotion for crazy motions!
+Plug 'rhysd/clever-f.vim'                              " Inline easymotion with f and t commands
+Plug 'majutsushi/tagbar'
+Plug 'rking/ag.vim', {'on': 'Ag'}                      " AG! search pleasures
+Plug 'tpope/vim-endwise', {'for': ['ruby','sh','vim']} " Add matching 'end' in ruby/shell
+Plug 'honza/vim-snippets'                              " Some snippets
+Plug 'sickill/vim-pasta'                               " Improved indentation after paste
+Plug 'mattn/emmet-vim'                                 " Emmet
+Plug 'thoughtbot/vim-rspec', {'for': 'ruby'}           " vim-rspec
+Plug 'yannvanhalewyn/vim-run'                          " Run files of different FT
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}  " JS Syntax and indentation
-Plug 'mustache/vim-mustache-handlebars'                " Syntax for handlebars/mustache
+Plug 'tpope/vim-unimpaired'                            " Good mappings
+Plug 'kana/vim-textobj-user'                           " Easily create new text objects.
+Plug 'nelstrom/vim-textobj-rubyblock', {'for': 'ruby'} " Change inside ruby {cir}
+Plug 'wellle/targets.vim'                              " Some extra targets like inside next parens, etc..
+Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}    " Easy interface for adding javascript documentation.
+
+" Layout / syntax support
 Plug 'flazz/vim-colorschemes'                          " All the colorschemes of the world
 Plug 'chriskempson/base16-vim'                         " And more
+Plug 'mustache/vim-mustache-handlebars'                " Syntax for handlebars/mustache
 Plug 'junegunn/vim-easy-align'                         " Aligning stuff
-Plug 'tpope/vim-unimpaired'                            " Good mappings
+Plug 'Keithbsmiley/rspec.vim', {'for': 'ruby'}         " RSPEC syntax higlighting
+Plug 'octol/vim-cpp-enhanced-highlight', {'for':'cpp'} " Improved c++ syntax highlighting
+
+runtime macros/matchit.vim
 
 call plug#end()
 
@@ -251,9 +251,7 @@ call plug#end()
 
 " AIRLINE
 let g:airline_powerline_fonts = 1
-" Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
-" Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 
 " EMMET
@@ -263,8 +261,6 @@ let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
 " DELIMITMATE
 let g:delimitMate_expand_cr=2
 let g:delimitMate_expand_space=2
-let g:delimitMate_jump_expansion=1
-let g:delimitMate_balance_matchpairs=1
 
 " NERDTREE
 let NERDTreeShowHidden=1
@@ -278,31 +274,14 @@ let g:ctrlp_clear_cache_on_exit=0
 let g:UltiSnipsJumpForwardTrigger      = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger     = "<s-tab>"
 
-" You complete me
-let g:ycm_key_list_select_completion   = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType    = '<C-n>'
-let g:ycm_global_ycm_extra_conf        = s:editor_root . "/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
-
 " vim-mocha and vim-rspec in tmux
 if exists('$TMUX')
   let g:rspec_command = 'VimuxRunCommand("rspec {spec}\n")'
   let g:mocha_js_command = 'VimuxRunCommand("mocha {spec}")'
 endif
 
-" The command to make text into multiline shizzle ⇒   :'<,'>normal 0v$hS'i\d0A,
-" http://www.cowsays.com
-let g:startify_custom_header = [
-\'         ________________________',
-\'        < Stay hungry my friend. >',
-\'         ------------------------',
-\'                \   ^__^',
-\'                 \  (oo)\_______',
-\'                    (__)\       )\/\ ',
-\'                        ||----w |',
-\'                        ||     ||',
-\''
-\]
+" Tagbar
+nmap gt :TagbarToggle<CR>
 
 " Easy Align
 vmap <Enter> <Plug>(EasyAlign)
@@ -311,6 +290,11 @@ if !exists('g:easy_align_delimiters')
 endif
 " Ignore groups override so that it looks for the chars in comments
 let g:easy_align_delimiters['"'] = { 'pattern': '"', 'ignore_groups': ['String'] }
+
+" JSDOC
+let g:jsdoc_allow_input_prompt=1
+let g:jsdoc_input_description=1
+let g:jsdoc_default_mapping=0
 
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=
@@ -340,16 +324,22 @@ au FileType markdown nnoremap <leader>h "zyy"zpVr=
 "============================ */
 
 " Basic
-set relativenumber
+set number
+set scrolljump=5
 syntax on
+set textwidth=80
 
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
 
 " The colorscheme
-set background=dark
-colorscheme gruvbox
-
+au VimEnter * set background=dark
+au VimEnter * colorscheme gruvbox
+if has('nvim')
+  au VimEnter * colorscheme base16-flat
+endif
+au VimEnter * AirlineTheme base16
+au VimEnter * hi Search guifg=wheat guibg=none
 
 "/* My favorite colorschemes
 "=========================== */
@@ -363,3 +353,4 @@ colorscheme gruvbox
 " colorscheme tomorrow-night
 " colorscheme gruvbox
 " colorscheme codeschool
+" colorscheme lucius (bg=dark)

@@ -32,3 +32,7 @@ for file in $files; do
     echo "Linking $dir/$file -> ~/.$file"
     ln -s $dir/$file ~/.$file
 done
+
+# Symlink vim files for neovim
+ln -s $dir/vim ~/.nvim
+ln -s $dir/vimrc ~/.nvimrc
