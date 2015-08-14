@@ -87,12 +87,13 @@ snippet expressRouter "A CRUD router for express" b
 
 	var ${1:RouterName}Router = require('express').Router()
 	  , Controller = require('../controllers/${2:controllerPath}')
+	  , middlewares = Controller.middlewares
 
-	$1Router.get('/', Controller.index);
-	$1Router.get('/:${3:resource}_id', Controller.show);
-	$1Router.post('/', Controller.create);
-	$1Router.put('/:$3_id', Controller.update);
-	$1Router.delete('/:$3_id', Controller.destroy);
+	$1Router.get('/', middlewares.index, Controller.index);
+	$1Router.get('/:${3:resource}_id', middlewares.show, Controller.show);
+	$1Router.post('/', middlewares.create, Controller.create);
+	$1Router.put('/:$3_id', middlewares.update, Controller.update);
+	$1Router.delete('/:$3_id', middlewares.destroy, Controller.destroy);
 
 	module.exports = $1Router;
 
@@ -103,6 +104,15 @@ snippet expressController "A CRUD controller for express" b
 (function() {
 
 	module.exports = {
+
+		middlewares: {
+			index:   [],
+			edit:    [],
+			create:  [],
+			update:  [],
+			destroy: []
+		},
+
 		index: function(req, res) {
 			res.send("P INDEX");
 		},

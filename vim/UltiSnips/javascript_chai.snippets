@@ -125,3 +125,14 @@ var chai      = require('chai')
   , expect    = chai.expect
 chai.use(sinonChai);
 endsnippet
+
+snippet tddrequires "Some general includes for tdd" b
+var include   = require('include')
+  , chai      = require('chai')
+  , sinonChai = require('sinon-chai')
+  , expect    = chai.expect
+  , sinon     = require('sinon')
+  , reqres    = require('reqres')
+  , Q         = require('q')
+chai.use(sinonChai);
+endsnippet

@@ -18,6 +18,8 @@ source "$HOME/.antigen/antigen.zsh"
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle git
 antigen bundle vi-mode
+antigen bundle tarruda/zsh-autosuggestions
+antigen bundle akoenig/gulp-autocompletion-zsh
 antigen-theme "$HOME/.zsh/agnoster"
 antigen-apply
 setopt PROMPT_SUBST
@@ -37,6 +39,16 @@ source "$HOME/.functions"
 
 bindkey '\e[A' history-beginning-search-backward
 bindkey '\e[B' history-beginning-search-forward
+
+# zsh-autosuggestions
+# zle-line-init() {
+#     zle autosuggest-start
+# }
+# zle -N zle-line-init
+# bindkey '^n' autosuggest-execute-suggestion
+
+# auto push dirs on stack
+setopt autopushd
 
 # ===========================
 # Helper to check for vi-mode

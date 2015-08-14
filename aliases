@@ -10,6 +10,8 @@
 #  .888888888. `88888.  8 8888          8 8888  .888888888. `88888. `8b.  ;8.`8888
 # .8'       `8. `88888. 8 888888888888  8 8888 .8'       `8. `88888. `Y8888P ,88P'
 
+alias curproj='cd /Users/yannvanhalewyn/Documents/code/javascript/reactjs/sheet_something'
+
 # Easier navigation: .., ..., ~ and -
 alias ..="cd .."
 alias cd..="cd .."
@@ -89,6 +91,13 @@ alias gdotf='open "http://www.github.com/yannvanhalewyn/dotfiles"'
 alias v="nvim"
 alias e="emacs"
 
+# git flow
+alias gf="git flow"
+alias gff="git flow feature"
+alias gffs="git flow feature start"
+alias gfff="git flow feature finish"
+alias gfco="git flow feature checkout"
+
 # File size
 alias fs="stat -f \"%z bytes\""
 
@@ -153,3 +162,6 @@ alias yt2mp3='youtube-dl -f 141'
 
 # Download a raw file with redirects
 alias getfile='curl -LO'
+
+# Readable tree
+alias t='tree -L 2 --dirsfirst'
