@@ -45,6 +45,7 @@ run: $(EXEC)
 endsnippet
 
 
+
 snippet makejava "A generic java makefile" b
 # Compiler
 JC = javac
@@ -169,4 +170,146 @@ run_package: $(PKG)
 	@open $(PKG)
 
 .PHONY: clean clean_all print_vars run run_package
+endsnippet
+
+snippet makesimplec "A simple makefile for a c program" b
+CC=cc
+CFLAGS=-Wall -g
+SRC=main.c
+BUILD=main
+
+$(BUILD): $(SRC)
+	$(CC) $(CFLAGS) $< -o $@
+
+run: $(BUILD)
+	./$(BUILD)
+
+clean:
+	rm $(BUILD)
+endsnippet
+
+snippet makec "A complex makefile for a c promgram" b
+# Compiler
+CC=cc
+CFLAGS=-Wall -g
+
+# DIRS
+SRCDIR=src
+OBJDIR=obj
+BINDIR=bin
+
+# Files
+SOURCES := $(shell find $(SRCDIR)/*.c)
+HEADERS := $(shell find $(SRCDIR)/*.h)
+OBJECTS := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+BUILD=main
+
+SRC:=$(SRCDIR)/$(SRC)
+BUILD:=$(BINDIR)/$(BUILD)
+
+$(BUILD): $(OBJECTS)
+	@[ -d $(BINDIR) ] || (mkdir $(BINDIR) && echo "\n--- made $(BINDIR) dir\n")
+	$(CC) $(CFLAGS) $^ -o $@
+
+$(OBJECTS): $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
+	@[ -d $(OBJDIR) ] || (mkdir $(OBJDIR) && echo "\n--- made $(OBJDIR) dir\n")
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# =====
+# PHONY
+# =====
+run: $(BUILD)
+	./$(BUILD)
+
+clean:
+	rm -rf $(BINDIR) $(OBJDIR)
+
+print:
+	@echo SOURCES = $(SOURCES)
+	@echo HEADERS = $(HEADERS)
+	@echo OBJECTS = $(OBJECTS)
+	@echo BUILD = $(BUILD)
+
+PHONY: run clean print
+endsnippet
+
+snippet makeclib "Makefile for building a static or dynamic library in c" b
+# Compiler stuff
+CC=cc
+CFLAGS=-g -O2 -Wall -Wextra -Isrc -rdynamic -DNDEBUG $(OPTFLAGS)
+LIBS=-ldl $(OPTLIBS)
+PREFIX?=/usr/local
+
+# Dirnames
+SRCDIR   = src
+OBJDIR   = obj
+TESTDIR  = tests
+BUILDDIR = lib
+
+# Files
+SOURCES=$(wildcard $(SRCDIR)/**/*.c $(SRCDIR)/*.c)
+OBJECTS=$(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o,$(SOURCES))
+
+TEST_SRC=$(wildcard $(TESTDIR)/*_tests.c)
+TESTS=$(patsubst %.c, %,$(TEST_SRC))
+
+LIB_NAME  = YOUR_LIB_NAME
+TARGET    = $(BUILDDIR)/lib$(LIB_NAME).a
+SO_TARGET = $(patsubst %.a,%.so,$(TARGET))
+
+# The Target Build
+all: $(TARGET) $(SO_TARGET) tests
+
+dev: CFLAGS=-g -Wall -Isrc -Wall -Wextra $(OPTFLAGS)
+dev: all
+
+$(TARGET): CFLAGS += -fPIC
+$(TARGET): $(OBJECTS)
+	@[[ -d $(BUILDDIR) ]] || mkdir $(BUILDDIR)
+	ar rcs $@ $<
+	ranlib $@
+
+$(SO_TARGET): $(OBJECTS)
+	@[[ -d $(BUILDDIR) ]] || mkdir $(BUILDDIR)
+	$(CC) -shared -o $@ $<
+
+$(OBJECTS): $(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@[[ -d $$(dirname $@) ]] || mkdir -p $$(dirname $@)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+# The Unit Tests
+.PHONY: tests
+tests: CFLAGS += $(TARGET)
+tests: $(TESTS)
+	sh ./tests/runtests.sh
+
+valgrind:
+	VALGRIND="valgrind --log-file=/tmp/valgrind-%p.log" $(MAKE)
+
+# The Cleaner
+clean:
+	rm -rf $(OBJDIR) $(BINDIR) $(BUILDDIR)
+	rm -f $(TESTS) $(TESTDIR)/tests.log
+	find . -name "*.gc*" -exec rm {} \;
+
+# The Install
+install: all
+	install -d $(DESTDIR)/$(PREFIX)/lib/
+	install $(TARGET) $(DESTDIR)/$(PREFIX)/lib/
+
+# The Checker
+BADFUNCS='[^_.>a-zA-Z0-9](str(n?cpy|n?cat|xfrm|n?dup|str|pbrk|tok|_)|stpn?cpy|a?sn?printf|byte_)'
+check:
+	@echo Files with potentially dangerous functions.
+	@egrep $(BADFUNCS) $(SOURCES) || true
+
+print:
+	@echo SOURCES     : $(SOURCES)
+	@echo OBJECTS     : $(OBJECTS)
+	@echo TEST_SRC    : $(TEST_SRC)
+	@echo TESTS       : $(TESTS)
+	@echo TARGET_NAME : $(TARGET_NAME)
+	@echo TARGET      : $(TARGET)
+	@echo SO_TARGET   : $(SO_TARGET)
+	@echo DESTDIR     : $(DESTDIR)
 endsnippet

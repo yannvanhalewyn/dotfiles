@@ -11,7 +11,7 @@
 ; 8 888888888888 ,8'         `         `8.`8888. .8'       `8. `88888.  `8888888P'     `Y8888P ,88P'
 ;
 (add-to-list 'load-path (concat user-emacs-directory "config"))
-(load "my-ibuffer")
+;; (load "my-ibuffer")
 (load "load-packages")
 
 ;; Setup evil-mode with evil-leader
@@ -31,12 +31,18 @@
 (setq-default save-place t)
 (require 'saveplace)
 
-; ;; Evil mode key bindings
+;;; Evil mode key bindings
 (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+(define-key evil-normal-state-map (kbd "C-i") 'describe-mode)
 (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
 (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
 (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
 (define-key evil-normal-state-map (kbd "-") 'delete-other-windows)
+
+(evil-set-initial-state 'magit-log-edit-mode 'emacs)
+(evil-set-initial-state 'nav-mode 'emacs)
+(evil-set-initial-state 'grep-mode 'emacs)
+(evil-set-initial-state 'ibuffer-mode 'normal)
 
 ;; NeoTree evil mappings
 (add-hook 'neotree-mode-hook
@@ -62,10 +68,19 @@
 (global-linum-mode t)
 (setq linum-format "%d ")
 (show-paren-mode 1)
+(setq c-basic-offset 4)
+(menu-bar-mode 0)
 
 ;; Powerline
 (require 'powerline)
 (powerline-default-theme)
+
+;; Yasnippet
+(require 'yasnippet)
+(setq yas-snippet-dirs
+      '("~/.emacs.d/snippets"
+        "~/.emacs.d/elpa/yasnippet-0.8.0/snippets"))
+(yas-global-mode 1)
 
 ;; Smooth scroll
 (setq scroll-margin 5
@@ -78,6 +93,7 @@
 (evil-leader/set-key "gs" 'magit-status)
 (evil-leader/set-key "cc" 'comment-or-uncomment-region)
 (evil-leader/set-key "q" 'kill-this-buffer)
+(evil-leader/set-key "r" 'recompile)
 (evil-leader/set-key "SPC" 'execute-extended-command)
 
 ;; Delimiters
@@ -107,3 +123,24 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+
+
+(require 'cl)
+(defun* get-closest-pathname (&optional (file "makefile"))
+  (let ((root (expand-file-name "/")))
+    (expand-file-name file
+                      (loop
+                       for d = default-directory then (expand-file-name ".." d)
+                       if (file-exists-p (expand-file-name file d))
+                       return d
+                       if (equal d root)
+                       return nil))))
+
+(require 'compile)
+(add-hook 'c-mode-hook (lambda ()
+                         (let ((nearest-makefile (get-closest-pathname)))
+                           (set (make-local-variable 'compile-command)
+                                (format "cd %s && make"
+                                        (file-name-directory nearest-makefile))))))
+

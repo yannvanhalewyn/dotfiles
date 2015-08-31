@@ -1,0 +1,19 @@
+snippet wpconfig "A basic config file for webpack" b
+module.exports = {
+	entry: "./src/app.js",
+	output: {
+		path: "dist/",
+		filename: "bundle.js"
+	},
+	module: {
+		loaders: [
+			{test: /\.jsx?$/, exclude: /node_modules/, loader: "babel-loader"}
+		]
+	},
+	externals: {
+		react: "React",
+		lodash: "_"
+	},
+	devtool: "#cheap-source-map"
+}
+endsnippet

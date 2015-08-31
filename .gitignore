@@ -4,3 +4,9 @@ vim/plugged/
 nvim/plugged/
 vim/flavors/
 nvim/.netrwhist
+emacs.d/elpa
+emacs.d/auto-save-list
+emacs.d/elpa
+emacs.d/eshell
+emacs.d/saveplace
+emacs.d/**/.yas-compiled-snippets.el

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Define makro
+# key: def
+# --
+#define ${1:VALUE}

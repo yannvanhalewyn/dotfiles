@@ -1,0 +1,69 @@
+# Basic usage
+
+    |---------+-------------------------------|
+    | C-x C-s | Save                          |
+    | C-x C-f | Load/open                     |
+    | C-s     | Isearch forward               |
+    | C-r     | Isearch backwards             |
+    | C-:     | Eval (useful for conig stuff) |
+    |---------+-------------------------------|
+
+#  Buffers
+
+    |---------+-----------------------|
+    | C-x C-e | Run command in buffer |
+    | C-x o   | Move to next buffer   |
+    | C-x b   | Select a buffer       |
+    |---------+-----------------------|
+
+# Shell
+
+    |---------+----------------------------------------------|
+    | M-!     | Execute shell command - output in new buffer |
+    | C-u M-! | Insert shell output at point                 |
+    |---------+----------------------------------------------|
+
+# Other stuff
+
+    |---------------------------+--------------------|
+    | M-x eshell                | Open a shell       |
+    | M-x eshell                | Open a shell       |
+    | M-x goto-line             | Goto a line number |
+    | M-x toggle-word-wrap      | Word wrap          |
+    | M-x flyspell-mode         | Spell checking     |
+    | M-x linum-mode            | Line numbers       |
+    | M-x visual-line-mode      | Toggle line wrap   |
+    | M-x compile               | Compile some code  |
+    | M-x package-list-packages | List packages      |
+    |---------------------------+--------------------|
+
+#  Sudoing within eshell
+
+  By default when using the sudo command within eshell you'll just
+  get "permission denied" messages. To overcome that type:
+
+    alias sudo '*sudo $*'
+
+# Org-mode
+
+    |----------------+--------------------------------------------|
+    | M-x org-mode   | To begin org-mode                          |
+    | Vertical-pipe  | Table column separator                     |
+    | TAB            | Reorganize table                           |
+    | *              | Section heading                            |
+    | TAB            | Open/collapse section                      |
+    | C-TAB          | Open/collapse All                          |
+    | C-c C-e        | Export in other file formats (eg HTML,PDF) |
+    | C-c pipe       | Convert selection into table!!!            |
+    | M-<up/down>    | Move row up/down                           |
+    | M-<left/right> | Move column left/right!                    |
+    | C-c ^          | Sort table based on culumn under point     |
+    |----------------+--------------------------------------------|
+
+# Finding stuff
+
+    |-------+----------------------------------------|
+    | C-h m | All info + bindings about current mode |
+    | C-h f | Get info about a Emacs Lisp function   |
+    | C-h v | Get info about a variable              |
+    |-------+----------------------------------------|

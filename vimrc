@@ -165,6 +165,9 @@ nnoremap <C-k> <C-w>k
 nnoremap <BS> <C-w>h
 nnoremap <C-l> <C-w>l
 
+" Increment for tmux
+nnoremap <C-I> <C-A>
+
 " Makes more sense
 map Y y$
 
@@ -176,6 +179,7 @@ inoremap <c-z> <c-o>zz
 
 " Tag finder and navigation
 nmap <c-t> :CtrlPTag<CR>
+nmap <c-b> :CtrlPBuffer<CR>
 
 " this thing is annoying
 nmap ' <NOP>
@@ -214,6 +218,7 @@ Plug 'yannvanhalewyn/vim-mocha', {'for': 'javascript'} " Same as thoughtbots vim
 Plug 'ervandew/supertab'                               " Supertab so that ultisnips and completions play nice
 Plug 'tomtom/tcomment_vim'                             " Easy commenting
 Plug 'benmills/vimux'                                  " To send commands to TMUX (RSpec!!)
+Plug 'maxbrunsfeld/vim-yankstack'                      " Remember yanked stuff
 
 " Useful
 Plug 'lokaltog/vim-easymotion'                         " Easymotion for crazy motions!
@@ -240,6 +245,7 @@ Plug 'mustache/vim-mustache-handlebars'                " Syntax for handlebars/m
 Plug 'junegunn/vim-easy-align'                         " Aligning stuff
 Plug 'Keithbsmiley/rspec.vim', {'for': 'ruby'}         " RSPEC syntax higlighting
 Plug 'octol/vim-cpp-enhanced-highlight', {'for':'cpp'} " Improved c++ syntax highlighting
+Plug 'justinmk/vim-syntax-extra', {'for': 'c'}
 
 runtime macros/matchit.vim
 
@@ -251,8 +257,8 @@ call plug#end()
 
 " AIRLINE
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#fnamemod = ':t'
 
 " EMMET
 autocmd FileType html,css EmmetInstall    " Use only with certain files
@@ -308,8 +314,8 @@ au BufNewFile,BufRead *.tpl set syntax=jst
 " JS mocha
 au FileType javascript vnoremap <Leader>be d?describe<CR>o<CR>beforeEach(function() {<CR>});<esc>P<esc>
 " CPP
-au FileType {cpp,java} set softtabstop=4
-au FileType {cpp,java} set shiftwidth=4
+au FileType {cpp,java,c} set softtabstop=4
+au FileType {cpp,java,c} set shiftwidth=4
 au FileType cpp nmap ga :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
 au FileType cpp nmap gi ^YgaGo<ESC>o<ESC>pI<c-r>=expand("%:t:r")<CR>::<ESC>A<BS> {<CR><ESC>O<F37>
 au FileType {ruby,javascript} set softtabstop=2
@@ -333,12 +339,15 @@ set textwidth=80
 set list listchars=tab:»·,trail:·
 
 " The colorscheme
-au VimEnter * set background=dark
-au VimEnter * colorscheme gruvbox
-if has('nvim')
-  au VimEnter * colorscheme base16-flat
-endif
-au VimEnter * AirlineTheme base16
+" if has('nvim')
+  " au VimEnter * colorscheme solarized
+  " au VimEnter * set background=light
+  " au VimEnter * AirlineTheme solarized
+" else
+  au VimEnter * set background=dark
+  au VimEnter * colorscheme gruvbox
+  au VimEnter * AirlineTheme base16
+" endif
 au VimEnter * hi Search guifg=wheat guibg=none
 
 "/* My favorite colorschemes
