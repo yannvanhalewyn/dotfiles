@@ -59,6 +59,20 @@
     | M-<left/right> | Move column left/right!                    |
     | C-c ^          | Sort table based on culumn under point     |
     |----------------+--------------------------------------------|
+    
+## Org lists
+
+    |----------------+-------------------------------------------------------|
+    | M-RET          | Add new todo item/checkbox                            |
+    | M-<right/left> | Change subdivision of item                            |
+    | M-<up/down>    | Move item up/down along with all subitems             |
+    | S-<left/right> | Toggle todo-item                                      |
+    | - [ ]          | Start a checkbox entry                                |
+    | C-c C-c        | Toggle checkbox                                       |
+    | [/] -- C-c C-c | Display the num items completed on parent (aka [2/3]) |
+    | [%] -- C-c C-c | Display pourcentage completed on parent (aka [66%])   |
+    | C-c C-d        | Popup calendars and pick a deadline for item          |
+    |----------------+-------------------------------------------------------|
 
 # Finding stuff
 

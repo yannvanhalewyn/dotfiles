@@ -1,4 +1,6 @@
 ;; Define the package repos
+;;; Code:
+
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -9,11 +11,26 @@
 (package-initialize)
 
 ;; Define all required packages
-(defvar required-packages '(evil evil-leader zenburn-theme neotree magit
-                            autopair powerline evil-surround fiplr flycheck
-			    gruvbox-theme yasnippet))
+(defvar required-packages '(
+			    ;; Utility
+			    f
+			    ;; Evil/vim
+			    evil
+			    evil-leader
+			    evil-surround
+			    fiplr
+			    neotree
+			    magit
+			    ;; Layout
+			    zenburn-theme
+			    gruvbox-theme
+			    powerline
+                            autopair
+			    ;; flycheck
+			    yasnippet
+                            evil-nerd-commenter))
 
-;; Utitities (common lisp)
+;; Utitities (common lisp) - has loop
 (require 'cl)
 
 ;; Function to check if all packages are installed
@@ -33,3 +50,5 @@
   (dolist (p required-packages)
     (when (not (package-installed-p p))
       (package-install p))))
+
+(provide 'init-packages)
