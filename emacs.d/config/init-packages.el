@@ -26,6 +26,7 @@
 			    gruvbox-theme
 			    powerline
                             autopair
+			    rainbow-delimiters
 			    ;; flycheck
 			    yasnippet
                             evil-nerd-commenter))

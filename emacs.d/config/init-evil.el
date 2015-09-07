@@ -11,13 +11,23 @@
 (define-key evil-normal-state-map (kbd "gc") 'evilnc-comment-operator)
 (define-key evil-normal-state-map (kbd "-") 'delete-other-windows)
 (define-key evil-normal-state-map (kbd "C-p") 'fiplr-find-file)
+(define-key evil-visual-state-map (kbd "RET") 'align-regexp)
 
 ;; Add hjkl for magit and ibuffer (actually just j..)
-(evil-add-hjkl-bindings magit-status-mode-map)
 (evil-set-initial-state 'magit-log-edit-mode 'emacs)
 (evil-set-initial-state 'nav-mode 'emacs)
 (evil-set-initial-state 'grep-mode 'emacs)
 (evil-set-initial-state 'ibuffer-mode 'normal)
+
+(evil-add-hjkl-bindings magit-log-mode-map 'emacs)
+(evil-add-hjkl-bindings magit-commit-mode-map 'emacs)
+(evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs
+  "K" 'magit-discard-item
+  "L" 'magit-key-mode-popup-logging)
+(evil-add-hjkl-bindings magit-status-mode-map 'emacs
+  "K" 'magit-discard-item
+  "l" 'magit-key-mode-popup-logging
+    "h" 'magit-toggle-diff-refine-hunk)
 
 ;; NeoTree evil mappings
 (add-hook 'neotree-mode-hook
@@ -37,14 +47,24 @@
 (evil-leader/set-leader "<SPC>")
 
 ;; Leader keys
-(evil-leader/set-key "n" 'neotree-toggle)
-(evil-leader/set-key "b" 'ibuffer)
-(evil-leader/set-key "gs" 'magit-status)
-(evil-leader/set-key "cc" 'comment-or-uncomment-region)
-(evil-leader/set-key "q" 'kill-this-buffer)
-(evil-leader/set-key "r" 'recompile)
-(evil-leader/set-key "f" 'ff-find-other-file)
-(evil-leader/set-key "SPC" 'execute-extended-command)
+(evil-leader/set-key
+  "n" 'neotree-toggle
+  "b" 'ibuffer
+  "gs" 'magit-status
+  "cc" 'comment-or-uncomment-region
+  "q" 'kill-this-buffer
+  "r" 'recompile
+  "f" 'ff-find-other-file
+  "SPC" 'execute-extended-command
+  "c" 'call-ag-with
+  "d" 'dired-project-dir)
+
+(add-hook 'js-mode-hook '(lambda ()
+			   (evil-leader/set-key
+			     "a" 'mocha-run-all-specs
+			     "t" 'mocha-run-current-file
+			     "s" 'mocha-run-nearest-spec
+			     "l" 'mocha-run-last-spec)))
 
 ;; Surround
 (require 'evil-surround)

@@ -17,4 +17,7 @@
 ;; Magit something the plugin told me, have no idea
 (setq magit-last-seen-setup-instructions "1.4.0")
 
+;; Load up rainbow delimiters when writing el
+(add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+
 (provide 'init-plugins)
