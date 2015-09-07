@@ -1,17 +1,20 @@
+(require-package 'powerline)
+(require-package 'zenburn-theme)
+(require-package 'gruvbox-theme)
+
 ;; LAYOUT/Load custom themes
-(load-theme 'zenburn t)
-(global-linum-mode t)
-(setq linum-format "%d ")
-(show-paren-mode 1)
-(setq c-basic-offset 4)
-(menu-bar-mode 0)
-(tool-bar-mode -1)
+(load-theme 'gruvbox t)		;; ColorTheme
+(global-linum-mode t)		;; Show line numbers
+(setq linum-format "%d ")	;; Format line numbers
+(show-paren-mode 1)		;; Show matching paren
+(setq c-basic-offset 4)		;; Set offset for c
+(menu-bar-mode 0)		;; Hide menu bar
+(tool-bar-mode -1)		;; Hide toolbar (GUI)
 (if window-system
     (progn
-      (scroll-bar-mode -1)))
+      (scroll-bar-mode -1)))	;; Hide scrollbar (GUI)
 
 ;; Powerline
-(require 'powerline)
 (powerline-default-theme)
 
 (provide 'layout)

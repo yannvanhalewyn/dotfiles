@@ -1,3 +1,10 @@
+(require-package 'evil)
+(require-package 'evil-leader)
+(require-package 'evil-nerd-commenter)
+(require-package 'magit)
+(require-package 'neotree)
+(require-package 'evil-surround)
+
 ;; Start evil mode
 (require 'evil)
 (evil-mode 1)
@@ -9,8 +16,8 @@
 (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
 (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
 (define-key evil-normal-state-map (kbd "gc") 'evilnc-comment-operator)
-(define-key evil-normal-state-map (kbd "-") 'delete-other-windows)
-(define-key evil-normal-state-map (kbd "C-p") 'fiplr-find-file)
+(define-key evil-normal-state-map (kbd "C-b") 'helm-buffers-list)
+(define-key evil-normal-state-map (kbd "C-p") 'helm-ls-git-ls)
 (define-key evil-visual-state-map (kbd "RET") 'align-regexp)
 
 ;; Add hjkl for magit and ibuffer (actually just j..)
@@ -55,9 +62,10 @@
   "q" 'kill-this-buffer
   "r" 'recompile
   "f" 'ff-find-other-file
-  "SPC" 'execute-extended-command
+  "SPC" 'helm-M-x
   "c" 'call-ag-with
-  "d" 'dired-project-dir)
+  "d" 'dired-project-dir
+  "o" 'ido-find-file)
 
 (add-hook 'js-mode-hook '(lambda ()
 			   (evil-leader/set-key
