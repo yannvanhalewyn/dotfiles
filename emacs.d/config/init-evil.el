@@ -4,12 +4,15 @@
 (require-package 'magit)
 (require-package 'neotree)
 (require-package 'evil-surround)
+(require-package 'evil-commentary)
+(require-package 'evil-numbers)
 
 ;; Start evil mode
 (require 'evil)
 (evil-mode 1)
+(evil-commentary-mode)
 
-;;; Evil mode key bindings
+; Evil mode key bindings
 (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
 (define-key evil-normal-state-map (kbd "C-i") 'describe-mode)
 (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
@@ -18,7 +21,33 @@
 (define-key evil-normal-state-map (kbd "gc") 'evilnc-comment-operator)
 (define-key evil-normal-state-map (kbd "C-b") 'helm-buffers-list)
 (define-key evil-normal-state-map (kbd "C-p") 'helm-ls-git-ls)
+(define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
+(define-key evil-normal-state-map (kbd "C-s-x") 'evil-numbers/dec-at-pt)
 (define-key evil-visual-state-map (kbd "RET") 'align-regexp)
+
+;; Quitting everything
+(defun minibuffer-keyboard-quit ()
+  "Abort recursive edit.
+In Delete Selection mode, if the mark is active, just deactivate it;
+then it takes a second \\[keyboard-quit] to abort the minibuffer."
+  (interactive)
+  (if (and delete-selection-mode transient-mark-mode mark-active)
+      (setq deactivate-mark  t)
+    (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+    (abort-recursive-edit)))
+
+(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+
+;; Cursor colors
+(setq evil-normal-state-cursor '("white" box))
+(setq evil-visual-state-cursor '("orange" box))
+(setq evil-insert-state-cursor '("white" bar))
+(setq evil-replace-state-cursor '("red" box))
+(setq evil-operator-state-cursor '("red" hollow))
 
 ;; Add hjkl for magit and ibuffer (actually just j..)
 (evil-set-initial-state 'magit-log-edit-mode 'emacs)
@@ -61,6 +90,7 @@
   "cc" 'comment-or-uncomment-region
   "q" 'kill-this-buffer
   "r" 'recompile
+  "e" 'eval-current-buffer
   "f" 'ff-find-other-file
   "SPC" 'helm-M-x
   "c" 'call-ag-with

@@ -3,9 +3,9 @@
 
 (set-variable 'project-root-dir default-directory)
 
-(defun project-cd (dir)
-  (interactive (list (read-file-name "Dir: ")))
-  (cd dir)
+(defadvice cd (before cd (dir))
   (set-variable 'project-root-dir dir))
+
+(ad-activate 'cd)
 
 (provide 'project-root)

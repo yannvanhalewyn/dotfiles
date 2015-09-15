@@ -1,3 +1,5 @@
+(require-package 'swift-mode)
+
 (require 'cl)
 (defun* get-closest-pathname (&optional (file "makefile"))
   (let ((root (expand-file-name "/")))

@@ -3,6 +3,7 @@
 	       ("dired" (mode . dired-mode))
 	       ("sheet_bucket" (filename . "reactjs/sheet_something/"))
 	       ("el" (mode . emacs-lisp-mode))
+	       ("clojure" (mode . clojure-mode))
 	       ("code" (or
 			(mode . c-mode)
 			(mode . ruby-mode)
