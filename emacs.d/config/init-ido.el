@@ -11,4 +11,12 @@
  ido-enable-flex-matching t		;; Enable fuzzy completion
  ido-max-prospects 8)			;; Don't spam the minibuffer
 
+;; Use ido for M-x
+(global-set-key
+ (kbd "M-x") 
+ (lambda ()
+   (interactive)
+   (call-interactively
+    (intern (ido-completing-read "M-x " (all-completions "" obarray 'commandp))))))
+
 (provide 'init-ido)

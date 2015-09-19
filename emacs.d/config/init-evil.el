@@ -85,7 +85,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; Leader keys
 (evil-leader/set-key
   "n" 'neotree-toggle
-  "b" 'ibuffer
+  "B" 'ibuffer
+  "b" 'ido-switch-buffer
+  "f" 'ido-find-file
   "gs" 'magit-status
   "cc" 'comment-or-uncomment-region
   "q" 'kill-this-buffer
