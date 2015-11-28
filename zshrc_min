@@ -1,0 +1,31 @@
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/deploy/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt extendedglob
+# End of lines configured by zsh-newuser-install
+
+
+setopt MENU_COMPLETE
+setopt autopushd # Auto push dir on stack
+zstyle ':completion:*' menu select # Hightlight selected completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
+### Needed for a pretty prompt
+setopt prompt_subst # Enables additional prompt extentions
+autoload -U colors && colors    # Enables colours
+
+export EDITOR="vim"
+
+### My default prompt
+PROMPT='
+%(!.%B%U%F{blue}%n%f%u%b.%F{blue}%n%f) at %F{magenta}%m%f in %F{cyan}%~%f
+%F{green}$ %f'
+### My default prompt's right side
+RPROMPT='%F{cyan}%D{%e.%b.%y %H.%M}%f'

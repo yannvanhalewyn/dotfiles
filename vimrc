@@ -136,9 +136,6 @@ nnoremap <Leader>o "oyy:<C-r>o<Backspace><CR>
 " Go to help
 nmap <Leader>H :help <c-r><c-w><cr>
 
-" Map return to opening a newline
-nnoremap <CR> i<CR><esc>O
-
 " Moving lines/selection up and down - direct map for vim-pasta
 nmap        <UP> ddkP
 nmap      <DOWN> ddp
