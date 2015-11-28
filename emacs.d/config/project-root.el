@@ -4,7 +4,7 @@
 (set-variable 'project-root-dir default-directory)
 
 (defadvice cd (before cd (dir))
-  (set-variable 'project-root-dir dir))
+  (set-variable 'project-root-dir (expand-file-name dir)))
 
 (ad-activate 'cd)
 

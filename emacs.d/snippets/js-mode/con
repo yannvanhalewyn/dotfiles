@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Context block for mocha
+# key: con
+# --
+context("$1", function() {
+	       `yas-selected-text`$0
+}); // Context $1

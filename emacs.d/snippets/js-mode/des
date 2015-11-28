@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Describe block for chai
+# key: des
+# --
+describe("$1", function() {
+	       `yas-selected-text`$0
+}); // Describe $1

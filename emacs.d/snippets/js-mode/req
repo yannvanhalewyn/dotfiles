@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Require module
+# key: req
+# --
+var $2 = "$1";

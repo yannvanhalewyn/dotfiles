@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Expect
+# key: e
+# --
+expect($1).to.$0

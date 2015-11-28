@@ -93,7 +93,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   "q" 'kill-this-buffer
   "r" 'recompile
   "e" 'eval-current-buffer
-  "f" 'ff-find-other-file
+  "f" 'find-file-wo-cd
   "SPC" 'helm-M-x
   "c" 'call-ag-with
   "d" 'dired-project-dir
@@ -105,6 +105,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 			     "t" 'mocha-run-current-file
 			     "s" 'mocha-run-nearest-spec
 			     "l" 'mocha-run-last-spec)))
+
+(add-hook 'clojure-mode-hook '(lambda ()
+				(evil-leader/set-key
+				  "e" 'cider-eval-last-sexp
+				  "E" 'cider-eval-buffer
+				  "t" 'cider-test-run-tests
+				  "k" 'cider-load-buffer)))
 
 ;; Surround
 (require 'evil-surround)

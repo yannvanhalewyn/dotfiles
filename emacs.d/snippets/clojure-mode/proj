@@ -1,0 +1,10 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: proj
+# key: proj
+# binding: direct-keybinding
+# --
+(defproject ${1:name} "0.1.0-SNAPSHOT"
+  :description "${2:description}"
+  :dependencies [[org.clojure/clojure "1.7.0"]]
+  :main ^:skip-aot $1.core
+  :target-path "target/%s")

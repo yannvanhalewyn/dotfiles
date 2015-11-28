@@ -11,6 +11,17 @@
  ido-enable-flex-matching t		;; Enable fuzzy completion
  ido-max-prospects 8)			;; Don't spam the minibuffer
 
+;; Prevent emacs from auto-changing default dir
+(defun find-file-wo-cd ()
+  (interactive)
+  (let ((saved-default-directory default-directory)
+	(default-directory project-root-dir))
+    (ido-find-file)
+    (message "Find file wo CD")
+    (message (concat "resetting dir: " saved-default-directory))
+    (setq default-directory saved-default-directory)))
+(global-set-key (kbd "C-x C-f") 'find-file-wo-cd)
+
 ;; Use ido for M-x
 (global-set-key
  (kbd "M-x") 

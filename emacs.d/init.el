@@ -22,6 +22,7 @@
 (require 'init-ibuffer)
 (require 'init-dired)
 (require 'init-ido)
+(require 'init-projectile)
 (require 'layout)
 (require 'some-funcs)
 (require 'mocha)

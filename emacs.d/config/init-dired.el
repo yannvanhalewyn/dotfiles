@@ -4,6 +4,6 @@
 
 (require 'dired)
 
-(define-key dired-mode-map (kbd "q") 'image-dired-kill-buffer-and-window)
+(define-key dired-mode-map (kbd "q") 'kill-this-buffer)
 
 (provide 'init-dired)
