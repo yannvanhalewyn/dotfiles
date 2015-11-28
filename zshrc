@@ -20,10 +20,22 @@ antigen bundle git
 antigen bundle vi-mode
 antigen bundle tarruda/zsh-autosuggestions
 antigen bundle akoenig/gulp-autocompletion-zsh
-antigen-theme "$HOME/.zsh/agnoster"
+# antigen-theme "$HOME/.zsh/agnoster"
 antigen-apply
+
+PROMPT='
+%(!.%B%U%F{blue}%n%f%u%b.%F{blue}%n%f) at %F{magenta}%m%f in %F{red}%~%f
+%F{green}$ %f'
+### My default prompt's right side
+RPROMPT='%F{cyan}%D{%e.%b.%y %H.%M}%f'
+
 setopt PROMPT_SUBST
+setopt MENU_COMPLETE
+setopt extendedglob
+# Jump to first possible completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# Highlight selected completion in suggestions list
+zstyle ':completion:*' menu select
 
 # ========
 # History
@@ -41,11 +53,11 @@ bindkey '\e[A' history-beginning-search-backward
 bindkey '\e[B' history-beginning-search-forward
 
 # zsh-autosuggestions
-# zle-line-init() {
-#     zle autosuggest-start
-# }
-# zle -N zle-line-init
-# bindkey '^n' autosuggest-execute-suggestion
+zle-line-init() {
+    zle autosuggest-start
+}
+zle -N zle-line-init
+bindkey '^n' autosuggest-execute-suggestion
 
 # auto push dirs on stack
 setopt autopushd
@@ -59,6 +71,9 @@ function zle-keymap-select {
  zle reset-prompt
 }
 zle -N zle-keymap-select
+
+# Add scripts to path
+export PATH="$PATH:$HOME/.scripts"
 
 # =====
 # RBENV

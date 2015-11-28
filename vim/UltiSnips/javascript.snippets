@@ -35,19 +35,19 @@ module.exports = ${1};
 endsnippet
 
 snippet req "A require statement for node modules" b
-var ${2:${1/.*\///g}} = require('${1:lib}')$3;
+var ${2:`!p snip.rv = filenameToCamelVar(t[1])`} = require('${1:lib}')$3;
 endsnippet
 
 snippet inc "An include statment for node module" b
-var ${2:${1/.*\///g}} = include('${1:lib}')$3;
+var ${2:`!p snip.rv = filenameToCamelVar(t[1])`} include('${1:lib}')$3;
 endsnippet
 
 snippet req, "  , la = require('la')" b
-  , ${2:${1/.*\///g}} = require('${1:lib}')$3
+  , ${2:`!p snip.rv = filenameToCamelVar(t[1])`} = require('${1:lib}')$3
 endsnippet
 
 snippet inc, "  , la = include('la')" b
-  , ${2:${1/.*\///g}} = include('${1:lib}')$3
+  , ${2:`!p snip.rv = filenameToCamelVar(t[1])`} = include('${1:lib}')$3
 endsnippet
 
 snippet module "Wrapper for module pattern" b
@@ -177,3 +177,19 @@ export default class extends React.Component {
 	}
 }
 endsnippet
+
+global !p
+import ntpath
+def filenameToCamelVar(inp):
+  modulename = ntpath.basename(inp)
+  words = modulename.replace("_", "-").split("-")
+  output = ""
+
+  for word in words:
+    if word == words[0]:
+      output += word
+    else:
+      output += word.capitalize()
+
+  return output
+endglobal
