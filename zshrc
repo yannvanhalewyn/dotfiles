@@ -21,13 +21,8 @@ antigen bundle vi-mode
 antigen bundle tarruda/zsh-autosuggestions
 antigen bundle akoenig/gulp-autocompletion-zsh
 # antigen-theme "$HOME/.zsh/agnoster"
+antigen-theme "$HOME/.zsh/custom"
 antigen-apply
-
-PROMPT='
-%(!.%B%U%F{blue}%n%f%u%b.%F{blue}%n%f) at %F{magenta}%m%f in %F{red}%~%f
-%F{green}$ %f'
-### My default prompt's right side
-RPROMPT='%F{cyan}%D{%e.%b.%y %H.%M}%f'
 
 setopt PROMPT_SUBST
 setopt MENU_COMPLETE
@@ -53,11 +48,11 @@ bindkey '\e[A' history-beginning-search-backward
 bindkey '\e[B' history-beginning-search-forward
 
 # zsh-autosuggestions
-zle-line-init() {
-    zle autosuggest-start
-}
-zle -N zle-line-init
-bindkey '^n' autosuggest-execute-suggestion
+# zle-line-init() {
+#     zle autosuggest-start
+# }
+# zle -N zle-line-init
+# bindkey '^n' autosuggest-execute-suggestion
 
 # auto push dirs on stack
 setopt autopushd
