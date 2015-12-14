@@ -1,7 +1,7 @@
 
 [user]
 	name = Yann Vanhalewyn
-	email = yann_vanhalewyn@hotmail.com
+	email = yann.vanhalewyn@gmail.com
 [core]
 	excludesfile = /Users/yannvanhalewyn/.gitignore_global
 [difftool "sourcetree"]

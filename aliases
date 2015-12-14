@@ -68,6 +68,7 @@ alias cleanlogs="sudo rm -rf /private/var/log/asl/*.asl"
 
 # Get projects total linecount
 alias linecount="g ls-files | grep -v font | xargs wc -l"
+alias glstats="git log --author=\"Yann Vanhalewyn\" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf \"added lines: %s, removed lines: %s, total lines: %s\n\", add, subs, loc }' -"
 # Show paths in a readable manner
 alias paths='echo $PATH | tr ":" "\n"'
 
@@ -175,3 +176,5 @@ alias timestamp='date +%y-%m-%d_%Hh%Mm'
 
 # Count lines in project
 alias linecount='git ls-files | xargs wc -l'
+alias linecountjs='git ls-files | egrep ".jsx?$" | xargs wc -l'
+alias gulps="grep 'gulp.task(.*)' gulpfile.js | awk -F\' '{print $2}'"

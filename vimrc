@@ -25,7 +25,7 @@ set noswapfile                    " http://robots.thoughtbot.com/post/1873940257
 set lazyredraw                    " don't redraw when don't have to
 set laststatus=2                  " Always display the status line (Arline bottom bar!)
 set completeopt=longest,menuone   " Dont auto-jump to an autocompl
-set diffopt+=iwhite               " ignore whitespace in vimdiff
+" set diffopt+=iwhite               " ignore whitespace in vimdiff
 set encoding=utf-8                " Set encoding
 set timeoutlen=600 ttimeoutlen=10 " faster timeout for escape key
 set smartcase                     " caps sensitive searching
@@ -243,6 +243,9 @@ Plug 'junegunn/vim-easy-align'                         " Aligning stuff
 Plug 'Keithbsmiley/rspec.vim', {'for': 'ruby'}         " RSPEC syntax higlighting
 Plug 'octol/vim-cpp-enhanced-highlight', {'for':'cpp'} " Improved c++ syntax highlighting
 Plug 'justinmk/vim-syntax-extra', {'for': 'c'}
+Plug 'othree/yajs.vim'
+Plug 'mxw/vim-jsx'
+Plug 'scrooloose/syntastic', {'for': 'javascript'}
 
 runtime macros/matchit.vim
 
@@ -298,6 +301,11 @@ let g:easy_align_delimiters['"'] = { 'pattern': '"', 'ignore_groups': ['String']
 let g:jsdoc_allow_input_prompt=1
 let g:jsdoc_input_description=1
 let g:jsdoc_default_mapping=0
+
+" Syntastic
+let g:syntastic_javascript_checkers = ['eslint']
+" So I can use tPope's ]l and [l between errors
+let g:syntastic_always_populate_loc_list = 1
 
 " Weird bug in Tmux where background won't fill workspace.
 :set t_ut=

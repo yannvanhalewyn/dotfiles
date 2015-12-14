@@ -134,11 +134,6 @@ function gc {
   git commit -m "$*"
 }
 
-# Visit git's origin page, sed will replace any SSH link to a browser url (git open)
-function gopen {
-  open $(git config --get remote.origin.url | sed -E s#git@\(.+\):\(.+\)#http://www.\\1/\\2#)
-}
-
 # go to the node-docs of current node version
 node-docs () {
   local open_cmd

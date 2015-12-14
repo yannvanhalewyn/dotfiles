@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+remote = `git config --get remote.origin.url`
+
+if remote.strip.empty?
+  puts "No remote"
+  exit 1
+end
+
+match = /(https:\/\/|git@)github.com[\/|:](.*)\.git/.match remote
+`open "https://www.github.com/#{match[2]}"` if match

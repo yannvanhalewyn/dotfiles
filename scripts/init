@@ -1,0 +1,11 @@
+#!/bin/sh
+
+TPL_DIR="$HOME/.templates"
+TARGET="$TPL_DIR/$1"
+if [[ -d $TARGET ]]; then
+  echo "Copying templates $1"
+  shopt -s dotglob
+  cp -r $TARGET/* ./
+else
+  echo "Sorry, no such template found: $TARGET"
+fi
