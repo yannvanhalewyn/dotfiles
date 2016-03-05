@@ -78,19 +78,19 @@ endsnippet
 # Custom
 # ======
 snippet des "A describe block for chai" b
-describe('${1:decription}', function() {
+describe('${1:decription}', () => {
 	${2:${VISUAL}}
 }); // End of describe '$1'
 endsnippet
 
 snippet con "Context block" b
-context("$1", function() {
+context('$1', () => {
 	${2:${VISUAL}}
 }); // End of context '$1'
 endsnippet
 
 snippet it "An it block" b
-it("$1", function() {
+it('$1', () => {
 	${2:${VISUAL}}
 });
 endsnippet
@@ -100,13 +100,13 @@ expect(${1:value}).${2:to.equal}(${3:expected value});
 endsnippet
 
 snippet bef "before each (js)" b
-beforeEach(function() {
+beforeEach(() => {
 	${1:${VISUAL}}
 });
 endsnippet
 
 snippet aft "after each (js)" b
-afterEach(function() {
+afterEach(() => {
 	${1:${VISUAL}}
 });
 endsnippet

@@ -15,3 +15,24 @@ after(:each) do
 	$1
 end
 endsnippet
+
+snippet bt "Be true"
+be_true
+endsnippet
+
+snippet bf "Be false"
+be_false
+endsnippet
+
+snippet con "wraps selection in context block" b
+context '${1}' do
+	${0:${VISUAL: #assertions}}
+end
+endsnippet
+
+snippet des "wraps selection in describe block" b
+describe '${1}' do
+	${0:${VISUAL: #assertions}}
+end
+endsnippet
+

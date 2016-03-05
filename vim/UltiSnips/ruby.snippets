@@ -24,21 +24,6 @@ if ${1:condition}
 end
 endsnippet
 
-# ============
-# RSPEC Blocks
-# ============
-snippet context "wraps selection in context block" b
-context "${1}" do
-	${0:${VISUAL: #assertions}}
-end
-endsnippet
-
-snippet describe "wraps selection in describe block" b
-describe "${1}" do
-	${0:${VISUAL: #assertions}}
-end
-endsnippet
-
 snippet init "Initializer" b
 def initialize(${2:args})
 `!p
