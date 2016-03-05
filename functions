@@ -191,3 +191,15 @@ function realpath() {
 function ch() {
   cheat "$1" | less
 }
+
+# Go up x number of dirs (e.g: $ up 4)
+function up() {
+  DEEP=$1;
+  [ -z "${DEEP}" ] && { DEEP=1; };
+  for i in $(seq 1 ${DEEP}); do cd ../; done;
+}
+
+# Startup a tmuxinator project with the same name as current dir
+function tmn() {
+  tmuxinator start ${PWD##*/}
+}

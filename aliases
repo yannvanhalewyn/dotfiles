@@ -132,13 +132,10 @@ alias ts='tmux new-session -s'
 alias tl='tmux list-sessions'
 alias tkss='tmux kill-session -t'
 alias tksv='tmux kill-server'
-alias tmn='tmuxinator'
+# alias tmn='tmuxinator'
+alias tmns='tmuxinator start'
 alias tmnl='tmuxinator list'
 alias tmne='tmuxinator edit'
-alias tmnn='tmuxinator new'
-alias tmnjs='tmuxinator start javascript-project'
-alias tmnr='tmuxinator start rails'
-alias tmnd='tmuxinator start dotfiles'
 
 
 # Tmux pbcopy
@@ -178,3 +175,18 @@ alias timestamp='date +%y-%m-%d_%Hh%Mm'
 alias linecount='git ls-files | xargs wc -l'
 alias linecountjs='git ls-files | egrep ".jsx?$" | xargs wc -l'
 alias gulps="grep 'gulp.task(.*)' gulpfile.js | awk -F\' '{print $2}'"
+alias lint='git ls-files | grep -v "test" | egrep ".jsx?$" | xargs eslint'
+alias psqld='postgres -D /usr/local/var/postgres> psql.log 2>&1 &'
+alias sha1='openssl sha1'
+
+## TMUX vimlike aliases
+alias :vs='tmux splitw -h'
+alias :sp='tmux splitw'
+alias :q='tmux kill-pane'
+
+alias showAllDownloads="sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2 'select LSQuarantineDataURLString from LSQuarantineEvent'"
+
+# Node env's
+alias nep='NODE_ENV=production'
+alias ned='NODE_ENV=development'
+alias net='NODE_ENV=test'
