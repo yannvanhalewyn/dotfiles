@@ -1,0 +1,47 @@
+## Basic Terminal commands
+## =======================
+
+pwd - Print Working Directory
+cd - Change Directory
+ls - List all files
+touch - create a file
+mkdir - Create a directory
+rm - remove file (! GAAT NIET NAAR DE TRASHCAN)
+cp - copy file => cp from.html to.html
+
+## Setting up local gulp environment
+## =================================
+
+# Go to project root
+$ cd ~/PATH/TO/PROJECT/ROOT
+
+# Install local dependencies
+$ npm install gulp gulp-autoprefixer gulp-sass gulp-livereload gulp-serve
+
+# Open sublime in current directory
+$ subl .
+
+# Create local gulpfile
+$ touch gulpfile.js
+
+# Start Gulp
+$ gulp
+
+# Go to "localhost:3000"
+
+Enjoy!
+
+
+
+## Installing on new computer
+## ==========================
+
+# Get Homebrew for managing packages (staat op de homebrew website
+http://www.brew.sh)
+$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+# Have homebrew install node (javascript runtime)
+$ brew install node
+
+# Now you have npm! Have npm install gulp globally for the "gulp" command
+$ npm install gulp -g

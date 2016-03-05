@@ -1,0 +1,73 @@
+c++
+  Boost
+  OpenGL
+  GLM
+  SDL
+  SFML
+  PicoPNG
+  TinyXML
+  GLFW
+
+Objective-C
+  Cocoa
+  Core-Data
+
+GLSL
+
+HTML
+  Jade
+
+CSS/SCSS
+  Bootstrap
+  Foundation
+
+JavaScript
+  Ajax
+  Node.js
+  Angular.js
+  Express.js
+  MongoDB
+  Backbone.js
+  jQuery
+  jQuery-Fileupload
+  Node-Webkit
+  grunt
+  Backbone.js
+  Marionette.js
+  Ember.js
+  React
+
+PHP
+
+SQL
+  sqlite
+  mysql
+
+Ruby
+  Ruby on Rails
+  Rspec
+  Cucumber
+  Capybara
+  Shoulda-Matcher
+  Devise
+  sunpot|solr
+
+CoffeeScript
+
+Bash/shell
+  shell scripts
+  vi/vim
+  vimscript
+  git
+  tmux
+
+C#
+
+Java
+  Build simple virtual machine
+
+MarkDown
+
+Nginx
+
+REGEX
