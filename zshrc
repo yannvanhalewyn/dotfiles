@@ -17,8 +17,9 @@
 source "$HOME/.antigen/antigen.zsh"
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle git
-antigen bundle vi-mode
-antigen bundle tarruda/zsh-autosuggestions
+antigen bundle rails
+# antigen bundle vi-mode
+# antigen bundle tarruda/zsh-autosuggestions
 antigen bundle akoenig/gulp-autocompletion-zsh
 # antigen-theme "$HOME/.zsh/agnoster"
 antigen-theme "$HOME/.zsh/custom"
