@@ -20,6 +20,6 @@
 	d = difftool
 	undo-commit = reset --soft HEAD^
 [push]
-	default = matching
+	default = current
 [init]
 	templatedir = ~/.git_template
