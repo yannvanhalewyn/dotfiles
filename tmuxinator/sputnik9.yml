@@ -1,6 +1,7 @@
-# ~/.tmuxinator/rails.yml
+# ~/.tmuxinator/sputnik9.yml
 
-name: rails
+name: sputnik9
+root: ~/Documents/code/javascript/nodejs/sputnik9
 
 # Optional tmux socket
 # socket_name: foo
@@ -20,15 +21,20 @@ name: rails
 # Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
 # startup_window: logs
 
+# Controls whether the tmux session should be attached to automatically. Defaults to true.
+# attach: false
+
+# Runs after everything. Use it to attach to tmux with custom options etc.
+# post: tmux -CC attach -t sputnik9
+
 windows:
-  - editor: nvim
-  - dev:
-      layout: main-vertical
+  - editor:
+      layout: 8038,158x46,0,0[158x36,0,0,0,158x9,0,37,1]
       panes:
-        - sqlite3 db/development.sqlite3
-        - rails c
+        - $EDITOR
+        -
   - server:
       layout: main-vertical
       panes:
-        - bundle exec rails s
-        - tail -f log/test.log
+        - npm start
+        - mongo sputnik9

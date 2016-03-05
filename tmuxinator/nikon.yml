@@ -1,16 +1,7 @@
-# ~/.tmuxinator/dotfiles.yml
+# ~/.tmuxinator/zapp.yml
 
-name: dotfiles
-root: ~/dotfiles
-
-# Optional tmux socket
-# socket_name: foo
-
-# Runs before everything. Use it to start daemons etc.
-# pre: sudo /etc/rc.d/mysqld start
-
-# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
-# pre_window: rbenv shell 2.0.0-p247
+name: nikon
+root: ~/brightin/nikon-elearning
 
 # Pass command line options to tmux. Useful for specifying a different tmux.conf.
 # tmux_options: -f ~/.tmux.mac.conf
@@ -21,10 +12,16 @@ root: ~/dotfiles
 # Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
 # startup_window: logs
 
+# Controls whether the tmux session should be attached to automatically. Defaults to true.
+# attach: false
+
+# Runs after everything. Use it to attach to tmux with custom options etc.
+# post: tmux -CC attach -t zapp
+
 windows:
   - editor:
-      layout: 4e3f,158x48,0,0[158x38,0,0,0,158x9,0,39{79x9,0,39,1,78x9,80,39,2}]
+      layout: 8038,158x46,0,0[158x36,0,0,0,158x9,0,37,1]
       panes:
         - $EDITOR
         -
-        -
+  - server: bin/start
