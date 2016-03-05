@@ -4,6 +4,7 @@
 (require-package 'rainbow-delimiters)
 (require-package 'helm)
 (require-package 'helm-ls-git)
+(require-package 'helm-projectile)
 ;; Maybe enable it for css with (add-hook 'css-mode-hook  'emmet-mode)
 ;; For some shortcuts
 (require-package 'emmet-mode)
@@ -29,6 +30,7 @@
 
 ;; Helm
 (setq helm-buffers-fuzzy-matching t)
+(setq helm-M-x-fuzzy-match t)
 
 ;; Load up rainbow delimiters/paredit when writing el
 (defun enable-parainbow ()

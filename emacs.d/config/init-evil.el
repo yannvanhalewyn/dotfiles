@@ -1,8 +1,6 @@
 (require-package 'evil)
 (require-package 'evil-leader)
-(require-package 'evil-nerd-commenter)
 (require-package 'magit)
-(require-package 'neotree)
 (require-package 'evil-surround)
 (require-package 'evil-commentary)
 (require-package 'evil-numbers)
@@ -65,39 +63,26 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   "l" 'magit-key-mode-popup-logging
     "h" 'magit-toggle-diff-refine-hunk)
 
-;; NeoTree evil mappings
-(add-hook 'neotree-mode-hook
-  (lambda ()
-    (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-    (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
-    (define-key evil-normal-state-local-map (kbd "o") 'neotree-enter)
-    (define-key evil-normal-state-local-map (kbd "r") 'neotree-refresh)
-    (define-key evil-normal-state-local-map (kbd "m") 'neotree-rename-node)
-    (define-key evil-normal-state-local-map (kbd "n") 'neotree-create-node)
-    (define-key evil-normal-state-local-map (kbd "d") 'neotree-delete-node)
-    (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-    (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
-
 ;; Setup evil-mode with evil-leader
 (global-evil-leader-mode)
 (evil-leader/set-leader "<SPC>")
 
 ;; Leader keys
 (evil-leader/set-key
-  "n" 'neotree-toggle
   "B" 'ibuffer
   "b" 'ido-switch-buffer
-  "f" 'ido-find-file
+  "F" 'ido-find-file
   "gs" 'magit-status
   "cc" 'comment-or-uncomment-region
   "q" 'kill-this-buffer
   "r" 'recompile
-  "e" 'eval-current-buffer
-  "f" 'find-file-wo-cd
+  "e" 'eval-last-sexp
+  "E" 'eval-buffer
+  "f" 'helm-projectile
   "SPC" 'helm-M-x
   "c" 'call-ag-with
   "d" 'dired-project-dir
-  "o" 'ido-find-file)
+  "o" 'ido-find-file) 
 
 (add-hook 'js-mode-hook '(lambda ()
 			   (evil-leader/set-key

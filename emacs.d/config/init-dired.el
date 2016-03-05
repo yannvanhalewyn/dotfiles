@@ -1,6 +1,6 @@
-(defun dired-project-dir ()
-  (interactive)
-  (dired project-root-dir))
+;; (defun dired-project-dir ()
+;;   (interactive)
+;;   (dired project-root-dir))
 
 (require 'dired)
 
