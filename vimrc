@@ -107,6 +107,7 @@ map  <Leader>l  :call RunLastSpec()<CR>
 map  <Leader>a  :call RunAllSpecs()<CR>
 " UltisnipsEdit
 map <Leader>u   :UltiSnipsEdit<CR>
+map <Leader>m   :call RenameFile()<CR>
 
 " Surround with quotes / #{} for ruby vars in quotes / parens
 nmap      <Leader>=   ^v$hS=
@@ -169,7 +170,7 @@ nnoremap <C-I> <C-A>
 map Y y$
 
 " Magical regex
-nmap / /\v
+" nmap / /\v
 
 " Recentering while typing
 inoremap <c-z> <c-o>zz
@@ -207,18 +208,17 @@ call plug#begin(s:editor_root . "/plugged")
 Plug 'bling/vim-airline'                               " Airline status bar
 Plug 'tpope/vim-fugitive'                              " Git wrapper/airline branch display
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}   " NerdTree
-Plug 'kien/ctrlp.vim'                                  " CTRL-P
-Plug 'Raimondi/delimitMate'                            " Matching brackets and quotes
+Plug 'ctrlpvim/ctrlp.vim'                              " CTRL-P
+Plug 'jiangmiao/auto-pairs'
 Plug 'SirVer/ultisnips'                                " UltiSnips
 Plug 'tpope/vim-surround'                              " Surround
 Plug 'yannvanhalewyn/vim-mocha', {'for': 'javascript'} " Same as thoughtbots vim-rspec
 Plug 'ervandew/supertab'                               " Supertab so that ultisnips and completions play nice
 Plug 'tomtom/tcomment_vim'                             " Easy commenting
 Plug 'benmills/vimux'                                  " To send commands to TMUX (RSpec!!)
-Plug 'maxbrunsfeld/vim-yankstack'                      " Remember yanked stuff
+Plug 'tpope/vim-abolish'                               " Badass replace
 
 " Useful
-Plug 'lokaltog/vim-easymotion'                         " Easymotion for crazy motions!
 Plug 'rhysd/clever-f.vim'                              " Inline easymotion with f and t commands
 Plug 'majutsushi/tagbar'
 Plug 'rking/ag.vim', {'on': 'Ag'}                      " AG! search pleasures
@@ -234,6 +234,8 @@ Plug 'kana/vim-textobj-user'                           " Easily create new text 
 Plug 'nelstrom/vim-textobj-rubyblock', {'for': 'ruby'} " Change inside ruby {cir}
 Plug 'wellle/targets.vim'                              " Some extra targets like inside next parens, etc..
 Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}    " Easy interface for adding javascript documentation.
+Plug 'tpope/vim-rails', {'for': 'ruby'}
+Plug 'AndrewRadev/splitjoin.vim'
 
 " Layout / syntax support
 Plug 'flazz/vim-colorschemes'                          " All the colorschemes of the world
@@ -245,7 +247,9 @@ Plug 'octol/vim-cpp-enhanced-highlight', {'for':'cpp'} " Improved c++ syntax hig
 Plug 'justinmk/vim-syntax-extra', {'for': 'c'}
 Plug 'othree/yajs.vim'
 Plug 'mxw/vim-jsx'
-Plug 'scrooloose/syntastic', {'for': 'javascript'}
+Plug 'scrooloose/syntastic'
+Plug 'kchmck/vim-coffee-script'
+Plug 'slim-template/vim-slim'
 
 runtime macros/matchit.vim
 
@@ -265,15 +269,15 @@ autocmd FileType html,css EmmetInstall    " Use only with certain files
 let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
 
 " DELIMITMATE
-let g:delimitMate_expand_cr=2
-let g:delimitMate_expand_space=2
+" let g:delimitMate_expand_cr=2
+" let g:delimitMate_expand_space=2
 
 " NERDTREE
 let NERDTreeShowHidden=1
 let NERDTreeAutoDeleteBuffer=1
 
 " CTRLP
-let g:ctrlp_custom_ignore = 'tmp\|node_modules\|obj/\|undo\|vim/plugged'
+let g:ctrlp_custom_ignore = 'tmp\|vcr_cassettes\|node_modules\|obj/\|undo\|vim/plugged'
 let g:ctrlp_clear_cache_on_exit=0
 
 " Ultisnips
@@ -282,12 +286,16 @@ let g:UltiSnipsJumpBackwardTrigger     = "<s-tab>"
 
 " vim-mocha and vim-rspec in tmux
 if exists('$TMUX')
-  let g:rspec_command = 'VimuxRunCommand("rspec {spec}\n")'
+  let g:rspec_command = 'VimuxRunCommand("bin/rspec {spec}\n")'
   let g:mocha_js_command = 'VimuxRunCommand("mocha {spec}")'
 endif
 
 " Tagbar
 nmap gt :TagbarToggle<CR>
+
+" Unimpaired for tabs
+nmap ]w :tabnext<CR>
+nmap [w :tabprev<CR>
 
 " Easy Align
 vmap <Enter> <Plug>(EasyAlign)
@@ -303,7 +311,9 @@ let g:jsdoc_input_description=1
 let g:jsdoc_default_mapping=0
 
 " Syntastic
-let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_checkers = ['standard']
+let g:syntastic_ruby_checkers = ['rubocop']
+let g:syntastic_mode_map = {'mode': 'passive'}
 " So I can use tPope's ]l and [l between errors
 let g:syntastic_always_populate_loc_list = 1
 
@@ -336,6 +346,7 @@ au FileType markdown nnoremap <leader>h "zyy"zpVr=
 
 " Basic
 set number
+set nowrap
 set scrolljump=5
 syntax on
 set textwidth=80
@@ -344,15 +355,15 @@ set textwidth=80
 set list listchars=tab:»·,trail:·
 
 " The colorscheme
-" if has('nvim')
-  " au VimEnter * colorscheme solarized
-  " au VimEnter * set background=light
-  " au VimEnter * AirlineTheme solarized
-" else
+if has('nvim')
+  au VimEnter * colorscheme base16-codeschool
+  au VimEnter * set background=dark
+  au VimEnter * AirlineTheme solarized
+else
   au VimEnter * set background=dark
   au VimEnter * colorscheme gruvbox
   au VimEnter * AirlineTheme base16
-" endif
+endif
 au VimEnter * hi Search guifg=wheat guibg=none
 
 "/* My favorite colorschemes
