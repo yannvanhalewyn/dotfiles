@@ -18,10 +18,7 @@ source "$HOME/.antigen/antigen.zsh"
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle git
 antigen bundle rails
-# antigen bundle vi-mode
-# antigen bundle tarruda/zsh-autosuggestions
 antigen bundle akoenig/gulp-autocompletion-zsh
-# antigen-theme "$HOME/.zsh/agnoster"
 antigen-theme "$HOME/.zsh/custom"
 antigen-apply
 
@@ -48,25 +45,8 @@ source "$HOME/.functions"
 bindkey '\e[A' history-beginning-search-backward
 bindkey '\e[B' history-beginning-search-forward
 
-# zsh-autosuggestions
-# zle-line-init() {
-#     zle autosuggest-start
-# }
-# zle -N zle-line-init
-# bindkey '^n' autosuggest-execute-suggestion
-
 # auto push dirs on stack
 setopt autopushd
-
-# ===========================
-# Helper to check for vi-mode
-# ===========================
-VIMODE=
-function zle-keymap-select {
- VIMODE="${${KEYMAP/vicmd/1}/(main|viins)/}"
- zle reset-prompt
-}
-zle -N zle-keymap-select
 
 # Add scripts to path
 export PATH="$PATH:$HOME/.scripts"
