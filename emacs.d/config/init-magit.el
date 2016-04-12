@@ -75,8 +75,8 @@
 
 ;;; Code:
 
-(require-package 'evil)
-(require-package 'magit)
+(use-package evil)
+(use-package magit)
 
 (defcustom evil-magit-state 'motion
   "State to use for most magit buffers."

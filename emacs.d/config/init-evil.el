@@ -1,9 +1,8 @@
-(require-package 'evil)
-(require-package 'evil-leader)
-(require-package 'magit)
-(require-package 'evil-surround)
-(require-package 'evil-commentary)
-(require-package 'evil-numbers)
+(use-package evil)
+(use-package evil-leader)
+(use-package evil-surround)
+(use-package evil-commentary)
+(use-package evil-numbers)
 
 ;; Start evil mode
 (require 'evil)

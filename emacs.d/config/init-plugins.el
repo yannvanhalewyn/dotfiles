@@ -1,22 +1,31 @@
-(require-package 'yasnippet)
-(require-package 'cider)
-(require-package 'paredit)
-(require-package 'magit)
-(require-package 'rainbow-delimiters)
-(require-package 'helm)
-(require-package 'helm-ls-git)
-(require-package 'helm-projectile)
-;; (require-package 'smartparens) ;; Needed for cleverparens?
-(require-package 'evil-cleverparens)
-(require-package 'aggressive-indent)
+(use-package yasnippet
+  :config
+  (setq yas-snippet-dirs
+	'("~/.emacs.d/snippets"
+	  "~/.emacs.d/elpa/yasnippet-20150811.1222/snippets")))
+
+;; Lisps
+(use-package cider)
+(use-package paredit)
+(use-package evil-cleverparens)
+(use-package aggressive-indent)
+
+(use-package projectile
+  :config
+  (projectile-global-mode)
+  (setq projectile-require-project-root nil))
+
+(use-package magit)
+(use-package rainbow-delimiters)
+(use-package helm)
+(use-package helm-ls-git)
+(use-package helm-projectile)
 ;; Maybe enable it for css with (add-hook 'css-mode-hook  'emmet-mode)
 ;; For some shortcuts
-(require-package 'emmet-mode)
+(use-package emmet-mode)
 
 ;; Yasnippet
-(setq yas-snippet-dirs
-      '("~/.emacs.d/snippets"
-        "~/.emacs.d/elpa/yasnippet-20150811.1222/snippets"))
+
 (yas-global-mode 1)
 
 ;; Magit something the plugin told me, have no idea

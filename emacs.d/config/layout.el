@@ -1,7 +1,7 @@
-(require-package 'powerline)
-(require-package 'zenburn-theme)
-(require-package 'gruvbox-theme)
-(require-package 'base16-theme)
+(use-package powerline)
+(use-package zenburn-theme)
+(use-package gruvbox-theme)
+(use-package base16-theme)
 
 ;; LAYOUT/Load custom themes
 (load-theme 'base16-default-dark t)	;; ColorTheme
