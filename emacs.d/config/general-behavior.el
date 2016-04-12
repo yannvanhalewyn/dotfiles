@@ -24,6 +24,14 @@
 (require 'savehist)
 (savehist-mode t)
 
-(global-set-key (kbd "M-x") 'helm-M-x)
+;; Use helm-M-x
+(global-set-key (kbd "M-x ") 'helm-M-x)
+
+;; Disable backup files
+(setq make-backup-files nil)
+
+;; Deal with temp files
+(setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 (provide 'general-behavior)
