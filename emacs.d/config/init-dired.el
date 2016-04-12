@@ -2,6 +2,10 @@
 ;;   (interactive)
 ;;   (dired project-root-dir))
 
+(defun dired-current-dir ()
+  (interactive)
+  (dired ""))
+
 (require 'dired)
 
 (define-key dired-mode-map (kbd "q") 'kill-this-buffer)

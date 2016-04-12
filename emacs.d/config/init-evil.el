@@ -11,16 +11,27 @@
 (evil-commentary-mode)
 
 ; Evil mode key bindings
+; ======================
+
+;; Window movement
 (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
 (define-key evil-normal-state-map (kbd "C-i") 'describe-mode)
 (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
 (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
 (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+
+;; Evil comments
 (define-key evil-normal-state-map (kbd "gc") 'evilnc-comment-operator)
+
+;; Helm file browsing
 (define-key evil-normal-state-map (kbd "C-b") 'helm-buffers-list)
-(define-key evil-normal-state-map (kbd "C-p") 'helm-ls-git-ls)
+(define-key evil-normal-state-map (kbd "C-p") 'helm-for-files)
+
+;; Incrementing numbers
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-s-x") 'evil-numbers/dec-at-pt)
+
+;; Alignment
 (define-key evil-visual-state-map (kbd "RET") 'align-regexp)
 
 ;; Quitting everything
@@ -81,7 +92,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   "f" 'helm-projectile
   "SPC" 'helm-M-x
   "c" 'call-ag-with
-  "d" 'dired-project-dir
+  "d" 'dired-current-dir
   "o" 'ido-find-file) 
 
 (add-hook 'js-mode-hook '(lambda ()
