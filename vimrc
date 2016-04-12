@@ -108,6 +108,10 @@ map  <Leader>a  :call RunAllSpecs()<CR>
 " UltisnipsEdit
 map <Leader>u   :UltiSnipsEdit<CR>
 map <Leader>m   :call RenameFile()<CR>
+" Syntastic
+map <Leader>S   :SyntasticCheck<CR>
+" Using Ag for current word
+map <Leader>g   :Ag <C-r><C-w><CR>
 
 " Surround with quotes / #{} for ruby vars in quotes / parens
 nmap      <Leader>=   ^v$hS=
@@ -356,9 +360,9 @@ set list listchars=tab:»·,trail:·
 
 " The colorscheme
 if has('nvim')
-  au VimEnter * colorscheme base16-codeschool
+  au VimEnter * colorscheme base16-ocean
   au VimEnter * set background=dark
-  au VimEnter * AirlineTheme solarized
+  au VimEnter * AirlineTheme dark
 else
   au VimEnter * set background=dark
   au VimEnter * colorscheme gruvbox
