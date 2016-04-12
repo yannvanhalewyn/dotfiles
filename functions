@@ -203,3 +203,15 @@ function up() {
 function tmn() {
   tmuxinator start ${PWD##*/}
 }
+
+function _rspec_command() {
+  if [ -e "bin/rspec" ]
+  then
+    bin/rspec $@
+  elif [ -e "script/rspec" ]
+  then
+    ruby script/rails $@
+  else
+    command rails $@
+  fi
+}

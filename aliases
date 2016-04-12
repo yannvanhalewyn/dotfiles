@@ -10,8 +10,8 @@
 #  .888888888. `88888.  8 8888          8 8888  .888888888. `88888. `8b.  ;8.`8888
 # .8'       `8. `88888. 8 888888888888  8 8888 .8'       `8. `88888. `Y8888P ,88P'
 
-alias cur='cd -P $HOME/Documents/code/curproj'
-alias mkcur='ln -snf `pwd` $HOME/Documents/code/curproj'
+alias cur='cd -P $HOME/code/curproj'
+alias mkcur='ln -snf `pwd` $HOME/code/curproj'
 
 # Easier navigation: .., ..., ~ and -
 alias ..="cd .."
@@ -81,6 +81,7 @@ alias ga="git add"
 alias gaa="git add -A"
 alias gs="git status"
 alias gd="git diff"
+alias gpf='git push --force-with-lease'
 alias gdc="git diff --cached"
 alias gcb="git checkout develop"
 alias gsha="git rev-parse HEAD"
@@ -94,7 +95,6 @@ alias v="nvim"
 alias e="emacs"
 
 # git flow
-alias gf="git flow"
 alias gff="git flow feature"
 alias gffs="git flow feature start"
 alias gfff="git flow feature finish"
@@ -123,8 +123,8 @@ alias npml='npm ls --depth=0'
 alias npmlg='npm ls -g --depth=0'
 
 # Take me to my code/dotfiles folder
-alias code='cd /Users/yannvanhalewyn/Documents/code'
-alias dotf='cd ~/dotfiles'
+alias code='cd $HOME/code'
+alias dotf='cd $HOME/dotfiles'
 
 # Tmux
 alias ta='tmux attach'
@@ -148,6 +148,11 @@ alias bubu="brew update && brew upgrade --all && brew cleanup"
 
 # Mysql
 alias mysqlstatus='mysqladmin -u root -p ping'
+alias msqs='mysql.server start'
+
+# Elasticsearch
+alias es='elasticsearch'
+alias estest='elasticsearch --http.port=9250'
 
 # Mongodb
 alias mongol='mongod --fork --logpath /usr/local/var/log/mongod.log --dbpath /usr/local/var/mongodb/'
@@ -190,3 +195,5 @@ alias showAllDownloads="sqlite3 ~/Library/Preferences/com.apple.LaunchServices.Q
 alias nep='NODE_ENV=production'
 alias ned='NODE_ENV=development'
 alias net='NODE_ENV=test'
+
+alias rspec='_rspec_command'
