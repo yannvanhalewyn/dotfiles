@@ -1,0 +1,26 @@
+# ~/.tmuxinator/poms.yml
+
+name: poms
+root: ~/brightin/poms
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+# Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
+# startup_window: logs
+
+# Controls whether the tmux session should be attached to automatically. Defaults to true.
+# attach: false
+
+# Runs after everything. Use it to attach to tmux with custom options etc.
+# post: tmux -CC attach -t zapp
+
+windows:
+  - editor:
+      layout: 8038,158x46,0,0[158x36,0,0,0,158x9,0,37,1]
+      panes:
+        - $EDITOR
+        -
