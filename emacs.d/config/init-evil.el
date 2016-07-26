@@ -1,8 +1,8 @@
-(use-package evil)
-(use-package evil-leader)
-(use-package evil-surround)
-(use-package evil-commentary)
-(use-package evil-numbers)
+(use-package evil :defer t)
+(use-package evil-leader :defer t)
+(use-package evil-surround :defer t)
+(use-package evil-commentary :defer t)
+(use-package evil-numbers :defer t)
 
 ;; Start evil mode
 (require 'evil)
