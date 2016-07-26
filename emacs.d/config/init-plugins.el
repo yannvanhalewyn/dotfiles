@@ -1,14 +1,25 @@
 (use-package yasnippet
   :config
   (setq yas-snippet-dirs
-	'("~/.emacs.d/snippets"
-	  "~/.emacs.d/elpa/yasnippet-20150811.1222/snippets")))
+        '("~/.emacs.d/snippets"
+          "~/.emacs.d/elpa/yasnippet-20150811.1222/snippets")))
+
+;; Ruby
+(use-package rspec-mode)
+(use-package "inf-ruby")
+
+;; Using pry in rspec buffers
+(use-package flycheck)
+(add-hook 'after-init-hook 'inf-ruby-switch-setup)
+(add-hook 'ruby-mode-hook #'flycheck-mode)
+(eval-after-load 'rspec-mode '(rspec-install-snippets))
 
 ;; Lisps
 (use-package cider)
 (use-package paredit)
 (use-package evil-cleverparens)
 (use-package aggressive-indent)
+(use-package clj-refactor)
 
 (use-package projectile
   :config
@@ -48,5 +59,13 @@
 (add-hook 'emacs-lisp-mode-hook #'enable-parainbow)
 (add-hook 'clojure-mode-hook #'enable-parainbow)
 (add-hook 'cider-repl-mode-hook #'enable-parainbow)
+
+;; CIDER performance
+;; (setq cider-request-dispatch 'static)
+(setq cider-cljs-lein-repl
+      "(do (require 'figwheel-sidecar.repl-api)
+           (figwheel-sidecar.repl-api/start-figwheel!)
+           (figwheel-sidecar.repl-api/cljs-repl))")
+
 
 (provide 'init-plugins)

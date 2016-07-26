@@ -5,6 +5,12 @@
 (setq make-backup-files nil)
 (auto-save-mode nil)
 
+;; Prevent # -*- coding: utf-8 -*-
+(setq ruby-insert-encoding-magic-comment nil)
+
+;; Spaces over tabs
+(setq-default indent-tabs-mode nil)
+
 ;; Remember cursor position of files when opening
 (setq save-place-file "~/.emacs.d/saveplace")
 (setq-default save-place t)
@@ -17,6 +23,9 @@
 (setq scroll-margin 5
       scroll-conservatively 9999
       scroll-step 1)
+
+;; Javascript indentation
+(setq js-indent-level 2)
 
 ;; Don't confirm when creating new file
 (setq confirm-nonexistent-file-or-buffer nil)
@@ -33,5 +42,10 @@
 ;; Deal with temp files
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+
+;; Get shell PATH
+(use-package exec-path-from-shell)
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 
 (provide 'general-behavior)

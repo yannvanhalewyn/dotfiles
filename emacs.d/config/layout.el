@@ -2,23 +2,29 @@
 (use-package zenburn-theme)
 (use-package gruvbox-theme)
 (use-package base16-theme)
+(use-package smyx-theme)
+(use-package haml-mode)
+(use-package sass-mode)
+(use-package coffee-mode)
 
 ;; LAYOUT/Load custom themes
-(load-theme 'base16-default-dark t)	;; ColorTheme
-(global-linum-mode t)			;; Show line numbers
-(setq linum-format "%d ")		;; Format line numbers
-(show-paren-mode 1)			;; Show matching paren
-(setq c-basic-offset 4)			;; Set offset for c
-(menu-bar-mode 0)			;; Hide menu bar
-(tool-bar-mode -1)			;; Hide toolbar (GUI)
+(load-theme 'smyx t)      ;; ColorTheme
+(global-linum-mode t)     ;; Show line numbers
+(setq linum-format "%d ") ;; Format line numbers
+(show-paren-mode 1)       ;; Show matching paren
+(setq c-basic-offset 4)   ;; Set offset for c
+(menu-bar-mode 0)         ;; Hide menu bar
+(tool-bar-mode -1)        ;; Hide toolbar (GUI)
 
 (if window-system
     (progn
-      (scroll-bar-mode -1)))	;; Hide scrollbar (GUI)
+      (scroll-bar-mode -1))) ;; Hide scrollbar (GUI)
 
-     ;; Powerline
+;; Show trailing whitespace and tabs
+(global-whitespace-mode)
+(setq whitespace-line-column 85)
 
-
+;; Powerline
 (powerline-default-theme)
 
 (provide 'layout)
