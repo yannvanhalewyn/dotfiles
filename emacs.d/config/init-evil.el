@@ -1,9 +1,8 @@
-(require-package 'evil)
-(require-package 'evil-leader)
-(require-package 'magit)
-(require-package 'evil-surround)
-(require-package 'evil-commentary)
-(require-package 'evil-numbers)
+(use-package evil :defer t)
+(use-package evil-leader :defer t)
+(use-package evil-surround :defer t)
+(use-package evil-commentary :defer t)
+(use-package evil-numbers :defer t)
 
 ;; Start evil mode
 (require 'evil)
@@ -84,6 +83,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   "b" 'ido-switch-buffer
   "F" 'ido-find-file
   "gs" 'magit-status
+  "gd" 'magit-diff
   "cc" 'comment-or-uncomment-region
   "q" 'kill-this-buffer
   "r" 'recompile
@@ -91,23 +91,34 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   "E" 'eval-buffer
   "f" 'helm-projectile
   "SPC" 'helm-M-x
-  "c" 'call-ag-with
+  "c" 'projectile-ag
   "d" 'dired-current-dir
-  "o" 'ido-find-file) 
+  "m" 'rename-file
+  "o" 'ido-find-file)
 
 (add-hook 'js-mode-hook '(lambda ()
-			   (evil-leader/set-key
-			     "a" 'mocha-run-all-specs
-			     "t" 'mocha-run-current-file
-			     "s" 'mocha-run-nearest-spec
-			     "l" 'mocha-run-last-spec)))
+                           (evil-leader/set-key
+                             "a" 'mocha-run-all-specs
+                             "t" 'mocha-run-current-file
+                             "s" 'mocha-run-nearest-spec
+                             "l" 'mocha-run-last-spec)))
 
 (add-hook 'clojure-mode-hook '(lambda ()
-				(evil-leader/set-key
-				  "e" 'cider-eval-last-sexp
-				  "E" 'cider-eval-buffer
-				  "t" 'cider-test-run-tests
-				  "k" 'cider-load-buffer)))
+                                (evil-leader/set-key
+                                  "e" 'cider-eval-defun-at-point
+                                  "E" 'cider-eval-buffer
+                                  "t" 'cider-test-run-tests
+                                  "k" 'cider-load-buffer
+                                  "t" 'cider-test-run-test
+                                  "a" 'cider-test-run-tests
+                                  "l" 'cider-test-rerun-tests)))
+
+(add-hook 'rspec-mode-hook '(lambda ()
+                              (evil-leader/set-key
+                                "t" 'rspec-verify
+                                "a" 'rspec-verify-all
+                                "s" 'rspec-verify-single
+                                "l" 'rspec-rerun)))
 
 ;; Surround
 (require 'evil-surround)
