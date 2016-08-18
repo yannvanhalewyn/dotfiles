@@ -86,6 +86,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   "gd" 'magit-diff
   "cc" 'comment-or-uncomment-region
   "q" 'kill-this-buffer
+  "Q" 'delete-other-windows
   "r" 'recompile
   "e" 'eval-last-sexp
   "E" 'eval-buffer

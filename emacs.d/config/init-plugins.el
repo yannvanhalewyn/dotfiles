@@ -2,9 +2,7 @@
   :defer t
   :config
   (yas-global-mode 1)
-  (setq yas-snippet-dirs
-        '("~/.emacs.d/snippets"
-          "~/.emacs.d/elpayasnippet-20150811.1222/snippets")))
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
 ;; Ruby
 (use-package rspec-mode
@@ -31,7 +29,7 @@
   :defer t
   :config
   ;; Don't use crazy bindings for {, [, } and ] from evil-cleverparens
-  (setq evil-cleverparens-use-additional-movement-keys nil))
+  (setq evil-cp-additional-movement-keys nil))
 (use-package aggressive-indent :defer t)
 (use-package clj-refactor :defer t)
 (use-package rainbow-delimiters :defer t)

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: vcr
+# key: vcr
+# --
+vcr: { record: :all }

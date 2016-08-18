@@ -1,5 +1,5 @@
 (use-package smyx-theme)
-;; (use-package powerline)
+(use-package powerline)
 ;; (use-package zenburn-theme)
 ;; (use-package gruvbox-theme)
 ;; (use-package base16-theme)
@@ -17,12 +17,18 @@
 (menu-bar-mode 0)         ;; Hide menu bar
 (tool-bar-mode -1)        ;; Hide toolbar (GUI)
 
+;; Fringe color
+(set-face-attribute 'fringe nil
+                    :foreground (face-foreground 'default)
+                    :background (face-background 'default))
+
 (if window-system
     (progn
       (scroll-bar-mode -1))) ;; Hide scrollbar (GUI)
 
 ;; Show trailing whitespace and tabs
 (global-whitespace-mode)
+(setq whitespace-line nil)
 (setq whitespace-line-column 85)
 
 ;; Powerline

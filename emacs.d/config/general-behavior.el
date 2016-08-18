@@ -3,6 +3,7 @@
 
 ;; No backup files
 (setq make-backup-files nil)
+(setq create-lockfiles nil)
 (auto-save-mode nil)
 
 ;; Prevent # -*- coding: utf-8 -*-
@@ -35,9 +36,6 @@
 
 ;; Use helm-M-x
 (global-set-key (kbd "M-x ") 'helm-M-x)
-
-;; Disable backup files
-(setq make-backup-files nil)
 
 ;; Deal with temp files
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
