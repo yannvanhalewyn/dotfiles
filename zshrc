@@ -35,8 +35,8 @@ zstyle ':completion:*' menu select
 # ========
 HISTFILE=$HOME/.zhistory       # enable history saving on shell exit
 setopt APPEND_HISTORY          # append rather than overwrite history file.
-HISTSIZE=1200                  # lines of history to maintain memory
-SAVEHIST=1000                  # lines of history to maintain in history file.
+HISTSIZE=20000                 # lines of history to maintain memory
+SAVEHIST=20000                 # lines of history to maintain in history file.
 
 export EDITOR='nvim'
 source "$HOME/.aliases"

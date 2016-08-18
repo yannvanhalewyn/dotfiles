@@ -36,9 +36,9 @@ alias hosts='sudo $EDITOR /etc/hosts'   # yes I occasionally 127.0.0.1 twitter.c
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
-	colorflag="--color"
+  colorflag="--color"
 else # OS X `ls`
-	colorflag="-G"
+  colorflag="-G"
 fi
 
 # ls options: Use color even with piping to awk, F = put `/` after folders, h = byte unit suffixes, color
@@ -92,11 +92,13 @@ alias gstl="git stash list"
 alias gbd="git branch | cut -c 3- | pick | xargs git branch -d"
 alias gcb="git branch | cut -c 3- | pick | xargs git checkout"
 alias gcba="git branch --all --remote | cut -c 3- | pick | xargs git checkout"
+alias gprune="git branch --merged master | grep -v 'master$' | grep -v 'production$' | xargs git branch -d"
 alias gdorigin="git diff origin/master"
 alias groot='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
 alias gvisit='open $(git config --get remote.origin.url | sed -E s#git@\(.+\):\(.+\)#http://www.\\1/\\2#)'
 alias galiases="alias | grep -P \"(g|undopush)\w*='git\""
 alias gdotf='open "http://www.github.com/yannvanhalewyn/dotfiles"'
+
 alias v="nvim"
 alias e="emacs"
 
@@ -213,3 +215,10 @@ alias lt='lein test'
 # some work projects
 alias zp='cd $HOME/brightin/zapp'
 alias zl='cd $HOME/brightin/zappelin'
+
+# Rails stuff
+alias nukeit='rake db:drop && rake db:create && mysql -uroot zapp_development < production_dump.sql && rake db:migrate'
+
+# For history
+alias history='history 0'
+alias alias-ideas="history 0 | awk '{a[$2]++}END{for(i in a){print a [i] " " i}}' | sort -rn | head -20"
