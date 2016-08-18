@@ -12,7 +12,6 @@
 
 ;; Using pry in rspec buffers
 (use-package inf-ruby
-  :defer t
   :config
   (add-hook 'after-init-hook 'inf-ruby-switch-setup))
 
@@ -68,6 +67,10 @@
 (add-hook 'emacs-lisp-mode-hook #'enable-parainbow)
 (add-hook 'clojure-mode-hook #'enable-parainbow)
 (add-hook 'cider-repl-mode-hook #'enable-parainbow)
+
+;; Close do-end blocks in ruby
+(require 'smartparens-ruby)
+(add-hook 'ruby-mode-hook #'smartparens-mode)
 
 ;; CIDER performance
 ;; (setq cider-request-dispatch 'static)
