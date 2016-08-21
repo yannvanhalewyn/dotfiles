@@ -28,7 +28,7 @@
   :defer t
   :config
   ;; Don't use crazy bindings for {, [, } and ] from evil-cleverparens
-  (setq evil-cp-additional-movement-keys nil))
+  (setq evil-cleverparens-use-additional-movement-keys nil))
 (use-package aggressive-indent :defer t)
 (use-package clj-refactor :defer t)
 (use-package rainbow-delimiters :defer t)
@@ -39,6 +39,9 @@
   :config
   (projectile-global-mode)
   (setq projectile-require-project-root nil))
+
+;; Projectile-ag
+(use-package ag)
 
 (use-package helm
   :defer t
@@ -71,6 +74,19 @@
 ;; Close do-end blocks in ruby
 (require 'smartparens-ruby)
 (add-hook 'ruby-mode-hook #'smartparens-mode)
+
+(use-package projectile-rails
+  :config
+  ;; Won't start unless rails project
+  (add-hook 'projectile-mode-hook 'projectile-rails-on))
+
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
 
 ;; CIDER performance
 ;; (setq cider-request-dispatch 'static)

@@ -121,6 +121,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
                                 "s" 'rspec-verify-single
                                 "l" 'rspec-rerun)))
 
+(add-hook 'projectile-rails-mode-hook
+          '(lambda ()
+             (define-key evil-normal-state-map "gf" 'projectile-rails-goto-file-at-point)
+             (define-key evil-normal-state-map "gm" 'projectile-rails-find-current-model)
+             (define-key evil-normal-state-map "gv" 'projectile-rails-find-current-view)
+             (define-key evil-normal-state-map "gc" 'projectile-rails-find-current-controller)))
+
 ;; Surround
 (require 'evil-surround)
 (global-evil-surround-mode 1)
