@@ -84,7 +84,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   "F" 'ido-find-file
   "gs" 'magit-status
   "gd" 'magit-diff
-  "cc" 'comment-or-uncomment-region
   "q" 'kill-this-buffer
   "Q" 'delete-other-windows
   "r" 'recompile
@@ -95,7 +94,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   "c" 'projectile-ag
   "d" 'dired-current-dir
   "m" 'rename-file
-  "o" 'ido-find-file)
+  "o" 'ido-find-file
+  "p" '(lambda () (interactive) (find-file "~/.emacs.d/config/init-plugins.el")))
 
 (add-hook 'js-mode-hook '(lambda ()
                            (evil-leader/set-key
@@ -126,7 +126,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
              (define-key evil-normal-state-map "gf" 'projectile-rails-goto-file-at-point)
              (define-key evil-normal-state-map "gm" 'projectile-rails-find-current-model)
              (define-key evil-normal-state-map "gv" 'projectile-rails-find-current-view)
-             (define-key evil-normal-state-map "gc" 'projectile-rails-find-current-controller)))
+             (define-key evil-normal-state-map "gc" 'projectile-rails-find-current-controller)
+             (define-key evil-normal-state-map "gt" 'rspec-find-spec-or-target-other-window)))
 
 ;; Surround
 (require 'evil-surround)

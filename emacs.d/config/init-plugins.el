@@ -41,7 +41,7 @@
   (setq projectile-require-project-root nil))
 
 ;; Projectile-ag
-(use-package ag)
+(use-package ag :defer t)
 
 (use-package helm
   :defer t
@@ -78,7 +78,8 @@
 (use-package projectile-rails
   :config
   ;; Won't start unless rails project
-  (add-hook 'projectile-mode-hook 'projectile-rails-on))
+  (add-hook 'projectile-mode-hook 'projectile-rails-on)
+  (setq projectile-tags-file-name ".git/tags"))
 
 (use-package markdown-mode
   :ensure t
