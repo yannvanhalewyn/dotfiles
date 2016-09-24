@@ -217,8 +217,8 @@ alias zp='cd $HOME/brightin/zapp'
 alias zl='cd $HOME/brightin/zappelin'
 
 # Rails stuff
-alias nukeit='rake db:drop && rake db:create && mysql -uroot zapp_development < production_dump.sql && rake db:migrate'
+alias nukeit='rake db:drop && rake db:create && mysql -uroot zapp_development < production_dump.sql && rake db:migrate && rake db:test:prepare && RAILS_ENV=test rake db:migrate'
 
 # For history
 alias history='history 0'
-alias alias-ideas="history 0 | awk '{a[$2]++}END{for(i in a){print a [i] " " i}}' | sort -rn | head -20"
+alias alias-ideas="history | awk '{a[\$2]++}END{for(i in a){print a [i] \" \" i}}' | sort -rn | head -20"

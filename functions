@@ -18,8 +18,7 @@ function md() {
 
 # find shorthand
 function f() {
-    mdfind -onlyin ./ -name "$1"
-    #find . -name "$1"
+    mdfind -onlyin ./ "kMDItemDisplayName == $1"
 }
 
 
@@ -214,4 +213,40 @@ function _rspec_command() {
   else
     command rails $@
   fi
+}
+
+function paste_in_keynote() {
+  highlight -O rtf $1 --syntax=clojure --font Inconsolata -s $1 | pbcopy
+  osascript <<'END'
+tell application "Keynote" to activate
+
+tell application "System Events"
+  tell process "Keynote"
+    keystroke "v" using command down
+  end tell
+end tell
+
+tell application "iTerm" to activate
+END
+}
+
+function find-dir() {
+  find ./ -type d -name "*$1*" -print
+}
+
+function current_git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+
+# Rebases all commits starting from the mergebase with the first argument, and
+# applies them to the second argument ref
+# Ex:
+#   # Will rebase all commits started from master onto prouduction
+#   $ rebase_onto master production
+function rebase_onto() {
+  echo git rebase --onto "$2" `git merge-base HEAD "$1"` `current_git_branch`
+}
+
+function tomp3() {
+ ffmpeg -i $1 -vn -ar 44100 -ac 2 -ab 192k -f mp3 $2
 }
