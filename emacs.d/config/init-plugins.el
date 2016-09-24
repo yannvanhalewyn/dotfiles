@@ -1,8 +1,15 @@
+(use-package scss-mode)
+
 (use-package yasnippet
   :defer t
   :config
   (yas-global-mode 1)
   (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
+
+;; Completions
+(use-package company
+  :defer t
+  :config (global-company-mode))
 
 ;; Ruby
 (use-package rspec-mode
@@ -56,9 +63,7 @@
 
 (use-package magit
   :defer t
-  :config
-  ;; Magit something the plugin told me, have no idea
-  (setq magit-last-seen-setup-instructions "1.4.0"))
+  :config (use-package magithub))
 
 ;; Load up rainbow delimiters/paredit when writing el
 (defun enable-parainbow ()
@@ -69,6 +74,7 @@
 
 (add-hook 'emacs-lisp-mode-hook #'enable-parainbow)
 (add-hook 'clojure-mode-hook #'enable-parainbow)
+(add-hook 'clojurescript-mode-hook #'enable-parainbow)
 (add-hook 'cider-repl-mode-hook #'enable-parainbow)
 
 ;; Close do-end blocks in ruby
@@ -80,6 +86,12 @@
   ;; Won't start unless rails project
   (add-hook 'projectile-mode-hook 'projectile-rails-on)
   (setq projectile-tags-file-name ".git/tags"))
+
+;; For goto file in require statements
+(use-package bundler :defer t)
+(use-package yard-mode
+  :defer t
+  :config (add-hook 'ruby-mode-hook 'yard-mode))
 
 (use-package markdown-mode
   :ensure t

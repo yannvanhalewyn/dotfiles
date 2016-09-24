@@ -9,29 +9,41 @@
 (evil-mode 1)
 (evil-commentary-mode)
 
-; Evil mode key bindings
-; ======================
+;; Evil mode key bindings
+;; ======================
+(defun nnoremap (key action) (define-key evil-normal-state-map (kbd key) action))
+(defun inoremap (key action) (define-key evil-insert-state-map (kbd key) action))
 
 ;; Window movement
-(define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-(define-key evil-normal-state-map (kbd "C-i") 'describe-mode)
-(define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-(define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-(define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+(nnoremap "C-h" 'evil-window-left)
+(nnoremap "C-i" 'describe-mode)
+(nnoremap "C-j" 'evil-window-down)
+(nnoremap "C-k" 'evil-window-up)
+(nnoremap "C-l" 'evil-window-right)
 
 ;; Evil comments
-(define-key evil-normal-state-map (kbd "gc") 'evilnc-comment-operator)
+(nnoremap "gc" 'evilnc-comment-operator)
 
 ;; Helm file browsing
-(define-key evil-normal-state-map (kbd "C-b") 'helm-buffers-list)
-(define-key evil-normal-state-map (kbd "C-p") 'helm-for-files)
+(nnoremap "gs" 'projectile-switch-project)
+
+;; Unimpaired
+(nnoremap "[e" 'flycheck-previous-error)
+(nnoremap "]e" 'flycheck-next-error)
+(nnoremap "[b" 'previous-buffer)
+(nnoremap "]b" 'next-buffer)
 
 ;; Incrementing numbers
-(define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
-(define-key evil-normal-state-map (kbd "C-s-x") 'evil-numbers/dec-at-pt)
+(nnoremap "C-a" 'evil-numbers/inc-at-pt)
+(nnoremap "C-s-x" 'evil-numbers/dec-at-pt)
 
 ;; Alignment
 (define-key evil-visual-state-map (kbd "RET") 'align-regexp)
+
+;; Completions (work on this)
+(inoremap "C-n" 'company-select-next)
+(inoremap "C-p" 'company-select-previous)
+(inoremap "TAB" 'company-complete)
 
 ;; Quitting everything
 (defun minibuffer-keyboard-quit ()
@@ -123,11 +135,16 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (add-hook 'projectile-rails-mode-hook
           '(lambda ()
-             (define-key evil-normal-state-map "gf" 'projectile-rails-goto-file-at-point)
-             (define-key evil-normal-state-map "gm" 'projectile-rails-find-current-model)
-             (define-key evil-normal-state-map "gv" 'projectile-rails-find-current-view)
-             (define-key evil-normal-state-map "gc" 'projectile-rails-find-current-controller)
-             (define-key evil-normal-state-map "gt" 'rspec-find-spec-or-target-other-window)))
+             (nnoremap "gf" 'projectile-rails-goto-file-at-point)
+             (nnoremap "gm" 'projectile-rails-find-current-model)
+             (nnoremap "gM" 'projectile-rails-find-model)
+             (nnoremap "gv" 'projectile-rails-find-current-view)
+             (nnoremap "gV" 'projectile-rails-find-view)
+             (nnoremap "gr" 'projectile-rails-find-current-controller)
+             (nnoremap "gR" 'projectile-rails-find-controller)
+             (nnoremap "gt" 'rspec-find-spec-or-target-other-window)
+             (nnoremap "gT" 'projectile-rails-find-spec)
+             (nnoremap "gs" 'projectile-switch-project)))
 
 ;; Surround
 (require 'evil-surround)
