@@ -6,12 +6,12 @@
   (yas-global-mode 1)
   (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
-;; Completions
 (use-package company
   :defer t
   :config (global-company-mode))
 
 ;; Ruby
+;; ====
 (use-package rspec-mode
   :defer t
   :config
@@ -22,13 +22,25 @@
   :config
   (add-hook 'after-init-hook 'inf-ruby-switch-setup))
 
+;; Close do-end blocks in ruby
+(require 'smartparens-ruby)
+(add-hook 'ruby-mode-hook #'smartparens-mode)
+
 ;; Rubocop
 (use-package flycheck
   :defer t
   :config
   (add-hook 'ruby-mode-hook #'flycheck-mode))
 
+;; For goto file in require statements
+(use-package bundler :defer t)
+
+(use-package yard-mode
+  :defer t
+  :config (add-hook 'ruby-mode-hook 'yard-mode))
+
 ;; Lisps
+;; =====
 (use-package cider :defer t)
 (use-package paredit :defer t)
 (use-package evil-cleverparens
@@ -40,7 +52,20 @@
 (use-package clj-refactor :defer t)
 (use-package rainbow-delimiters :defer t)
 
-;; Projects
+;; Load up rainbow delimiters/paredit when writing el
+(defun enable-parainbow ()
+  (paredit-mode)
+  (evil-cleverparens-mode)
+  (aggressive-indent-mode)
+  (rainbow-delimiters-mode))
+
+(add-hook 'emacs-lisp-mode-hook #'enable-parainbow)
+(add-hook 'clojure-mode-hook #'enable-parainbow)
+(add-hook 'clojurescript-mode-hook #'enable-parainbow)
+(add-hook 'cider-repl-mode-hook #'enable-parainbow)
+
+;; Project navigation
+;; ==================
 (use-package projectile
   :defer t
   :config
@@ -56,42 +81,17 @@
   (setq helm-buffers-fuzzy-matching t)
   (setq helm-M-x-fuzzy-match t))
 
-(use-package helm-ls-git :defer t)
 (use-package helm-projectile :defer t)
-
-(use-package emmet-mode :defer t)
 
 (use-package magit
   :defer t
   :config (use-package magithub))
-
-;; Load up rainbow delimiters/paredit when writing el
-(defun enable-parainbow ()
-  (paredit-mode)
-  (evil-cleverparens-mode)
-  (aggressive-indent-mode)
-  (rainbow-delimiters-mode))
-
-(add-hook 'emacs-lisp-mode-hook #'enable-parainbow)
-(add-hook 'clojure-mode-hook #'enable-parainbow)
-(add-hook 'clojurescript-mode-hook #'enable-parainbow)
-(add-hook 'cider-repl-mode-hook #'enable-parainbow)
-
-;; Close do-end blocks in ruby
-(require 'smartparens-ruby)
-(add-hook 'ruby-mode-hook #'smartparens-mode)
 
 (use-package projectile-rails
   :config
   ;; Won't start unless rails project
   (add-hook 'projectile-mode-hook 'projectile-rails-on)
   (setq projectile-tags-file-name ".git/tags"))
-
-;; For goto file in require statements
-(use-package bundler :defer t)
-(use-package yard-mode
-  :defer t
-  :config (add-hook 'ruby-mode-hook 'yard-mode))
 
 (use-package markdown-mode
   :ensure t
