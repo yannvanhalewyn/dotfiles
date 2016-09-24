@@ -10,6 +10,12 @@
   :defer t
   :config (global-company-mode))
 
+(use-package which-key
+  :diminish which-key-mode
+  :config
+  (which-key-mode +1)
+  (which-key-setup-side-window-bottom))
+
 ;; Ruby
 ;; ====
 (use-package rspec-mode
