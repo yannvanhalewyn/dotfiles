@@ -50,6 +50,8 @@ setopt autopushd
 
 # Add scripts to path
 export PATH="$PATH:$HOME/.scripts"
+# GPG agent for prompting passphrase
+export GPG_TTY=$(tty)
 
 # =====
 # RBENV

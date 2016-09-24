@@ -2,6 +2,7 @@
 [user]
 	name = Yann Vanhalewyn
 	email = yann.vanhalewyn@gmail.com
+	signinkey = 2B93C1E3
 [core]
 	excludesfile = /Users/yannvanhalewyn/.gitignore_global
 [difftool "sourcetree"]
@@ -23,3 +24,5 @@
 	default = current
 [init]
 	templatedir = ~/.git_template
+[commit]
+	gpgsign = true
