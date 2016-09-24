@@ -2,13 +2,20 @@
 
 (use-package yasnippet
   :defer t
+  :diminish yas-minor-mode
   :config
   (yas-global-mode 1)
   (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
 (use-package company
   :defer t
+  :diminish company-mode
   :config (global-company-mode))
+
+(use-package undo-tree
+  :diminish undo-tree-mode
+  :config
+  (global-undo-tree-mode t))
 
 (use-package which-key
   :diminish which-key-mode
@@ -48,15 +55,23 @@
 ;; Lisps
 ;; =====
 (use-package cider :defer t)
-(use-package paredit :defer t)
+(use-package clj-refactor :defer t)
+(use-package rainbow-delimiters :defer t)
+
+(use-package paredit
+  :defer t
+  :diminish paredit-mode)
+
 (use-package evil-cleverparens
   :defer t
+  :diminish evil-cleverparens-mode
   :config
   ;; Don't use crazy bindings for {, [, } and ] from evil-cleverparens
   (setq evil-cleverparens-use-additional-movement-keys nil))
-(use-package aggressive-indent :defer t)
-(use-package clj-refactor :defer t)
-(use-package rainbow-delimiters :defer t)
+
+(use-package aggressive-indent
+  :defer t
+  :diminish aggressive-indent-mode)
 
 ;; Load up rainbow delimiters/paredit when writing el
 (defun enable-parainbow ()
@@ -73,13 +88,17 @@
 ;; Project navigation
 ;; ==================
 (use-package projectile
+  :diminish projectile-mode
   :defer t
   :config
   (projectile-global-mode)
-  (setq projectile-require-project-root nil))
+  (setq projectile-require-project-root nil
+        projectile-switch-project-action 'helm-projectile-find-file))
 
 ;; Projectile-ag
-(use-package ag :defer t)
+(use-package ag
+  :defer t
+  :init (setq ag-reuse-buffers t))
 
 (use-package helm
   :defer t

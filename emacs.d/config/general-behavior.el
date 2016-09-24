@@ -46,4 +46,8 @@
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 
+;; Easier font scaling
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+
 (provide 'general-behavior)

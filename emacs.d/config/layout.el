@@ -6,7 +6,9 @@
   :init
   (load-theme 'base16-ashes t))
 (use-package smart-mode-line
-  :init (sml/setup))
+  :init
+  (sml/setup)
+  (column-number-mode))
 
 (use-package haml-mode :defer t)
 (use-package sass-mode :defer t)

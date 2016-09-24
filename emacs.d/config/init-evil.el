@@ -1,7 +1,7 @@
 (use-package evil :defer t)
 (use-package evil-leader :defer t)
 (use-package evil-surround :defer t)
-(use-package evil-commentary :defer t)
+(use-package evil-commentary :defer t :diminish evil-commentary-mode)
 (use-package evil-numbers :defer t)
 
 ;; Start evil mode
