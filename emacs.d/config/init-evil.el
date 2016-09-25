@@ -6,7 +6,6 @@
         "C-j" 'evil-window-down
         "C-k" 'evil-window-up
         "C-l" 'evil-window-right
-        "gs" 'projectile-switch-project
         "[e" 'flycheck-previous-error
         "]e" 'flycheck-next-error
         "[b" 'previous-buffer

@@ -171,6 +171,7 @@
   (projectile-global-mode)
   (setq projectile-require-project-root nil
         projectile-switch-project-action 'helm-projectile)
+  (keys "gs" 'projectile-switch-project)
   (keys-l "p" 'projectile-command-map))
 
 ;; Projectile-ag
@@ -229,8 +230,7 @@
         "r" 'projectile-rails-find-current-controller
         "R" 'projectile-rails-find-controller
         "t" 'rspec-find-spec-or-target-other-window
-        "T" 'projectile-rails-find-spec
-        "s" 'projectile-switch-project))
+        "T" 'projectile-rails-find-spec))
 
 (use-package markdown-mode
   :ensure t
