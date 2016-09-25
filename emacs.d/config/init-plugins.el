@@ -1,4 +1,24 @@
+(require 'util)
+
 (use-package scss-mode)
+
+(use-package general
+  :config
+  (progn
+    (setq general-default-states '(normal emacs motion))
+    (general-create-definer keys-l :prefix "SPC")
+    (defalias 'keys 'general-define-key)
+
+    (keys-l "B" 'ibuffer
+            "b" 'ido-switch-buffer
+            "f" 'helm-projectile
+            "q" 'kill-this-buffer
+            "Q" 'delete-other-windows
+            "c" 'projectile-ag
+            "d" 'dired-current-dir
+            "m" 'rename-file
+            "o" 'ido-find-file
+            "ev" 'edit-config)))
 
 (use-package yasnippet
   :defer t
@@ -10,7 +30,12 @@
 (use-package company
   :defer t
   :diminish company-mode
-  :config (global-company-mode))
+  :init (global-company-mode)
+  :config
+  (define-key prog-mode-map (kbd "<tab>") 'company-complete)
+  (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
+  (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
+  (define-key company-active-map (kbd "C-d") 'company-show-doc-buffer))
 
 (use-package undo-tree
   :diminish undo-tree-mode
@@ -28,7 +53,11 @@
 (use-package rspec-mode
   :defer t
   :config
-  (eval-after-load 'rspec-mode '(rspec-install-snippets)))
+  (eval-after-load 'rspec-mode '(rspec-install-snippets))
+  (keys-l "t" 'rspec-verify
+          "a" 'rspec-verify-all
+          "s" 'rspec-verify-single
+          "l" 'rspec-rerun))
 
 ;; Using pry in rspec buffers
 (use-package inf-ruby
@@ -54,7 +83,19 @@
 
 ;; Lisps
 ;; =====
-(use-package cider :defer t)
+(use-package cider
+  :defer t
+  :config
+  (keys-l :states 'normal
+          :keymaps 'emacs-lisp-mode-hook
+          "e" 'cider-eval-defun-at-point
+          "E" 'cider-eval-buffer
+          "t" 'cider-test-run-tests
+          "k" 'cider-load-buffer
+          "t" 'cider-test-run-test
+          "a" 'cider-test-run-tests
+          "l" 'cider-test-rerun-tests))
+
 (use-package clj-refactor :defer t)
 (use-package rainbow-delimiters :defer t)
 
@@ -78,12 +119,15 @@
   (paredit-mode)
   (evil-cleverparens-mode)
   (aggressive-indent-mode)
-  (rainbow-delimiters-mode))
+  (rainbow-delimiters-mode)
+  (eldoc-mode))
 
-(add-hook 'emacs-lisp-mode-hook #'enable-parainbow)
-(add-hook 'clojure-mode-hook #'enable-parainbow)
-(add-hook 'clojurescript-mode-hook #'enable-parainbow)
-(add-hook 'cider-repl-mode-hook #'enable-parainbow)
+(defvar lisp-mode-hooks '(clojure-mode-hook
+                          clojurescript-mode-hook
+                          cider-repl-mode-hook
+                          emacs-lisp-mode-hook))
+
+(add-hooks #'enable-parainbow lisp-mode-hooks)
 
 ;; Project navigation
 ;; ==================
@@ -93,7 +137,8 @@
   :config
   (projectile-global-mode)
   (setq projectile-require-project-root nil
-        projectile-switch-project-action 'helm-projectile-find-file))
+        projectile-switch-project-action 'helm-projectile)
+  (keys-l "p" 'projectile-command-map))
 
 ;; Projectile-ag
 (use-package ag
@@ -103,20 +148,47 @@
 (use-package helm
   :defer t
   :config
-  (setq helm-buffers-fuzzy-matching t)
-  (setq helm-M-x-fuzzy-match t))
+  (setq helm-buffers-fuzzy-matching t
+        helm-M-x-fuzzy-match t
+        helm-apropos-fuzzy-match t))
 
 (use-package helm-projectile :defer t)
 
 (use-package magit
   :defer t
-  :config (use-package magithub))
+  :config
+  (use-package magithub)
+  (define-key magit-blame-mode-map (kbd "Q") 'magit-blame-quit)
+  :init
+  (keys-l "g" (build-keymap
+               "B" 'magit-blame-quit
+               "b" 'magit-blame
+               "d" 'magit-diff
+               "l" 'magit-log
+               "s" 'magit-status
+               "r" (build-keymap
+                    "a" 'magit-rebase-abort
+                    "c" 'magit-rebase-continue
+                    "i" 'magit-rebase-interactive
+                    "s" 'magit-rebase-skip)
+               "l" 'magit-log)))
 
 (use-package projectile-rails
   :config
   ;; Won't start unless rails project
   (add-hook 'projectile-mode-hook 'projectile-rails-on)
-  (setq projectile-tags-file-name ".git/tags"))
+  (setq projectile-tags-file-name ".git/tags")
+  (keys :prefix "g"
+        "f" 'projectile-rails-goto-file-at-point
+        "m" 'projectile-rails-find-current-model
+        "M" 'projectile-rails-find-model
+        "v" 'projectile-rails-find-current-view
+        "V" 'projectile-rails-find-view
+        "r" 'projectile-rails-find-current-controller
+        "R" 'projectile-rails-find-controller
+        "t" 'rspec-find-spec-or-target-other-window
+        "T" 'projectile-rails-find-spec
+        "s" 'projectile-switch-project))
 
 (use-package markdown-mode
   :ensure t
