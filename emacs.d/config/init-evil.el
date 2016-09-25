@@ -1,87 +1,46 @@
-(use-package evil :defer t)
-(use-package evil-surround :defer t)
-(use-package evil-commentary :defer t :diminish evil-commentary-mode)
-(use-package evil-numbers :defer t)
+(use-package evil
+  :config
+  (evil-mode t)
+  (keys "C-h" 'evil-window-left
+        "C-i" 'describe-mode
+        "C-j" 'evil-window-down
+        "C-k" 'evil-window-up
+        "C-l" 'evil-window-right
+        "gs" 'projectile-switch-project
+        "[e" 'flycheck-previous-error
+        "]e" 'flycheck-next-error
+        "[b" 'previous-buffer
+        "]b" 'next-buffer
+        "RET" 'align-regexp)
+  (setq evil-normal-state-cursor '("white" box)
+        evil-visual-state-cursor '("orange" box)
+        evil-insert-state-cursor '("white" bar)
+        evil-replace-state-cursor '("red" box)
+        evil-operator-state-cursor '("red" hollow)))
 
-;; Start evil mode
-(require 'evil)
-(evil-mode 1)
-(evil-commentary-mode)
+(use-package evil-commentary
+  :diminish evil-commentary-mode
+  :config
+  (evil-commentary-mode)
+  (keys :states 'normal "gc" 'evilnc-comment-operator))
 
-;; Evil mode key bindings
-;; ======================
-(defun nnoremap (key action) (define-key evil-normal-state-map (kbd key) action))
-(defun inoremap (key action) (define-key evil-insert-state-map (kbd key) action))
+(use-package evil-surround
+  :defer t
+  :config
+  (global-evil-surround-mode 1))
 
-;; Window movement
-(nnoremap "C-h" 'evil-window-left)
-(nnoremap "C-i" 'describe-mode)
-(nnoremap "C-j" 'evil-window-down)
-(nnoremap "C-k" 'evil-window-up)
-(nnoremap "C-l" 'evil-window-right)
+(use-package evil-numbers
+  :defer t
+  :config
+  (keys "C-a" 'evil-numbers/inc-at-pt
+        "C-s-x" 'evil-numbers/dec-at-pt))
 
-;; Evil comments
-(nnoremap "gc" 'evilnc-comment-operator)
-
-;; Helm file browsing
-(nnoremap "gs" 'projectile-switch-project)
-
-;; Unimpaired
-(nnoremap "[e" 'flycheck-previous-error)
-(nnoremap "]e" 'flycheck-next-error)
-(nnoremap "[b" 'previous-buffer)
-(nnoremap "]b" 'next-buffer)
-
-;; Incrementing numbers
-(nnoremap "C-a" 'evil-numbers/inc-at-pt)
-(nnoremap "C-s-x" 'evil-numbers/dec-at-pt)
-
-;; Alignment
-(define-key evil-visual-state-map (kbd "RET") 'align-regexp)
-
-;; Quitting everything
-(defun minibuffer-keyboard-quit ()
-  "Abort recursive edit.
-In Delete Selection mode, if the mark is active, just deactivate it;
-then it takes a second \\[keyboard-quit] to abort the minibuffer."
-  (interactive)
-  (if (and delete-selection-mode transient-mark-mode mark-active)
-      (setq deactivate-mark  t)
-    (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
-    (abort-recursive-edit)))
-
-(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-
-;; Cursor colors
-(setq evil-normal-state-cursor '("white" box))
-(setq evil-visual-state-cursor '("orange" box))
-(setq evil-insert-state-cursor '("white" bar))
-(setq evil-replace-state-cursor '("red" box))
-(setq evil-operator-state-cursor '("red" hollow))
-
-;; Add hjkl for magit and ibuffer (actually just j..)
-(evil-set-initial-state 'magit-log-edit-mode 'emacs)
-(evil-set-initial-state 'nav-mode 'emacs)
-(evil-set-initial-state 'grep-mode 'emacs)
+;; Add hjkl for magit and ibuffer
 (evil-set-initial-state 'ibuffer-mode 'normal)
-
-(evil-add-hjkl-bindings magit-log-mode-map 'emacs)
-(evil-add-hjkl-bindings magit-commit-mode-map 'emacs)
 (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
-(evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs
-  "K" 'magit-discard-item
-  "L" 'magit-key-mode-popup-logging)
-(evil-add-hjkl-bindings magit-status-mode-map 'emacs
-  "K" 'magit-discard-item
-  "l" 'magit-key-mode-popup-logging
-  "h" 'magit-toggle-diff-refine-hunk)
-
-;; Surround
-(require 'evil-surround)
-(global-evil-surround-mode 1)
+(evil-add-hjkl-bindings magit-log-mode-map 'emacs)
+(evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs)
+(evil-add-hjkl-bindings git-rebase-mode-map 'emacs)
+(evil-add-hjkl-bindings magit-status-mode-map 'emacs)
 
 (provide 'init-evil)

@@ -194,6 +194,13 @@
   (define-key magit-blame-mode-map (kbd "Q") 'magit-blame-quit)
   (magithub-toggle-ci-status-header)
   :init
+  (keys :keymaps 'git-rebase-mode-map
+        "J" 'git-rebase-move-line-down
+        "K" 'git-rebase-move-line-up
+        "d" 'git-rebase-kill-line
+        "p" 'git-rebase-pick)
+  (keys :keymaps 'magit-status-mode-map
+        "TAB" 'magit-section-toggle)
   (keys-l "g" (build-keymap
                "B" 'magit-blame-quit
                "b" 'magit-blame
