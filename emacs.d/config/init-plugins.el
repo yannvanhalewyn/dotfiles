@@ -25,7 +25,7 @@
           "a" 'helm-apropos)
      "i" (build-keymap
           "u" 'ucs-insert)
-     "m" 'rename-file
+     "m" 'rename-current-buffer-file
      "o" 'ido-find-file
      "Q" 'delete-other-windows
      "q" 'kill-this-buffer
