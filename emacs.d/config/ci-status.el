@@ -18,9 +18,11 @@
   "Returns the reference to origin for given branch"
   (format "origin/%s" branch))
 
-(defun cis/status (&optional ref)
-  "Fetches the ci status for the given reference"
-  (shell-command-to-string (format "hub ci-status %s" ref)))
+(defun cis/status (ref callback)
+  "Fetches the ci status for the given REF and calls CALLBACK with status text"
+  (shell-command-to-string-async
+   (format "hub ci-status %s" ref)
+   callback))
 
 (defun cis/propertized-status (status)
   "transforms a CI status string into a representative colorized char"
@@ -37,10 +39,11 @@
   (format "CI:%s" (cis/propertized-status cis/latest-ci-status)))
 
 (defun cis/update ()
-  "Updates the cis/latest-ci-status variable"
+  "Updates the cis/latest-ci-status variable asynchronously"
   (interactive)
-  (setq cis/latest-ci-status
-        (string-trim
-         (cis/status (cis/origin (cis/current-branch))))))
+  (message "Updating CI status")
+  (cis/status (cis/origin (cis/current-branch))
+              (lambda (status)
+                (setq cis/latest-ci-status (string-trim status)))))
 
 (provide 'ci-status)
