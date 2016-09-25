@@ -17,10 +17,13 @@
      "d" 'dired-current-dir
      "ev" 'edit-config
      "f" 'helm-projectile
+     "i" (build-keymap
+          "u" 'ucs-insert)
      "h" (build-keymap
           "k" 'describe-key
           "m" 'describe-mode
-          "f" 'describe-function)
+          "f" 'describe-function
+          "a" 'helm-apropos)
      "m" 'rename-file
      "o" 'ido-find-file
      "q" 'kill-this-buffer)))
@@ -164,6 +167,7 @@
   :config
   (use-package magithub)
   (define-key magit-blame-mode-map (kbd "Q") 'magit-blame-quit)
+  (magithub-toggle-ci-status-header)
   :init
   (keys-l "g" (build-keymap
                "B" 'magit-blame-quit
