@@ -11,22 +11,25 @@
 
     (keys-l
      "B" 'ibuffer
-     "Q" 'delete-other-windows
      "b" 'ido-switch-buffer
-     "c" 'projectile-ag
+     "c" (build-keymap
+          "u" 'cis/update
+          "o" 'cis/open-ci-build)
      "d" 'dired-current-dir
      "ev" 'edit-config
      "f" 'helm-projectile
-     "i" (build-keymap
-          "u" 'ucs-insert)
      "h" (build-keymap
           "k" 'describe-key
           "m" 'describe-mode
           "f" 'describe-function
           "a" 'helm-apropos)
+     "i" (build-keymap
+          "u" 'ucs-insert)
      "m" 'rename-file
      "o" 'ido-find-file
-     "q" 'kill-this-buffer)))
+     "Q" 'delete-other-windows
+     "q" 'kill-this-buffer
+     "x" 'projectile-ag)))
 
 (use-package yasnippet
   :defer t

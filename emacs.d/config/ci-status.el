@@ -12,7 +12,8 @@
 
 (defun cis/current-branch ()
   "Asks git what the current branch is"
-  (shell-command-to-string "git branch 2> /dev/null | awk '{ if ( $1 == \"*\" ) { print $2 } }'"))
+  (string-trim
+   (shell-command-to-string "git branch 2> /dev/null | awk '{ if ( $1 == \"*\" ) { print $2 } }'")))
 
 (defun cis/origin (branch)
   "Returns the reference to origin for given branch"
@@ -20,6 +21,7 @@
 
 (defun cis/status (ref callback)
   "Fetches the ci status for the given REF and calls CALLBACK with status text"
+  (message "Fetching CI status for %s" ref)
   (shell-command-to-string-async
    (format "hub ci-status %s" ref)
    callback))
@@ -35,15 +37,27 @@
     (propertize cis/pending-status-char 'face 'cis/pending))
    (t cis/no-status-char)))
 
+(defun cis/latest-build-url (ref callback)
+  (message "Fetching CI build url for %s" ref)
+  (shell-command-to-string-async
+   (format "hub ci-status %s -v | awk '{ print $2}'" ref)
+   callback))
+
+;; Public API
+;; ==========
 (defun cis/modeline-status ()
   (format "CI:%s" (cis/propertized-status cis/latest-ci-status)))
 
 (defun cis/update ()
   "Updates the cis/latest-ci-status variable asynchronously"
   (interactive)
-  (message "Updating CI status")
   (cis/status (cis/origin (cis/current-branch))
               (lambda (status)
                 (setq cis/latest-ci-status (string-trim status)))))
+
+(defun cis/open-ci-build ()
+  (interactive)
+  (cis/latest-build-url (cis/origin (cis/current-branch))
+                        (lambda (url) (browse-url url))))
 
 (provide 'ci-status)
