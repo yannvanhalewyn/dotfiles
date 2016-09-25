@@ -37,5 +37,3 @@
 (require 'init-dired)
 (require 'init-ido)
 (require 'layout)
-(require 'some-funcs)
-(require 'mocha)

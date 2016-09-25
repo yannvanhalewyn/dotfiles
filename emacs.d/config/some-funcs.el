@@ -1,1 +1,0 @@
-(provide 'some-funcs)

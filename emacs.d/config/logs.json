@@ -1,4 +1,0 @@
-{"level":"info","message":"Attempting to connect to: mongodb://localhost:27017/sputnik9","timestamp":"2015-11-29_04-44-34"}
-{"level":"info","message":"Express app listening at http://0.0.0.0:3000","timestamp":"2015-11-29_04-44-34"}
-{"level":"info","message":"MongoDB connection established.","timestamp":"2015-11-29_04-44-35"}
-{"view":{"defaultEngine":"hbs","ext":".hbs","name":"home","root":"/Users/yannvanhalewyn/dotfiles/emacs.d/config/views"},"level":"error","timestamp":"2015-11-29_12-04-28"}
