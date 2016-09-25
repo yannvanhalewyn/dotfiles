@@ -9,16 +9,21 @@
     (general-create-definer keys-l :prefix "SPC")
     (defalias 'keys 'general-define-key)
 
-    (keys-l "B" 'ibuffer
-            "b" 'ido-switch-buffer
-            "f" 'helm-projectile
-            "q" 'kill-this-buffer
-            "Q" 'delete-other-windows
-            "c" 'projectile-ag
-            "d" 'dired-current-dir
-            "m" 'rename-file
-            "o" 'ido-find-file
-            "ev" 'edit-config)))
+    (keys-l
+     "B" 'ibuffer
+     "Q" 'delete-other-windows
+     "b" 'ido-switch-buffer
+     "c" 'projectile-ag
+     "d" 'dired-current-dir
+     "ev" 'edit-config
+     "f" 'helm-projectile
+     "h" (build-keymap
+          "k" 'describe-key
+          "m" 'describe-mode
+          "f" 'describe-function)
+     "m" 'rename-file
+     "o" 'ido-find-file
+     "q" 'kill-this-buffer)))
 
 (use-package yasnippet
   :defer t
@@ -46,7 +51,7 @@
   :diminish which-key-mode
   :config
   (which-key-mode +1)
-  (which-key-setup-side-window-bottom))
+  (which-key-setup-side-window-right))
 
 ;; Ruby
 ;; ====
