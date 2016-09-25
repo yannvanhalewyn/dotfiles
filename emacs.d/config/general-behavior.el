@@ -6,6 +6,21 @@
 (setq create-lockfiles nil)
 (auto-save-mode nil)
 
+;; Just type y or n
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;; Automaticaly add newline at and of document
+(setq require-final-newline t)
+
+;; warn when opening files bigger than 100MB
+(setq large-file-warning-threshold 100000000)
+
+;; Fix tabs and clear trailing-whitespace on save
+(add-hook 'before-save-hook 'whitespace-cleanup)
+
+;; revert buffers automatically when underlying files are changed externally
+(global-auto-revert-mode t)
+
 ;; Prevent # -*- coding: utf-8 -*-
 (setq ruby-insert-encoding-magic-comment nil)
 
@@ -28,8 +43,10 @@
       scroll-conservatively 9999
       scroll-step 1)
 
-;; Javascript indentation
-(setq js-indent-level 2)
+;; Indentation
+(setq js-indent-level 2
+      tab-width 2
+      c-basic-offset 4)
 
 ;; Don't confirm when creating new file
 (setq confirm-nonexistent-file-or-buffer nil)

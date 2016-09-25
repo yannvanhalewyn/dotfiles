@@ -15,7 +15,6 @@
 ;; LAYOUT/Load custom themes
 (global-linum-mode t)     ;; Show line numbers
 (show-paren-mode 1)       ;; Show matching paren
-(setq c-basic-offset 4)   ;; Set offset for c
 (menu-bar-mode 0)         ;; Hide menu bar
 (tool-bar-mode -1)        ;; Hide toolbar (GUI)
 

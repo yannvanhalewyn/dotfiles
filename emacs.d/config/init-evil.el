@@ -8,8 +8,8 @@
         "C-l" 'evil-window-right
         "[e" 'flycheck-previous-error
         "]e" 'flycheck-next-error
-        "[b" 'previous-buffer
-        "]b" 'next-buffer
+        "[b" 'previous-code-buffer
+        "]b" 'next-code-buffer
         "RET" 'align-regexp)
   (setq evil-normal-state-cursor '("white" box)
         evil-visual-state-cursor '("orange" box)
@@ -24,7 +24,6 @@
   (keys :states 'normal "gc" 'evilnc-comment-operator))
 
 (use-package evil-surround
-  :defer t
   :config
   (global-evil-surround-mode 1))
 
