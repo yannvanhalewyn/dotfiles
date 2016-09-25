@@ -20,6 +20,9 @@
 ;; Always follow symlinks
 (setq vc-follow-symlinks t)
 
+;; Scratch buffer in eLisp
+(setq initial-major-mode 'emacs-lisp-mode)
+
 ;; Smooth scroll
 (setq scroll-margin 5
       scroll-conservatively 9999

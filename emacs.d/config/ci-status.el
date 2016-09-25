@@ -46,7 +46,7 @@
 ;; Public API
 ;; ==========
 (defun cis/modeline-status ()
-  (format "CI:%s" (cis/propertized-status cis/latest-ci-status)))
+  (format "CI:%s  " (cis/propertized-status cis/latest-ci-status)))
 
 (defun cis/update ()
   "Updates the cis/latest-ci-status variable asynchronously"

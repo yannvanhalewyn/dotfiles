@@ -4,32 +4,35 @@
 
 (use-package general
   :config
-  (progn
-    (setq general-default-states '(normal emacs motion))
-    (general-create-definer keys-l :prefix "SPC")
-    (defalias 'keys 'general-define-key)
+  (setq general-default-states '(normal emacs motion))
+  (general-create-definer keys-l :prefix "SPC")
+  (defalias 'keys 'general-define-key)
 
-    (keys-l
-     "B" 'ibuffer
-     "b" 'ido-switch-buffer
-     "c" (build-keymap
-          "u" 'cis/update
-          "o" 'cis/open-ci-build)
-     "d" 'dired-current-dir
-     "ev" 'edit-config
-     "f" 'helm-projectile
-     "h" (build-keymap
-          "k" 'describe-key
-          "m" 'describe-mode
-          "f" 'describe-function
-          "a" 'helm-apropos)
-     "i" (build-keymap
-          "u" 'ucs-insert)
-     "m" 'rename-current-buffer-file
-     "o" 'ido-find-file
-     "Q" 'delete-other-windows
-     "q" 'kill-this-buffer
-     "x" 'projectile-ag)))
+  (keys-l :keymaps 'emacs-lisp-mode-map
+          "e" 'eval-defun
+          "E" 'eval-print-last-sexp)
+
+  (keys-l
+   "B" 'ibuffer
+   "b" 'ido-switch-buffer
+   "c" (build-keymap
+        "u" 'cis/update
+        "o" 'cis/open-ci-build)
+   "d" 'dired-current-dir
+   "y" 'edit-config
+   "f" 'helm-projectile
+   "h" (build-keymap
+        "k" 'describe-key
+        "m" 'describe-mode
+        "f" 'describe-function
+        "a" 'helm-apropos)
+   "i" (build-keymap
+        "u" 'ucs-insert)
+   "m" 'rename-current-buffer-file
+   "o" 'ido-find-file
+   "Q" 'delete-other-windows
+   "q" 'kill-this-buffer
+   "x" 'projectile-ag))
 
 (use-package yasnippet
   :defer t
@@ -69,7 +72,8 @@
   :defer t
   :config
   (eval-after-load 'rspec-mode '(rspec-install-snippets))
-  (keys-l "t" 'rspec-verify
+  (keys-l :keymaps 'projectile-rails-mode-map
+          "t" 'rspec-verify
           "a" 'rspec-verify-all
           "s" 'rspec-verify-single
           "l" 'rspec-rerun))
@@ -101,15 +105,29 @@
 (use-package cider
   :defer t
   :config
-  (keys-l :states 'normal
-          :keymaps 'emacs-lisp-mode-hook
+  (defvar cider-mode-maps
+    '(cider-repl-mode-map
+      clojure-mode-map
+      clojurescript-mode-map))
+
+  (keys :keymaps cider-mode-maps
+        "gf" 'cider-find-var)
+
+  (keys-l :keymaps cider-mode-maps
+          "a" 'cider-test-run-tests
+          "c" (build-keymap
+               "a" 'cider-apropos
+               "d" 'cider-doc
+               "j" 'cider-jack-in
+               "k" 'cider-repl-clear-buffer
+               "m" 'cider-macro-expand-1
+               "q" 'cider-quit
+               "r" 'cider-restart)
           "e" 'cider-eval-defun-at-point
           "E" 'cider-eval-buffer
-          "t" 'cider-test-run-tests
           "k" 'cider-load-buffer
-          "t" 'cider-test-run-test
-          "a" 'cider-test-run-tests
-          "l" 'cider-test-rerun-tests))
+          "l" 'cider-test-rerun-tests
+          "t" 'cider-test-run-test))
 
 (use-package clj-refactor :defer t)
 (use-package rainbow-delimiters :defer t)
@@ -195,6 +213,7 @@
   (add-hook 'projectile-mode-hook 'projectile-rails-on)
   (setq projectile-tags-file-name ".git/tags")
   (keys :prefix "g"
+        :keymaps 'projectile-rails-mode-map
         "f" 'projectile-rails-goto-file-at-point
         "m" 'projectile-rails-find-current-model
         "M" 'projectile-rails-find-model
