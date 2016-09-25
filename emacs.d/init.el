@@ -32,7 +32,6 @@
 (require 'init-env)
 (require 'init-evil)
 (require 'init-plugins)
-(require 'init-compile)
 (require 'init-ibuffer)
 (require 'init-dired)
 (require 'init-ido)

@@ -1,7 +1,3 @@
-;; (defun dired-project-dir ()
-;;   (interactive)
-;;   (dired project-root-dir))
-
 (defun dired-current-dir ()
   (interactive)
   (dired ""))
