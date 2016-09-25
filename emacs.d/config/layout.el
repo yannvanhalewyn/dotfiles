@@ -1,18 +1,16 @@
-;; (use-package smyx-theme)
-;; (use-package powerline)
-;; (use-package zenburn-theme)
-;; (use-package gruvbox-theme)
+(require 'ci-status)
+
 (use-package base16-theme
   :init
   (load-theme 'base16-ashes t))
+
 (use-package smart-mode-line
   :init
   (sml/setup)
-  (column-number-mode))
-
-(use-package haml-mode :defer t)
-(use-package sass-mode :defer t)
-(use-package coffee-mode :defer t)
+  (column-number-mode)
+  (setq mode-line-position nil
+        evil-mode-line-format nil
+        mode-line-end-spaces '(:eval (cis/modeline-status))))
 
 ;; LAYOUT/Load custom themes
 (global-linum-mode t)     ;; Show line numbers
@@ -29,14 +27,5 @@
 (if window-system
     (progn
       (scroll-bar-mode -1))) ;; Hide scrollbar (GUI)
-
-;; Show trailing whitespace and tabs
-;; (global-whitespace-mode)
-;; (setq whitespace-line nil)
-;; (setq whitespace-line-column 85)
-;; (setq whitespace-space nil)
-
-;; Powerline
-;; (powerline-default-theme)
 
 (provide 'layout)

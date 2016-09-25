@@ -56,8 +56,12 @@
   (which-key-mode +1)
   (which-key-setup-side-window-right))
 
-;; Ruby
-;; ====
+;; Ruby/Rails
+;; ==========
+(use-package haml-mode :defer t)
+(use-package sass-mode :defer t)
+(use-package coffee-mode :defer t)
+
 (use-package rspec-mode
   :defer t
   :config
