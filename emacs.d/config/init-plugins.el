@@ -41,6 +41,10 @@
   (yas-global-mode 1)
   (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
 
+(use-package ace-jump-mode
+  :init
+  (keys "f" 'ace-jump-mode))
+
 (use-package company
   :defer t
   :diminish company-mode
@@ -70,7 +74,7 @@
 
 (use-package rspec-mode
   :defer t
-  :config
+  :init
   (eval-after-load 'rspec-mode '(rspec-install-snippets))
   (keys-l :keymaps 'projectile-rails-mode-map
           "t" 'rspec-verify
@@ -192,16 +196,18 @@
   :defer t
   :config
   (use-package magithub)
-  (define-key magit-blame-mode-map (kbd "Q") 'magit-blame-quit)
   (magithub-toggle-ci-status-header)
   :init
+  (keys :keymaps 'magit-blame-mode-map
+        "q" 'magit-blame-quit)
   (keys :keymaps 'git-rebase-mode-map
         "J" 'git-rebase-move-line-down
         "K" 'git-rebase-move-line-up
         "d" 'git-rebase-kill-line
         "p" 'git-rebase-pick)
   (keys :keymaps 'magit-status-mode-map
-        "TAB" 'magit-section-toggle)
+        "TAB" 'magit-section-toggle
+        "K" 'magit-discard)
   (keys-l "g" (build-keymap
                "B" 'magit-blame-quit
                "b" 'magit-blame
@@ -216,7 +222,7 @@
                "l" 'magit-log)))
 
 (use-package projectile-rails
-  :config
+  :init
   ;; Won't start unless rails project
   (add-hook 'projectile-mode-hook 'projectile-rails-on)
   (setq projectile-tags-file-name ".git/tags")
