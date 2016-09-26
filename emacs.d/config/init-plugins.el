@@ -96,8 +96,10 @@
 ;; Rubocop
 (use-package flycheck
   :defer t
+  :init
+  (add-hook 'after-init-hook #'global-flycheck-mode)
   :config
-  (add-hook 'ruby-mode-hook #'flycheck-mode))
+  (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled)))
 
 ;; For goto file in require statements
 (use-package bundler :defer t)
