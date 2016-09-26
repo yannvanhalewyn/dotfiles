@@ -7,7 +7,7 @@
     (funcall circle-fn)
     (while
         (and
-         (code-buffer? (buffer-name))
+         (not (code-buffer? (buffer-name)))
          (not (equal bread-crumb (buffer-name))) )
       (funcall circle-fn))))
 
@@ -26,5 +26,12 @@
   "Saves the current buffer if code buffer"
   (if (code-buffer? (buffer-name))
       (save-buffer)))
+
+;; Clear emacs shell
+(defun shell-clear-buffer ()
+  (interactive)
+  ;; Size one because of my 2-line prompt
+  (let ((comint-buffer-maximum-size 1))
+    (comint-truncate-buffer)))
 
 (provide 'init-functions)

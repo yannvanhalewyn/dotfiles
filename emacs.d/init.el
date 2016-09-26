@@ -36,4 +36,5 @@
 (require 'init-ibuffer)
 (require 'init-dired)
 (require 'init-ido)
+(require 'init-shell)
 (require 'layout)

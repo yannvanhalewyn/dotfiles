@@ -53,6 +53,13 @@ export PATH="$PATH:$HOME/.scripts"
 # GPG agent for prompting passphrase
 export GPG_TTY=$(tty)
 
+# Disable bracketed paste feature when in emacs. This used to cause
+# unwanted chars to be printed out
+# https://github.com/syl20bnr/spacemacs/issues/3035
+if [ -n "$INSIDE_EMACS" ]; then
+    export EDITOR=emacsclient
+    unset zle_bracketed_paste  # This line
+fi
 # =====
 # RBENV
 # =====
