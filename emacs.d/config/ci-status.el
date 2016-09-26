@@ -31,7 +31,7 @@
   (cond
    ((string-equal status "success")
     (propertize cis/success-status-char 'face 'cis/success))
-   ((string-equal status "failed")
+   ((string-equal status "failure")
     (propertize cis/failed-status-char 'face 'cis/failed))
    ((string-equal status "pending")
     (propertize cis/pending-status-char 'face 'cis/pending))
