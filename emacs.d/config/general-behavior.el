@@ -38,10 +38,11 @@
 ;; Scratch buffer in eLisp
 (setq initial-major-mode 'emacs-lisp-mode)
 
-;; Smooth scroll
-(setq scroll-margin 5
-      scroll-conservatively 9999
-      scroll-step 1)
+;; Centering after { and }
+(advice-add 'forward-paragraph
+            :after
+            (lambda (&rest _)
+              (evil-scroll-line-to-center (line-number-at-pos))))
 
 ;; Indentation
 (setq js-indent-level 2
