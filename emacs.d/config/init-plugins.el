@@ -32,6 +32,7 @@
    "o" 'ido-find-file
    "Q" 'delete-other-windows
    "q" 'kill-this-buffer
+   "r" 'chrome-reload
    "x" 'projectile-ag))
 
 (use-package yasnippet

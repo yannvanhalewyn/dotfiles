@@ -57,4 +57,14 @@
           t)
         (funcall go first-theme))))
 
+(defun chrome-reload (&optional focus)
+  "Use osascript to tell Google Chrome to reload. If optional argument
+  FOCUS is non-nil, give Chrome the focus as well."
+  (interactive "P")
+  (let ((cmd (concat "osascript -e 'tell application \"Google Chrome\" "
+                     "to (reload (active tab of (window 1)))"
+                     (if focus " & activate" "")
+                     "'")))
+    (with-temp-buffer (shell-command cmd t))))
+
 (provide 'init-functions)
