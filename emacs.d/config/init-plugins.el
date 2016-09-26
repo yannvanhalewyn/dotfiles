@@ -43,7 +43,8 @@
 
 (use-package ace-jump-mode
   :init
-  (keys "f" 'ace-jump-mode))
+  (keys :states 'normal
+        "F" 'ace-jump-mode))
 
 (use-package company
   :defer t
@@ -170,7 +171,6 @@
 ;; ==================
 (use-package projectile
   :diminish projectile-mode
-  :defer t
   :config
   (projectile-global-mode)
   (setq projectile-require-project-root nil
@@ -195,8 +195,9 @@
 (use-package magit
   :defer t
   :config
-  (use-package magithub)
-  (magithub-toggle-ci-status-header)
+  (use-package magithub
+    :config
+    (magithub-toggle-ci-status-header))
   :init
   (keys :keymaps 'magit-blame-mode-map
         "q" 'magit-blame-quit)
