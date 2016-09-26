@@ -1,7 +1,7 @@
 (use-package evil
   :config
   (evil-mode t)
-  (keys :states 'normal
+  (keys :states 'motion
         "[e" 'flycheck-previous-error
         "]e" 'flycheck-next-error
         "[b" 'previous-code-buffer
