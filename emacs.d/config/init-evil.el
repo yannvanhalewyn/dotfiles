@@ -6,16 +6,12 @@
         "]e" 'flycheck-next-error
         "[b" 'previous-code-buffer
         "]b" 'next-code-buffer
+        "]t" 'cycle-theme
         "RET" 'align-regexp)
   (keys "C-h" 'evil-window-left
         "C-j" 'evil-window-down
         "C-k" 'evil-window-up
-        "C-l" 'evil-window-right)
-  (setq evil-normal-state-cursor '("white" box)
-        evil-visual-state-cursor '("orange" box)
-        evil-insert-state-cursor '("white" bar)
-        evil-replace-state-cursor '("red" box)
-        evil-operator-state-cursor '("red" hollow)))
+        "C-l" 'evil-window-right))
 
 (use-package evil-commentary
   :diminish evil-commentary-mode

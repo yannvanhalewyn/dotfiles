@@ -34,4 +34,27 @@
   (let ((comint-buffer-maximum-size 1))
     (comint-truncate-buffer)))
 
+(defun cycle-theme (&optional reverse)
+  "Load the next (or previous if REVERSE is true) available theme."
+  (interactive)
+  (let* ((current-theme (car custom-enabled-themes))
+         (all-themes (if reverse
+                         (reverse (custom-available-themes))
+                       (custom-available-themes)))
+         (first-theme (car all-themes))
+         (go (lambda (theme)
+               (message "Loading %s." (symbol-name theme))
+               (disable-theme current-theme)
+               (load-theme theme)))
+         theme)
+    (if (catch 'done
+          (while (setq theme (pop all-themes))
+            (if (and (eq theme current-theme)
+                     (setq theme (pop all-themes)))
+                (progn
+                  (funcall go theme)
+                  (throw 'done nil))))
+          t)
+        (funcall go first-theme))))
+
 (provide 'init-functions)

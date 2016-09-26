@@ -29,3 +29,25 @@
       (scroll-bar-mode -1))) ;; Hide scrollbar (GUI)
 
 (provide 'layout)
+
+;; Nice Themes
+;; Zenburn
+;; Smyx
+;; base16-ashes
+;; base16-atelier-cave
+;; base16-atelier-heath
+;; base16-atelier-plateau
+;; base16-bespin
+;; base16-chalk
+;; base16-default-dark
+;; base16-eighties
+;; base16-harmonic16-dark
+;; base16-hopscotch
+;; base16-materia
+;; base16-mocha
+;; base16-monokai
+;; base16-ocean
+;; base16-oceanicnext
+;; base16-solarized-light
+;; base16-3024
+;; Misterioso
