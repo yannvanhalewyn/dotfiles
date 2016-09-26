@@ -67,4 +67,24 @@
                      "'")))
     (with-temp-buffer (shell-command cmd t))))
 
+(defun -vc-current-project-remote-url ()
+  "The base remote url for current git remote"
+  (string-trim (shell-command-to-string "hub browse -u")))
+
+(defun -vc-url-for-file (repo filepath &optional branch-ref)
+  "The url for a FILEPATH on REPO (url). Will point to optional BRANCH-REF"
+  (format "%s/blob/%s/%s" repo (or branch-ref "master") filepath))
+
+(defun browse-current-line-github ()
+  "Go to the current file's current line on the codebase site."
+  (interactive)
+  (let* ((line-num (number-to-string (line-number-at-pos)))
+         (file-path (replace-regexp-in-string
+                     (expand-file-name (vc-find-root (buffer-file-name) ".git"))
+                     ""
+                     (buffer-file-name)))
+         (args (concat (-vc-url-for-file (-vc-current-project-remote-url) file-path)
+                       "#L" line-num)))
+    (call-process "open" nil nil nil args)))
+
 (provide 'init-functions)

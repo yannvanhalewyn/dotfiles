@@ -215,6 +215,7 @@
                "b" 'magit-blame
                "d" 'magit-diff
                "l" 'magit-log
+               "o" 'browse-current-line-github
                "s" 'magit-status
                "r" (build-keymap
                     "a" 'magit-rebase-abort
