@@ -1,11 +1,12 @@
 (require 'ci-status)
+(add-hook 'magit-status-mode-hook 'cis/update)
 
 (use-package base16-theme
   :init
   (load-theme 'base16-ashes t))
 
 (use-package smart-mode-line
-  :init
+  :config
   (sml/setup)
   (column-number-mode)
   (setq mode-line-position nil
