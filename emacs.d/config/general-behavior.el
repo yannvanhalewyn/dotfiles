@@ -86,4 +86,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 
+;; Open general config files with conf mode
+(let* ((conf-files '("aliases" "functions" "gitignore" "zshrc"))
+       (conf-regexp (concat (regexp-opt conf-files t) "\\'")))
+  (add-to-list 'auto-mode-alist (cons conf-regexp 'conf-mode)))
+
+
 (provide 'general-behavior)
