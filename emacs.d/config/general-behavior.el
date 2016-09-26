@@ -91,5 +91,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
        (conf-regexp (concat (regexp-opt conf-files t) "\\'")))
   (add-to-list 'auto-mode-alist (cons conf-regexp 'conf-mode)))
 
+;; Save buffer when exiting evil insert mode
+(add-hook 'evil-insert-state-exit-hook 'save-if-code-buffer)
 
 (provide 'general-behavior)
