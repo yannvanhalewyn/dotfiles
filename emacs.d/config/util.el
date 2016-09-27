@@ -1,8 +1,3 @@
-(defun edit-config ()
-  "Goes to the main emacs config file (init-plugins.el)"
-  (interactive)
-  (find-file "~/.emacs.d/config/init-plugins.el"))
-
 (defun add-hooks (hook modes)
   "Applies hook to all mode (hooks)"
   (dolist (mode modes)

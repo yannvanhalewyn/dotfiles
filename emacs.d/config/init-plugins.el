@@ -19,8 +19,12 @@
         "u" 'cis/update
         "o" 'cis/open-ci-build)
    "d" 'dired-current-dir
-   "y" 'edit-config
    "f" 'helm-projectile
+   "v" (build-keymap
+        "e" 'edit-evil
+        "l" 'edit-layout
+        "p" 'edit-plugins
+        "t" 'edit-todo)
    "h" (build-keymap
         "k" 'describe-key
         "m" 'describe-mode
