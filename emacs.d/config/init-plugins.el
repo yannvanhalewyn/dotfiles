@@ -202,6 +202,7 @@
 (use-package magit
   :defer t
   :config
+  (add-hook 'git-commit-mode-hook 'evil-insert-state)
   (use-package magithub
     :config
     (magithub-toggle-ci-status-header))
