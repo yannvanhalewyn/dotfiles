@@ -8,7 +8,7 @@
   (general-create-definer keys-l :prefix "SPC")
   (defalias 'keys 'general-define-key)
 
-  (keys-l :keymaps 'emacs-lisp-mode-map
+  (keys-l :keymaps '(emacs-lisp-mode-map scheme-mode-map)
           "e" 'eval-defun
           "E" 'eval-print-last-sexp)
 
@@ -72,7 +72,8 @@
   :diminish which-key-mode
   :config
   (which-key-mode +1)
-  (which-key-setup-side-window-right))
+  (setq which-key-idle-delay 0.5)
+  (which-key-setup-side-window-bottom))
 
 ;; Ruby/Rails
 ;; ==========
@@ -162,7 +163,8 @@
   :diminish aggressive-indent-mode)
 
 ;; Load up rainbow delimiters/paredit when writing el
-(defun enable-parainbow ()
+(defun parainbow-mode ()
+  (interactive)
   (paredit-mode)
   (evil-cleverparens-mode)
   (aggressive-indent-mode)
@@ -170,11 +172,12 @@
   (eldoc-mode))
 
 (defvar lisp-mode-hooks '(clojure-mode-hook
+                          scheme-mode
                           clojurescript-mode-hook
                           cider-repl-mode-hook
                           emacs-lisp-mode-hook))
 
-(add-hooks #'enable-parainbow lisp-mode-hooks)
+(add-hooks #'parainbow-mode lisp-mode-hooks)
 
 ;; Project navigation
 ;; ==================
@@ -221,8 +224,10 @@
         "K" 'magit-discard)
   (keys-l "g" (build-keymap
                "B" 'magit-blame-quit
+               "c" 'magit-checkout
                "b" 'magit-blame
                "d" 'magit-diff
+               "f" 'magit-fetch-all
                "l" 'magit-log
                "o" 'browse-current-line-github
                "s" 'magit-status
