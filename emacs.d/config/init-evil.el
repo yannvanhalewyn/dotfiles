@@ -23,10 +23,11 @@
   (global-evil-surround-mode 1))
 
 (use-package evil-numbers
-  :defer t
   :config
-  (keys "C-a" 'evil-numbers/inc-at-pt
-        "C-s-x" 'evil-numbers/dec-at-pt))
+  (keys-l :states 'motion
+          "n" (build-keymap
+               "a" 'evil-numbers/inc-at-pt
+               "x" 'evil-numbers/dec-at-pt)))
 
 ;; Add hjkl for magit and ibuffer
 (evil-set-initial-state 'ibuffer-mode 'normal)

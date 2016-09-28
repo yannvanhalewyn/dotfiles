@@ -27,6 +27,9 @@
 ;; Spaces over tabs
 (setq-default indent-tabs-mode nil)
 
+;; Silence bell
+(setq ring-bell-function 'ignore)
+
 ;; Remember cursor position of files when opening
 (setq save-place-file "~/.emacs.d/saveplace")
 (setq-default save-place t)
@@ -39,6 +42,9 @@
 (setq initial-major-mode 'emacs-lisp-mode)
 
 ;; Centering after { and }
+(setq scroll-margin 3
+      scroll-conservatively 9999
+      scroll-step 1)
 (advice-add 'forward-paragraph
             :after
             (lambda (&rest _)
@@ -94,5 +100,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;; Save buffer when exiting evil insert mode
 (add-hook 'evil-insert-state-exit-hook 'save-if-code-buffer)
+;; (add-hook 'evil-insert-state-exit-hook 'evil-cp-insert)
 
 (provide 'general-behavior)

@@ -22,6 +22,8 @@
    "f" 'helm-projectile
    "v" (build-keymap
         "e" 'edit-evil
+        "f" 'edit-functions
+        "g" 'edit-general-behavior
         "l" 'edit-layout
         "p" 'edit-plugins
         "t" 'edit-todo)

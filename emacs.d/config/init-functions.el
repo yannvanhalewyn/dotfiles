@@ -2,9 +2,13 @@
   "Goes to the main emacs config file (init-plugins.el)"
   (interactive) (find-file "~/.emacs.d/config/init-plugins.el"))
 
+(defun edit-general-behavior ()
+  "Goes to the main emacs config file (init-plugins.el)"
+  (interactive) (find-file "~/.emacs.d/config/general-behavior.el"))
+
 (defun edit-evil ()
   "Goes to the general emacs config file (general-behavior.el)"
-  (interactive) (find-file "~/.emacs.d/config/general-behavior.el"))
+  (interactive) (find-file "~/.emacs.d/config/init-evil.el"))
 
 (defun edit-layout ()
   "Goes to the layout emacs config file (layout.el)"
@@ -13,6 +17,10 @@
 (defun edit-todo ()
   "Goes to the todo org file (todo.org)"
   (interactive) (find-file "~/Desktop/todo.org"))
+
+(defun edit-functions ()
+  "Goes to the todo org file (todo.org)"
+  (interactive) (find-file "~/.emacs.d/config/init-functions.el"))
 
 (defun code-buffer? (name)
   "Returns wether or the NAME is a name for a code buffer"
