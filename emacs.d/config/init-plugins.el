@@ -190,6 +190,21 @@
   (keys "gs" 'projectile-switch-project)
   (keys-l "p" 'projectile-command-map))
 
+(use-package neotree
+  :defer t
+  :config
+  (evil-make-overriding-map neotree-mode-map 'normal t)
+  (keys-l "n" 'neotree-toggle)
+  (keys :keymaps '(neotree-mode-map)
+        "d" 'neotree-delete-node
+        "J" 'neotree-select-down-node
+        "K" 'neotree-select-up-node
+        "q" 'neotree-hide
+        "m" 'neotree-rename-node
+        "o" 'neotree-enter
+        "x" (lambda () (interactive) (neotree-select-up-node) (neotree-enter))
+        "<tab>" 'neotree-quick-look))
+
 ;; Projectile-ag
 (use-package ag
   :defer t
