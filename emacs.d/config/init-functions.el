@@ -1,3 +1,10 @@
+(defun re-match (r s)
+  "Returns the string matched by R"
+  (if (string-match r s)
+      (let ((beg (car (match-data)))
+            (end (cadr (match-data))))
+        (if (and beg end) (substring s beg end)))))
+
 (defun edit-plugins ()
   "Goes to the main emacs config file (init-plugins.el)"
   (interactive) (find-file "~/.emacs.d/config/init-plugins.el"))
@@ -95,9 +102,18 @@
   "The base remote url for current git remote"
   (string-trim (shell-command-to-string "hub browse -u")))
 
+(defun -vc-current-branch ()
+  "Asks git what the current branch is"
+  (string-trim
+   (shell-command-to-string "git branch 2> /dev/null | awk '{ if ( $1 == \"*\" ) { print $2 } }'")))
+
 (defun -vc-url-for-file (repo filepath &optional branch-ref)
   "The url for a FILEPATH on REPO (url). Will point to optional BRANCH-REF"
   (format "%s/blob/%s/%s" repo (or branch-ref "master") filepath))
+
+(defun browse-url (url)
+  "Open URL in browser"
+  (call-process "open" nil nil nil url))
 
 (defun browse-current-line-github ()
   "Go to the current file's current line on the codebase site."
@@ -107,8 +123,33 @@
                      (expand-file-name (vc-find-root (buffer-file-name) ".git"))
                      ""
                      (buffer-file-name)))
-         (args (concat (-vc-url-for-file (-vc-current-project-remote-url) file-path)
-                       "#L" line-num)))
-    (call-process "open" nil nil nil args)))
+         (url (concat (-vc-url-for-file (-vc-current-project-remote-url) file-path)
+                      "#L" line-num)))
+    (browse-url url)))
+
+(defun ticket-number (branchname)
+  "returns the ticket number (eg 4+ digits number) from branchname"
+  (re-match "[0-9][0-9][0-9][0-9]" branchname))
+
+(defun redmine-url (issue)
+  "The url for the redmine ISSUE"
+  (format "http://redmine.publiekeomroep.nl/issues/%s" issue))
+
+(defun open-current-ticket-in-redmine ()
+  "Opens the current ticket (fetched from the branchname) in redmine"
+  (interactive)
+  (browse-url (redmine-url (ticket-number (-vc-current-branch)))))
+
+(defun neotree-project-root ()
+  "Open NeoTree using the git root."
+  (interactive)
+  (let ((project-dir (projectile-project-root))
+        (file-name (buffer-file-name)))
+    (if project-dir
+        (if (neotree-toggle)
+            (progn
+              (neotree-dir project-dir)
+              (neotree-find file-name)))
+      (message "Could not find git project root."))))
 
 (provide 'init-functions)

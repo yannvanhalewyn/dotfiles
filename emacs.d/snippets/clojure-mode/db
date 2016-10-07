@@ -1,0 +1,6 @@
+# key: db
+# name: db# key: db
+# name: db
+# --
+(let [db {:url "postgresql://localhost:5432/time-zapper"}]
+  ($1))
