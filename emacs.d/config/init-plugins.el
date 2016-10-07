@@ -50,8 +50,8 @@
 
 (use-package ace-jump-mode
   :init
-  (keys :states 'normal
-        "F" 'ace-jump-mode))
+  (keys-l "j" 'ace-jump-mode
+          "J" 'ace-jump-char-mode))
 
 (use-package company
   :defer t
@@ -98,7 +98,7 @@
 
 ;; Close do-end blocks in ruby
 (require 'smartparens-ruby)
-(add-hook 'ruby-mode-hook #'smartparens-mode)
+(add-hooks #'smartparens-mode '(ruby-mode-hook javascript-mode-hook))
 
 ;; Rubocop
 (use-package flycheck
@@ -129,7 +129,7 @@
         "gf" 'cider-find-var)
 
   (keys-l :keymaps cider-mode-maps
-          "a" 'cider-test-run-tests
+          "a" 'cider-test-run-project-tests
           "c" (build-keymap
                "a" 'cider-apropos
                "d" 'cider-doc
@@ -225,9 +225,11 @@
   (keys-l "g" (build-keymap
                "B" 'magit-blame-quit
                "c" 'magit-checkout
+               "C" 'magit-branch-and-checkout
                "b" 'magit-blame
                "d" 'magit-diff
                "f" 'magit-fetch-all
+               "F" 'magit-pull-popup
                "l" 'magit-log
                "o" 'browse-current-line-github
                "s" 'magit-status
@@ -239,19 +241,20 @@
                "l" 'magit-log)))
 
 (use-package projectile-rails
-  :init
+  :config
   ;; Won't start unless rails project
   (add-hook 'projectile-mode-hook 'projectile-rails-on)
   (setq projectile-tags-file-name ".git/tags")
   (keys :prefix "g"
         :keymaps 'projectile-rails-mode-map
+        "r" 'projectile-rails-find-current-controller
+        "R" 'projectile-rails-find-controller
         "f" 'projectile-rails-goto-file-at-point
         "m" 'projectile-rails-find-current-model
         "M" 'projectile-rails-find-model
         "v" 'projectile-rails-find-current-view
         "V" 'projectile-rails-find-view
-        "r" 'projectile-rails-find-current-controller
-        "R" 'projectile-rails-find-controller
+        "i" 'open-current-ticket-in-redmine
         "t" 'rspec-find-spec-or-target-other-window
         "T" 'projectile-rails-find-spec))
 
