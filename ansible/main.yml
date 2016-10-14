@@ -5,3 +5,5 @@
   roles:
     - system
     - me
+  vars:
+    home: "{{ lookup('env','HOME') }}"

@@ -60,10 +60,13 @@
   with_items:
     - font-liberation-mono-for-powerline
 
+- name: Ensure ~/.antigen exists
+  file: path={{ home }}/.antigen state=directory
+
 - name: CL-Tools | Install Antigen
   get_url:
-    url=https://cdn.rawgit.com/zsh-users/antigen/v1.2.0/bin/antigen.zsh > /$HOME/.antigen/antigen.zsh
-    dest=/$HOME/.antigen/antigen.zsh
+    url: https://cdn.rawgit.com/zsh-users/antigen/v1.2.0/bin/antigen.zsh > {{ home }}/.antigen/antigen.zsh
+    dest: "{{ home }}/.antigen/antigen.zsh"
 
 - name: CL-Tools | Change shell zsh
   command: chsh -s `where zsh`
