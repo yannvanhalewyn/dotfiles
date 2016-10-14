@@ -7,6 +7,7 @@
   with_items:
     - caskroom/cask
     - caskroom/fonts
+    - caskroom/versions
     - homebrew/versions
     - neovim/neovim
     - thoughtbot/formulae
@@ -67,6 +68,3 @@
   get_url:
     url: https://cdn.rawgit.com/zsh-users/antigen/v1.2.0/bin/antigen.zsh
     dest: "{{ home }}/.antigen/antigen.zsh"
-
-- name: CL-Tools | Change shell zsh
-  user: shell=/usr/local/bin/zsh

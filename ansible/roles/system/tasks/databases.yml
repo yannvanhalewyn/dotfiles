@@ -2,11 +2,9 @@
 - name: Databases | Install Postgresql
   homebrew: name=postgresql state=upgraded
 
-- name: Databases | Init Postgresql
-  command: initdb /usr/local/var/postgres -E utf8
-
 - name: Databases | Install mariadb
   homebrew: name=mariadb state=upgraded
 
 - name: Databases | Init mariadb
   command: mysql_install_db
+  register: mariadb_initialized
