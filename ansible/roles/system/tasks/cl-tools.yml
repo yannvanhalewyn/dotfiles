@@ -46,6 +46,7 @@
     - pick
     - python
     - rbenv
+    - rbenv-vars
     - reattach-to-user-namespace
     - rlwrap
     - ruby-build
