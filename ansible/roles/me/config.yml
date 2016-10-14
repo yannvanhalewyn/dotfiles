@@ -1,0 +1,5 @@
+- name: Config | OSX | Finder - Default finder location
+  command: 'defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Downloads/"'
+
+- name: Config | OSX | Finder - Search from current folder
+  command: 'defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"'

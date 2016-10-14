@@ -78,6 +78,7 @@
 ;; Ruby/Rails
 ;; ==========
 (use-package haml-mode :defer t)
+(use-package yaml-mode :defer t)
 (use-package sass-mode :defer t)
 (use-package coffee-mode :defer t)
 

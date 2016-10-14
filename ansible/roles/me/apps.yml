@@ -1,0 +1,23 @@
+---
+- name: Apps | Install Homebrew casks
+  homebrew_cask: name={{ item }} state=installed
+  with_items:
+    - spectacle
+    - spotify
+    - steam
+    - 1password
+    - dropbox
+    - google-chrome
+    - iterm2-nightly
+    - screenhero
+    - skype
+    - sublime-text
+    - vlc-nightly
+    - carbon-copy-cloner
+    - emacs
+    - graphiql
+    - java
+    - seil
+    - harvest
+    - the-unarchiver
+    - gpgtools

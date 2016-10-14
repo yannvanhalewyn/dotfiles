@@ -1,0 +1,67 @@
+---
+- name: CL-Tools | Update Homebrew
+  homebrew: update_homebrew=yes upgrade_all=yes
+
+- name: CL-Tools | Homebrew taps
+  homebrew_tap: name={{ item }} state=present
+  with_items:
+    - caskroom/cask
+    - homebrew/versions
+    - neovim/neovim
+    - thoughtbot/formulae
+
+- name: CL-Tools | Install Homebrew packages
+  homebrew: name={{ item }} state=upgraded
+  with_items:
+    - ansible
+    - brew-cask
+    - jmeter
+    - openssl
+    - figlet
+    - imagemagick
+    - phantomjs
+    - the_silver_searcher
+    - pick
+    - tmux
+    - awscli
+    - gcc
+    - jpeg
+    - tree
+    - wget
+    - keybase
+    - lua
+    - cheat
+    - gifify
+    - lame
+    - git
+    - leiningen
+    - mit-scheme
+    - python
+    - youtube-dl
+    - ctags
+    - rbenv
+    - zsh
+    - neovim
+    - node
+    - reattach-to-user-namespace
+    - elasticsearch17
+    - heroku
+    - rlwrap
+    - emacs
+    - highlight
+    - openssl
+    - ruby-build
+    - ffmpeg
+    - hub
+
+- name: CL-Tools | Fonts
+  homebrew_cask: name{{ item }} state=installed
+  with_items:
+    - font-liberation-mono-for-powerline
+
+- name: CL-Tools | Install Antigen
+  command: curl https://cdn.rawgit.com/zsh-users/antigen/v1.2.0/bin/antigen.zsh > /$HOME/.antigen/antigen.zsh
+
+- name: CL-Tools | Change shell zsh
+  command: chsh -s `where zsh`
+  register: using_zsh

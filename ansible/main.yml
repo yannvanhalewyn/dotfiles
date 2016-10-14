@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  user: yannvanhalewyn
+  connection: local
+  roles:
+    - system
+    - me

@@ -1,0 +1,34 @@
+---
+- name: Dotfiles | Copy dotfiles
+  file: src="~/dotfiles/{{ item }}"
+        dest="~/.{{ item }}"
+        state="link"
+  with_items:
+    - agignore
+    - aliases
+    - bash_profile
+    - bash_prompt
+    - cheat
+    - ctags
+    - emacs.d
+    - eslintrc.json
+    - functions
+    - gemrc
+    - git_template
+    - gitconfig
+    - gitignore_global
+    - gvimrc
+    - irbrc
+    - osx
+    - pryrc
+    - rspec
+    - rubocop.yml
+    - scripts
+    - tmux.conf
+    - vim
+    - vimrc
+    - zsh
+    - zshrc
+
+- name: Dofiles | Configure vim
+      command: nvim +PluginInstall +qall
