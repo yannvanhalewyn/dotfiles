@@ -145,11 +145,10 @@
   (interactive)
   (let ((project-dir (projectile-project-root))
         (file-name (buffer-file-name)))
+    (neotree-toggle)
     (if project-dir
-        (if (neotree-toggle)
-            (progn
-              (neotree-dir project-dir)
-              (neotree-find file-name)))
-      (message "Could not find git project root."))))
+        (progn
+          (neotree-dir project-dir)
+          (neotree-find file-name)))))
 
 (provide 'init-functions)

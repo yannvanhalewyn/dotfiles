@@ -24,10 +24,9 @@
 
 (use-package evil-numbers
   :config
-  (keys-l :states 'motion
-          "n" (build-keymap
-               "a" 'evil-numbers/inc-at-pt
-               "x" 'evil-numbers/dec-at-pt)))
+  (keys :prefix "g"
+        "a" 'evil-numbers/inc-at-pt
+        "x" 'evil-numbers/dec-at-pt))
 
 ;; Add hjkl for magit and ibuffer
 (evil-set-initial-state 'ibuffer-mode 'normal)

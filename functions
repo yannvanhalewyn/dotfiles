@@ -244,7 +244,7 @@ function current_git_branch() {
 #   # Will rebase all commits started from master onto prouduction
 #   $ rebase_onto master production
 function rebase_onto() {
-  echo git rebase --onto "$2" `git merge-base HEAD "$1"` `current_git_branch`
+  git rebase --onto "$2" `git merge-base HEAD "$1"` `current_git_branch`
 }
 
 function tomp3() {

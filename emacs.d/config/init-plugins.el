@@ -85,8 +85,7 @@
   :defer t
   :init
   (eval-after-load 'rspec-mode '(rspec-install-snippets))
-  (keys-l :keymaps 'projectile-rails-mode-map
-          "t" 'rspec-verify
+  (keys-l "t" 'rspec-verify
           "a" 'rspec-verify-all
           "s" 'rspec-verify-single
           "l" 'rspec-rerun))
@@ -192,9 +191,10 @@
 
 (use-package neotree
   :defer t
+  :init (keys-l "n" 'neotree-project-root)
   :config
+  ;; Open current file in tree
   (evil-make-overriding-map neotree-mode-map 'normal t)
-  (keys-l "n" 'neotree-toggle)
   (keys :keymaps '(neotree-mode-map)
         "d" 'neotree-delete-node
         "J" 'neotree-select-down-node
@@ -261,7 +261,7 @@
   (add-hook 'projectile-mode-hook 'projectile-rails-on)
   (setq projectile-tags-file-name ".git/tags")
   (keys :prefix "g"
-        :keymaps 'projectile-rails-mode-map
+        :keymaps  'ruby-mode-map
         "r" 'projectile-rails-find-current-controller
         "R" 'projectile-rails-find-controller
         "f" 'projectile-rails-goto-file-at-point
