@@ -65,9 +65,8 @@
 
 - name: CL-Tools | Install Antigen
   get_url:
-    url: https://cdn.rawgit.com/zsh-users/antigen/v1.2.0/bin/antigen.zsh > {{ home }}/.antigen/antigen.zsh
+    url: https://cdn.rawgit.com/zsh-users/antigen/v1.2.0/bin/antigen.zsh
     dest: "{{ home }}/.antigen/antigen.zsh"
 
 - name: CL-Tools | Change shell zsh
-  command: chsh -s `where zsh`
-  register: using_zsh
+  user: shell=/usr/local/bin/zsh
