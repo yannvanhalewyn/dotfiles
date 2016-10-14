@@ -97,7 +97,7 @@
   (add-hook 'after-init-hook 'inf-ruby-switch-setup))
 
 ;; Close do-end blocks in ruby
-(require 'smartparens-ruby)
+(use-package 'smartparens-ruby)
 (add-hooks #'smartparens-mode '(ruby-mode-hook javascript-mode-hook))
 
 ;; Rubocop
