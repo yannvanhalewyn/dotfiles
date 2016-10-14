@@ -31,4 +31,4 @@
     - zshrc
 
 - name: Dofiles | Configure vim
-      command: nvim +PluginInstall +qall
+  command: nvim +PluginInstall +qall

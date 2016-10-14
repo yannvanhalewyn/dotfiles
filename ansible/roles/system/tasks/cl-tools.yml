@@ -6,61 +6,64 @@
   homebrew_tap: name={{ item }} state=present
   with_items:
     - caskroom/cask
+    - caskroom/fonts
     - homebrew/versions
     - neovim/neovim
     - thoughtbot/formulae
 
 - name: CL-Tools | Install Homebrew packages
-  homebrew: name={{ item }} state=upgraded
+  homebrew: name={{ item }} state=present
+  ignore_errors: true
   with_items:
     - ansible
-    - brew-cask
-    - jmeter
-    - openssl
-    - figlet
-    - imagemagick
-    - phantomjs
-    - the_silver_searcher
-    - pick
-    - tmux
     - awscli
-    - gcc
-    - jpeg
-    - tree
-    - wget
-    - keybase
-    - lua
     - cheat
-    - gifify
-    - lame
-    - git
-    - leiningen
-    - mit-scheme
-    - python
-    - youtube-dl
     - ctags
-    - rbenv
-    - zsh
+    - elasticsearch17
+    - emacs
+    - ffmpeg
+    - figlet
+    - gcc
+    - gifify
+    - git
+    - heroku
+    - highlight
+    - hub
+    - imagemagick
+    - jmeter
+    - jpeg
+    - keybase
+    - lame
+    - leiningen
+    - lua
+    - mit-scheme
     - neovim
     - node
-    - reattach-to-user-namespace
-    - elasticsearch17
-    - heroku
-    - rlwrap
-    - emacs
-    - highlight
     - openssl
+    - openssl
+    - phantomjs
+    - pick
+    - python
+    - rbenv
+    - reattach-to-user-namespace
+    - rlwrap
     - ruby-build
-    - ffmpeg
-    - hub
+    - the_silver_searcher
+    - tmux
+    - tree
+    - wget
+    - youtube-dl
+    - zsh
 
 - name: CL-Tools | Fonts
-  homebrew_cask: name{{ item }} state=installed
+  homebrew_cask: name={{ item }} state=installed
   with_items:
     - font-liberation-mono-for-powerline
 
 - name: CL-Tools | Install Antigen
-  command: curl https://cdn.rawgit.com/zsh-users/antigen/v1.2.0/bin/antigen.zsh > /$HOME/.antigen/antigen.zsh
+  get_url:
+    url=https://cdn.rawgit.com/zsh-users/antigen/v1.2.0/bin/antigen.zsh > /$HOME/.antigen/antigen.zsh
+    dest=/$HOME/.antigen/antigen.zsh
 
 - name: CL-Tools | Change shell zsh
   command: chsh -s `where zsh`
