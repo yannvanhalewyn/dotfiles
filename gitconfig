@@ -1,28 +1,27 @@
-
 [user]
-	name = Yann Vanhalewyn
-	email = yann.vanhalewyn@gmail.com
-	signinkey = 2B93C1E3
+        name = Yann Vanhalewyn
+        email = yann.vanhalewyn@gmail.com
+        signinkey = 2B93C1E3
 [core]
-	excludesfile = /Users/yannvanhalewyn/.gitignore_global
+        excludesfile = $HOME/.gitignore_global
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+        cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+        path =
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+        cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+        trustExitCode = true
 [diff]
-	tool = nvimdiff
+        tool = nvimdiff
 [difftool "nvimdiff"]
   cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 [difftool]
-	prompt = true
+        prompt = true
 [alias]
-	d = difftool
-	undo-commit = reset --soft HEAD^
+        d = difftool
+        undo-commit = reset --soft HEAD^
 [push]
-	default = current
+        default = current
 [init]
-	templatedir = ~/.git_template
+        templatedir = ~/.git_template
 [commit]
-	gpgsign = true
+        gpgsign = true

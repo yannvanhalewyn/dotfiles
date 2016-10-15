@@ -75,6 +75,11 @@
   (setq which-key-idle-delay 0.5)
   (which-key-setup-side-window-bottom))
 
+(use-package google-this
+  :defer t
+  :init
+  (keys-l "G" 'google-this-mode-submap))
+
 ;; Ruby/Rails
 ;; ==========
 (use-package haml-mode :defer t)
@@ -97,7 +102,7 @@
   (add-hook 'after-init-hook 'inf-ruby-switch-setup))
 
 ;; Close do-end blocks in ruby
-(use-package 'smartparens-ruby)
+(require 'smartparens-ruby)
 (add-hooks #'smartparens-mode '(ruby-mode-hook javascript-mode-hook))
 
 ;; Rubocop
@@ -222,22 +227,7 @@
 
 (use-package magit
   :defer t
-  :config
-  (add-hook 'git-commit-mode-hook 'evil-insert-state)
-  (use-package magithub
-    :config
-    (magithub-toggle-ci-status-header))
   :init
-  (keys :keymaps 'magit-blame-mode-map
-        "q" 'magit-blame-quit)
-  (keys :keymaps 'git-rebase-mode-map
-        "J" 'git-rebase-move-line-down
-        "K" 'git-rebase-move-line-up
-        "d" 'git-rebase-kill-line
-        "p" 'git-rebase-pick)
-  (keys :keymaps 'magit-status-mode-map
-        "TAB" 'magit-section-toggle
-        "K" 'magit-discard)
   (keys-l "g" (build-keymap
                "B" 'magit-blame-quit
                "c" 'magit-checkout
@@ -254,7 +244,22 @@
                     "c" 'magit-rebase-continue
                     "i" 'magit-rebase-interactive
                     "s" 'magit-rebase-skip)
-               "l" 'magit-log)))
+               "l" 'magit-log))
+  :config
+  (add-hook 'git-commit-mode-hook 'evil-insert-state)
+  (keys :keymaps 'magit-blame-mode-map
+        "q" 'magit-blame-quit)
+  (keys :keymaps 'git-rebase-mode-map
+        "J" 'git-rebase-move-line-down
+        "K" 'git-rebase-move-line-up
+        "d" 'git-rebase-kill-line
+        "p" 'git-rebase-pick)
+  (keys :keymaps 'magit-status-mode-map
+        "TAB" 'magit-section-toggle
+        "K" 'magit-discard)
+  (use-package magithub
+    :config
+    (magithub-toggle-ci-status-header)))
 
 (use-package projectile-rails
   :config
