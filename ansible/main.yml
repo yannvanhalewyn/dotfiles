@@ -1,9 +1,9 @@
 ---
 - hosts: localhost
-  user: yannvanhalewyn
+  user: "{{ lookup('env', 'USER') }}"
   connection: local
   roles:
-    - system
     - me
+    - system
   vars:
     home: "{{ lookup('env','HOME') }}"

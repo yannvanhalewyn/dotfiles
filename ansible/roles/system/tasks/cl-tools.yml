@@ -5,9 +5,6 @@
 - name: CL-Tools | Homebrew taps
   homebrew_tap: name={{ item }} state=present
   with_items:
-    - caskroom/cask
-    - caskroom/fonts
-    - caskroom/versions
     - homebrew/versions
     - neovim/neovim
     - thoughtbot/formulae
@@ -54,6 +51,7 @@
     - tmux
     - tree
     - wget
+    - yarn
     - youtube-dl
     - zsh
 
@@ -62,10 +60,13 @@
   with_items:
     - font-liberation-mono-for-powerline
 
-- name: Ensure ~/.antigen exists
+- name: CL-Tools | Ensure ~/.antigen exists
   file: path={{ home }}/.antigen state=directory
 
 - name: CL-Tools | Install Antigen
   get_url:
     url: https://cdn.rawgit.com/zsh-users/antigen/v1.2.0/bin/antigen.zsh
     dest: "{{ home }}/.antigen/antigen.zsh"
+
+- name: CL-Tools | Configure vim
+  command: vim +PluginInstall +qall

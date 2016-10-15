@@ -29,7 +29,3 @@
     - vimrc
     - zsh
     - zshrc
-
-- name: Dofiles | Configure vim
-  command: nvim +PluginInstall +qall
-  register: vim_plugins_installed
