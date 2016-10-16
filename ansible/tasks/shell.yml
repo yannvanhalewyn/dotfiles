@@ -1,0 +1,17 @@
+---
+- name: Shell | Install zsh
+  homebrew: name=zsh state=present
+
+- name: Shell | Ensure {{ shell }} is in /etc/shells
+  lineinfile: dest=/etc/shells line={{ shell }} state=present owner=root group=wheel mode=0644
+  become: true
+
+- name: Shell | Checking for current user shell
+  shell: dscl . read ~ UserShell | awk '{print $2}'
+  register: osx_login_shell_current_login_shell
+  changed_when: false
+
+- name: Shell | Making zsh active shell
+  shell: chsh -s {{ osx_login_shell_shell }}
+  become: no
+  when: osx_login_shell_current_login_shell.stdout != "{{ shell }}"

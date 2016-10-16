@@ -1,0 +1,75 @@
+---
+homebrew_taps:
+  - homebrew/versions
+  - neovim/neovim
+  - thoughtbot/formulae
+
+homebrew_packages:
+  - ansible
+  - awscli
+  - cheat
+  - ctags
+  - elasticsearch17
+  - emacs
+  - ffmpeg
+  - figlet
+  - gcc
+  - gifify
+  - git
+  - heroku
+  - highlight
+  - hub
+  - imagemagick
+  - jmeter
+  - jpeg
+  - keybase
+  - lame
+  - leiningen
+  - lua
+  - mit-scheme
+  - neovim
+  - node
+  - openssl
+  - phantomjs
+  - pick
+  - python
+  - rename
+  - rbenv
+  - rbenv-vars
+  - reattach-to-user-namespace
+  - rlwrap
+  - ruby-build
+  - the_silver_searcher
+  - tmux # with-nvim-tui-color
+  - tree
+  - wget
+  - yarn
+  - youtube-dl
+
+cask_taps:
+  - caskroom/cask
+  - caskroom/fonts
+  - caskroom/versions
+
+cask_apps:
+  - 1password
+  - carbon-copy-cloner
+  - caffeine
+  - dropbox
+  - emacs
+  - google-chrome
+  - gpgtools
+  - graphiql
+  - harvest
+  - iterm2-nightly
+  - java
+  - karabiner-elements
+  - screenhero
+  - skype
+  - spectacle
+  - spotify
+  - steam
+  - sublime-text
+  - the-unarchiver
+  - transmission
+  - vlc-nightly

@@ -4,7 +4,3 @@
 
 - name: Databases | Install mariadb
   homebrew: name=mariadb state=upgraded
-
-- name: Databases | Init mariadb
-  command: mysql_install_db
-  register: mariadb_initialized

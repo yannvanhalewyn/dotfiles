@@ -1,0 +1,28 @@
+---
+- name: Packages | Update Homebrew
+  homebrew: update_homebrew=yes upgrade_all=yes
+
+- name: Packages | Homebrew taps
+  homebrew_tap: name={{ item }} state=present
+  with_items: "{{ homebrew_taps }}"
+
+- name: Packages | Install Homebrew packages
+  homebrew: name={{ item }} state=present
+  ignore_errors: true
+  with_items: "{{ homebrew_packages }}"
+
+- name: Packages | Fonts
+  homebrew_cask: name={{ item }} state=installed
+  with_items:
+    - font-liberation-mono-for-powerline
+
+- name: Packages | Ensure ~/.antigen exists
+  file: path={{ home }}/.antigen state=directory
+
+- name: Packages | Install Antigen
+  get_url:
+    url: https://cdn.rawgit.com/zsh-users/antigen/v1.2.0/bin/antigen.zsh
+    dest: "{{ home }}/.antigen/antigen.zsh"
+
+- name: Packages | Configure vim
+  command: vim +PluginInstall +qall

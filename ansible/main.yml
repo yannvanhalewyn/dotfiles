@@ -2,8 +2,15 @@
 - hosts: localhost
   user: "{{ lookup('env', 'USER') }}"
   connection: local
-  roles:
-    - me
-    - system
+  tasks:
+    - include: tasks/apps.yml
+    - include: tasks/packages.yml
+    - include: tasks/databases.yml
+    - include: tasks/dotfiles.yml
+    - include: tasks/shell.yml
+    - include: tasks/config.yml
+  vars_files:
+    - vars.yml
   vars:
+    shell: "/usr/local/bin/zsh"
     home: "{{ lookup('env','HOME') }}"

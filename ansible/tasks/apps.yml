@@ -1,0 +1,9 @@
+---
+- name: Apps | Add Caskroom taps
+  homebrew_tap: name={{ item }} state=present
+  with_items: "{{ cask_taps }}"
+
+- name: Apps | Install Homebrew casks
+  homebrew_cask: name={{ item }} state=installed
+  with_items: "{{ cask_apps }}"
+  ignore_errors: true
