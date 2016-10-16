@@ -24,4 +24,4 @@ if [[ ! -x /usr/local/bin/ansible ]]; then
   brew install ansible
 fi
 
-ansible-playbook main.yml -i hosts
+ansible-playbook main.yml -i hosts --ask-become-pass
