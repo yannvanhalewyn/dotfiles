@@ -151,4 +151,11 @@
           (neotree-dir project-dir)
           (neotree-find file-name)))))
 
+(defun split-window-with-rspec-alternate-file ()
+  (interactive)
+  (delete-other-windows)
+  (split-window-horizontally)
+  (windmove-right)
+  (rspec-toggle-spec-and-target))
+
 (provide 'init-functions)

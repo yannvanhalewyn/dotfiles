@@ -64,8 +64,12 @@
   (define-key company-active-map (kbd "C-d") 'company-show-doc-buffer))
 
 (use-package undo-tree
+  :defer t
   :diminish undo-tree-mode
   :config
+  (setq undo-tree-auto-save-history t
+        undo-tree-history-directory-alist
+        `(("." . ,(concat user-emacs-directory ".undo"))))
   (global-undo-tree-mode t))
 
 (use-package which-key
@@ -77,8 +81,8 @@
 
 (use-package google-this
   :defer t
-  :init
-  (keys-l "G" 'google-this-mode-submap))
+  :config
+  (keys-l "G" 'google-this))
 
 ;; Ruby/Rails
 ;; ==========
@@ -159,7 +163,7 @@
 (use-package evil-cleverparens
   :defer t
   :diminish evil-cleverparens-mode
-  :config
+  :init
   ;; Don't use crazy bindings for {, [, } and ] from evil-cleverparens
   (setq evil-cleverparens-use-additional-movement-keys nil))
 
@@ -276,7 +280,7 @@
         "v" 'projectile-rails-find-current-view
         "V" 'projectile-rails-find-view
         "i" 'open-current-ticket-in-redmine
-        "t" 'rspec-find-spec-or-target-other-window
+        "t" 'split-window-with-rspec-alternate-file
         "T" 'projectile-rails-find-spec))
 
 (use-package markdown-mode
