@@ -11,6 +11,7 @@ emacs.d/eshell
 emacs.d/saveplace
 emacs.d/history
 emacs.d/cache
+emacs.d/.undo
 emacs.d/recentf
 emacs.d/**/.yas-compiled-snippets.el
 vim/.netrwhist

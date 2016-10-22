@@ -18,7 +18,6 @@ source "$HOME/.antigen/antigen.zsh"
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle git
 antigen bundle rails
-antigen bundle akoenig/gulp-autocompletion-zsh
 antigen-theme "$HOME/.zsh/custom"
 antigen-apply
 

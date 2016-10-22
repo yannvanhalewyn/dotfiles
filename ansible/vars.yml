@@ -64,8 +64,10 @@ cask_apps:
   - iterm2-nightly
   - java
   - karabiner-elements
+  - postman
   - screenhero
   - skype
+  - slack
   - spectacle
   - spotify
   - steam

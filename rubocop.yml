@@ -16,7 +16,7 @@ AllCops:
 
   # Run Rails-specific cops. Remove this line if you want to use Rubocop in a
   # non-Rails project.
-  RunRailsCops: true
+  # RunRailsCops: true
 
 Style/CollectionMethods:
   # Mapping from undesired method to desired_method
