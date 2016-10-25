@@ -158,4 +158,18 @@
   (windmove-right)
   (rspec-toggle-spec-and-target))
 
+(defun buff-swap ()
+  "Swap current buffer with buffer to the left or right."
+  (interactive)
+  (let* ((other-win (or (windmove-find-other-window 'right)
+                        (windmove-find-other-window 'left)))
+         (buf-this-buf (window-buffer (selected-window))))
+    (if (null other-win)
+        (error "No other split")
+      ;; swap top with this one
+      (set-window-buffer (selected-window) (window-buffer other-win))
+      ;; move this one to top
+      (set-window-buffer other-win buf-this-buf)
+      (select-window other-win))))
+
 (provide 'init-functions)

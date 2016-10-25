@@ -39,6 +39,7 @@
    "Q" 'delete-other-windows
    "q" 'kill-this-buffer
    "r" 'chrome-reload
+   "w" 'buff-swap
    "x" 'projectile-ag))
 
 (use-package yasnippet
