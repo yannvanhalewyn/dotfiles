@@ -218,6 +218,7 @@ alias zl='cd $HOME/brightin/zappelin'
 
 # Rails stuff
 alias nukeit='rake db:drop && rake db:create && mysql -uroot zapp_development < production_dump.sql && rake db:migrate && rake db:test:prepare && RAILS_ENV=test rake db:migrate'
+alias rn-nukeit='npm cache clean && watchman watch-del-all && rm -rf node_modules && npm install && npm start -- --reset-cache'
 
 # For history
 alias history='history 0'

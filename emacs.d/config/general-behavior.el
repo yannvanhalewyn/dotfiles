@@ -16,7 +16,7 @@
 (setq large-file-warning-threshold 100000000)
 
 ;; Fix tabs and clear trailing-whitespace on save
-(add-hook 'before-save-hook 'whitespace-cleanup)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; revert buffers automatically when underlying files are changed externally
 (global-auto-revert-mode t)

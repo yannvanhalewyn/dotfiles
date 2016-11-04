@@ -23,7 +23,7 @@
 
 (defun edit-todo ()
   "Goes to the todo org file (todo.org)"
-  (interactive) (find-file "~/Desktop/todo.org"))
+  (interactive) (find-file "~/.org/todo.org"))
 
 (defun edit-functions ()
   "Goes to the todo org file (todo.org)"

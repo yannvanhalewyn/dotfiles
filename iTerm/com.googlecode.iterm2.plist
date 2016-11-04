@@ -415,11 +415,11 @@
 	<key>NSWindow Frame Preferences</key>
 	<string>269 416 606 456 0 0 1440 877 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>99 273 796 473 0 0 1440 877 </string>
+	<string>57 173 796 473 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
 	<string>3 4 1434 873 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>176 444 650 402 0 0 1440 877 </string>
+	<string>3 27 1714 1390 0 0 3440 1417 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -1740,8 +1740,12 @@
 			<string>/Users/yannvanhalewyn</string>
 		</dict>
 	</array>
+	<key>NoSyncConfirmBeta</key>
+	<true/>
 	<key>NoSyncInstallationId</key>
 	<string>A16877F6-F7B2-4C40-902F-1F2F26B16440</string>
+	<key>NoSyncPermissionToShowTip</key>
+	<false/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
 	<real>498141962.05453902</real>
 	<key>OpenBookmark</key>
@@ -1802,7 +1806,7 @@
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>WordCharacters</key>
-	<string>/-+\~_.</string>
+	<string></string>
 	<key>findIgnoreCase_iTerm</key>
 	<true/>
 	<key>findRegex_iTerm</key>

@@ -1,4 +1,10 @@
+(defun fix-evil-underscore ()
+  (interactive)
+  (modify-syntax-entry ?_ "w"))
+
 (use-package evil
+  :init
+  (add-hook #'after-change-major-mode-hook 'fix-evil-underscore)
   :config
   (evil-mode t)
   (keys :states 'motion
@@ -30,10 +36,10 @@
 
 ;; Add hjkl for magit and ibuffer
 (evil-set-initial-state 'ibuffer-mode 'normal)
-(evil-add-hjkl-bindings package-menu-mode-map 'emacs)
-(evil-add-hjkl-bindings magit-log-mode-map 'emacs)
-(evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs)
 (evil-add-hjkl-bindings git-rebase-mode-map 'emacs)
+(evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs)
+(evil-add-hjkl-bindings magit-log-mode-map 'emacs)
 (evil-add-hjkl-bindings magit-status-mode-map 'emacs)
+(evil-add-hjkl-bindings package-menu-mode-map 'emacs)
 
 (provide 'init-evil)
