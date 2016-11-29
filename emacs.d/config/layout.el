@@ -1,9 +1,11 @@
 (require 'ci-status)
 (add-hook 'magit-status-mode-hook 'cis/update)
 
+(set-face-attribute 'default nil :height 125)
+
 (use-package base16-theme
   :init
-  (load-theme 'base16-ashes t))
+  (load-theme 'base16-default-dark t))
 
 (use-package smart-mode-line
   :config

@@ -98,4 +98,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (add-hook 'evil-insert-state-exit-hook 'save-if-code-buffer)
 ;; (add-hook 'evil-insert-state-exit-hook 'evil-cp-insert)
 
+;; Get colorized compilation buffers (mocha tests)
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region compilation-filter-start (point))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+
 (provide 'general-behavior)

@@ -5,6 +5,7 @@
 (use-package evil
   :init
   (add-hook #'after-change-major-mode-hook 'fix-evil-underscore)
+  (setq evil-want-fine-undo t)
   :config
   (evil-mode t)
   (keys :states 'motion
@@ -12,7 +13,8 @@
         "]e" 'flycheck-next-error
         "[b" 'previous-code-buffer
         "]b" 'next-code-buffer
-        "]t" 'cycle-theme)
+        "]t" 'cycle-theme
+        "RET" 'align-regexp)
   (keys "C-h" 'evil-window-left
         "C-j" 'evil-window-down
         "C-k" 'evil-window-up
@@ -35,7 +37,6 @@
         "x" 'evil-numbers/dec-at-pt))
 
 ;; Add hjkl for magit and ibuffer
-(evil-set-initial-state 'ibuffer-mode 'normal)
 (evil-add-hjkl-bindings git-rebase-mode-map 'emacs)
 (evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs)
 (evil-add-hjkl-bindings magit-log-mode-map 'emacs)

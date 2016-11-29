@@ -54,24 +54,9 @@
   (keys-l "j" 'ace-jump-mode
           "J" 'ace-jump-char-mode))
 
-(use-package company
-  :defer t
-  :diminish company-mode
-  :init (global-company-mode)
-  :config
-  (define-key prog-mode-map (kbd "<tab>") 'company-complete)
-  (define-key company-active-map (kbd "<tab>") 'company-complete-common-or-cycle)
-  (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
-  (define-key company-active-map (kbd "C-d") 'company-show-doc-buffer))
-
 (use-package undo-tree
-  :defer t
   :diminish undo-tree-mode
-  :config
-  (setq undo-tree-auto-save-history t
-        undo-tree-history-directory-alist
-        `(("." . ,(concat user-emacs-directory ".undo"))))
-  (global-undo-tree-mode t))
+  :config (global-undo-tree-mode t))
 
 (use-package which-key
   :diminish which-key-mode
@@ -90,16 +75,35 @@
 (use-package haml-mode :defer t)
 (use-package yaml-mode :defer t)
 (use-package sass-mode :defer t)
-(use-package coffee-mode :defer t)
+
+(use-package coffee-mode
+  :defer t
+  :config
+  (require 'coffee-evil-extensions)
+  (setq coffee-tab-width 2)
+  (keys :keymaps '(coffee-mode-map)
+        "o" 'coffee-open-below
+        "O" 'coffee-open-above))
 
 (use-package rspec-mode
   :defer t
   :init
   (eval-after-load 'rspec-mode '(rspec-install-snippets))
-  (keys-l "t" 'rspec-verify
+  (keys-l :keymaps '(ruby-mode-map)
+          "t" 'rspec-verify
           "a" 'rspec-verify-all
           "s" 'rspec-verify-single
           "l" 'rspec-rerun))
+
+(use-package mocha
+  :init
+  (keys-l :keymaps '(coffee-mode-map js-mode-map)
+          "a" 'mocha-test-project
+          "t" 'mocha-test-file
+          "s" 'mocha-test-at-point)
+  :config
+  (setq mocha-project-test-directory "spec"
+        mocha-reporter "spec"))
 
 ;; Using pry in rspec buffers
 (use-package inf-ruby
@@ -108,7 +112,7 @@
 
 ;; Close do-end blocks in ruby
 (require 'smartparens-ruby)
-(add-hooks #'smartparens-mode '(ruby-mode-hook javascript-mode-hook))
+(add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook javascript-mode-hook))
 
 ;; Rubocop
 (use-package flycheck
