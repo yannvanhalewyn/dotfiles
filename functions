@@ -15,12 +15,10 @@ function md() {
   mkdir -p "$@" && cd "$@"
 }
 
-
 # find shorthand
 function f() {
     mdfind -onlyin ./ "kMDItemDisplayName == $1"
 }
-
 
 # cd into forefront finder window
 cdf() {  # short for cdfinder
@@ -245,6 +243,11 @@ function current_git_branch() {
 #   $ rebase_onto master production
 function rebase_onto() {
   git rebase --onto "$2" `git merge-base HEAD "$1"` `current_git_branch`
+}
+
+# Shows the diff between HEAD and the merge base with the branch
+function gh_diff() {
+  git diff "$1"...HEAD
 }
 
 function tomp3() {

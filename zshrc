@@ -48,7 +48,7 @@ bindkey '\e[B' history-beginning-search-forward
 setopt autopushd
 
 # Add scripts to path
-export PATH="$PATH:$HOME/.scripts"
+export PATH="$PATH:$HOME/.scripts:$(yarn global bin)"
 # GPG agent for prompting passphrase
 export GPG_TTY=$(tty)
 

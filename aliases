@@ -87,6 +87,7 @@ alias gs="git status"
 alias gd="git diff"
 alias gpf='git push --force-with-lease'
 alias gdc="git diff --cached"
+alias grc='git rebase --continue'
 alias gsha="git rev-parse HEAD"
 alias gstl="git stash list"
 alias gbd="git branch | cut -c 3- | pick | xargs git branch -d"
@@ -206,6 +207,7 @@ alias ned='NODE_ENV=development'
 alias net='NODE_ENV=test'
 
 alias rspec='_rspec_command'
+alias rp='_rspec_command'
 
 # Lein
 alias lf='lein figwheel'
@@ -215,11 +217,17 @@ alias lt='lein test'
 # some work projects
 alias zp='cd $HOME/brightin/zapp'
 alias zl='cd $HOME/brightin/zappelin'
+alias psg='cd $HOME/brightin/persgroep-campagneplanner'
 
 # Rails stuff
+alias mpdi='mina production db:import'
+alias rdsl='rake db:structure:load'
+alias rdfl='rake db:fixtures:load'
 alias nukeit='rake db:drop && rake db:create && mysql -uroot zapp_development < production_dump.sql && rake db:migrate && rake db:test:prepare && RAILS_ENV=test rake db:migrate'
 alias rn-nukeit='npm cache clean && watchman watch-del-all && rm -rf node_modules && npm install && npm start -- --reset-cache'
 
 # For history
 alias history='history 0'
 alias alias-ideas="history | awk '{a[\$2]++}END{for(i in a){print a [i] \" \" i}}' | sort -rn | head -20"
+
+alias pag='ps aux | grep'

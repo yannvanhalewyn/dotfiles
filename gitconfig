@@ -3,7 +3,7 @@
         email = yann.vanhalewyn@gmail.com
         signinkey = 2B93C1E3
 [core]
-        excludesfile = $HOME/.gitignore_global
+        excludesfile = ~/.gitignore_global
 [difftool "sourcetree"]
         cmd = opendiff \"$LOCAL\" \"$REMOTE\"
         path =
