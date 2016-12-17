@@ -95,7 +95,14 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (add-to-list 'auto-mode-alist (cons conf-regexp 'conf-mode)))
 
 ;; Save buffer when exiting evil insert mode
-(add-hook 'evil-insert-state-exit-hook 'save-if-code-buffer)
+(defun set-save-hook ()
+  (interactive)
+  (add-hook 'evil-insert-state-exit-hook 'save-if-code-buffer))
+
+(defun clear-save-hook ()
+  (interactive)
+  (remove-hook 'evil-insert-state-exit-hook 'save-if-code-buffer))
+(set-save-hook)
 ;; (add-hook 'evil-insert-state-exit-hook 'evil-cp-insert)
 
 ;; Get colorized compilation buffers (mocha tests)
