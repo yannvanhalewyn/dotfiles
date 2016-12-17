@@ -172,4 +172,38 @@
       (set-window-buffer other-win buf-this-buf)
       (select-window other-win))))
 
+;; Custom file finders
+(defun filer--choices (dirs)
+  "Uses `projectile-rails-dir-files' function to find files in directories.
+The DIRS is list of lists consisting of a directory path and regexp to filter files from that directory.
+Returns a hash table with keys being short names and values being relative paths to the files."
+  (let ((hash (make-hash-table :test 'equal)))
+    (loop for (dir re) in dirs do
+          (loop for file in (projectile-dir-files (projectile-expand-root dir)) do
+                (when (string-match re file)
+                  (puthash (match-string 1 file) file hash))))
+    hash))
+
+(defmacro filer--find-resource (prompt dirs)
+  "Presents files from DIRS to the user using `projectile-completing-read'.
+If users chooses a non existant file and NEWFILE-TEMPLATE is not nil
+it will use that variable to interpolate the name for the new file.
+NEWFILE-TEMPLATE will be the argument for `s-lex-format'.
+The bound variable is \"filename\"."
+  `(let* ((choices (filer--choices ,dirs))
+          (filename (projectile-completing-read ,prompt (projectile-rails-hash-keys choices))))
+     (find-file (projectile-expand-root (gethash filename choices)))))
+
+(defun coffee-find-model ()
+  (interactive)
+  (filer--find-resource "model: " '(("frontend/src/models" "/models/\\(.+\\).js"))))
+
+(defun coffee-find-component ()
+  (interactive)
+  (filer--find-resource "component: " '(("frontend/src/components" "/components/\\(.+\\).js"))))
+
+(defun coffee-find-redux ()
+  (interactive)
+  (filer--find-resource "redux: " '(("frontend/src/redux" "/redux/\\(.+\\).js"))))
+
 (provide 'init-functions)
