@@ -8,7 +8,7 @@ homebrew_packages:
   - ansible
   - awscli
   - cheat
-  - ctags
+  - ctags-exhuberant
   - elasticsearch17
   - emacs
   - ffmpeg

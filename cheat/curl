@@ -42,3 +42,7 @@ curl -X POST
 
 # Perform a request with a body
 curl -X POST -d '{"Foo": "Bar"}'
+
+# With cookie jar
+curl "http://www-staging.zapp.nl/habib/habib-xxl" --cookie-jar tmp_cookie  | awk 'BEGIN { FS="\"" } { if ( $0 ~ /<meta name="csrf-token"/ ) { print “CSRF Token: ", $4 } }'
+curl "http://www-staging.zapp.nl/voting_contest/votes?video_id=1" -X POST -d ‘authenticity_token=<the-token>' --cookie tmp_cookie

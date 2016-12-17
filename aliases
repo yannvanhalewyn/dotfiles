@@ -88,6 +88,7 @@ alias gd="git diff"
 alias gpf='git push --force-with-lease'
 alias gdc="git diff --cached"
 alias grc='git rebase --continue'
+alias gcl='git clean -fd'
 alias gsha="git rev-parse HEAD"
 alias gstl="git stash list"
 alias gbd="git branch | cut -c 3- | pick | xargs git branch -d"
@@ -202,9 +203,9 @@ alias :q='tmux kill-pane'
 alias showAllDownloads="sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2 'select LSQuarantineDataURLString from LSQuarantineEvent'"
 
 # Node env's
-alias nep='NODE_ENV=production'
-alias ned='NODE_ENV=development'
-alias net='NODE_ENV=test'
+alias NEP='NODE_ENV=production'
+alias NED='NODE_ENV=development'
+alias NET='NODE_ENV=test'
 
 alias rspec='_rspec_command'
 alias rp='_rspec_command'
@@ -225,6 +226,10 @@ alias rdsl='rake db:structure:load'
 alias rdfl='rake db:fixtures:load'
 alias nukeit='rake db:drop && rake db:create && mysql -uroot zapp_development < production_dump.sql && rake db:migrate && rake db:test:prepare && RAILS_ENV=test rake db:migrate'
 alias rn-nukeit='npm cache clean && watchman watch-del-all && rm -rf node_modules && npm install && npm start -- --reset-cache'
+alias fs='foreman start -f Procfile.custom'
+alias ys='yarn start'
+alias yc='yarn check'
+alias yi='yarn install'
 
 # For history
 alias history='history 0'
