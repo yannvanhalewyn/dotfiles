@@ -83,7 +83,13 @@
   (setq coffee-tab-width 2)
   (keys :keymaps '(coffee-mode-map)
         "o" 'coffee-open-below
-        "O" 'coffee-open-above))
+        "O" 'coffee-open-above
+        "<" 'coffee-indent-shift-left
+        ">" 'coffee-indent-shift-right
+        "g" (build-keymap
+             "m" 'coffee-find-model
+             "v" 'coffee-find-component
+             "r" 'coffee-find-redux)))
 
 (use-package rspec-mode
   :defer t
@@ -102,7 +108,8 @@
           "t" 'mocha-test-file
           "s" 'mocha-test-at-point)
   :config
-  (setq mocha-project-test-directory "spec"
+  (setq mocha-project-test-directory "frontend/test"
+        mocha-environment-variables "NODE_PATH=./frontend/src"
         mocha-reporter "spec"))
 
 ;; Using pry in rspec buffers
@@ -164,13 +171,6 @@
 (use-package paredit
   :defer t
   :diminish paredit-mode)
-
-(use-package evil-cleverparens
-  :defer t
-  :diminish evil-cleverparens-mode
-  :init
-  ;; Don't use crazy bindings for {, [, } and ] from evil-cleverparens
-  (setq evil-cleverparens-use-additional-movement-keys nil))
 
 (use-package aggressive-indent
   :defer t
@@ -242,7 +242,7 @@
                "c" 'magit-checkout
                "C" 'magit-branch-and-checkout
                "b" 'magit-blame
-               "d" 'magit-diff
+               "d" 'vc-diff
                "f" 'magit-fetch-all
                "F" 'magit-pull-popup
                "l" 'magit-log

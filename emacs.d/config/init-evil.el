@@ -30,6 +30,17 @@
   :config
   (global-evil-surround-mode 1))
 
+(use-package evil-cleverparens
+  :defer t
+  :diminish evil-cleverparens-mode
+  :config
+  ;; Evil CP overwrites "c" for change. This will re-enable "cs"
+  ;; motion "change surrounding" of evil-surround
+  (evil-cp--enable-surround-operators)
+  :init
+  ;; Don't use crazy bindings for {, [, } and ] from evil-cleverparens
+  (setq evil-cleverparens-use-additional-movement-keys nil))
+
 (use-package evil-numbers
   :config
   (keys :prefix "g"
@@ -41,6 +52,8 @@
 (evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs)
 (evil-add-hjkl-bindings magit-log-mode-map 'emacs)
 (evil-add-hjkl-bindings magit-status-mode-map 'emacs)
+(evil-add-hjkl-bindings magit-diff-mode-map 'emacs)
 (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
+(evil-add-hjkl-bindings ibuffer-mode-map 'emacs)
 
 (provide 'init-evil)
