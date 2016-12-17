@@ -1,21 +1,22 @@
 (setq ibuffer-saved-filter-groups
       (quote (("default"
-	       ("dired" (mode . dired-mode))
-	       ("sheet_bucket" (filename . "reactjs/sheet_something/"))
-	       ("el" (mode . emacs-lisp-mode))
-	       ("clojure" (mode . clojure-mode))
 	       ("code" (or
+                        (mode . clojure-mode)
 			(mode . c-mode)
 			(mode . ruby-mode)
-			(mode .java-mode)
-			(mode . js-mode)))
-	       ("planner" (or
-			   (mode . org-mode)))
-	       ("emacs" (or
-			 (name . "^\\*scratch\\*$")
-			 (name . "^\\*Messages\\*$")
-			 (name . "^\\*Completions\\*$")))
-	       ("git" (name ."^\\*magit"))))))
+                        (mode . javascript-mode)
+			(mode . java-mode)
+			(mode . js-mode)
+                        (mode . coffee-mode)))
+	       ("configs" (or
+                           (mode . emacs-lisp-mode)
+                           (mode . org-mode)))
+               ("emacs" (or
+                         (name . "^\\*scratch\\*$")
+                         (name . "^\\*Messages\\*$")
+                         (name . "^\\*Completions\\*$")))
+               ("tmp" (or (mode . dired-mode)
+                          (name ."^\\*")))))))
 
 (setq ibuffer-show-empty-filter-groups nil)
 

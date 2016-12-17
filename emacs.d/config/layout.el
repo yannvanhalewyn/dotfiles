@@ -11,6 +11,13 @@
   :config
   (sml/setup)
   (column-number-mode)
+  (add-to-list 'sml/replacer-regexp-list '("components" ":C:") t)
+  (add-to-list 'sml/replacer-regexp-list '("flux" ":F:") t)
+  (add-to-list 'sml/replacer-regexp-list '("redux" ":R:") t)
+  (add-to-list 'sml/replacer-regexp-list '("spec" ":T:") t)
+
+  (add-to-list 'sml/replacer-regexp-list '("app" ":A:") t)
+  (add-to-list 'sml/replacer-regexp-list '("assets/javascripts" ":J:") t)
   (setq mode-line-position nil
         evil-mode-line-format nil
         mode-line-end-spaces '(:eval (cis/modeline-status))))

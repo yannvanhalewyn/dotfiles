@@ -2,6 +2,7 @@
 (ido-mode 'both)
 
 (setq
+ ido-auto-merge-work-directories-length -1
  ido-save-directory-list-file (concat user-emacs-directory "cache/ido.last")
  ido-case-fold t			;; Case insensitive
  ido-enable-last-directory-history t	;; Remember last directory chosen
@@ -10,13 +11,5 @@
  ido-use-filename-at-point nil		;; Don't try to match filename under cursor
  ido-enable-flex-matching t		;; Enable fuzzy completion
  ido-max-prospects 8)			;; Don't spam the minibuffer
-
-;; Use ido for M-x
-;; (global-set-key
-;;  (kbd "M-x") 
-;;  (lambda ()
-;;    (interactive)
-;;    (call-interactively
-;;     (intern (ido-completing-read "M-x " (all-completions "" obarray 'commandp))))))
 
 (provide 'init-ido)
