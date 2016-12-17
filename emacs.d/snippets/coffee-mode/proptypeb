@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: proptypeb
+# key: proptypeb
+# --
+React.PropTypes.bool
