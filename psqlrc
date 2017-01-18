@@ -1,0 +1,10 @@
+-- Don't print out these statements when starting up
+\set QUIET 1
+
+-- Custom histfile for each database
+\set HISTFILE ~/.psql_history- :DBNAME
+
+-- Nice formatting for wide columns
+\x auto
+
+\unset QUIET

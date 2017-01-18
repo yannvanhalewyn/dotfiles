@@ -103,6 +103,7 @@ alias gdotf='open "http://www.github.com/yannvanhalewyn/dotfiles"'
 
 alias v="nvim"
 alias e="emacs"
+alias ec="emacsclient"
 
 # git flow
 alias gff="git flow feature"
@@ -224,9 +225,9 @@ alias psg='cd $HOME/brightin/persgroep-campagneplanner'
 alias mpdi='mina production db:import'
 alias rdsl='rake db:structure:load'
 alias rdfl='rake db:fixtures:load'
-alias nukeit='rake db:drop && rake db:create && mysql -uroot zapp_development < production_dump.sql && rake db:migrate && rake db:test:prepare && RAILS_ENV=test rake db:migrate'
+alias nukeit='bin/rails db:environment:set RAILS_ENV=development && rake db:drop && rake db:create && rake db:structure:load && rake db:fixtures:load && rake db:test:prepare'
 alias rn-nukeit='npm cache clean && watchman watch-del-all && rm -rf node_modules && npm install && npm start -- --reset-cache'
-alias fs='foreman start -f Procfile.custom'
+alias fs='foreman start'
 alias ys='yarn start'
 alias yc='yarn check'
 alias yi='yarn install'

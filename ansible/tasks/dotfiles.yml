@@ -19,6 +19,7 @@
     - gitignore_global
     - gvimrc
     - irbrc
+    - psqlrc
     - osx
     - pryrc
     - rspec
