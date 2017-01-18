@@ -1,0 +1,4 @@
+# key: echo
+# name: echo
+# --
+(defn echo [a] (.log js/console a) a)

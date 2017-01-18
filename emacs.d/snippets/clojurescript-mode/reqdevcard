@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: reqdevcard
+# key: reqdevcard
+# --
+ (:require [persgroep.components.items.$1 :as subject])
+ (:require-macros [devcards.core :refer [defcard-rg]]
+                  [cards.core :refer [defcard-with-props]])
