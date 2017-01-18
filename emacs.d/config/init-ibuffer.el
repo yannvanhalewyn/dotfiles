@@ -7,7 +7,8 @@
                         (mode . javascript-mode)
 			(mode . java-mode)
 			(mode . js-mode)
-                        (mode . coffee-mode)))
+                        (mode . coffee-mode)
+                        (mode . clojurescript-mode)))
 	       ("configs" (or
                            (mode . emacs-lisp-mode)
                            (mode . org-mode)))

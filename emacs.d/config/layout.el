@@ -33,9 +33,17 @@
                     :foreground (face-foreground 'default)
                     :background (face-background 'default))
 
+;; Thou shalt not cross 80 columns in thy file
+(defvar red-bg-face 'red-bg)
+(defface red-bg '((t :background "red")) "")
+(use-package column-marker
+  :config
+  (column-marker-create column-marker-4 red-bg-face)
+  (add-hooks (lambda () (column-marker-4 80))
+             '(coffee-mode-hook ruby-mode-hook javascript-mode-hook)))
+
 (if window-system
-    (progn
-      (scroll-bar-mode -1))) ;; Hide scrollbar (GUI)
+    (progn (scroll-bar-mode -1))) ;; Hide scrollbar (GUI)
 
 (provide 'layout)
 

@@ -196,14 +196,26 @@ The bound variable is \"filename\"."
 
 (defun coffee-find-model ()
   (interactive)
-  (filer--find-resource "model: " '(("frontend/src/models" "/models/\\(.+\\).js"))))
+  (filer--find-resource "model: " '(("frontend/src/models" "/models/\\(.+\\).coffee"))))
 
 (defun coffee-find-component ()
   (interactive)
-  (filer--find-resource "component: " '(("frontend/src/components" "/components/\\(.+\\).js"))))
+  (filer--find-resource "component: " '(("frontend/src/components" "/components/\\(.+\\).coffee"))))
 
 (defun coffee-find-redux ()
   (interactive)
-  (filer--find-resource "redux: " '(("frontend/src/redux" "/redux/\\(.+\\).js"))))
+  (filer--find-resource "redux: " '(("frontend/src/redux" "/redux/\\(.+\\).coffee"))))
+
+(defun coffee-find-test ()
+  (interactive)
+  (filer--find-resource "test: " '(("frontend/test" "/test/\\(.+\\)_spec.coffee"))))
+
+(defun cljs-find-card ()
+  (interactive)
+  (filer--find-resource "card: " '(("src/cards" "/cards/\\(.+\\).cljs"))))
+
+(defun cljs-find-component ()
+  (interactive)
+  (filer--find-resource "component: " '(("src/sheet_bucket/components" "/components/\\(.+\\).cljs"))))
 
 (provide 'init-functions)

@@ -40,10 +40,10 @@
    "q" 'kill-this-buffer
    "r" 'chrome-reload
    "w" 'buff-swap
-   "x" 'projectile-ag))
+   "x" 'projectile-ag
+   "X" 'ag))
 
 (use-package yasnippet
-  :defer t
   :diminish yas-minor-mode
   :config
   (yas-global-mode 1)
@@ -118,7 +118,10 @@
   (add-hook 'after-init-hook 'inf-ruby-switch-setup))
 
 ;; Close do-end blocks in ruby
-(require 'smartparens-ruby)
+(use-package smartparens
+  :defer t
+  :config (require 'smartparens-ruby))
+
 (add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook javascript-mode-hook))
 
 ;; Rubocop
@@ -147,7 +150,10 @@
       clojurescript-mode-map))
 
   (keys :keymaps cider-mode-maps
-        "gf" 'cider-find-var)
+        :prefix "g"
+        "f" 'cider-find-var
+        "v" 'cljs-find-component
+        "d" 'cljs-find-card)
 
   (keys-l :keymaps cider-mode-maps
           "a" 'cider-test-run-project-tests
@@ -174,7 +180,9 @@
 
 (use-package aggressive-indent
   :defer t
-  :diminish aggressive-indent-mode)
+  :diminish aggressive-indent-mode
+  :init
+  (setq clojure-indent-style :always-align))
 
 ;; Load up rainbow delimiters/paredit when writing el
 (defun parainbow-mode ()
@@ -185,13 +193,23 @@
   (rainbow-delimiters-mode)
   (eldoc-mode))
 
+(defun clj-mode ()
+  (interactive)
+  (message "Doing initial CLJ setup")
+  (clj-refactor-mode)
+  (put-clojure-indent 'fori 1)
+  (put-clojure-indent 'match 1))
+
 (defvar lisp-mode-hooks '(clojure-mode-hook
                           scheme-mode
                           clojurescript-mode-hook
                           cider-repl-mode-hook
                           emacs-lisp-mode-hook))
 
+(defvar clj-mode-hooks '(clojure-mode-hook clojurescript-mode-hook))
+
 (add-hooks #'parainbow-mode lisp-mode-hooks)
+(add-hooks #'clj-mode clj-mode-hooks)
 
 ;; Project navigation
 ;; ==================
@@ -265,10 +283,7 @@
         "p" 'git-rebase-pick)
   (keys :keymaps 'magit-status-mode-map
         "TAB" 'magit-section-toggle
-        "K" 'magit-discard)
-  (use-package magithub
-    :config
-    (magithub-toggle-ci-status-header)))
+        "K" 'magit-discard))
 
 (use-package projectile-rails
   :config
