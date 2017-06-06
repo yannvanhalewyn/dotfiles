@@ -3,6 +3,7 @@ homebrew_taps:
   - homebrew/versions
   - neovim/neovim
   - thoughtbot/formulae
+  - caskroom/cask
 
 homebrew_packages:
   - ansible
@@ -22,7 +23,7 @@ homebrew_packages:
   - imagemagick
   - jmeter
   - jpeg
-  - keybase
+  - caskroom/cask/keybase
   - lame
   - leiningen
   - lua

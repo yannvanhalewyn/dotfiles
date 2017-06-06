@@ -89,6 +89,8 @@ alias gpf='git push --force-with-lease'
 alias gdc="git diff --cached"
 alias grc='git rebase --continue'
 alias gcl='git clean -fd'
+alias gro='[ -n "$(current_git_branch)" ] && git reset origin/$(current_git_branch)'
+alias groh='[ -n "$(current_git_branch)" ] && git reset origin/$(current_git_branch) --hard'
 alias gsha="git rev-parse HEAD"
 alias gstl="git stash list"
 alias gbd="git branch | cut -c 3- | pick | xargs git branch -d"
@@ -220,6 +222,9 @@ alias lt='lein test'
 alias zp='cd $HOME/brightin/zapp'
 alias zl='cd $HOME/brightin/zappelin'
 alias psg='cd $HOME/brightin/persgroep-campagneplanner'
+alias iz='cd $HOME/brightin/izi-motive'
+alias aur='cd $HOME/brightin/aurum'
+alias nk='cd $HOME/brightin/nikon-elearning'
 
 # Rails stuff
 alias mpdi='mina production db:import'

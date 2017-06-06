@@ -1,7 +1,7 @@
 (require 'ci-status)
 (add-hook 'magit-status-mode-hook 'cis/update)
 
-(set-face-attribute 'default nil :height 125)
+(set-face-attribute 'default nil :height 135)
 
 (use-package base16-theme
   :init

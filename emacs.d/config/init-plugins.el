@@ -43,6 +43,12 @@
    "x" 'projectile-ag
    "X" 'ag))
 
+(use-package auto-complete :config (global-auto-complete-mode t))
+
+(use-package evil-mc
+  :defer t
+  :init (global-evil-mc-mode))
+
 (use-package yasnippet
   :diminish yas-minor-mode
   :config
@@ -89,7 +95,8 @@
         "g" (build-keymap
              "m" 'coffee-find-model
              "v" 'coffee-find-component
-             "r" 'coffee-find-redux)))
+             "r" 'coffee-find-redux
+             "t" 'coffee-find-test)))
 
 (use-package rspec-mode
   :defer t
@@ -101,16 +108,15 @@
           "s" 'rspec-verify-single
           "l" 'rspec-rerun))
 
-(use-package mocha
-  :init
-  (keys-l :keymaps '(coffee-mode-map js-mode-map)
-          "a" 'mocha-test-project
-          "t" 'mocha-test-file
-          "s" 'mocha-test-at-point)
-  :config
-  (setq mocha-project-test-directory "frontend/test"
-        mocha-environment-variables "NODE_PATH=./frontend/src"
-        mocha-reporter "spec"))
+(require 'mocha)
+(keys-l :keymaps '(coffee-mode-map js-mode-map)
+        "a" 'mocha-test-project
+        "t" 'mocha-test-file
+        "s" 'mocha-test-at-point)
+(setq mocha-project-test-directory "frontend/test"
+      mocha-environment-variables "NODE_PATH=./frontend/src"
+      mocha-options "--watch ./tmp/static.js ./frontend/test/config.coffee"
+      mocha-reporter "spec")
 
 ;; Using pry in rspec buffers
 (use-package inf-ruby
@@ -122,7 +128,11 @@
   :defer t
   :config (require 'smartparens-ruby))
 
-(add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook javascript-mode-hook))
+(add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook js-mode-hook))
+
+(defun logit ()
+  (interactive)
+  (message "ok, javascript!"))
 
 ;; Rubocop
 (use-package flycheck
@@ -265,6 +275,7 @@
                "F" 'magit-pull-popup
                "l" 'magit-log
                "o" 'browse-current-line-github
+               "p" 'magit-push-current-to-upstream
                "s" 'magit-status
                "r" (build-keymap
                     "a" 'magit-rebase-abort

@@ -107,9 +107,9 @@
   (string-trim
    (shell-command-to-string "git branch 2> /dev/null | awk '{ if ( $1 == \"*\" ) { print $2 } }'")))
 
-(defun -vc-url-for-file (repo filepath &optional branch-ref)
+(defun -vc-url-for-file (repo filepath)
   "The url for a FILEPATH on REPO (url). Will point to optional BRANCH-REF"
-  (format "%s/blob/%s/%s" repo (or branch-ref "master") filepath))
+  (format "%s/%s" repo filepath))
 
 (defun browse-url (url)
   "Open URL in browser"
@@ -123,8 +123,7 @@
                      (expand-file-name (vc-find-root (buffer-file-name) ".git"))
                      ""
                      (buffer-file-name)))
-         (url (concat (-vc-url-for-file (-vc-current-project-remote-url) file-path)
-                      "#L" line-num)))
+         (url (format "%s/%s#L%s" (-vc-current-project-remote-url) file-path line-num)))
     (browse-url url)))
 
 (defun ticket-number (branchname)
@@ -174,7 +173,7 @@
 
 ;; Custom file finders
 (defun filer--choices (dirs)
-  "Uses `projectile-rails-dir-files' function to find files in directories.
+  "Uses `projectile-dir-files' function to find files in directories.
 The DIRS is list of lists consisting of a directory path and regexp to filter files from that directory.
 Returns a hash table with keys being short names and values being relative paths to the files."
   (let ((hash (make-hash-table :test 'equal)))

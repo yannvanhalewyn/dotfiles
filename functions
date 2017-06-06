@@ -236,6 +236,10 @@ function current_git_branch() {
   git branch 2> /dev/null | awk '{ if ( $1 == "*" ) { print $2 } }'
 }
 
+function reset_origin() {
+  git reset origin/$(current_git_branch)
+}
+
 # Rebases all commits starting from the mergebase with the first argument, and
 # applies them to the second argument ref
 # Ex:
@@ -261,4 +265,8 @@ recursive_replace() {
 
 compress_vid () {
   ffmpeg -i "$1" -c:v libx264 -preset slow -crf 22 -c:a copy "$2"
+}
+
+function bisect() {
+  git bisect start && git bisect good "$1" && git bisect bad "$2" && git bisect run "$3"
 }
