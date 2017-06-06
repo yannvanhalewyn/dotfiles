@@ -13,10 +13,6 @@
 "/* GENERAL BEHAVIOR
 "============================ */
 
-augroup AUTOSAVE
-  au  FocusLost * :wa               " Save on focus lost
-  au  InsertLeave * :w              " Save when leaving insert mode
-augroup END
 set autowrite                     " Automatically :write before running commands
 set autoread                      " Auto reload files when changed on disk
 set backspace=2                   " Backspace deletes like most programs in insert mode
@@ -25,7 +21,6 @@ set noswapfile                    " http://robots.thoughtbot.com/post/1873940257
 set lazyredraw                    " don't redraw when don't have to
 set laststatus=2                  " Always display the status line (Arline bottom bar!)
 set completeopt=longest,menuone   " Dont auto-jump to an autocompl
-" set diffopt+=iwhite               " ignore whitespace in vimdiff
 set encoding=utf-8                " Set encoding
 set timeoutlen=600 ttimeoutlen=10 " faster timeout for escape key
 set smartcase                     " caps sensitive searching
@@ -53,6 +48,11 @@ set splitright
 
 "/* AUTOCOMMANDS
 "============================ */
+
+augroup AUTOSAVE
+  au  FocusLost * :wa               " Save on focus lost
+  au  InsertLeave * :w              " Save when leaving insert mode
+augroup END
 
 " Remove trailing whitespace on save for all files.
 au BufWritePre * :%s/\s\+$//e
@@ -164,7 +164,7 @@ nmap } }zz
 " Quicker window movement
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
-nnoremap <BS> <C-w>h
+nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
 " Increment for tmux
@@ -224,12 +224,10 @@ Plug 'tpope/vim-abolish'                               " Badass replace
 
 " Useful
 Plug 'rhysd/clever-f.vim'                              " Inline easymotion with f and t commands
-Plug 'majutsushi/tagbar'
 Plug 'rking/ag.vim', {'on': 'Ag'}                      " AG! search pleasures
 Plug 'tpope/vim-endwise', {'for': ['ruby','sh','vim']} " Add matching 'end' in ruby/shell
 Plug 'honza/vim-snippets'                              " Some snippets
 Plug 'sickill/vim-pasta'                               " Improved indentation after paste
-Plug 'mattn/emmet-vim'                                 " Emmet
 Plug 'thoughtbot/vim-rspec', {'for': 'ruby'}           " vim-rspec
 Plug 'yannvanhalewyn/vim-run'                          " Run files of different FT
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}  " JS Syntax and indentation
@@ -251,7 +249,6 @@ Plug 'octol/vim-cpp-enhanced-highlight', {'for':'cpp'} " Improved c++ syntax hig
 Plug 'justinmk/vim-syntax-extra', {'for': 'c'}
 Plug 'othree/yajs.vim'
 Plug 'mxw/vim-jsx'
-Plug 'scrooloose/syntastic'
 Plug 'kchmck/vim-coffee-script'
 Plug 'slim-template/vim-slim'
 
@@ -267,14 +264,6 @@ call plug#end()
 let g:airline_powerline_fonts = 1
 " let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#fnamemod = ':t'
-
-" EMMET
-autocmd FileType html,css EmmetInstall    " Use only with certain files
-let g:user_emmet_expandabbr_key = '<c-e>' " Use the ctrl-e key to expand
-
-" DELIMITMATE
-" let g:delimitMate_expand_cr=2
-" let g:delimitMate_expand_space=2
 
 " NERDTREE
 let NERDTreeShowHidden=1
@@ -294,9 +283,6 @@ if exists('$TMUX')
   let g:mocha_js_command = 'VimuxRunCommand("mocha {spec}")'
 endif
 
-" Tagbar
-nmap gt :TagbarToggle<CR>
-
 " Unimpaired for tabs
 nmap ]w :tabnext<CR>
 nmap [w :tabprev<CR>
@@ -306,6 +292,7 @@ vmap <Enter> <Plug>(EasyAlign)
 if !exists('g:easy_align_delimiters')
   let g:easy_align_delimiters = {}
 endif
+
 " Ignore groups override so that it looks for the chars in comments
 let g:easy_align_delimiters['"'] = { 'pattern': '"', 'ignore_groups': ['String'] }
 
@@ -313,17 +300,6 @@ let g:easy_align_delimiters['"'] = { 'pattern': '"', 'ignore_groups': ['String']
 let g:jsdoc_allow_input_prompt=1
 let g:jsdoc_input_description=1
 let g:jsdoc_default_mapping=0
-
-" Syntastic
-let g:syntastic_javascript_checkers = ['standard']
-let g:syntastic_ruby_checkers = ['rubocop']
-let g:syntastic_mode_map = {'mode': 'passive'}
-" So I can use tPope's ]l and [l between errors
-let g:syntastic_always_populate_loc_list = 1
-
-" Weird bug in Tmux where background won't fill workspace.
-:set t_ut=
-
 
 "/* FILETYPE SPECIFIC CONFIG
 "============================ */
@@ -343,7 +319,6 @@ au FileType {ruby,javascript} set shiftwidth=2
 au FileType markdown setlocal spell
 au FileType markdown nnoremap <leader>sh "zyy"zpVr-
 au FileType markdown nnoremap <leader>h "zyy"zpVr=
-
 
 "/* LAYOUT
 "============================ */
@@ -365,10 +340,9 @@ if has('nvim')
   au VimEnter * AirlineTheme dark
 else
   au VimEnter * set background=dark
-  au VimEnter * colorscheme gruvbox
+  au VimEnter * colorscheme jellybeans
   au VimEnter * AirlineTheme base16
 endif
-au VimEnter * hi Search guifg=wheat guibg=none
 
 "/* My favorite colorschemes
 "=========================== */
