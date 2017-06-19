@@ -88,6 +88,25 @@
           t)
         (funcall go first-theme))))
 
+(defun file->str (path)
+  "Return path's file content."
+  (with-temp-buffer
+    (insert-file-contents path)
+    (buffer-string)))
+
+(defun cider-connect-local ()
+  "Directly connects to an nrepl server by repl started in project
+root, or asks for a repl port to connect form anywhere."
+  (interactive)
+  (let ((port (or (ignore-errors (file->str (projectile-expand-root ".nrepl-port")))
+                  (read-number "Cider connect to port: "))))
+    (cider-connect "localhost" port)))
+
+(defun cider-make-cljs-repl ()
+  "Tells cider the current repl connection is a cljs repl"
+  (interactive)
+  (setq-local cider-repl-type "cljs"))
+
 (defun chrome-reload (&optional focus)
   "Use osascript to tell Google Chrome to reload. If optional argument
   FOCUS is non-nil, give Chrome the focus as well."

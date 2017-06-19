@@ -169,6 +169,7 @@
           "a" 'cider-test-run-project-tests
           "c" (build-keymap
                "a" 'cider-apropos
+               "c" 'cider-connect-local
                "d" 'cider-doc
                "j" 'cider-jack-in
                "k" 'cider-repl-clear-buffer
@@ -207,8 +208,8 @@
   (interactive)
   (message "Doing initial CLJ setup")
   (clj-refactor-mode)
-  (put-clojure-indent 'fori 1)
-  (put-clojure-indent 'match 1))
+  (dolist (word '(fori match facts fact))
+    (put-clojure-indent word 1)))
 
 (defvar lisp-mode-hooks '(clojure-mode-hook
                           scheme-mode

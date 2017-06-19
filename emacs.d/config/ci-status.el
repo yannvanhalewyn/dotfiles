@@ -51,6 +51,7 @@
 (defun cis/update ()
   "Updates the cis/latest-ci-status variable asynchronously"
   (interactive)
+  (setq cis/latest-ci-status "no-status")
   (cis/status (cis/origin (cis/current-branch))
               (lambda (status)
                 (setq cis/latest-ci-status (string-trim status)))))
