@@ -3,9 +3,7 @@
 
 (set-face-attribute 'default nil :height 135)
 
-(use-package base16-theme
-  :init
-  (load-theme 'base16-default-dark t))
+(use-package jbeans-theme :init (load-theme 'jbeans t))
 
 (use-package smart-mode-line
   :config
@@ -50,6 +48,7 @@
 ;; Nice Themes
 ;; Zenburn
 ;; Smyx
+;; Jbeans
 ;; base16-ashes
 ;; base16-atelier-cave
 ;; base16-atelier-heath
