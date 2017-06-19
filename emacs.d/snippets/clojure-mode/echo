@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: echo
+# key: echo
+# --
+(defn echo [m]
+  (clojure.pprint/pprint m)
+  m)

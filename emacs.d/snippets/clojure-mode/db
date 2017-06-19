@@ -2,5 +2,5 @@
 # name: db# key: db
 # name: db
 # --
-(let [db {:url "postgresql://localhost:5432/time-zapper"}]
+(let [db "postgresql://localhost:5432/izi_motive"]
   ($1))
