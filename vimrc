@@ -22,13 +22,14 @@ set lazyredraw                    " don't redraw when don't have to
 set laststatus=2                  " Always display the status line (Arline bottom bar!)
 set completeopt=longest,menuone   " Dont auto-jump to an autocompl
 set encoding=utf-8                " Set encoding
-set timeoutlen=600 ttimeoutlen=10 " faster timeout for escape key
+set timeoutlen=200 ttimeoutlen=10 " faster timeout for escape key
 set smartcase                     " caps sensitive searching
 set wildmenu                      " Showing a list of command completions
 set wildmode=longest,list,full    " get a shell like completion
 set history=200                   " More ex-commands history
 set hlsearch                      " Show what 'n' would go to
 set formatoptions+=j              " remove comment chars when joining lines
+set t_ut=                         " Weird bug in Tmux where background won't fill workspace.
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
 
 " Tabsize
@@ -108,8 +109,6 @@ map  <Leader>a  :call RunAllSpecs()<CR>
 " UltisnipsEdit
 map <Leader>u   :UltiSnipsEdit<CR>
 map <Leader>m   :call RenameFile()<CR>
-" Syntastic
-map <Leader>S   :SyntasticCheck<CR>
 " Using Ag for current word
 map <Leader>g   :Ag <C-r><C-w><CR>
 
@@ -181,7 +180,8 @@ inoremap <c-z> <c-o>zz
 
 " Tag finder and navigation
 nmap <c-t> :CtrlPTag<CR>
-nmap <c-b> :CtrlPBuffer<CR>
+nmap <Leader>b :CtrlPBuffer<CR>
+nmap <Leader>f :CtrlP<CR>
 
 " this thing is annoying
 nmap ' <NOP>
@@ -240,6 +240,7 @@ Plug 'tpope/vim-rails', {'for': 'ruby'}
 Plug 'AndrewRadev/splitjoin.vim'
 
 " Layout / syntax support
+Plug 'w0rp/ale'                                        " Async linter
 Plug 'flazz/vim-colorschemes'                          " All the colorschemes of the world
 Plug 'chriskempson/base16-vim'                         " And more
 Plug 'mustache/vim-mustache-handlebars'                " Syntax for handlebars/mustache
@@ -281,6 +282,8 @@ let g:UltiSnipsJumpBackwardTrigger     = "<s-tab>"
 if exists('$TMUX')
   let g:rspec_command = 'VimuxRunCommand("bin/rspec {spec}\n")'
   let g:mocha_js_command = 'VimuxRunCommand("mocha {spec}")'
+else
+  set clipboard=unnamed             " use system clipboard by default
 endif
 
 " Unimpaired for tabs
@@ -295,6 +298,9 @@ endif
 
 " Ignore groups override so that it looks for the chars in comments
 let g:easy_align_delimiters['"'] = { 'pattern': '"', 'ignore_groups': ['String'] }
+
+" rspec
+let g:rspec_runner='os_x_iterm2'
 
 " JSDOC
 let g:jsdoc_allow_input_prompt=1

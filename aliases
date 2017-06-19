@@ -103,7 +103,7 @@ alias gvisit='open $(git config --get remote.origin.url | sed -E s#git@\(.+\):\(
 alias galiases="alias | grep -P \"(g|undopush)\w*='git\""
 alias gdotf='open "http://www.github.com/yannvanhalewyn/dotfiles"'
 
-alias v="nvim"
+alias v="vim"
 alias e="emacs"
 alias ec="emacsclient"
 
