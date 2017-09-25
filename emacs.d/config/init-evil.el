@@ -8,6 +8,16 @@
   (setq evil-want-fine-undo t)
   :config
   (evil-mode t)
+
+  ;; Add hjkl for magit and ibuffer
+  (evil-add-hjkl-bindings git-rebase-mode-map 'emacs)
+  (evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs)
+  (evil-add-hjkl-bindings magit-log-mode-map 'emacs)
+  (evil-add-hjkl-bindings magit-status-mode-map 'emacs)
+  (evil-add-hjkl-bindings magit-diff-mode-map 'emacs)
+  (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
+  (evil-add-hjkl-bindings ibuffer-mode-map 'emacs)
+
   (keys :states 'motion
         "[e" 'flycheck-previous-error
         "]e" 'flycheck-next-error
@@ -45,14 +55,5 @@
   (keys :prefix "g"
         "a" 'evil-numbers/inc-at-pt
         "x" 'evil-numbers/dec-at-pt))
-
-;; Add hjkl for magit and ibuffer
-(evil-add-hjkl-bindings git-rebase-mode-map 'emacs)
-(evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs)
-(evil-add-hjkl-bindings magit-log-mode-map 'emacs)
-(evil-add-hjkl-bindings magit-status-mode-map 'emacs)
-(evil-add-hjkl-bindings magit-diff-mode-map 'emacs)
-(evil-add-hjkl-bindings package-menu-mode-map 'emacs)
-(evil-add-hjkl-bindings ibuffer-mode-map 'emacs)
 
 (provide 'init-evil)

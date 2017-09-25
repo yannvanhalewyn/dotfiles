@@ -19,7 +19,11 @@
         "u" 'cis/update
         "o" 'cis/open-ci-build)
    "d" 'dired-current-dir
-   "f" 'helm-projectile
+   "f" 'helm-projectile-find-file
+   "F" (build-keymap
+        "m" 'rename-current-buffer-file
+        "c" 'copy-current-buffer-file
+        "d" 'delete-current-buffer-file)
    "v" (build-keymap
         "e" 'edit-evil
         "f" 'edit-functions
@@ -34,16 +38,22 @@
         "a" 'helm-apropos)
    "i" (build-keymap
         "u" 'ucs-insert)
-   "m" 'rename-current-buffer-file
    "o" 'ido-find-file
    "Q" 'delete-other-windows
    "q" 'kill-this-buffer
-   "r" 'chrome-reload
+   "R" 'chrome-reload
    "w" 'buff-swap
    "x" 'projectile-ag
    "X" 'ag))
 
-(use-package auto-complete :config (global-auto-complete-mode t))
+(use-package company
+  :init (global-company-mode)
+  :config
+  (keys :states '(insert)
+        "<tab>" 'company-complete-common-or-cycle)
+  (keys :keymaps 'company-active-map
+        "<tab>" 'company-select-next
+        "S-<tab>" 'company-select-previous-or-abort))
 
 (use-package evil-mc
   :defer t
@@ -53,7 +63,9 @@
   :diminish yas-minor-mode
   :config
   (yas-global-mode 1)
-  (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+  (keys :states '(insert)
+        "S-<tab>" 'yas-expand))
 
 (use-package ace-jump-mode
   :init
@@ -70,11 +82,6 @@
   (which-key-mode +1)
   (setq which-key-idle-delay 0.5)
   (which-key-setup-side-window-bottom))
-
-(use-package google-this
-  :defer t
-  :config
-  (keys-l "G" 'google-this))
 
 ;; Ruby/Rails
 ;; ==========
@@ -118,6 +125,13 @@
       mocha-options "--watch ./tmp/static.js ./frontend/test/config.coffee"
       mocha-reporter "spec")
 
+(use-package prettier-js
+  :defer t
+  :config
+  (setq prettier-js-args '("--trailing-comma" "all"))
+  :init
+  (add-hooks #'prettier-js-mode '(js2-mode-hook js-mode-hook)))
+
 ;; Using pry in rspec buffers
 (use-package inf-ruby
   :config
@@ -128,19 +142,27 @@
   :defer t
   :config (require 'smartparens-ruby))
 
-(add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook js-mode-hook))
+;; GLSL
+;; ====
+;; (require 'glsl-mode)
+;; (autoload 'glsl-mode "glsl-mode" nil t)
+;; (add-to-list 'auto-mode-alist '("\\.vert") . glsl-mode)
+;; (add-to-list 'auto-mode-alist '("\\.frag") . glsl-mode)
 
-(defun logit ()
-  (interactive)
-  (message "ok, javascript!"))
+(add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook js-mode-hook c-mode-common-hook))
 
 ;; Rubocop
 (use-package flycheck
   :defer t
   :init
   (add-hook 'after-init-hook #'global-flycheck-mode)
+  (use-package flycheck-flow)
   :config
-  (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled)))
+  (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (setq flycheck-gcc-language-standard "c++14")
+              (setq flycheck-clang-language-standard "c++14"))))
 
 ;; For goto file in require statements
 (use-package bundler :defer t)
@@ -174,15 +196,21 @@
                "j" 'cider-jack-in
                "k" 'cider-repl-clear-buffer
                "m" 'cider-macro-expand-1
-               "q" 'cider-quit
-               "r" 'cider-restart)
+               "q" 'cider-quit)
           "e" 'cider-eval-defun-at-point
           "E" 'cider-eval-buffer
           "k" 'cider-load-buffer
           "l" 'cider-test-rerun-tests
           "t" 'cider-test-run-test))
 
-(use-package clj-refactor :defer t)
+(use-package clj-refactor :defer t
+  :config
+  (let ((cljr-map (make-sparse-keymap)))
+    (dolist (details cljr--all-helpers)
+      (define-key cljr-map (car details) (cadr details)))
+    (keys-l :keymaps 'clojure-mode-map
+            "r" cljr-map)))
+
 (use-package rainbow-delimiters :defer t)
 
 (use-package paredit
@@ -208,7 +236,8 @@
   (interactive)
   (message "Doing initial CLJ setup")
   (clj-refactor-mode)
-  (dolist (word '(fori match facts fact))
+  (setq clojure-indent-style :always-indent)
+  (dolist (word '(fori match facts fact assoc render))
     (put-clojure-indent word 1)))
 
 (defvar lisp-mode-hooks '(clojure-mode-hook
@@ -230,7 +259,6 @@
   (projectile-global-mode)
   (setq projectile-require-project-root nil
         projectile-switch-project-action 'helm-projectile)
-  (keys "gs" 'projectile-switch-project)
   (keys-l "p" 'projectile-command-map))
 
 (use-package neotree
@@ -263,6 +291,14 @@
 
 (use-package helm-projectile :defer t)
 
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-items '((recents  . 5)
+                          (projects . 5)
+                          (bookmarks . 5)))
+  (setq dashboard-banner-logo-title "Make nice stuff today!"))
+
 (use-package magit
   :defer t
   :init
@@ -277,7 +313,9 @@
                "l" 'magit-log
                "o" 'browse-current-line-github
                "p" 'magit-push-current-to-upstream
+               "P" (lambda () (interactive) (magit-push-current-to-upstream "--force-with-lease"))
                "s" 'magit-status
+               "S" 'magit-stash
                "r" (build-keymap
                     "a" 'magit-rebase-abort
                     "c" 'magit-rebase-continue

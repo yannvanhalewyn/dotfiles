@@ -30,21 +30,48 @@
          (kill-buffer output-buffer))))
     output-buffer))
 
-(defun rename-current-buffer-file ()
-  "Renames current buffer and file it is visiting."
-  (interactive)
+(defun operate-current-buffer-file (fn)
   (let ((name (buffer-name))
         (filename (buffer-file-name)))
     (if (not (and filename (file-exists-p filename)))
         (error "Buffer '%s' is not visiting a file!" name)
-      (let ((new-name (read-file-name "New name: " filename)))
-        (if (get-buffer new-name)
-            (error "A buffer named '%s' already exists!" new-name)
-          (rename-file filename new-name 1)
-          (rename-buffer new-name)
-          (set-visited-file-name new-name)
-          (set-buffer-modified-p nil)
-          (message "File '%s' successfully renamed to '%s'"
-                   name (file-name-nondirectory new-name)))))))
+      (funcall fn filename))))
+
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (operate-current-buffer-file
+   (lambda (filename)
+     (let ((new-name (read-file-name "New name: " filename)))
+       (if (get-buffer new-name)
+           (error "A buffer named '%s' already exists!" new-name)
+         (rename-file filename new-name 1)
+         (rename-buffer new-name)
+         (set-visited-file-name new-name)
+         (set-buffer-modified-p nil)
+         (message "File '%s' successfully renamed to '%s'"
+                  name (file-name-nondirectory new-name)))))))
+
+(defun copy-current-buffer-file ()
+  "Copies the current buffer file and visits the copy"
+  (interactive)
+  (operate-current-buffer-file
+   (lambda (filename)
+     (let ((new-name (read-file-name "Copy to: " filename)))
+       (if (get-buffer new-name)
+           (error "A buffer named '%s' already exists!" new-name)
+         (copy-file filename new-name)
+         (find-file new-name)
+         (message "File '%s' successfully copied to '%s'"
+                  name (file-name-nondirectory new-name)))))))
+
+(defun delete-current-buffer-file ()
+  "Copies the current buffer file and visits the copy"
+  (interactive)
+  (operate-current-buffer-file
+   (lambda (filename)
+     (when (y-or-n-p (format "Permanently delete %s?" filename))
+       (delete-file filename)
+       (kill-this-buffer)))))
 
 (provide 'util)
