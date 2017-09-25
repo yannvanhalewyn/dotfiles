@@ -38,7 +38,7 @@
   :config
   (column-marker-create column-marker-4 red-bg-face)
   (add-hooks (lambda () (column-marker-4 80))
-             '(coffee-mode-hook ruby-mode-hook javascript-mode-hook)))
+             '(coffee-mode-hook ruby-mode-hook javascript-mode-hook c-mode-common-hook)))
 
 (if window-system
     (progn (scroll-bar-mode -1))) ;; Hide scrollbar (GUI)

@@ -13,8 +13,7 @@
         "]e" 'flycheck-next-error
         "[b" 'previous-code-buffer
         "]b" 'next-code-buffer
-        "]t" 'cycle-theme
-        "RET" 'align-regexp)
+        "]t" 'cycle-theme)
   (keys "C-h" 'evil-window-left
         "C-j" 'evil-window-down
         "C-k" 'evil-window-up

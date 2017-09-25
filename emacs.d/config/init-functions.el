@@ -103,7 +103,7 @@ root, or asks for a repl port to connect form anywhere."
     (cider-connect "localhost" port)))
 
 (defun cider-make-cljs-repl ()
-  "Tells cider the current repl connection is a cljs repl"
+  "Changes the connection type of repl the buffer at point to CLJS."
   (interactive)
   (setq-local cider-repl-type "cljs"))
 

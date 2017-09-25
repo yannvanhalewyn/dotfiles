@@ -2,6 +2,7 @@
       (quote (("default"
 	       ("code" (or
                         (mode . clojure-mode)
+                        (mode . clojurec-mode)
 			(mode . c-mode)
 			(mode . ruby-mode)
                         (mode . javascript-mode)
@@ -16,6 +17,10 @@
                          (name . "^\\*scratch\\*$")
                          (name . "^\\*Messages\\*$")
                          (name . "^\\*Completions\\*$")))
+               ("Magit" (name . "\*magit"))
+               ("Help" (or (name . "\*Help\*")
+                           (name . "\*Apropos\*")
+                           (name . "\*info\*")))
                ("tmp" (or (mode . dired-mode)
                           (name ."^\\*")))))))
 
