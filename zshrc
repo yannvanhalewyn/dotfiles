@@ -37,7 +37,7 @@ setopt APPEND_HISTORY          # append rather than overwrite history file.
 HISTSIZE=20000                 # lines of history to maintain memory
 SAVEHIST=20000                 # lines of history to maintain in history file.
 
-export EDITOR='nvim'
+export EDITOR='vim'
 source "$HOME/.aliases"
 source "$HOME/.functions"
 

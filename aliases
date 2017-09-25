@@ -222,8 +222,8 @@ alias lt='lein test'
 alias zp='cd $HOME/brightin/zapp'
 alias zl='cd $HOME/brightin/zappelin'
 alias psg='cd $HOME/brightin/persgroep-campagneplanner'
-alias iz='cd $HOME/brightin/izi-motive'
-alias aur='cd $HOME/brightin/aurum'
+alias bm='cd $HOME/brightin/brightmotive'
+alias cep='cd $HOME/brightin/cep'
 alias nk='cd $HOME/brightin/nikon-elearning'
 
 # Rails stuff

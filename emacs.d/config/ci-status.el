@@ -9,6 +9,7 @@
 (defvar cis/failed-status-char "✘")
 (defvar cis/success-status-char "✓")
 (defvar cis/pending-status-char "●")
+(defvar cis/fetching-status-char "↻")
 
 (defun cis/current-branch ()
   "Asks git what the current branch is"
@@ -35,6 +36,8 @@
     (propertize cis/failed-status-char 'face 'cis/failed))
    ((string-equal status "pending")
     (propertize cis/pending-status-char 'face 'cis/pending))
+   ((string-equal status "fetching")
+    (propertize cis/pending-status-char 'face 'cis/pending))
    (t cis/no-status-char)))
 
 (defun cis/latest-build-url (ref callback)
@@ -51,7 +54,7 @@
 (defun cis/update ()
   "Updates the cis/latest-ci-status variable asynchronously"
   (interactive)
-  (setq cis/latest-ci-status "no-status")
+  (setq cis/latest-ci-status "fetching")
   (cis/status (cis/origin (cis/current-branch))
               (lambda (status)
                 (setq cis/latest-ci-status (string-trim status)))))

@@ -81,14 +81,14 @@ nnoremap <leader>p :set invpaste<CR>
 " It swaps it with the previouse buffer, or an empty one if needed.
 map  <Leader>q  :Bclose<CR>
 map  <Leader>Q  :Bonly<CR>
-" toggle NerdTree / Gundo
+" toggle NerdTree
 map  <Leader>n  :NERDTreeToggle<CR>
 map  <Leader>N  :NERDTreeFind<CR>
-map  <Leader>g  :GundoToggle<CR>
 " Fugitive mappings
 nmap <Leader>gs :Gstatus<CR>
 nmap <Leader>gd :Gvdiff<CR>
 nmap <Leader>gc :Gcommit<CR>
+nmap <Leader>gb :Gblame<CR>
 " TCommenter (Like TCommenter more, but got used to NerdTree comment
 map  <Leader>cs :TCommentBlock<CR>
 map  <Leader>cc :TComment<CR>
@@ -110,7 +110,8 @@ map  <Leader>a  :call RunAllSpecs()<CR>
 map <Leader>u   :UltiSnipsEdit<CR>
 map <Leader>m   :call RenameFile()<CR>
 " Using Ag for current word
-map <Leader>g   :Ag <C-r><C-w><CR>
+map <Leader>x   :Ag <C-r><C-w>
+map <Leader>X   :Ag <C-r><C-w>
 
 " Surround with quotes / #{} for ruby vars in quotes / parens
 nmap      <Leader>=   ^v$hS=
