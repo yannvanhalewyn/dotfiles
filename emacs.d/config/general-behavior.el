@@ -54,6 +54,10 @@
 ;; Don't confirm when creating new file
 (setq confirm-nonexistent-file-or-buffer nil)
 
+;; Scroll in compilation mode
+(setq compilation-scroll-output t)
+
+
 (require 'savehist)
 (savehist-mode t)
 
@@ -84,6 +88,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+
+;; C++ header files
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 ;; Easier font scaling
 (global-set-key (kbd "C-=") 'text-scale-increase)

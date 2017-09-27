@@ -13,6 +13,9 @@
           "E" 'eval-print-last-sexp)
 
   (keys-l
+   "a" (build-keymap
+        "c" 'quick-calc
+        "C" 'calc-dispatch)
    "B" 'ibuffer
    "b" 'ido-switch-buffer
    "c" (build-keymap
@@ -55,10 +58,6 @@
         "<tab>" 'company-select-next
         "S-<tab>" 'company-select-previous-or-abort))
 
-(use-package evil-mc
-  :defer t
-  :init (global-evil-mc-mode))
-
 (use-package yasnippet
   :diminish yas-minor-mode
   :config
@@ -69,8 +68,8 @@
 
 (use-package ace-jump-mode
   :init
-  (keys-l "j" 'ace-jump-mode
-          "J" 'ace-jump-char-mode))
+  (keys-l "SPC" 'ace-jump-mode
+          "S-SPC" 'ace-jump-char-mode))
 
 (use-package undo-tree
   :diminish undo-tree-mode
@@ -140,14 +139,20 @@
 ;; Close do-end blocks in ruby
 (use-package smartparens
   :defer t
-  :config (require 'smartparens-ruby))
+  :config
+  (require 'smartparens-ruby)
+  (sp-local-pair 'c++-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+  (sp-local-pair 'c-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+  (sp-local-pair 'js2-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+  (sp-local-pair 'glsl-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET"))))
 
 ;; GLSL
 ;; ====
-;; (require 'glsl-mode)
-;; (autoload 'glsl-mode "glsl-mode" nil t)
-;; (add-to-list 'auto-mode-alist '("\\.vert") . glsl-mode)
-;; (add-to-list 'auto-mode-alist '("\\.frag") . glsl-mode)
+(use-package glsl-mode
+  :defer t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.vert") . glsl-mode)
+  (add-to-list 'auto-mode-alist '("\\.frag") . glsl-mode))
 
 (add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook js-mode-hook c-mode-common-hook))
 
@@ -259,6 +264,8 @@
   (projectile-global-mode)
   (setq projectile-require-project-root nil
         projectile-switch-project-action 'helm-projectile)
+  (define-key projectile-command-map (kbd "C") 'projectile-compile-project)
+  (define-key projectile-command-map (kbd "c") 'recompile)
   (keys-l "p" 'projectile-command-map))
 
 (use-package neotree
@@ -273,6 +280,7 @@
         "K" 'neotree-select-up-node
         "q" 'neotree-hide
         "m" 'neotree-rename-node
+        "c" 'neotree-copy-node
         "o" 'neotree-enter
         "x" (lambda () (interactive) (neotree-select-up-node) (neotree-enter))
         "<tab>" 'neotree-quick-look))
@@ -289,7 +297,7 @@
         helm-M-x-fuzzy-match t
         helm-apropos-fuzzy-match t))
 
-(use-package helm-projectile :defer t)
+(use-package helm-projectile)
 
 (use-package dashboard
   :config
@@ -310,7 +318,7 @@
                "d" 'vc-diff
                "f" 'magit-fetch-all
                "F" 'magit-pull-popup
-               "l" 'magit-log
+               "l" 'magit-log-head
                "o" 'browse-current-line-github
                "p" 'magit-push-current-to-upstream
                "P" (lambda () (interactive) (magit-push-current-to-upstream "--force-with-lease"))
@@ -320,8 +328,7 @@
                     "a" 'magit-rebase-abort
                     "c" 'magit-rebase-continue
                     "i" 'magit-rebase-interactive
-                    "s" 'magit-rebase-skip)
-               "l" 'magit-log))
+                    "s" 'magit-rebase-skip)))
   :config
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
   (keys :keymaps 'magit-blame-mode-map

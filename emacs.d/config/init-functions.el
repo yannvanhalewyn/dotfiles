@@ -236,4 +236,11 @@ The bound variable is \"filename\"."
   (interactive)
   (filer--find-resource "component: " '(("src/sheet_bucket/components" "/components/\\(.+\\).cljs"))))
 
+(defun my-create-newline-and-enter-sexp (&rest _ignored)
+  "Open a new brace or bracket expression, with relevant newlines and indent. "
+  (newline)
+  (indent-according-to-mode)
+  (forward-line -1)
+  (indent-according-to-mode))
+
 (provide 'init-functions)

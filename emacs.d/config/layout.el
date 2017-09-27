@@ -3,7 +3,12 @@
 
 (set-face-attribute 'default nil :height 135)
 
-(use-package jbeans-theme :init (load-theme 'jbeans t))
+;; (use-package jbeans-theme :init (load-theme 'jbeans t))
+;; (use-package spacemacs-theme :init :init (load-theme 'spacemacs-dark t))
+;; (use-package base16-theme :init (load-theme 'base16-ashes t))
+;; (use-package smyx-theme :init (load-theme 'smyx t))
+(use-package monokai-theme :init (load-theme 'monokai t))
+
 
 (use-package smart-mode-line
   :config
@@ -22,6 +27,7 @@
 
 ;; LAYOUT/Load custom themes
 (global-linum-mode t)     ;; Show line numbers
+(global-hl-line-mode t)   ;; Highlight current line
 (show-paren-mode 1)       ;; Show matching paren
 (menu-bar-mode 0)         ;; Hide menu bar
 (tool-bar-mode -1)        ;; Hide toolbar (GUI)
