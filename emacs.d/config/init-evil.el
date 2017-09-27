@@ -29,11 +29,13 @@
         "C-k" 'evil-window-up
         "C-l" 'evil-window-right))
 
-(use-package evil-commentary
+(use-package evil-nerd-commenter
   :diminish evil-commentary-mode
   :config
   (evil-commentary-mode)
-  (keys :states 'normal "gc" 'evilnc-comment-operator))
+  (keys :states 'normal "gc" 'evilnc-comment-operator)
+  (keys-l :states 'normal
+          "c y" 'evilnc-copy-and-comment-lines))
 
 (use-package evil-surround
   :config

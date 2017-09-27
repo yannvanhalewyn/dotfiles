@@ -243,4 +243,20 @@ The bound variable is \"filename\"."
   (forward-line -1)
   (indent-according-to-mode))
 
+(defvar junk-file/directory "~/.emacs.d/cache/junk/")
+
+(defun junk-file/new ()
+  "Opens a new junk file, useful for testing purpouses"
+  (interactive)
+  (let ((file (read-file-name "Junk Code (Enter extension): "
+                              (format-time-string
+                               (concat junk-file/directory "%Y-%m-%d-%H%M%S.")
+                               (current-time)))))
+    (make-directory (file-name-directory file) t)
+    (find-file file)))
+
+(defun junk-file/find ()
+  (interactive)
+  (helm-find-files-1 junk-file/directory))
+
 (provide 'init-functions)

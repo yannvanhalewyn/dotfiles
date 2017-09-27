@@ -50,7 +50,7 @@
          (set-visited-file-name new-name)
          (set-buffer-modified-p nil)
          (message "File '%s' successfully renamed to '%s'"
-                  name (file-name-nondirectory new-name)))))))
+                  filename (file-name-nondirectory new-name)))))))
 
 (defun copy-current-buffer-file ()
   "Copies the current buffer file and visits the copy"
@@ -63,7 +63,7 @@
          (copy-file filename new-name)
          (find-file new-name)
          (message "File '%s' successfully copied to '%s'"
-                  name (file-name-nondirectory new-name)))))))
+                  filename (file-name-nondirectory new-name)))))))
 
 (defun delete-current-buffer-file ()
   "Copies the current buffer file and visits the copy"

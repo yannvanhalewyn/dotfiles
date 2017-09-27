@@ -22,11 +22,17 @@
         "u" 'cis/update
         "o" 'cis/open-ci-build)
    "d" 'dired-current-dir
-   "f" 'helm-projectile-find-file
-   "F" (build-keymap
+   "F" 'helm-projectile-find-file
+   "f" (build-keymap
+        "r" 'helm-recentf
+        "f" 'helm-projectile-find-file
         "m" 'rename-current-buffer-file
         "c" 'copy-current-buffer-file
-        "d" 'delete-current-buffer-file)
+        "d" 'delete-current-buffer-file
+        "s" 'save-buffer
+        "S" 'save-some-buffers
+        "j" 'junk-file/new
+        "J" 'junk-file/find)
    "v" (build-keymap
         "e" 'edit-evil
         "f" 'edit-functions
@@ -52,10 +58,13 @@
 (use-package company
   :init (global-company-mode)
   :config
+  (setq company-idle-delay 0.2)
   (keys :states '(insert)
         "<tab>" 'company-complete-common-or-cycle)
   (keys :keymaps 'company-active-map
-        "<tab>" 'company-select-next
+        :states nil
+        "C-s" 'company-filter-candidates
+        "<tab>" 'company-complete-common-or-cycle
         "S-<tab>" 'company-select-previous-or-abort))
 
 (use-package yasnippet
@@ -160,6 +169,7 @@
 (use-package flycheck
   :defer t
   :init
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (use-package flycheck-flow)
   :config
@@ -295,17 +305,10 @@
   :config
   (setq helm-buffers-fuzzy-matching t
         helm-M-x-fuzzy-match t
+        helm-recentf-fuzzy-match t
         helm-apropos-fuzzy-match t))
 
 (use-package helm-projectile)
-
-(use-package dashboard
-  :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-items '((recents  . 5)
-                          (projects . 5)
-                          (bookmarks . 5)))
-  (setq dashboard-banner-logo-title "Make nice stuff today!"))
 
 (use-package magit
   :defer t
