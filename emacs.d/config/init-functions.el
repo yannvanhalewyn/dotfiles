@@ -259,4 +259,17 @@ The bound variable is \"filename\"."
   (interactive)
   (helm-find-files-1 junk-file/directory))
 
+(defun comment-as-title()
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (open-line 1)
+  (next-line 1)
+  (yank)
+  (move-beginning-of-line 1)
+  (forward-word)
+  (backward-word)
+  (replace-regexp "." "=" nil (point) (line-end-position)))
+
 (provide 'init-functions)

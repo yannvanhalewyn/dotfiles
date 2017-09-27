@@ -1,7 +1,7 @@
 (require 'util)
 
-(use-package scss-mode)
-
+;; General use
+;; ===========
 (use-package general
   :config
   (setq general-default-states '(normal emacs motion))
@@ -20,7 +20,8 @@
    "b" 'ido-switch-buffer
    "c" (build-keymap
         "u" 'cis/update
-        "o" 'cis/open-ci-build)
+        "o" 'cis/open-ci-build
+        "t" 'comment-as-title)
    "d" 'dired-current-dir
    "F" 'helm-projectile-find-file
    "f" (build-keymap
@@ -96,6 +97,8 @@
 (use-package haml-mode :defer t)
 (use-package yaml-mode :defer t)
 (use-package sass-mode :defer t)
+(use-package scss-mode :defer t)
+
 
 (use-package coffee-mode
   :defer t
