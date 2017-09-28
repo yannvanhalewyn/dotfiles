@@ -134,17 +134,10 @@
   :config
   (use-package evil-magit)
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
-  ;; (keys :keymaps 'magit-blame-mode-map
-  ;;       "q" 'magit-blame-quit)
-  ;; (keys :keymaps 'git-rebase-mode-map
-  ;;       "J" 'git-rebase-move-line-down
-  ;;       "K" 'git-rebase-move-line-up
-  ;;       "d" 'git-rebase-kill-line
-  ;;       "p" 'git-rebase-pick)
-  (keys :keymaps 'magit-status-mode-map
-        ;;       "TAB" 'magit-section-toggle
-        "K" 'magit-discard)
-  )
+  (keys :keymaps 'magit-revision-mode-map :states 'visual "y" 'yank-from-revision-buffer)
+  (keys :keymaps 'magit-blame-mode-map "q" 'with-editor-cancel)
+  (keys :keymaps 'git-rebase-mode-map "q" 'magit-rebase-abort)
+  (keys :keymaps 'magit-status-mode-map "K" 'magit-discard))
 
 (use-package company
   :init (global-company-mode)

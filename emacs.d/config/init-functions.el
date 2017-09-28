@@ -272,4 +272,14 @@ The bound variable is \"filename\"."
   (backward-word)
   (replace-regexp "." "=" nil (point) (line-end-position)))
 
+(defun yank-from-revision-buffer ()
+  "Revision buffers are full of \+ and \- characters at the beginning
+of lines. This function will yank the current region from a revision
+buffer and sanitize it."
+  (interactive)
+  (let ((s (buffer-substring (region-beginning) (region-end))))
+    (kill-new (replace-regexp-in-string "^." "" s))
+    (deactivate-mark)
+    (move-beginning-of-line 1)))
+
 (provide 'init-functions)
