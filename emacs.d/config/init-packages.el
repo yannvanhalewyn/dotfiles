@@ -186,8 +186,20 @@
 (use-package coffee-mode
   :defer t
   :config
-  (require 'coffee-evil-extensions)
   (setq coffee-tab-width 2)
+  (require 'coffee-evil-extensions)
+  (require 'mocha)
+
+  (setq mocha-project-test-directory "frontend/test"
+        mocha-environment-variables "NODE_PATH=./frontend/src"
+        mocha-options "--watch ./tmp/static.js ./frontend/test/config.coffee"
+        mocha-reporter "spec")
+
+  (keys-l :keymaps '(coffee-mode-map js-mode-map)
+          "a" 'mocha-test-project
+          "t" 'mocha-test-file
+          "s" 'mocha-test-at-point)
+
   (keys :keymaps '(coffee-mode-map)
         "o" 'coffee-open-below
         "O" 'coffee-open-above
@@ -208,16 +220,6 @@
           "a" 'rspec-verify-all
           "s" 'rspec-verify-single
           "l" 'rspec-rerun))
-
-(require 'mocha)
-(keys-l :keymaps '(coffee-mode-map js-mode-map)
-        "a" 'mocha-test-project
-        "t" 'mocha-test-file
-        "s" 'mocha-test-at-point)
-(setq mocha-project-test-directory "frontend/test"
-      mocha-environment-variables "NODE_PATH=./frontend/src"
-      mocha-options "--watch ./tmp/static.js ./frontend/test/config.coffee"
-      mocha-reporter "spec")
 
 (use-package prettier-js
   :defer t
