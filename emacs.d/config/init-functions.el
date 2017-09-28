@@ -5,9 +5,9 @@
             (end (cadr (match-data))))
         (if (and beg end) (substring s beg end)))))
 
-(defun edit-plugins ()
+(defun edit-packages ()
   "Goes to the main emacs config file (init-plugins.el)"
-  (interactive) (find-file "~/.emacs.d/config/init-plugins.el"))
+  (interactive) (find-file "~/.emacs.d/config/init-packages.el"))
 
 (defun edit-general-behavior ()
   "Goes to the main emacs config file (init-plugins.el)"

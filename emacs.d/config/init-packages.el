@@ -39,7 +39,7 @@
         "f" 'edit-functions
         "g" 'edit-general-behavior
         "l" 'edit-layout
-        "p" 'edit-plugins
+        "p" 'edit-packages
         "t" 'edit-todo)
    "h" (build-keymap
         "k" 'describe-key
@@ -55,6 +55,96 @@
    "w" 'buff-swap
    "x" 'projectile-ag
    "X" 'ag))
+
+(use-package evil
+  :init
+  (setq evil-want-fine-undo t)
+  (add-hook #'after-change-major-mode-hook
+            (lambda () (interactive)
+              (modify-syntax-entry ?_ "w")))
+
+  :config
+  (evil-mode t)
+
+  (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
+  (evil-add-hjkl-bindings ibuffer-mode-map 'emacs)
+
+  (keys :states 'motion
+        "[e" 'flycheck-previous-error
+        "]e" 'flycheck-next-error
+        "[b" 'previous-code-buffer
+        "]b" 'next-code-buffer
+        "]t" 'cycle-theme)
+  (keys "C-h" 'evil-window-left
+        "C-j" 'evil-window-down
+        "C-k" 'evil-window-up
+        "C-l" 'evil-window-right)
+
+  (use-package evil-nerd-commenter
+    :diminish evil-commentary-mode
+    :config
+    (evil-commentary-mode)
+    (keys :states 'normal "gc" 'evilnc-comment-operator)
+    (keys-l :states 'normal
+            "c y" 'evilnc-copy-and-comment-lines))
+
+  (use-package evil-cleverparens
+    :defer t
+    :diminish evil-cleverparens-mode
+    :config
+    ;; Evil CP overwrites "c" for change. This will re-enable "cs"
+    ;; motion "change surrounding" of evil-surround
+    (evil-cp--enable-surround-operators)
+    :init
+    ;; Don't use crazy bindings for {, [, } and ] from evil-cleverparens
+    (setq evil-cleverparens-use-additional-movement-keys nil))
+
+  (use-package evil-surround
+    :defer t
+    :config (global-evil-surround-mode 1))
+
+  (use-package evil-numbers
+    :config
+    (keys :prefix "g"
+          "a" 'evil-numbers/inc-at-pt
+          "x" 'evil-numbers/dec-at-pt)))
+
+(use-package magit
+  :defer t
+  :init
+  (keys-l "g" (build-keymap
+               "B" 'magit-blame-quit
+               "c" 'magit-checkout
+               "C" 'magit-branch-and-checkout
+               "b" 'magit-blame
+               "d" 'vc-diff
+               "f" 'magit-fetch-all
+               "F" 'magit-pull-popup
+               "l" 'magit-log-head
+               "o" 'browse-current-line-github
+               "p" 'magit-push-current-to-upstream
+               "P" (lambda () (interactive) (magit-push-current-to-upstream "--force-with-lease"))
+               "s" 'magit-status
+               "S" 'magit-stash
+               "r" (build-keymap
+                    "a" 'magit-rebase-abort
+                    "c" 'magit-rebase-continue
+                    "i" 'magit-rebase-interactive
+                    "s" 'magit-rebase-skip)))
+  :config
+  (use-package evil-magit)
+  (add-hook 'git-commit-mode-hook 'evil-insert-state)
+  ;; (keys :keymaps 'magit-blame-mode-map
+  ;;       "q" 'magit-blame-quit)
+  ;; (keys :keymaps 'git-rebase-mode-map
+  ;;       "J" 'git-rebase-move-line-down
+  ;;       "K" 'git-rebase-move-line-up
+  ;;       "d" 'git-rebase-kill-line
+  ;;       "p" 'git-rebase-pick)
+  (keys :keymaps 'magit-status-mode-map
+        ;;       "TAB" 'magit-section-toggle
+        "K" 'magit-discard)
+  )
 
 (use-package company
   :init (global-company-mode)
@@ -77,6 +167,7 @@
         "S-<tab>" 'yas-expand))
 
 (use-package ace-jump-mode
+  :defer t
   :init
   (keys-l "SPC" 'ace-jump-mode
           "S-SPC" 'ace-jump-char-mode))
@@ -98,7 +189,6 @@
 (use-package yaml-mode :defer t)
 (use-package sass-mode :defer t)
 (use-package scss-mode :defer t)
-
 
 (use-package coffee-mode
   :defer t
@@ -312,41 +402,6 @@
         helm-apropos-fuzzy-match t))
 
 (use-package helm-projectile)
-
-(use-package magit
-  :defer t
-  :init
-  (keys-l "g" (build-keymap
-               "B" 'magit-blame-quit
-               "c" 'magit-checkout
-               "C" 'magit-branch-and-checkout
-               "b" 'magit-blame
-               "d" 'vc-diff
-               "f" 'magit-fetch-all
-               "F" 'magit-pull-popup
-               "l" 'magit-log-head
-               "o" 'browse-current-line-github
-               "p" 'magit-push-current-to-upstream
-               "P" (lambda () (interactive) (magit-push-current-to-upstream "--force-with-lease"))
-               "s" 'magit-status
-               "S" 'magit-stash
-               "r" (build-keymap
-                    "a" 'magit-rebase-abort
-                    "c" 'magit-rebase-continue
-                    "i" 'magit-rebase-interactive
-                    "s" 'magit-rebase-skip)))
-  :config
-  (add-hook 'git-commit-mode-hook 'evil-insert-state)
-  (keys :keymaps 'magit-blame-mode-map
-        "q" 'magit-blame-quit)
-  (keys :keymaps 'git-rebase-mode-map
-        "J" 'git-rebase-move-line-down
-        "K" 'git-rebase-move-line-up
-        "d" 'git-rebase-kill-line
-        "p" 'git-rebase-pick)
-  (keys :keymaps 'magit-status-mode-map
-        "TAB" 'magit-section-toggle
-        "K" 'magit-discard))
 
 (use-package projectile-rails
   :config
