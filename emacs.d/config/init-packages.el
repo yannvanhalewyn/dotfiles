@@ -42,16 +42,24 @@
         "p" 'edit-packages
         "t" 'edit-todo)
    "h" (build-keymap
-        "k" 'describe-key
-        "m" 'describe-mode
+        "a" 'helm-apropos
         "f" 'describe-function
-        "a" 'helm-apropos)
+        "k" 'which-key-show-top-level
+        "K" 'describe-key
+        "m" 'describe-mode
+        "p" 'describe-package
+        "v" 'describe-variable)
    "i" (build-keymap
-        "u" 'ucs-insert)
+        "u" 'ucs-insert
+        "U" 'helm-ucs)
    "o" 'ido-find-file
    "Q" 'delete-other-windows
    "q" 'kill-this-buffer
    "R" 'chrome-reload
+   "S" 'shell
+   "s" (build-keymap
+        "s" 'shell
+        "k" 'shell-clear-buffer)
    "w" 'buff-swap
    "x" 'projectile-ag
    "X" 'ag))
@@ -88,6 +96,9 @@
     (keys-l :states 'normal
             "c y" 'evilnc-copy-and-comment-lines))
 
+  (use-package evil-surround
+    :config (global-evil-surround-mode 1))
+
   (use-package evil-cleverparens
     :defer t
     :diminish evil-cleverparens-mode
@@ -98,10 +109,6 @@
     :init
     ;; Don't use crazy bindings for {, [, } and ] from evil-cleverparens
     (setq evil-cleverparens-use-additional-movement-keys nil))
-
-  (use-package evil-surround
-    :defer t
-    :config (global-evil-surround-mode 1))
 
   (use-package evil-numbers
     :config
@@ -121,6 +128,7 @@
                "f" 'magit-fetch-all
                "F" 'magit-pull-popup
                "l" 'magit-log-head
+               "L" 'magit-log-buffer-file
                "o" 'browse-current-line-github
                "p" 'magit-push-current-to-upstream
                "P" (lambda () (interactive) (magit-push-current-to-upstream "--force-with-lease"))
@@ -174,7 +182,18 @@
   :config
   (which-key-mode +1)
   (setq which-key-idle-delay 0.5)
-  (which-key-setup-side-window-bottom))
+  (which-key-setup-side-window-bottom)
+  (which-key-add-key-based-replacements
+    "SPC a" "Applications"
+    "SPC c" "CI / Comment"
+    "SPC f" "Files"
+    "SPC g" "Git"
+    "SPC g r" "Rebase"
+    "SPC h" "Help"
+    "SPC i" "Insert"
+    "SPC p" "Project"
+    "SPC s" "Shell"
+    "SPC v" "View configuration"))
 
 ;; Ruby/Rails
 ;; ==========
@@ -389,12 +408,12 @@
   :init (setq ag-reuse-buffers t))
 
 (use-package helm
-  :defer t
   :config
-  (setq helm-buffers-fuzzy-matching t
-        helm-M-x-fuzzy-match t
-        helm-recentf-fuzzy-match t
-        helm-apropos-fuzzy-match t))
+  (helm-mode)
+  (setq helm-mode-fuzzy-match     t
+        helm-M-x-fuzzy-match      t
+        helm-apropos-fuzzy-match  t
+        helm-recentf-fuzzy-match  t))
 
 (use-package helm-projectile)
 
@@ -417,6 +436,7 @@
         "T" 'projectile-rails-find-spec))
 
 (use-package markdown-mode
+  :defer t
   :ensure t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
@@ -424,11 +444,4 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
-;; CIDER performance
-;; (setq cider-request-dispatch 'static)
-(setq cider-cljs-lein-repl
-      "(do (require 'figwheel-sidecar.repl-api)
-           (figwheel-sidecar.repl-api/start-figwheel!)
-           (figwheel-sidecar.repl-api/cljs-repl))")
-
-(provide 'init-plugins)
+(provide 'init-packages)
