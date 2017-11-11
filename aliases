@@ -215,8 +215,10 @@ alias rp='_rspec_command'
 
 # Lein
 alias lf='lein figwheel'
-alias lr='lein run'
-alias lt='lein test'
+alias lr='lein repl'
+alias lr='lein repl'
+alias lc='lein clean'
+alias lcr='lein do clean, repl'
 
 # some work projects
 alias zp='cd $HOME/brightin/zapp'
@@ -242,3 +244,4 @@ alias history='history 0'
 alias alias-ideas="history | awk '{a[\$2]++}END{for(i in a){print a [i] \" \" i}}' | sort -rn | head -20"
 
 alias pag='ps aux | grep'
+alias flushdns='dscacheutil -flushcache && sudo killall -HUP mDNSResponder'

@@ -48,6 +48,7 @@
 
 ;; Indentation
 (setq js-indent-level 2
+      css-indent-offset 2
       tab-width 2
       c-basic-offset 4)
 

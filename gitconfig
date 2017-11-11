@@ -25,3 +25,5 @@
         templatedir = ~/.git_template
 [commit]
         gpgsign = true
+[github]
+	user = yann.vanhalewyn@gmail.com
