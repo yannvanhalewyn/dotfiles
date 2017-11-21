@@ -1,0 +1,4 @@
+#!/bin/sh
+
+aws s3 sync ~/code s3://yanns-macbook-backups/code
+aws s3 sync ~/Music/Ableton/Projects/ s3://yanns-macbook-backups/ableton-projects

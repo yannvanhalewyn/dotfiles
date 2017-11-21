@@ -19,3 +19,5 @@ emacs.d/projectile-bookmarks.eld
 emacs.d/.mc-lists.el
 emacs.d/ac-comphist.dat
 /emacs.d/config/flycheck-flow.el
+/emacs.d/magithub/cache
+/emacs.d/projectile.cache
