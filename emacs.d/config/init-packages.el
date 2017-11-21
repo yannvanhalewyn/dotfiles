@@ -53,6 +53,9 @@
         "u" 'ucs-insert
         "U" 'helm-ucs)
    "o" 'ido-find-file
+   "O" (build-keymap
+        "t" 'org-todo
+        "T" 'org-insert-todo-heading)
    "Q" 'delete-other-windows
    "q" 'kill-this-buffer
    "R" 'chrome-reload
@@ -94,7 +97,8 @@
     (evil-commentary-mode)
     (keys :states 'normal "gc" 'evilnc-comment-operator)
     (keys-l :states 'normal
-            "c y" 'evilnc-copy-and-comment-lines))
+            "c y" 'evilnc-copy-and-comment-lines
+            "c a t" 'comment-as-title))
 
   (use-package evil-surround
     :config (global-evil-surround-mode 1))
@@ -125,16 +129,17 @@
                "C" 'magit-branch-and-checkout
                "b" 'magit-blame
                "d" 'vc-diff
-               "f" 'magit-fetch-all
+               "D" 'magit-diff
+               "f" 'magit-find-file
                "F" 'magit-pull-popup
-               "l" 'magit-log-head
-               "L" 'magit-log-buffer-file
+               "l" 'magit-log-popup
                "o" 'browse-current-line-github
                "p" 'magit-push-current-to-upstream
-               "P" (lambda () (interactive) (magit-push-current-to-upstream "--force-with-lease"))
+               "P" 'force-push-with-lease
                "s" 'magit-status
                "S" 'magit-stash
                "r" (build-keymap
+                    "r" 'magit-rebase
                     "a" 'magit-rebase-abort
                     "c" 'magit-rebase-continue
                     "i" 'magit-rebase-interactive
@@ -142,12 +147,19 @@
   :config
   (use-package evil-magit)
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
-  (keys :keymaps 'magit-revision-mode-map :states 'visual "y" 'yank-from-revision-buffer)
-  (keys :keymaps 'magit-blame-mode-map "q" 'with-editor-cancel)
+  (keys :keymaps '(magit-revision-mode-map diff-mode-map)
+        :states 'visual
+        "y" 'yank-from-revision-buffer)
+  (keys :keymaps 'magit-blame-mode-map "q" 'magit-blame-quit)
   (keys :keymaps 'git-rebase-mode-map "q" 'magit-rebase-abort)
   (keys :keymaps 'magit-status-mode-map "K" 'magit-discard))
 
+(use-package magithub
+  :after magit
+  :config (magithub-feature-autoinject t))
+
 (use-package company
+  :diminish company-mode
   :init (global-company-mode)
   :config
   (setq company-idle-delay 0.2)
@@ -185,22 +197,23 @@
   (which-key-setup-side-window-bottom)
   (which-key-add-key-based-replacements
     "SPC a" "Applications"
-    "SPC c" "CI / Comment"
+    "SPC c" "Cider / CI / Comment"
     "SPC f" "Files"
     "SPC g" "Git"
     "SPC g r" "Rebase"
     "SPC h" "Help"
     "SPC i" "Insert"
     "SPC p" "Project"
-    "SPC s" "Shell"
+    "SPC s" "Sexp / Shell"
     "SPC v" "View configuration"))
 
 ;; Ruby/Rails
 ;; ==========
 (use-package haml-mode :defer t)
 (use-package yaml-mode :defer t)
+(use-package css-mode)
 (use-package sass-mode :defer t)
-(use-package scss-mode :defer t)
+(use-package scss-mode)
 
 (use-package coffee-mode
   :defer t
@@ -260,7 +273,16 @@
   (sp-local-pair 'c++-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
   (sp-local-pair 'c-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
   (sp-local-pair 'js2-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
-  (sp-local-pair 'glsl-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET"))))
+  (sp-local-pair 'glsl-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+
+  (keys-l "s" (build-keymap
+               "a" 'sp-absorb-sexp
+               "c" 'paredit-convolute-sexp
+               "l" 'sp-forward-slurp-sexp
+               "h" 'sp-forward-barf-sexp
+               "b" 'sp-forward-barf-sexp
+               "B" 'sp-backward-barf-sexp
+               "s" 'sp-foward)))
 
 ;; GLSL
 ;; ====
@@ -274,6 +296,7 @@
 
 ;; Rubocop
 (use-package flycheck
+  :diminish flycheck-mode
   :defer t
   :init
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
@@ -306,24 +329,29 @@
   (keys :keymaps cider-mode-maps
         :prefix "g"
         "f" 'cider-find-var
-        "v" 'cljs-find-component
+        "v" 'cider-find-cljs
+        "b" 'cider-find-clj
         "d" 'cljs-find-card)
 
   (keys-l :keymaps cider-mode-maps
-          "a" 'cider-test-run-project-tests
           "c" (build-keymap
                "a" 'cider-apropos
                "c" 'cider-connect-local
                "d" 'cider-doc
+               "i" 'cider-inspect-last-result
                "j" 'cider-jack-in
                "k" 'cider-repl-clear-buffer
                "m" 'cider-macro-expand-1
                "q" 'cider-quit)
           "e" 'cider-eval-defun-at-point
           "E" 'cider-eval-buffer
-          "k" 'cider-load-buffer
-          "l" 'cider-test-rerun-tests
-          "t" 'cider-test-run-test))
+          "t" (build-keymap
+               "s" 'cider-test-run-test
+               "t" 'cider-test-run-ns-tests
+               "f" 'cider-test-rerun-failed-tests
+               "l" 'cider-test-rerun-test
+               "a" 'cider-test-run-project-tests
+               "A" 'cider-auto-test-mode)))
 
 (use-package clj-refactor :defer t
   :config
@@ -341,9 +369,7 @@
 
 (use-package aggressive-indent
   :defer t
-  :diminish aggressive-indent-mode
-  :init
-  (setq clojure-indent-style :always-align))
+  :diminish aggressive-indent-mode)
 
 ;; Load up rainbow delimiters/paredit when writing el
 (defun parainbow-mode ()
@@ -358,8 +384,8 @@
   (interactive)
   (message "Doing initial CLJ setup")
   (clj-refactor-mode)
-  (setq clojure-indent-style :always-indent)
-  (dolist (word '(fori match facts fact assoc render))
+  (setq clojure-indent-style :align-arguments)
+  (dolist (word '(transform fori match facts fact assoc render))
     (put-clojure-indent word 1)))
 
 (defvar lisp-mode-hooks '(clojure-mode-hook
@@ -397,6 +423,7 @@
         "K" 'neotree-select-up-node
         "q" 'neotree-hide
         "m" 'neotree-rename-node
+        "n" 'neotree-create-node
         "c" 'neotree-copy-node
         "o" 'neotree-enter
         "x" (lambda () (interactive) (neotree-select-up-node) (neotree-enter))
@@ -408,8 +435,12 @@
   :init (setq ag-reuse-buffers t))
 
 (use-package helm
+  :diminish helm-mode
   :config
   (helm-mode)
+  (add-to-list 'helm-completing-read-handlers-alist '(rename-current-buffer-file))
+  (add-to-list 'helm-completing-read-handlers-alist '(copy-current-buffer-file))
+  (add-to-list 'helm-completing-read-handlers-alist '(neotree-create-node))
   (setq helm-mode-fuzzy-match     t
         helm-M-x-fuzzy-match      t
         helm-apropos-fuzzy-match  t
@@ -421,7 +452,7 @@
   :config
   ;; Won't start unless rails project
   (add-hook 'projectile-mode-hook 'projectile-rails-on)
-  (setq projectile-tags-file-name ".git/tags")
+  ;; (setq projectile-tags-file-name ".git/tags")
   (keys :prefix "g"
         :keymaps  'ruby-mode-map
         "r" 'projectile-rails-find-current-controller

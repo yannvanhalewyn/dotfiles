@@ -228,13 +228,25 @@ The bound variable is \"filename\"."
   (interactive)
   (filer--find-resource "test: " '(("frontend/test" "/test/\\(.+\\)_spec.coffee"))))
 
+(defun cider-find-clj ()
+  (interactive)
+  (filer--find-resource "src: " '(("src" "/clj/\\(.+\\).clj"))))
+
+(defun cider-find-cljs ()
+  (interactive)
+  (filer--find-resource "src: " '(("src" "/cljs/\\(.+\\).cljs"))))
+
 (defun cljs-find-card ()
   (interactive)
   (filer--find-resource "card: " '(("src/cards" "/cards/\\(.+\\).cljs"))))
 
 (defun cljs-find-component ()
   (interactive)
-  (filer--find-resource "component: " '(("src/sheet_bucket/components" "/components/\\(.+\\).cljs"))))
+  (filer--find-resource "component: " '(("src/cljs/frontend/" "/views/\\(.+\\).cljs"))))
+
+(defun cljs-find-model ()
+  (interactive)
+  (filer--find-resource "model: " '(("src/clj/brightmotive/" "/models/\\(.+\\).clj"))))
 
 (defun my-create-newline-and-enter-sexp (&rest _ignored)
   "Open a new brace or bracket expression, with relevant newlines and indent. "
@@ -281,5 +293,13 @@ buffer and sanitize it."
     (kill-new (replace-regexp-in-string "^." "" s))
     (deactivate-mark)
     (move-beginning-of-line 1)))
+
+(defun force-push-with-lease ()
+  (interactive)
+  (magit-push-current-to-upstream "--force-with-lease"))
+
+(defun git-unwhip ()
+  (interactive)
+  (magit-reset-soft "HEAD~1"))
 
 (provide 'init-functions)
