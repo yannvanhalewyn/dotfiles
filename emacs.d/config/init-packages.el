@@ -321,6 +321,7 @@
 (use-package cider
   :defer t
   :config
+  (setq cider-repl-display-help-banner nil)
   (defvar cider-mode-maps
     '(cider-repl-mode-map
       clojure-mode-map
@@ -342,6 +343,7 @@
                "j" 'cider-jack-in
                "k" 'cider-repl-clear-buffer
                "m" 'cider-macro-expand-1
+               "n" 'cider-repl-set-ns
                "q" 'cider-quit)
           "e" 'cider-eval-defun-at-point
           "E" 'cider-eval-buffer
@@ -385,7 +387,7 @@
   (message "Doing initial CLJ setup")
   (clj-refactor-mode)
   (setq clojure-indent-style :align-arguments)
-  (dolist (word '(transform fori match facts fact assoc render))
+  (dolist (word '(assoc-if transform match facts fact assoc render))
     (put-clojure-indent word 1)))
 
 (defvar lisp-mode-hooks '(clojure-mode-hook

@@ -216,7 +216,7 @@ alias rp='_rspec_command'
 # Lein
 alias lf='lein figwheel'
 alias lr='lein repl'
-alias lr='lein repl'
+alias bdr='boot dev repl'
 alias lc='lein clean'
 alias lcr='lein do clean, repl'
 

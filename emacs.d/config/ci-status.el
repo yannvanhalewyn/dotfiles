@@ -3,6 +3,7 @@
 (defface cis/failed '((t :foreground "Red" :weight bold)) "")
 (defface cis/pending '((t :foreground "Orange" :weight bold)) "")
 (defface cis/success '((t :foreground "Green" :weight bold)) "")
+(defface cis/fetching '((t :foreground "LightGrey" :weight bold)) "")
 
 (defvar cis/latest-ci-status "no-status")
 (defvar cis/no-status-char "-")
@@ -37,7 +38,7 @@
    ((string-equal status "pending")
     (propertize cis/pending-status-char 'face 'cis/pending))
    ((string-equal status "fetching")
-    (propertize cis/pending-status-char 'face 'cis/pending))
+    (propertize cis/fetching-status-char 'face 'cis/fetching))
    (t cis/no-status-char)))
 
 (defun cis/latest-build-url (ref callback)
