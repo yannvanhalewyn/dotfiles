@@ -160,13 +160,14 @@
 
 (use-package magithub
   :after magit
+  :defer t
   :config (magithub-feature-autoinject t))
 
 (use-package company
   :diminish company-mode
   :init (global-company-mode)
   :config
-  (setq company-idle-delay 0.2)
+  (setq company-idle-delay 0.1)
   (keys :states '(insert)
         "<tab>" 'company-complete-common-or-cycle)
   (keys :keymaps 'company-active-map

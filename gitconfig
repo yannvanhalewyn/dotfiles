@@ -27,3 +27,5 @@
         gpgsign = true
 [github]
 	user = yann.vanhalewyn@gmail.com
+[remote]
+        pushDefault = origin
