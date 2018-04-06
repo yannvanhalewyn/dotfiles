@@ -45,7 +45,6 @@
 (require 'init-use-package)
 (require 'general-behavior)
 (require 'init-functions)
-(require 'init-env)
 (require 'init-packages)
 (require 'init-ibuffer)
 (require 'init-dired)

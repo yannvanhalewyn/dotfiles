@@ -96,6 +96,7 @@ alias gstl="git stash list"
 alias gbd="git branch | cut -c 3- | pick | xargs git branch -d"
 alias gcb="git branch | cut -c 3- | pick | xargs git checkout"
 alias gcba="git branch --all --remote | cut -c 3- | pick | xargs git checkout"
+alias gpo="git fetch origin --prune" # git prune origin
 alias gprune="git branch --merged master | grep -v 'master$' | grep -v 'production$' | xargs git branch -d"
 alias gdorigin="git diff origin/master"
 alias groot='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
