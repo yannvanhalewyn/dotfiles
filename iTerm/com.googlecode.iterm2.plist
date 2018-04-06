@@ -365,7 +365,7 @@
 		<key>0x19-0x60000</key>
 		<dict>
 			<key>Action</key>
-			<integer>39</integer>
+			<integer>2</integer>
 			<key>Text</key>
 			<string></string>
 		</dict>
@@ -386,7 +386,7 @@
 		<key>0x9-0x40000</key>
 		<dict>
 			<key>Action</key>
-			<integer>32</integer>
+			<integer>0</integer>
 			<key>Text</key>
 			<string></string>
 		</dict>
@@ -524,11 +524,11 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>798 247 445 103 0 0 1440 877 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>2 556 606 456 0 0 1680 1027 </string>
+	<string>1 556 606 456 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>1723 33 1714 1377 0 0 3440 1417 </string>
+	<string>3 21 1674 1006 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>3 25 1274 1392 0 0 2560 1417 </string>
+	<string>1723 7 1714 1407 0 0 3440 1417 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
 	<string>1283 7 1274 1407 0 0 2560 1417 </string>
 	<key>New Bookmarks</key>
