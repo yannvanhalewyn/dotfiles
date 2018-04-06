@@ -269,7 +269,7 @@ The bound variable is \"filename\"."
 
 (defun junk-file/find ()
   (interactive)
-  (helm-find-files-1 junk-file/directory))
+  (counsel-find-file junk-file/directory))
 
 (defun comment-as-title()
   (interactive)

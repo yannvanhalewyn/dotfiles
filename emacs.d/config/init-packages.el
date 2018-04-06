@@ -15,59 +15,56 @@
           "E" 'eval-print-last-sexp)
 
   (keys-l
-   "a" (build-keymap
-        "c" 'quick-calc
-        "C" 'calc-dispatch)
-   "B" 'ibuffer
-   "b" 'ido-switch-buffer
-   "c" (build-keymap
-        "u" 'cis/update
-        "o" 'cis/open-ci-build
-        "t" 'comment-as-title)
-   "d" 'dired-current-dir
-   "F" 'helm-projectile-find-file
-   "f" (build-keymap
-        "r" 'helm-recentf
-        "f" 'helm-projectile-find-file
-        "m" 'rename-current-buffer-file
-        "c" 'copy-current-buffer-file
-        "d" 'delete-current-buffer-file
-        "s" 'save-buffer
-        "S" 'save-some-buffers
-        "j" 'junk-file/new
-        "J" 'junk-file/find)
-   "v" (build-keymap
-        "e" 'edit-evil
-        "f" 'edit-functions
-        "g" 'edit-general-behavior
-        "l" 'edit-layout
-        "p" 'edit-packages
-        "t" 'edit-todo)
-   "h" (build-keymap
-        "a" 'helm-apropos
-        "f" 'describe-function
-        "k" 'which-key-show-top-level
-        "K" 'describe-key
-        "m" 'describe-mode
-        "p" 'describe-package
-        "v" 'describe-variable)
-   "i" (build-keymap
-        "u" 'ucs-insert
-        "U" 'helm-ucs)
-   "o" 'ido-find-file
-   "O" (build-keymap
-        "t" 'org-todo
-        "T" 'org-insert-todo-heading)
-   "Q" 'delete-other-windows
-   "q" 'kill-this-buffer
-   "R" 'chrome-reload
-   "S" 'shell
-   "s" (build-keymap
-        "s" 'shell
-        "k" 'shell-clear-buffer)
-   "w" 'buff-swap
-   "x" 'projectile-ag
-   "X" 'ag))
+    "a" (build-keymap
+         "c" 'quick-calc
+         "C" 'calc-dispatch)
+    "B" 'ibuffer
+    "b" 'ido-switch-buffer
+    "c" (build-keymap
+         "u" 'cis/update
+         "o" 'cis/open-ci-build
+         "t" 'comment-as-title)
+    "d" 'dired-current-dir
+    "f" (build-keymap
+         "r" 'counsel-recentf
+         "m" 'rename-current-buffer-file
+         "c" 'copy-current-buffer-file
+         "d" 'delete-current-buffer-file
+         "s" 'save-buffer
+         "S" 'save-some-buffers
+         "j" 'junk-file/new
+         "J" 'junk-file/find)
+    "v" (build-keymap
+         "e" 'edit-evil
+         "f" 'edit-functions
+         "g" 'edit-general-behavior
+         "l" 'edit-layout
+         "p" 'edit-packages
+         "t" 'edit-todo)
+    "h" (build-keymap
+         "a" 'counsel-apropos
+         "f" 'describe-function
+         "K" 'which-key-show-top-level
+         "k" 'describe-key
+         "m" 'describe-mode
+         "p" 'describe-package
+         "v" 'describe-variable)
+    "i" (build-keymap
+         "u" 'insert-char)
+    "o" 'ido-find-file
+    "O" (build-keymap
+         "t" 'org-todo
+         "T" 'org-insert-todo-heading)
+    "Q" 'delete-other-windows
+    "q" 'kill-this-buffer
+    "R" 'chrome-reload
+    "S" 'shell
+    "s" (build-keymap
+         "s" 'shell
+         "k" 'shell-clear-buffer)
+    "w" 'buff-swap
+    "x" 'projectile-ag
+    "X" 'ag))
 
 (use-package evil
   :init
@@ -99,8 +96,8 @@
     (evil-commentary-mode)
     (keys :states 'normal "gc" 'evilnc-comment-operator)
     (keys-l :states 'normal
-            "c y" 'evilnc-copy-and-comment-lines
-            "c a t" 'comment-as-title))
+      "c y" 'evilnc-copy-and-comment-lines
+      "c a t" 'comment-as-title))
 
   (use-package evil-surround
     :config (global-evil-surround-mode 1))
@@ -148,6 +145,7 @@
                     "s" 'magit-rebase-skip)
                "s" 'magit-status
                "S" 'magit-stash))
+
   :config
   (use-package evil-magit)
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
@@ -188,7 +186,7 @@
   :defer t
   :init
   (keys-l "SPC" 'ace-jump-mode
-          "S-SPC" 'ace-jump-char-mode))
+    "S-SPC" 'ace-jump-char-mode))
 
 (use-package undo-tree
   :diminish undo-tree-mode
@@ -216,9 +214,9 @@
 ;; ==========
 (use-package haml-mode :defer t)
 (use-package yaml-mode :defer t)
-(use-package css-mode)
+(use-package css-mode :defer t)
 (use-package sass-mode :defer t)
-(use-package scss-mode)
+(use-package scss-mode :defer t)
 
 (use-package coffee-mode
   :defer t
@@ -233,9 +231,9 @@
         mocha-reporter "spec")
 
   (keys-l :keymaps '(coffee-mode-map js-mode-map)
-          "a" 'mocha-test-project
-          "t" 'mocha-test-file
-          "s" 'mocha-test-at-point)
+    "a" 'mocha-test-project
+    "t" 'mocha-test-file
+    "s" 'mocha-test-at-point)
 
   (keys :keymaps '(coffee-mode-map)
         "o" 'coffee-open-below
@@ -253,10 +251,10 @@
   :init
   (eval-after-load 'rspec-mode '(rspec-install-snippets))
   (keys-l :keymaps '(ruby-mode-map)
-          "t" 'rspec-verify
-          "a" 'rspec-verify-all
-          "s" 'rspec-verify-single
-          "l" 'rspec-rerun))
+    "t" 'rspec-verify
+    "a" 'rspec-verify-all
+    "s" 'rspec-verify-single
+    "l" 'rspec-rerun))
 
 (use-package prettier-js
   :defer t
@@ -348,26 +346,26 @@
         "d" 'cljs-find-card)
 
   (keys-l :keymaps cider-mode-maps
-          "c" (build-keymap
-               "a" 'cider-apropos
-               "c" 'cider-connect-local
-               "d" 'cider-doc
-               "i" 'cider-inspect-last-result
-               "j" 'cider-jack-in
-               "k" 'cider-repl-clear-buffer
-               "m" 'cider-macro-expand-1
-               "n" 'cider-repl-set-ns
-               "q" 'cider-quit
-               "r" 'reset-dev-system)
-          "e" 'cider-eval-defun-at-point
-          "E" 'cider-eval-buffer
-          "t" (build-keymap
-               "s" 'cider-test-run-test
-               "t" 'cider-test-run-ns-tests
-               "f" 'cider-test-rerun-failed-tests
-               "l" 'cider-test-rerun-test
-               "a" 'cider-test-run-project-tests
-               "A" 'cider-auto-test-mode)))
+    "c" (build-keymap
+         "a" 'cider-apropos
+         "c" 'cider-connect-local
+         "d" 'cider-doc
+         "i" 'cider-inspect-last-result
+         "j" 'cider-jack-in
+         "k" 'cider-repl-clear-buffer
+         "m" 'cider-macro-expand-1
+         "n" 'cider-repl-set-ns
+         "q" 'cider-quit
+         "r" 'reset-dev-system)
+    "e" 'cider-eval-defun-at-point
+    "E" 'cider-eval-buffer
+    "t" (build-keymap
+         "s" 'cider-test-run-test
+         "t" 'cider-test-run-ns-tests
+         "f" 'cider-test-rerun-failed-tests
+         "l" 'cider-test-rerun-test
+         "a" 'cider-test-run-project-tests
+         "A" 'cider-auto-test-mode)))
 
 (use-package clj-refactor :defer t
   :config
@@ -375,7 +373,7 @@
     (dolist (details cljr--all-helpers)
       (define-key cljr-map (car details) (cadr details)))
     (keys-l :keymaps 'clojure-mode-map
-            "r" cljr-map)))
+      "r" cljr-map)))
 
 (use-package rainbow-delimiters :defer t)
 
@@ -422,13 +420,18 @@
   :config
   (projectile-global-mode)
   (setq projectile-require-project-root nil
-        projectile-switch-project-action 'helm-projectile)
+        projectile-switch-project-action 'counsel-projectile-find-file)
   (define-key projectile-command-map (kbd "C") 'projectile-compile-project)
   (define-key projectile-command-map (kbd "c") 'recompile)
   (keys-l "p" 'projectile-command-map)
 
   (projectile-register-project-type 'clojure '("project.clj")
-                                    :test-suffix "_test"))
+                                    :test-suffix "_test")
+
+  ;; Projectile-ag
+  (use-package ag
+    :defer t
+    :init (setq ag-reuse-buffers t)))
 
 (use-package neotree
   :defer t
@@ -448,24 +451,27 @@
         "x" (lambda () (interactive) (neotree-select-up-node) (neotree-enter))
         "<tab>" 'neotree-quick-look))
 
-;; Projectile-ag
-(use-package ag
-  :defer t
-  :init (setq ag-reuse-buffers t))
-
-(use-package helm
-  :diminish helm-mode
+(use-package ivy
+  :init
+  ;; better scoring / result sorting
+  (use-package flx)
+  :diminish ivy-mode
   :config
-  (helm-mode)
-  (add-to-list 'helm-completing-read-handlers-alist '(rename-current-buffer-file))
-  (add-to-list 'helm-completing-read-handlers-alist '(copy-current-buffer-file))
-  (add-to-list 'helm-completing-read-handlers-alist '(neotree-create-node))
-  (setq helm-mode-fuzzy-match     t
-        helm-M-x-fuzzy-match      t
-        helm-apropos-fuzzy-match  t
-        helm-recentf-fuzzy-match  t))
+  (ivy-mode)
+  (setq ivy-display-style nil
+        ivy-re-builders-alist '((swiper . ivy--regex-plus)
+                                (t . ivy--regex-fuzzy)))
+  (define-key ivy-minibuffer-map [escape] 'minibuffer-keyboard-quit)
 
-(use-package helm-projectile)
+  (use-package swiper
+    :defer t
+    :config (keys "/" 'swiper))
+
+  (use-package counsel-projectile
+    :config
+    (keys-l
+      "f f" 'counsel-projectile-find-file
+      "p p" 'counsel-projectile-switch-project)))
 
 (use-package projectile-rails
   :config

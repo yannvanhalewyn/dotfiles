@@ -62,9 +62,6 @@
 (require 'savehist)
 (savehist-mode t)
 
-;; Use helm-M-x
-(global-set-key (kbd "M-x ") 'helm-M-x)
-
 ;; Deal with temp files
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))

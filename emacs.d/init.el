@@ -48,5 +48,4 @@
 (require 'init-packages)
 (require 'init-ibuffer)
 (require 'init-dired)
-(require 'init-ido)
 (require 'layout)
