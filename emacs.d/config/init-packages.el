@@ -306,6 +306,7 @@
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (use-package flycheck-flow)
+  (use-package flycheck-joker)
   :config
   (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
   (add-hook 'c-mode-common-hook
@@ -390,7 +391,6 @@
   (interactive)
   (paredit-mode)
   (evil-cleverparens-mode)
-  (aggressive-indent-mode)
   (rainbow-delimiters-mode)
   (eldoc-mode))
 
@@ -398,6 +398,7 @@
   (interactive)
   (message "Doing initial CLJ setup")
   (clj-refactor-mode)
+  (aggressive-indent-mode)
   (setq clojure-indent-style :align-arguments)
   (dolist (word '(assoc-if transform match facts fact assoc render))
     (put-clojure-indent word 1)))
@@ -405,12 +406,12 @@
 (defvar lisp-mode-hooks '(clojure-mode-hook
                           scheme-mode
                           clojurescript-mode-hook
-                          cider-repl-mode-hook
                           emacs-lisp-mode-hook))
 
 (defvar clj-mode-hooks '(clojure-mode-hook clojurescript-mode-hook))
 
 (add-hooks #'parainbow-mode lisp-mode-hooks)
+(add-hook #'cider-repl-mode-hook 'parainbow-mode)
 (add-hooks #'clj-mode clj-mode-hooks)
 
 ;; Project navigation
@@ -423,7 +424,10 @@
         projectile-switch-project-action 'helm-projectile)
   (define-key projectile-command-map (kbd "C") 'projectile-compile-project)
   (define-key projectile-command-map (kbd "c") 'recompile)
-  (keys-l "p" 'projectile-command-map))
+  (keys-l "p" 'projectile-command-map)
+
+  (projectile-register-project-type 'clojure '("project.clj")
+                                    :test-suffix "_test"))
 
 (use-package neotree
   :defer t
