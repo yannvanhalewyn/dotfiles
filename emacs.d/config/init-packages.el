@@ -5,6 +5,8 @@
 (use-package general
   :config
   (setq general-default-states '(normal emacs motion))
+
+  (general-define-key "SPC" nil)
   (general-create-definer keys-l :prefix "SPC")
   (defalias 'keys 'general-define-key)
 
