@@ -3,3 +3,13 @@ tmp
 public/assets
 /.git/
 node_modules/
+
+# Brightmotive
+_http/
+_snapshots/
+target/
+resources/public/js/
+foreign_libs/
+*.svg
+yarn.lock
+resources/attributes.edn
