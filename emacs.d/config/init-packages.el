@@ -124,26 +124,28 @@
   :defer t
   :init
   (keys-l "g" (build-keymap
-               "B" 'magit-blame-quit
+               "b" 'magit-blame
                "c" 'magit-checkout
                "C" 'magit-branch-and-checkout
-               "b" 'magit-blame
                "d" 'vc-diff
                "D" 'magit-diff
                "f" 'magit-find-file
                "F" 'magit-pull-popup
-               "l" 'magit-log-popup
+               "l" 'magit-log-head
+               "L" 'magit-log-popup
+               "m" 'magit-merge
+               "M" 'magit-merge-popup
                "o" 'browse-current-line-github
                "p" 'magit-push-current-to-upstream
                "P" 'force-push-with-lease
-               "s" 'magit-status
-               "S" 'magit-stash
                "r" (build-keymap
-                    "r" 'magit-rebase
                     "a" 'magit-rebase-abort
                     "c" 'magit-rebase-continue
                     "i" 'magit-rebase-interactive
-                    "s" 'magit-rebase-skip)))
+                    "r" 'magit-rebase
+                    "s" 'magit-rebase-skip)
+               "s" 'magit-status
+               "S" 'magit-stash))
   :config
   (use-package evil-magit)
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
@@ -321,11 +323,18 @@
 (use-package cider
   :defer t
   :config
-  (setq cider-repl-display-help-banner nil)
+  (setq cider-repl-display-help-banner nil
+        cider-repl-pop-to-buffer-on-connect 'display-only)
+
   (defvar cider-mode-maps
     '(cider-repl-mode-map
       clojure-mode-map
       clojurescript-mode-map))
+
+  (defun reset-dev-system ()
+    (interactive)
+    (message "Running `(reset)` in current repl")
+    (cider-interactive-eval "(dev/reset)"))
 
   (keys :keymaps cider-mode-maps
         :prefix "g"
@@ -344,7 +353,8 @@
                "k" 'cider-repl-clear-buffer
                "m" 'cider-macro-expand-1
                "n" 'cider-repl-set-ns
-               "q" 'cider-quit)
+               "q" 'cider-quit
+               "r" 'reset-dev-system)
           "e" 'cider-eval-defun-at-point
           "E" 'cider-eval-buffer
           "t" (build-keymap
