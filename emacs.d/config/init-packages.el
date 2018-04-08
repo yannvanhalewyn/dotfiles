@@ -367,7 +367,10 @@
          "a" 'cider-test-run-project-tests
          "A" 'cider-auto-test-mode)))
 
-(use-package clj-refactor :defer t
+(use-package clj-refactor
+  :defer t
+  :init
+  (add-hooks #'clj-refactor-mode '(clojure-mode-hook clojurescript-mode-hook))
   :config
   (let ((cljr-map (make-sparse-keymap)))
     (dolist (details cljr--all-helpers)
@@ -383,35 +386,31 @@
 
 (use-package aggressive-indent
   :defer t
-  :diminish aggressive-indent-mode)
+  :diminish aggressive-indent-mode
+  :init
+  (add-hooks #'aggressive-indent-mode '(clojure-mode-hook
+                                        emacs-lisp-mode-hook
+                                        clojurescript-mode-hook)))
 
-;; Load up rainbow delimiters/paredit when writing el
-(defun parainbow-mode ()
-  (interactive)
-  (paredit-mode)
-  (evil-cleverparens-mode)
-  (rainbow-delimiters-mode)
-  (eldoc-mode))
+(use-package clojure-mode
+  :init
+  (defun parainbow-mode ()
+    (interactive)
+    (paredit-mode)
+    (evil-cleverparens-mode)
+    (rainbow-delimiters-mode)
+    (eldoc-mode))
 
-(defun clj-mode ()
-  (interactive)
-  (message "Doing initial CLJ setup")
-  (clj-refactor-mode)
-  (aggressive-indent-mode)
+  (add-hooks #'parainbow-mode '(clojure-mode-hook
+                                scheme-mode
+                                clojurescript-mode-hook
+                                cider-repl-mode-hook
+                                emacs-lisp-mode-hook))
+  :config
   (setq clojure-indent-style :align-arguments)
   (dolist (word '(assoc-if transform match facts fact assoc render))
     (put-clojure-indent word 1)))
 
-(defvar lisp-mode-hooks '(clojure-mode-hook
-                          scheme-mode
-                          clojurescript-mode-hook
-                          emacs-lisp-mode-hook))
-
-(defvar clj-mode-hooks '(clojure-mode-hook clojurescript-mode-hook))
-
-(add-hooks #'parainbow-mode lisp-mode-hooks)
-(add-hook #'cider-repl-mode-hook 'parainbow-mode)
-(add-hooks #'clj-mode clj-mode-hooks)
 
 ;; Project navigation
 ;; ==================
