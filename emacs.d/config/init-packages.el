@@ -63,7 +63,7 @@
          "s" 'shell
          "k" 'shell-clear-buffer)
     "w" 'buff-swap
-    "x" 'projectile-ag
+    "x" 'counsel-projectile-ag
     "X" 'ag))
 
 (use-package evil
@@ -116,8 +116,8 @@
   (use-package evil-numbers
     :config
     (keys :prefix "g"
-          "a" 'evil-numbers/inc-at-pt
-          "x" 'evil-numbers/dec-at-pt)))
+      "a" 'evil-numbers/inc-at-pt
+      "x" 'evil-numbers/dec-at-pt)))
 
 (use-package magit
   :defer t
@@ -150,8 +150,8 @@
   (use-package evil-magit)
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
   (keys :keymaps '(magit-revision-mode-map diff-mode-map)
-        :states 'visual
-        "y" 'yank-from-revision-buffer)
+    :states 'visual
+    "y" 'yank-from-revision-buffer)
   (keys :keymaps 'magit-blame-mode-map "q" 'magit-blame-quit)
   (keys :keymaps 'git-rebase-mode-map "q" 'magit-rebase-abort)
   (keys :keymaps 'magit-status-mode-map "K" 'magit-discard))
@@ -166,13 +166,12 @@
   :init (global-company-mode)
   :config
   (setq company-idle-delay 0.1)
-  (keys :states '(insert)
-        "<tab>" 'company-complete-common-or-cycle)
-  (keys :keymaps 'company-active-map
-        :states nil
-        "C-s" 'company-filter-candidates
-        "<tab>" 'company-complete-common-or-cycle
-        "S-<tab>" 'company-select-previous-or-abort))
+  (keys :states 'insert
+    "<tab>" 'company-complete-common-or-cycle)
+  (general-def 'company-active-map
+    "C-s" 'company-filter-candidates
+    "<tab>" 'company-complete-common-or-cycle
+    "S-<tab>" 'company-select-previous-or-abort))
 
 (use-package yasnippet
   :diminish yas-minor-mode
@@ -383,7 +382,11 @@
 
 (use-package paredit
   :defer t
-  :diminish paredit-mode)
+  :diminish paredit-mode
+  :init
+  (keys paredit-mode-map
+    ")" 'paredit-forward-slurp-sexp
+    "(" 'paredit-backward-slurp-sexp))
 
 (use-package aggressive-indent
   :defer t
@@ -440,16 +443,16 @@
   ;; Open current file in tree
   (evil-make-overriding-map neotree-mode-map 'normal t)
   (keys :keymaps '(neotree-mode-map)
-        "d" 'neotree-delete-node
-        "J" 'neotree-select-down-node
-        "K" 'neotree-select-up-node
-        "q" 'neotree-hide
-        "m" 'neotree-rename-node
-        "n" 'neotree-create-node
-        "c" 'neotree-copy-node
-        "o" 'neotree-enter
-        "x" (lambda () (interactive) (neotree-select-up-node) (neotree-enter))
-        "<tab>" 'neotree-quick-look))
+    "d" 'neotree-delete-node
+    "J" 'neotree-select-down-node
+    "K" 'neotree-select-up-node
+    "q" 'neotree-hide
+    "m" 'neotree-rename-node
+    "n" 'neotree-create-node
+    "c" 'neotree-copy-node
+    "o" 'neotree-enter
+    "x" (lambda () (interactive) (neotree-select-up-node) (neotree-enter))
+    "<tab>" 'neotree-quick-look))
 
 (use-package ivy
   :init
@@ -461,7 +464,11 @@
   (setq ivy-display-style nil
         ivy-re-builders-alist '((swiper . ivy--regex-plus)
                                 (t . ivy--regex-fuzzy)))
-  (define-key ivy-minibuffer-map [escape] 'minibuffer-keyboard-quit)
+  (general-def ivy-minibuffer-map
+    "<escape>" 'minibuffer-keyboard-quit
+    "<tab>" 'ivy-alt-done
+    "S-<return>" '(lambda () (interactive) (ivy-alt-done t))
+    "C-o" 'ivy-occur)
 
   (use-package swiper
     :defer t
@@ -471,7 +478,9 @@
     :config
     (keys-l
       "f f" 'counsel-projectile-find-file
-      "p p" 'counsel-projectile-switch-project)))
+      "p p" 'counsel-projectile-switch-project))
+
+  (use-package wgrep :defer t))
 
 (use-package projectile-rails
   :config
