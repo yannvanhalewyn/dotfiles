@@ -1,6 +1,3 @@
 ---
 - name: Databases | Install Postgresql
   homebrew: name=postgresql state=upgraded
-
-- name: Databases | Install mariadb
-  homebrew: name=mariadb state=upgraded

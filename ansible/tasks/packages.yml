@@ -7,7 +7,9 @@
   with_items: "{{ homebrew_taps }}"
 
 - name: Packages | Install Homebrew packages
-  homebrew: name={{ item }} state=present
+  homebrew:
+    formula: "{{ item }}"
+    state: present
   ignore_errors: true
   with_items: "{{ homebrew_packages }}"
 
