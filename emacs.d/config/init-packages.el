@@ -4,15 +4,15 @@
 ;; ===========
 (use-package general
   :config
-  (setq general-default-states '(normal emacs motion))
+  (setq default-states '(normal emacs motion))
 
-  (general-define-key "SPC" nil)
-  (general-create-definer keys-l :prefix "SPC")
-  (defalias 'keys 'general-define-key)
+  (general-define-key :states 'motion "SPC" nil)
+  (general-create-definer keys-l :prefix "SPC" :states default-states)
+  (general-create-definer keys :states default-states)
 
   (keys-l :keymaps '(emacs-lisp-mode-map scheme-mode-map)
-          "e" 'eval-defun
-          "E" 'eval-print-last-sexp)
+    "e" 'eval-defun
+    "E" 'eval-print-last-sexp)
 
   (keys-l
     "a" (build-keymap
@@ -79,23 +79,23 @@
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
   (evil-add-hjkl-bindings ibuffer-mode-map 'emacs)
 
-  (keys :states 'motion
-        "[e" 'flycheck-previous-error
-        "]e" 'flycheck-next-error
-        "[b" 'previous-code-buffer
-        "]b" 'next-code-buffer
-        "]t" 'cycle-theme)
-  (keys "C-h" 'evil-window-left
-        "C-j" 'evil-window-down
-        "C-k" 'evil-window-up
-        "C-l" 'evil-window-right)
+  (keys
+    "[e" 'flycheck-previous-error
+    "]e" 'flycheck-next-error
+    "[b" 'previous-code-buffer
+    "]b" 'next-code-buffer
+    "]t" 'cycle-theme)
+  (keys
+    "C-h" 'evil-window-left
+    "C-j" 'evil-window-down
+    "C-k" 'evil-window-up
+    "C-l" 'evil-window-right)
 
   (use-package evil-nerd-commenter
     :diminish evil-commentary-mode
-    :config
-    (evil-commentary-mode)
-    (keys :states 'normal "gc" 'evilnc-comment-operator)
-    (keys-l :states 'normal
+    :init
+    (keys "gc" 'evilnc-comment-operator)
+    (keys-l
       "c y" 'evilnc-copy-and-comment-lines
       "c a t" 'comment-as-title))
 
@@ -185,7 +185,8 @@
 (use-package ace-jump-mode
   :defer t
   :init
-  (keys-l "SPC" 'ace-jump-mode
+  (keys-l
+    "SPC" 'ace-jump-mode
     "S-SPC" 'ace-jump-char-mode))
 
 (use-package undo-tree
@@ -235,7 +236,7 @@
     "t" 'mocha-test-file
     "s" 'mocha-test-at-point)
 
-  (keys :keymaps '(coffee-mode-map)
+  (keys :keymaps 'coffee-mode-map
         "o" 'coffee-open-below
         "O" 'coffee-open-above
         "<" 'coffee-indent-shift-left
@@ -250,7 +251,7 @@
   :defer t
   :init
   (eval-after-load 'rspec-mode '(rspec-install-snippets))
-  (keys-l :keymaps '(ruby-mode-map)
+  (keys-l :keymaps 'ruby-mode-map
     "t" 'rspec-verify
     "a" 'rspec-verify-all
     "s" 'rspec-verify-single
