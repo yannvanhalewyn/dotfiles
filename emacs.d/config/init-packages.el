@@ -463,7 +463,9 @@
   (ivy-mode)
   (setq ivy-display-style nil
         ivy-re-builders-alist '((swiper . ivy--regex-plus)
-                                (t . ivy--regex-fuzzy)))
+                                (t . ivy--regex-fuzzy))
+        completing-read-function 'my-ivy-completing-read-with-symbol-def)
+
   (general-def ivy-minibuffer-map
     "<escape>" 'minibuffer-keyboard-quit
     "<tab>" 'ivy-alt-done

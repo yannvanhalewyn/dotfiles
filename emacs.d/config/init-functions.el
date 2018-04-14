@@ -302,4 +302,15 @@ buffer and sanitize it."
   (interactive)
   (magit-reset-soft "HEAD~1"))
 
+(defun my-ivy-completing-read-with-symbol-def
+    (prompt collection
+            &optional predicate require-match initial-input
+            history def inherit-input-method)
+  "Same as `ivy-completing-read' but with different handling of DEF.
+
+Specifically, if DEF is a symbol, it is converted to a string. Useful for cljr's completing read usage when adding missing libspec."
+  (ivy-completing-read
+   prompt collection predicate require-match initial-input
+   history (if (symbolp def) (symbol-name def) def) inherit-input-method))
+
 (provide 'init-functions)
