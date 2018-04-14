@@ -129,13 +129,13 @@
                "d" 'vc-diff
                "D" 'magit-diff
                "f" 'magit-find-file
-               "F" 'magit-pull-popup
+               "F" 'magit-pull-from-pushremote
                "l" 'magit-log-head
                "L" 'magit-log-popup
                "m" 'magit-merge
                "M" 'magit-merge-popup
                "o" 'browse-current-line-github
-               "p" 'magit-push-current-to-upstream
+               "p" 'magit-push-current-to-pushremote
                "P" 'force-push-with-lease
                "r" (build-keymap
                     "a" 'magit-rebase-abort
@@ -508,5 +508,10 @@
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
+
+(use-package org
+  :init
+  (keys 'org-mode-map
+    "g t" 'org-todo))
 
 (provide 'init-packages)
