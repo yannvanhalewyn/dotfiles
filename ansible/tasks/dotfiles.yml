@@ -4,6 +4,7 @@
         dest="~/.{{ item }}"
         state="link"
   with_items:
+    - lein
     - agignore
     - aliases
     - bash_profile
