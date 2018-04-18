@@ -37,9 +37,11 @@
 - name: Config | OSX | Prevent Time Machine from prompting to use new hard drives as backup volume
   osx_defaults: domain=com.apple.TimeMachine key=DoNotOfferNewDisksForBackup type=bool value=true
 
+# defaults write NSGlobalDomain KeyRepeat -int 1
 - name: Config | OSX | Blazingly fast key repeat
   osx_defaults: domain=NSGlobalDomain key=KeyRepeat type=int value=1
 
+# defaults write NSGlobalDomain InitialKeyRepeat -int 10
 - name: Config | OSX | Initial key repeat
   osx_defaults: domain=NSGlobalDomain key=InitialKeyRepeat type=int value=10
 
