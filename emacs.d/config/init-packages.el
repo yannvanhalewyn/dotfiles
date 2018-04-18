@@ -304,9 +304,17 @@
   :init
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   (add-hook 'after-init-hook #'global-flycheck-mode)
-  (use-package flycheck-flow)
-  (use-package flycheck-joker)
+  ;; (use-package flycheck-flow)
   :config
+  (use-package flycheck-clojure
+    :config
+    (eval-after-load 'flycheck '(flycheck-clojure-setup))
+    (with-eval-after-load 'flycheck
+      (add-to-list 'flycheck-disabled-checkers 'cider-clojure-typed)))
+  (use-package flycheck-pos-tip
+    :config
+    (with-eval-after-load 'flycheck
+      (flycheck-pos-tip-mode)))
   (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
   (add-hook 'c-mode-common-hook
             (lambda ()
@@ -338,12 +346,15 @@
     (message "Running `(reset)` in current repl")
     (cider-interactive-eval "(dev/reset)"))
 
-  (keys :keymaps cider-mode-maps
-        :prefix "g"
-        "f" 'cider-find-var
-        "v" 'cider-find-cljs
-        "b" 'cider-find-clj
-        "d" 'cljs-find-card)
+  (keys cider-inspector-mode-map
+    "<return>" 'cider-inspector-operate-on-point
+    "q" 'cider-inspector-pop)
+
+  (keys :keymaps cider-mode-maps :prefix "g"
+    "f" 'cider-find-var
+    "v" 'cider-find-cljs
+    "b" 'cider-find-clj
+    "d" 'cljs-find-card)
 
   (keys-l :keymaps cider-mode-maps
     "c" (build-keymap
@@ -411,7 +422,7 @@
                                 cider-repl-mode-hook
                                 emacs-lisp-mode-hook))
   :config
-  (setq clojure-indent-style :align-arguments)
+  (setq clojure-indent-style :always-align)
   (dolist (word '(assoc-if transform match facts fact assoc render))
     (put-clojure-indent word 1)))
 
