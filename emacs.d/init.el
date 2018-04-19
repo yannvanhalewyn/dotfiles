@@ -18,9 +18,12 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(add-to-list 'load-path (concat user-emacs-directory "config"))
-(setq custom-file "~/.emacs-custom.el")
+(defconst custom-file (expand-file-name "custom.el" user-emacs-directory))
+(unless (file-exists-p custom-file)
+  (write-region "" nil custom-file))
 (load custom-file)
+
+(add-to-list 'load-path (concat user-emacs-directory "config"))
 
 (require 'init-use-package)
 (require 'general-behavior)

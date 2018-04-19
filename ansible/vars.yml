@@ -6,7 +6,6 @@ homebrew_packages:
   - ansible
   - awscli
   - cheat
-  - chromedriver
   - ctags-exuberant
   - emacs
   - ffmpeg
@@ -51,6 +50,7 @@ cask_apps:
   - airmail-beta
   - alfred
   - caffeine
+  - chromedriver
   - dropbox
   - emacs
   - google-chrome
@@ -68,4 +68,5 @@ cask_apps:
   - sublime-text
   - the-unarchiver
   - transmission
+  - tunnelblick
   - vlc-nightly
