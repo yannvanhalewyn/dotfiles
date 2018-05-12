@@ -22,6 +22,7 @@ homebrew_packages:
   - mit-scheme
   - node
   - openssl
+  - pgcli
   - pick
   - python
   - rbenv

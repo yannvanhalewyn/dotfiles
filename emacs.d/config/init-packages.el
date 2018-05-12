@@ -193,7 +193,7 @@
   (yas-global-mode 1)
   (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
   (keys :states '(insert)
-        "S-<tab>" 'yas-expand))
+    "S-<tab>" 'yas-expand))
 
 (use-package ace-jump-mode
   :defer t
@@ -250,15 +250,15 @@
     "s" 'mocha-test-at-point)
 
   (keys :keymaps 'coffee-mode-map
-        "o" 'coffee-open-below
-        "O" 'coffee-open-above
-        "<" 'coffee-indent-shift-left
-        ">" 'coffee-indent-shift-right
-        "g" (build-keymap
-             "m" 'coffee-find-model
-             "v" 'coffee-find-component
-             "r" 'coffee-find-redux
-             "t" 'coffee-find-test)))
+    "o" 'coffee-open-below
+    "O" 'coffee-open-above
+    "<" 'coffee-indent-shift-left
+    ">" 'coffee-indent-shift-right
+    "g" (build-keymap
+         "m" 'coffee-find-model
+         "v" 'coffee-find-component
+         "r" 'coffee-find-redux
+         "t" 'coffee-find-test)))
 
 (use-package rspec-mode
   :defer t
@@ -316,21 +316,19 @@
   :diminish flycheck-mode
   :defer t
   :init
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc clojure-cider-typed))
   (add-hook 'after-init-hook #'global-flycheck-mode)
   ;; (use-package flycheck-flow)
   :config
   (use-package flycheck-clojure
     :config
-    (eval-after-load 'flycheck '(flycheck-clojure-setup))
-    (with-eval-after-load 'flycheck
-      (add-to-list 'flycheck-disabled-checkers 'cider-clojure-typed)))
+    (eval-after-load 'flycheck '(flycheck-clojure-setup)))
   (use-package flycheck-pos-tip
     :config
     (with-eval-after-load 'flycheck
       (flycheck-pos-tip-mode)))
   (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
-  (add-hook 'c-mode-common-hook
+  (add-hook 'c++-mode-hook
             (lambda ()
               (setq flycheck-gcc-language-standard "c++14")
               (setq flycheck-clang-language-standard "c++14"))))
@@ -363,8 +361,8 @@
   (keys cider-inspector-mode-map
     "<return>" 'cider-inspector-operate-on-point
     "q" 'cider-inspector-pop
-    "[ p" 'cider-inspector-prev-page
-    "] p" 'cider-inspector-next-page)
+    "[p" 'cider-inspector-prev-page
+    "]p" 'cider-inspector-next-page)
 
   (keys :keymaps cider-mode-maps :prefix "g"
     "f" 'cider-find-var
@@ -456,7 +454,9 @@
         projectile-switch-project-action 'counsel-projectile-find-file)
   (define-key projectile-command-map (kbd "C") 'projectile-compile-project)
   (define-key projectile-command-map (kbd "c") 'recompile)
-  (keys-l "p" 'projectile-command-map)
+  (keys-l
+    "p" 'projectile-command-map
+    "p T" 'view-test-file-in-other-window)
 
   (projectile-register-project-type 'clojure '("project.clj")
                                     :test-suffix "_test")
@@ -500,7 +500,7 @@
   (general-def ivy-minibuffer-map
     "<escape>" 'minibuffer-keyboard-quit
     "<tab>" 'ivy-alt-done
-    "S-<tab>" 'ivy-partial
+    "S-<tab>" 'ivy-insert-current
     "S-<return>" '(lambda () (interactive) (ivy-alt-done t))
     "C-o" 'ivy-occur)
 
@@ -525,17 +525,17 @@
   (add-hook 'projectile-mode-hook 'projectile-rails-on)
   ;; (setq projectile-tags-file-name ".git/tags")
   (keys :prefix "g"
-        :keymaps  'ruby-mode-map
-        "r" 'projectile-rails-find-current-controller
-        "R" 'projectile-rails-find-controller
-        "f" 'projectile-rails-goto-file-at-point
-        "m" 'projectile-rails-find-current-model
-        "M" 'projectile-rails-find-model
-        "v" 'projectile-rails-find-current-view
-        "V" 'projectile-rails-find-view
-        "i" 'open-current-ticket-in-redmine
-        "t" 'split-window-with-rspec-alternate-file
-        "T" 'projectile-rails-find-spec))
+    :keymaps  'ruby-mode-map
+    "r" 'projectile-rails-find-current-controller
+    "R" 'projectile-rails-find-controller
+    "f" 'projectile-rails-goto-file-at-point
+    "m" 'projectile-rails-find-current-model
+    "M" 'projectile-rails-find-model
+    "v" 'projectile-rails-find-current-view
+    "V" 'projectile-rails-find-view
+    "i" 'open-current-ticket-in-redmine
+    "t" 'split-window-with-rspec-alternate-file
+    "T" 'projectile-rails-find-spec))
 
 (use-package markdown-mode
   :defer t

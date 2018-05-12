@@ -294,7 +294,7 @@ buffer and sanitize it."
 
 (defun force-push-with-lease ()
   (interactive)
-  (magit-push-current-to-upstream "--force-with-lease"))
+  (magit-push-current-to-pushremote "--force-with-lease"))
 
 (defun git-unwhip ()
   (interactive)
@@ -327,5 +327,12 @@ next-actions in GTD"
     (when should-skip-entry
       (or (outline-next-heading)
           (goto-char (point-max))))))
+
+(defun view-test-file-in-other-window ()
+  (interactive)
+  (delete-other-windows)
+  (view-file-other-window
+   (projectile-find-implementation-or-test (buffer-file-name)))
+  (read-only-mode -1))
 
 (provide 'init-functions)
