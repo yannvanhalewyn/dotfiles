@@ -2,4 +2,4 @@
 # name: defsc
 # key: defsc
 # --
-(sc.api/defsc )
+(sc.api/defsc $1)
