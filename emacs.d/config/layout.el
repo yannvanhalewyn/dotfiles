@@ -1,7 +1,7 @@
 (require 'ci-status)
 (add-hook 'magit-status-mode-hook 'cis/update)
 
-(set-face-attribute 'default nil :height 135)
+(set-face-attribute 'default nil :height 145)
 
 ;; (use-package jbeans-theme :init (load-theme 'jbeans t))
 ;; (use-package spacemacs-theme :init :init (load-theme 'spacemacs-dark t))
