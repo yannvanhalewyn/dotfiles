@@ -17,7 +17,7 @@
 source "$HOME/.antigen/antigen.zsh"
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle git
-antigen bundle rails
+# antigen bundle rails
 antigen-theme "$HOME/.zsh/custom"
 antigen-apply
 
@@ -47,8 +47,6 @@ bindkey '\e[B' history-beginning-search-forward
 # auto push dirs on stack
 setopt autopushd
 
-# Add scripts to path
-export PATH="$PATH:$HOME/.scripts:$(yarn global bin)"
 # GPG agent for prompting passphrase
 export GPG_TTY=$(tty)
 
