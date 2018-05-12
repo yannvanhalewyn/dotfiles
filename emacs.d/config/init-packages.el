@@ -31,7 +31,8 @@
     "c" (build-keymap
          "u" 'cis/update
          "o" 'cis/open-ci-build
-         "t" 'comment-as-title)
+         "t" 'comment-as-title
+         "T" 'comment-as-title--bm)
     "d" 'dired-current-dir
     "f" (build-keymap
          "r" 'counsel-recentf
@@ -59,9 +60,6 @@
     "i" (build-keymap
          "u" 'insert-char)
     "o" 'counsel-find-file
-    "O" (build-keymap
-         "t" 'org-todo
-         "T" 'org-insert-todo-heading)
     "Q" 'delete-other-windows
     "q" 'kill-this-buffer
     "R" 'chrome-reload
@@ -555,6 +553,7 @@
   (keys 'org-mode-map
     "t" 'org-todo
     "T" 'org-toggle-checkbox
+    "-" 'org-cycle-list-bullet
     "RET" 'org-open-at-point)
 
   (keys 'org-agenda-mode-map

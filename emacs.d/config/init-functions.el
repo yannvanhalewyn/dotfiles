@@ -282,6 +282,13 @@ The bound variable is \"filename\"."
   (backward-word)
   (replace-regexp "." "=" nil (point) (line-end-position)))
 
+(defun comment-as-title--bm()
+  (interactive)
+  (forward-line -1)
+  (newline)
+  (insert-char ?\; 81)
+  (move-beginning-of-line nil))
+
 (defun yank-from-revision-buffer ()
   "Revision buffers are full of \+ and \- characters at the beginning
 of lines. This function will yank the current region from a revision
