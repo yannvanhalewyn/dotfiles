@@ -22,3 +22,4 @@ emacs.d/ac-comphist.dat
 /emacs.d/magithub/cache
 /emacs.d/projectile.cache
 /emacs.d/network-security.data
+emacs.d/custom.el
