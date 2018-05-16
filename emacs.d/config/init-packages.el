@@ -23,7 +23,7 @@
   (keys-l
     "a" (build-keymap
          "t" 'org-agenda
-         "c" 'org-capture
+         "c" '(lambda () (interactive) (org-capture nil "t"))
          "C" 'calc-dispatch)
     "B" 'ibuffer
     "b" 'ido-switch-buffer
@@ -487,6 +487,7 @@
   (general-def ivy-minibuffer-map
     "<escape>" 'minibuffer-keyboard-quit
     "<tab>" 'ivy-alt-done
+    "S-<tab>" 'ivy-partial
     "S-<return>" '(lambda () (interactive) (ivy-alt-done t))
     "C-o" 'ivy-occur)
 
