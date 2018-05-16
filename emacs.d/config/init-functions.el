@@ -29,6 +29,11 @@
   "Goes to the todo org file (todo.org)"
   (interactive) (find-file "~/.emacs.d/config/init-functions.el"))
 
+(require 'cl)
+(defun find-file-i (file)
+  (lexical-let ((f file))
+    (lambda () (interactive) (find-file (eval f)))))
+
 (defun code-buffer? (name)
   "Returns wether or the NAME is a name for a code buffer"
   (not (string-match-p "^\*" name)))

@@ -10,13 +10,20 @@
   (general-create-definer keys-l :prefix "SPC" :states default-states)
   (general-create-definer keys :states default-states)
 
+  (keys "M-x" 'counsel-M-x)
+  (keys :prefix "g"
+    "t" (find-file-i 'gtd-main)
+    "i" (find-file-i 'gtd-inbox)
+    "s" (find-file-i 'gtd-someday))
+
   (keys-l :keymaps '(emacs-lisp-mode-map scheme-mode-map)
     "e" 'eval-defun
     "E" 'eval-print-last-sexp)
 
   (keys-l
     "a" (build-keymap
-         "c" 'quick-calc
+         "t" 'org-agenda
+         "c" 'org-capture
          "C" 'calc-dispatch)
     "B" 'ibuffer
     "b" 'ido-switch-buffer
@@ -524,7 +531,35 @@
 
 (use-package org
   :init
+  (keys-l 'org-mode-map
+    "r" 'org-refile
+    "A" 'org-agenda-archive-default-with-confirmation)
+
   (keys 'org-mode-map
-    "g t" 'org-todo))
+    "t" 'org-todo
+    "T" 'org-toggle-checkbox
+    "RET" 'org-open-at-point)
+
+  (keys 'org-agenda-mode-map
+    "f" 'org-agenda-filter-by-tag)
+
+  :config
+  (defconst gtd-dir "~/Dropbox/Documents/gtd")
+  (defconst gtd-main (expand-file-name "gtd.org" gtd-dir))
+  (defconst gtd-inbox (expand-file-name "inbox.org" gtd-dir))
+  (defconst gtd-someday (expand-file-name "someday.org" gtd-dir))
+
+  (add-hook 'org-capture-mode-hook 'evil-insert-state)
+
+  (setq org-agenda-files `(,gtd-main ,gtd-inbox))
+
+  (setq org-capture-templates `(("t" "Todo [inbox]" entry
+                                 (file ,gtd-inbox)
+                                 "* TODO %i%?")))
+
+  (setq org-refile-targets '((gtd-main :maxlevel . 1)
+                             (gtd-someday :level . 1)))
+
+  (setq org-tags-column 75))
 
 (provide 'init-packages)
