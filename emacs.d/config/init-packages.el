@@ -22,7 +22,8 @@
 
   (keys-l
     "a" (build-keymap
-         "t" 'org-agenda
+         "a" 'org-agenda
+         "t" 'org-todo-list
          "c" '(lambda () (interactive) (org-capture nil "t"))
          "C" 'calc-dispatch)
     "B" 'ibuffer
@@ -103,8 +104,7 @@
     :init
     (keys "gc" 'evilnc-comment-operator)
     (keys-l
-      "c y" 'evilnc-copy-and-comment-lines
-      "c a t" 'comment-as-title))
+      "c y" 'evilnc-copy-and-comment-lines))
 
   (use-package evil-surround
     :config (global-evil-surround-mode 1))
@@ -430,7 +430,7 @@
                                 emacs-lisp-mode-hook))
   :config
   (setq clojure-indent-style :always-align)
-  (dolist (word '(assoc-if transform match facts fact assoc render))
+  (dolist (word '(try-let assoc-if transform match facts fact assoc render))
     (put-clojure-indent word 1)))
 
 
@@ -534,7 +534,7 @@
   :init
   (keys-l 'org-mode-map
     "r" 'org-refile
-    "A" 'org-agenda-archive-default-with-confirmation)
+    "A" 'org-archive-subtree-default-with-confirmation)
 
   (keys 'org-mode-map
     "t" 'org-todo
