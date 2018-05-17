@@ -12,6 +12,6 @@
   changed_when: false
 
 - name: Shell | Making zsh active shell
-  shell: chsh -s {{ osx_login_shell_shell }}
+  shell: chsh -s {{ osx_login_shell }}
   become: no
   when: osx_login_shell_current_login_shell.stdout != "{{ shell }}"
