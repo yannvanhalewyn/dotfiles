@@ -355,7 +355,9 @@
 
   (keys cider-inspector-mode-map
     "<return>" 'cider-inspector-operate-on-point
-    "q" 'cider-inspector-pop)
+    "q" 'cider-inspector-pop
+    "[ p" 'cider-inspector-prev-page
+    "] p" 'cider-inspector-next-page)
 
   (keys :keymaps cider-mode-maps :prefix "g"
     "f" 'cider-find-var
@@ -374,7 +376,9 @@
          "m" 'cider-macro-expand-1
          "n" 'cider-repl-set-ns
          "q" 'cider-quit
-         "r" 'reset-dev-system)
+         "r" 'reset-dev-system
+         "m" 'cider-macroexpand-1
+         "M" 'cider-macroexpand-all)
     "e" 'cider-eval-defun-at-point
     "E" 'cider-eval-buffer
     "t" (build-keymap
@@ -490,6 +494,9 @@
     "S-<tab>" 'ivy-partial
     "S-<return>" '(lambda () (interactive) (ivy-alt-done t))
     "C-o" 'ivy-occur)
+
+  ;; Enable leader keys in occur buffer
+  (general-def ivy-occur-grep-mode-map "SPC" nil)
 
   (use-package swiper
     :defer t
