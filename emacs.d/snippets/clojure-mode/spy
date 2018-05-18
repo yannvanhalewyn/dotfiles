@@ -1,0 +1,4 @@
+# key: spy
+# name: spy
+# --
+(sc.api/spy $1)
