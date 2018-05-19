@@ -568,6 +568,10 @@
   (setq org-refile-targets '((gtd-main :maxlevel . 1)
                              (gtd-someday :level . 1)))
 
-  (setq org-tags-column 75))
+  (setq org-tags-column 75)
+
+  (use-package org-bullets
+    :defer t
+    :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))))
 
 (provide 'init-packages)
