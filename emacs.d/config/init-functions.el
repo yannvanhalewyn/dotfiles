@@ -21,12 +21,8 @@
   "Goes to the layout emacs config file (layout.el)"
   (interactive) (find-file "~/.emacs.d/config/layout.el"))
 
-(defun edit-todo ()
-  "Goes to the todo org file (todo.org)"
-  (interactive) (find-file "~/.org/todo.org"))
-
 (defun edit-functions ()
-  "Goes to the todo org file (todo.org)"
+  "Goes to the init-functions el file"
   (interactive) (find-file "~/.emacs.d/config/init-functions.el"))
 
 (require 'cl)
@@ -317,5 +313,23 @@ Specifically, if DEF is a symbol, it is converted to a string. Useful for cljr's
   (ivy-completing-read
    prompt collection predicate require-match initial-input
    history (if (symbolp def) (symbol-name def) def) inherit-input-method))
+
+(defun org-current-is-todo ()
+  (string= "TODO" (org-get-todo-state)))
+
+(defun my-org-agenda-skip-all-siblings-but-first ()
+  "Skip all but the first non-done entry. Useful for capturing project
+next-actions in GTD"
+  (message "SKIPPING")
+  (let (should-skip-entry)
+    (unless (org-current-is-todo)
+      (setq should-skip-entry t))
+    (save-excursion
+      (while (and (not should-skip-entry) (org-goto-sibling t))
+        (when (org-current-is-todo)
+          (setq should-skip-entry t))))
+    (when should-skip-entry
+      (or (outline-next-heading)
+          (goto-char (point-max))))))
 
 (provide 'init-functions)

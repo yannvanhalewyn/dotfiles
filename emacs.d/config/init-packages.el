@@ -47,8 +47,7 @@
          "f" 'edit-functions
          "g" 'edit-general-behavior
          "l" 'edit-layout
-         "p" 'edit-packages
-         "t" 'edit-todo)
+         "p" 'edit-packages)
     "h" (build-keymap
          "a" 'counsel-apropos
          "f" 'describe-function
@@ -558,8 +557,14 @@
   (defconst gtd-someday (expand-file-name "someday.org" gtd-dir))
 
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
+  (evil-add-hjkl-bindings org-agenda-mode-map 'emacs)
 
   (setq org-agenda-files `(,gtd-main ,gtd-inbox))
+
+  (setq org-agenda-custom-commands
+        '(("w" "Work stuff" tags-todo "@work"
+           ((org-agenda-overriding-header "Work")
+            (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
 
   (setq org-capture-templates `(("t" "Todo [inbox]" entry
                                  (file ,gtd-inbox)
