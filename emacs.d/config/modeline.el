@@ -175,7 +175,6 @@ file-name => comint.el")
   "The face used for the left-most bar on the mode-line of an inactive window."
   :group '+doom-modeline)
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Helpers
 
@@ -399,28 +398,25 @@ icons."
                        (let ((sum (+ (or .error 0) (or .warning 0))))
                          (+doom-ml-icon "do_not_disturb_alt"
                                         (number-to-string sum)
-                                        (if .error 'doom-modeline-urgent 'doom-modeline-warning)
-                                        -0.25)))
+                                        (if .error 'doom-modeline-urgent 'doom-modeline-warning))))
                    (+doom-ml-icon "check" nil 'doom-modeline-info)))
       ('running     (+doom-ml-icon "access_time" nil 'font-lock-doc-face -0.25))
-      ('no-checker  (+doom-ml-icon "sim_card_alert" "-" 'font-lock-doc-face))
+      ('no-checker  "")
       ('errored     (+doom-ml-icon "sim_card_alert" "Error" 'doom-modeline-urgent))
       ('interrupted (+doom-ml-icon "pause" "Interrupted" 'font-lock-doc-face)))))
 
 (defun +doom-modeline--macro-recording ()
   "Display current Emacs or evil macro being recorded."
   (when (and (active) (or defining-kbd-macro executing-kbd-macro))
-    (let ((sep (propertize " " 'face 'doom-modeline-panel)))
-      (concat sep
-              (propertize (if (bound-and-true-p evil-this-macro)
-                              (char-to-string evil-this-macro)
-                            "Macro")
-                          'face 'doom-modeline-panel)
-              sep
-              (all-the-icons-octicon "triangle-right"
-                                     :face 'doom-modeline-panel
-                                     :v-adjust -0.05)
-              sep))))
+    (concat " "
+            (propertize (if (bound-and-true-p evil-this-macro)
+                            (char-to-string evil-this-macro)
+                          "Macro")
+                        'face 'doom-modeline-warning)
+            " "
+            (all-the-icons-octicon "triangle-right"
+                                   :face 'doom-modeline-warning
+                                   :v-adjust -0.05))))
 
 (def-modeline-segment! macro-recording
   "Displays the currently recording macro"
