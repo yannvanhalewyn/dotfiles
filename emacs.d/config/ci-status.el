@@ -1,9 +1,10 @@
 (require 'util)
 
-(defface cis/failed '((t :foreground "Red" :weight bold)) "")
-(defface cis/pending '((t :foreground "Orange" :weight bold)) "")
-(defface cis/success '((t :foreground "Green" :weight bold)) "")
-(defface cis/fetching '((t :foreground "LightGrey" :weight bold)) "")
+(defface cis/failed '((t :inherit (error bold))) "")
+(defface cis/pending '((t :inherit (warning bold))) "")
+(defface cis/success '((t :inherit (success bold))) "")
+(defface cis/fetching '((t :inherit (modeline))) "")
+(defface cis/no-status '((t :inherit (modeline) )) "")
 
 (defvar cis/latest-ci-status "no-status")
 (defvar cis/no-status-char "-")
@@ -39,7 +40,7 @@
     (propertize cis/pending-status-char 'face 'cis/pending))
    ((string-equal status "fetching")
     (propertize cis/fetching-status-char 'face 'cis/fetching))
-   (t cis/no-status-char)))
+   (t (propertize cis/no-status-char 'face 'cis/no-status))))
 
 (defun cis/latest-build-url (ref callback)
   (message "Fetching CI build url for %s" ref)
@@ -49,16 +50,14 @@
 
 ;; Public API
 ;; ==========
-(defun cis/modeline-status ()
-  (format "CI:%s  " (cis/propertized-status cis/latest-ci-status)))
-
 (defun cis/update ()
   "Updates the cis/latest-ci-status variable asynchronously"
   (interactive)
   (setq cis/latest-ci-status "fetching")
   (cis/status (cis/origin (cis/current-branch))
               (lambda (status)
-                (setq cis/latest-ci-status (string-trim status)))))
+                (setq cis/latest-ci-status (string-trim status))
+                (message cis/latest-ci-status))))
 
 (defun cis/open-ci-build ()
   (interactive)
