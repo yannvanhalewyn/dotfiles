@@ -27,7 +27,7 @@
          "c" '(lambda () (interactive) (org-capture nil "t"))
          "C" 'calc-dispatch)
     "B" 'ibuffer
-    "b" 'ido-switch-buffer
+    "b" 'ivy-switch-buffer
     "c" (build-keymap
          "u" 'cis/update
          "o" 'cis/open-ci-build
@@ -58,7 +58,7 @@
          "v" 'describe-variable)
     "i" (build-keymap
          "u" 'insert-char)
-    "o" 'ido-find-file
+    "o" 'counsel-find-file
     "O" (build-keymap
          "t" 'org-todo
          "T" 'org-insert-todo-heading)
@@ -559,7 +559,10 @@
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
   (evil-add-hjkl-bindings org-agenda-mode-map 'emacs)
 
-  (setq org-agenda-files `(,gtd-main ,gtd-inbox))
+  (setq org-agenda-files `(,gtd-main ,gtd-inbox)
+        org-log-done 'time
+        org-html-postamble nil
+        org-ellipsis "↷")
 
   (setq org-agenda-custom-commands
         '(("w" "Work stuff" tags-todo "@work"

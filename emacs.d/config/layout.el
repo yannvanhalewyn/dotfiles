@@ -25,11 +25,12 @@
         mode-line-end-spaces '(:eval (cis/modeline-status))))
 
 ;; LAYOUT/Load custom themes
-(global-linum-mode t)     ;; Show line numbers
-(global-hl-line-mode t)   ;; Highlight current line
-(show-paren-mode 1)       ;; Show matching paren
-(menu-bar-mode 0)         ;; Hide menu bar
-(tool-bar-mode -1)        ;; Hide toolbar (GUI)
+(global-linum-mode t)      ;; Show line numbers
+(global-hl-line-mode t)    ;; Highlight current line
+(show-paren-mode 1)        ;; Show matching paren
+(menu-bar-mode 0)          ;; Hide menu bar
+(tool-bar-mode -1)         ;; Hide toolbar (GUI)
+(setq-default tab-width 2) ;; When tabs are in a file, display them as 2 columns io 8
 
 ;; Fringe color
 (set-face-attribute 'fringe nil

@@ -320,13 +320,12 @@ Specifically, if DEF is a symbol, it is converted to a string. Useful for cljr's
 (defun my-org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry. Useful for capturing project
 next-actions in GTD"
-  (message "SKIPPING")
   (let (should-skip-entry)
     (unless (org-current-is-todo)
       (setq should-skip-entry t))
     (save-excursion
       (while (and (not should-skip-entry) (org-goto-sibling t))
-        (when (org-current-is-todo)
+        (when (and (org-current-is-todo) (member "@work" (org-get-tags)))
           (setq should-skip-entry t))))
     (when should-skip-entry
       (or (outline-next-heading)
