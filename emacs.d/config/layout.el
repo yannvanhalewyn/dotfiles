@@ -9,6 +9,8 @@
 ;; (use-package smyx-theme :init (load-theme 'smyx t))
 (use-package monokai-theme :init (load-theme 'monokai t))
 
+(use-package all-the-icons)
+
 (use-package smart-mode-line
   :config
   (sml/setup)

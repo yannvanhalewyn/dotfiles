@@ -466,6 +466,7 @@
   :config
   ;; Open current file in tree
   (evil-make-overriding-map neotree-mode-map 'normal t)
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   (keys :keymaps '(neotree-mode-map)
     "d" 'neotree-delete-node
     "J" 'neotree-select-down-node
