@@ -352,20 +352,19 @@ directory, the file name, and its state (modified, read-only or non-existent)."
                 (format " (%+d)" text-scale-mode-amount)))
    'face (if (active) 'doom-modeline-buffer-major-mode)))
 
-;;
 (def-modeline-segment! vcs
   "Displays the current branch, colored based on its state."
   (when (and vc-mode buffer-file-name)
     (let* ((backend (vc-backend buffer-file-name))
            (state   (vc-state buffer-file-name backend)))
-      (let ((face    'mode-line-inactive)
+      (let ((face   'mode-line-inactive)
             (active  (active))
             (all-the-icons-default-adjust -0.1))
         (concat "  "
                 (cond ((memq state '(edited added))
-                       (if active (setq face 'doom-modeline-info))
+                       (if active (setq face 'doom-modeline-warning))
                        (all-the-icons-octicon
-                        "git-compare"
+                        "git-branch"
                         :face face
                         :v-adjust -0.05))
                       ((eq state 'needs-merge)
@@ -378,11 +377,8 @@ directory, the file name, and its state (modified, read-only or non-existent)."
                        (if active (setq face 'doom-modeline-urgent))
                        (all-the-icons-octicon "alert" :face face))
                       (t
-                       (if active (setq face 'font-lock-doc-face))
-                       (all-the-icons-octicon
-                        "git-compare"
-                        :face face
-                        :v-adjust -0.05)))
+                       (if active (setq face 'doom-modeline-info))
+                       (all-the-icons-octicon "git-branch" :face face)))
                 " "
                 (propertize (substring vc-mode (+ (if (eq backend 'Hg) 2 3) 2))
                             'face (if active face))
