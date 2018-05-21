@@ -157,6 +157,9 @@
   :config
   (use-package evil-magit)
   (add-hook 'git-commit-mode-hook 'evil-insert-state)
+  ;; Refresh VC state for modeline when magit refreshes
+  (add-hook 'magit-refresh-buffer-hook 'vc-refresh-state)
+
   (keys :keymaps '(magit-revision-mode-map diff-mode-map)
     :states 'visual
     "y" 'yank-from-revision-buffer)
