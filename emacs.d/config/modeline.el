@@ -62,20 +62,20 @@ DEFAULT is non-nil, set the default mode-line for all buffers."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keep track of active window
 
-(defvar +yvh/modeline-current-window (frame-selected-window))
-(defun +yvh/modeline|set-selected-window (&rest _)
-  "Sets `+yvh/modeline-current-window' appropriately"
+(defvar yvh/modeline-current-window (frame-selected-window))
+(defun yvh/modeline|set-selected-window (&rest _)
+  "Sets `yvh/modeline-current-window' appropriately"
   (when-let ((win (frame-selected-window)))
     (unless (minibuffer-window-active-p win)
-      (setq +yvh/modeline-current-window win))))
+      (setq yvh/modeline-current-window win))))
 
 (defsubst active ()
-  (eq (selected-window) +yvh/modeline-current-window))
+  (eq (selected-window) yvh/modeline-current-window))
 
-(add-hook 'window-configuration-change-hook #'+yvh/modeline|set-selected-window)
-(add-hook 'focus-in-hook #'+yvh/modeline|set-selected-window)
-(advice-add #'handle-switch-frame :after #'+yvh/modeline|set-selected-window)
-(advice-add #'select-window :after #'+yvh/modeline|set-selected-window)
+(add-hook 'window-configuration-change-hook #'yvh/modeline|set-selected-window)
+(add-hook 'focus-in-hook #'yvh/modeline|set-selected-window)
+(advice-add #'handle-switch-frame :after #'yvh/modeline|set-selected-window)
+(advice-add #'select-window :after #'yvh/modeline|set-selected-window)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Vars and layout
@@ -84,73 +84,73 @@ DEFAULT is non-nil, set the default mode-line for all buffers."
 (use-package shrink-path
   :commands (shrink-path-prompt shrink-path-file-mixed))
 
-(defvar +yvh/modeline-height 29
+(defvar yvh/modeline-height 29
   "How tall the mode-line should be (only respected in GUI emacs).")
 
-(defvar +yvh/modeline-bar-width 3
+(defvar yvh/modeline-bar-width 3
   "How wide the mode-line bar should be (only respected in GUI emacs).")
 
-(defvar +yvh/modeline-vspc
+(defvar yvh/modeline-vspc
   (propertize " " 'face 'variable-pitch)
   "TODO")
 
-(defgroup +yvh/modeline nil
+(defgroup yvh/modeline nil
   ""
   :group 'yvh)
 
 (defface yvh/modeline-buffer-path
   '((t (:inherit (mode-line-emphasis bold))))
   "Face used for the dirname part of the buffer path."
-  :group '+yvh/modeline)
+  :group 'yvh/modeline)
 
 (defface yvh/modeline-buffer-file
   '((t (:inherit (mode-line-buffer-id bold))))
   "Face used for the filename part of the mode-line buffer path."
-  :group '+yvh/modeline)
+  :group 'yvh/modeline)
 
 (defface yvh/modeline-buffer-modified
   '((t (:inherit (error bold) :background nil)))
   "Face used for the 'unsaved' symbol in the mode-line."
-  :group '+yvh/modeline)
+  :group 'yvh/modeline)
 
 (defface yvh/modeline-buffer-major-mode
   '((t (:inherit (mode-line-emphasis bold))))
   "Face used for the major-mode segment in the mode-line."
-  :group '+yvh/modeline)
+  :group 'yvh/modeline)
 
 (defface yvh/modeline-highlight
   '((t (:inherit mode-line-emphasis)))
   "Face for bright segments of the mode-line."
-  :group '+yvh/modeline)
+  :group 'yvh/modeline)
 
 (defface yvh/modeline-info
   `((t (:inherit (success bold))))
   "Face for info-level messages in the modeline. Used by `*vc'."
-  :group '+yvh/modeline)
+  :group 'yvh/modeline)
 
 (defface yvh/modeline-warning
   `((t (:inherit (warning bold))))
   "Face for warnings in the modeline. Used by `*flycheck'"
-  :group '+yvh/modeline)
+  :group 'yvh/modeline)
 
 (defface yvh/modeline-urgent
   `((t (:inherit (error bold))))
   "Face for errors in the modeline. Used by `*flycheck'"
-  :group '+yvh/modeline)
+  :group 'yvh/modeline)
 
-(defface yvh/modeline-bar '((t (:inherit highlight)))
+(defface yvh/modeline-bar '((t (:inherit mode-line)))
   "The face used for the left-most bar on the mode-line of an active window."
-  :group '+yvh/modeline)
+  :group 'yvh/modeline)
 
 (defface yvh/modeline-inactive-bar '((t (:inherit warning :inverse-video t)))
   "The face used for the left-most bar on the mode-line of an inactive window."
-  :group '+yvh/modeline)
+  :group 'yvh/modeline)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Helpers
 
 ;; Inspired from `powerline's `pl/make-xpm'.
-(defun +yvh/modeline--make-xpm (color height width)
+(defun yvh/modeline--make-xpm (color height width)
   "Create an XPM bitmap."
   (propertize
    " " 'display
@@ -284,13 +284,13 @@ directory, the file name, and its state (modified, read-only or non-existent)."
                 (propertize (substring vc-mode 5) 'face (if active face))
                 " ")))))
 
-(defun +yvh/ml-icon (icon &optional text face voffset)
+(defun yvh/ml-icon (icon &optional text face voffset)
   "Displays an octicon ICON with FACE, followed by TEXT. Uses
 `all-the-icons-octicon' to fetch the icon."
   (concat (when icon
             (concat
              (all-the-icons-material icon :face face :height 1.1 :v-adjust (or voffset -0.2))
-             (if text +yvh/modeline-vspc)))
+             (if text yvh/modeline-vspc)))
           (when text
             (propertize text 'face face))))
 
@@ -302,16 +302,16 @@ icons."
       ('finished (if flycheck-current-errors
                      (let-alist (flycheck-count-errors flycheck-current-errors)
                        (let ((sum (+ (or .error 0) (or .warning 0))))
-                         (+yvh/ml-icon "do_not_disturb_alt"
-                                       (number-to-string sum)
-                                       (if .error 'yvh/modeline-urgent 'yvh/modeline-warning))))
-                   (+yvh/ml-icon "check" nil 'yvh/modeline-info)))
-      ('running     (+yvh/ml-icon "access_time" nil 'font-lock-doc-face -0.25))
+                         (yvh/ml-icon "do_not_disturb_alt"
+                                      (number-to-string sum)
+                                      (if .error 'yvh/modeline-urgent 'yvh/modeline-warning))))
+                   (yvh/ml-icon "check" nil 'yvh/modeline-info)))
+      ('running     (yvh/ml-icon "access_time" nil 'font-lock-doc-face -0.25))
       ('no-checker  "")
-      ('errored     (+yvh/ml-icon "sim_card_alert" "Error" 'yvh/modeline-urgent))
-      ('interrupted (+yvh/ml-icon "pause" "Interrupted" 'font-lock-doc-face)))))
+      ('errored     (yvh/ml-icon "sim_card_alert" "Error" 'yvh/modeline-urgent))
+      ('interrupted (yvh/ml-icon "pause" "Interrupted" 'font-lock-doc-face)))))
 
-(defun +yvh/modeline--macro-recording ()
+(defun yvh/modeline--macro-recording ()
   "Display current Emacs or evil macro being recorded."
   (when (and (active) (or defining-kbd-macro executing-kbd-macro))
     (concat " "
@@ -327,7 +327,7 @@ icons."
 
 (def-modeline-segment! macro-recording
   "Displays the currently recording macro"
-  (let ((meta (+yvh/modeline--macro-recording)))
+  (let ((meta (yvh/modeline--macro-recording)))
     (or (and (not (equal meta "")) meta)
         (if buffer-file-name " %I "))))
 
@@ -335,13 +335,13 @@ icons."
   "The bar regulates the height of the mode-line in GUI Emacs.
 Returns \"\" to not break --no-window-system."
   (if (display-graphic-p)
-      (+yvh/modeline--make-xpm
+      (yvh/modeline--make-xpm
        (face-background (if (active)
                             'yvh/modeline-bar
                           'yvh/modeline-inactive-bar)
                         nil t)
-       +yvh/modeline-height
-       +yvh/modeline-bar-width)
+       yvh/modeline-height
+       yvh/modeline-bar-width)
     ""))
 
 (def-modeline-segment! point-info
