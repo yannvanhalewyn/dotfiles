@@ -18,7 +18,7 @@
 
   (keys-l :keymaps '(emacs-lisp-mode-map scheme-mode-map)
     "e" 'eval-defun
-    "E" 'eval-print-last-sexp)
+    "E" 'eval-buffer)
 
   (keys-l
     "a" (build-keymap
@@ -72,6 +72,8 @@
     "w" 'buff-swap
     "x" 'counsel-projectile-ag
     "X" 'ag))
+
+(use-package diminish)
 
 (use-package evil
   :init
@@ -418,6 +420,7 @@
                                         clojurescript-mode-hook)))
 
 (use-package clojure-mode
+  :diminish eldoc-mode
   :init
   (defun parainbow-mode ()
     (interactive)
