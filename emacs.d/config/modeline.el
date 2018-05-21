@@ -1,5 +1,8 @@
 ;;; ui/doom-modeline/config.el -*- lexical-binding: t; -*-
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Helpers for defining modelines / segments
+
 (defmacro def-modeline-segment! (name &rest forms)
   "Defines a modeline segment and byte compiles it."
   (declare (indent defun) (doc-string 2))
@@ -60,7 +63,9 @@ DEFAULT is non-nil, set the default mode-line for all buffers."
             (buffer-local-value 'mode-line-format (current-buffer)))
           modeline)))
 
-;; Keep `+doom-modeline-current-window' up-to-date
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Keep track of active window
+
 (defvar +doom-modeline-current-window (frame-selected-window))
 (defun +doom-modeline|set-selected-window (&rest _)
   "Sets `+doom-modeline-current-window' appropriately"
@@ -68,19 +73,20 @@ DEFAULT is non-nil, set the default mode-line for all buffers."
     (unless (minibuffer-window-active-p win)
       (setq +doom-modeline-current-window win))))
 
+(defsubst active ()
+  (eq (selected-window) +doom-modeline-current-window))
+
 (add-hook 'window-configuration-change-hook #'+doom-modeline|set-selected-window)
 (add-hook 'focus-in-hook #'+doom-modeline|set-selected-window)
 (advice-add #'handle-switch-frame :after #'+doom-modeline|set-selected-window)
 (advice-add #'select-window :after #'+doom-modeline|set-selected-window)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Vars and layout
+
 ;; fish-style modeline
 (use-package shrink-path
   :commands (shrink-path-prompt shrink-path-file-mixed))
-
-
-;;
-;; Variables
-;;
 
 (defvar +doom-modeline-height 29
   "How tall the mode-line should be (only respected in GUI emacs).")
@@ -110,10 +116,6 @@ file-name => comint.el")
 (defvar all-the-icons-scale-factor)
 (defvar all-the-icons-default-adjust)
 
-
-;;
-;; Custom faces
-;;
 
 (defgroup +doom-modeline nil
   ""
@@ -165,7 +167,6 @@ file-name => comint.el")
   "Face for errors in the modeline. Used by `*flycheck'"
   :group '+doom-modeline)
 
-;; Bar
 (defface doom-modeline-bar '((t (:inherit highlight)))
   "The face used for the left-most bar on the mode-line of an active window."
   :group '+doom-modeline)
@@ -175,8 +176,8 @@ file-name => comint.el")
   :group '+doom-modeline)
 
 
-(defsubst active ()
-  (eq (selected-window) +doom-modeline-current-window))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Helpers
 
 ;; Inspired from `powerline's `pl/make-xpm'.
 (defun +doom-modeline--make-xpm (color height width)
@@ -291,9 +292,8 @@ Example:
                       (propertize filename 'face file-props)))))))))
 
 
-;;
-;; Segments
-;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Modeline segments
 
 (def-modeline-segment! buffer-default-directory
   "Displays `default-directory'. This is for special buffers like the scratch
@@ -344,12 +344,7 @@ directory, the file name, and its state (modified, read-only or non-existent)."
 (def-modeline-segment! major-mode
   "The major mode, including process, environment and text-scale info."
   (propertize
-   (concat (format-mode-line mode-name)
-           (when (stringp mode-line-process)
-             mode-line-process)
-           (and (featurep 'face-remap)
-                (/= text-scale-mode-amount 0)
-                (format " (%+d)" text-scale-mode-amount)))
+   (format-mode-line mode-name)
    'face (if (active) 'doom-modeline-buffer-major-mode)))
 
 (def-modeline-segment! vcs
@@ -384,7 +379,6 @@ directory, the file name, and its state (modified, read-only or non-existent)."
                             'face (if active face))
                 " ")))))
 
-;;
 (defun +doom-ml-icon (icon &optional text face voffset)
   "Displays an octicon ICON with FACE, followed by TEXT. Uses
 `all-the-icons-octicon' to fetch the icon."
