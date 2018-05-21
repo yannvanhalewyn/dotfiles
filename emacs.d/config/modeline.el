@@ -94,17 +94,6 @@ DEFAULT is non-nil, set the default mode-line for all buffers."
   (propertize " " 'face 'variable-pitch)
   "TODO")
 
-(defvar +yvh/modeline-buffer-file-name-style 'truncate-upto-project
-  "Determines the style used by `+yvh/modeline-buffer-file-name'.
-
-Given ~/Projects/FOSS/emacs/lisp/comint.el
-truncate-upto-project => ~/P/F/emacs/lisp/comint.el
-truncate-upto-root => ~/P/F/e/lisp/comint.el
-truncate-all => ~/P/F/e/l/comint.el
-relative-from-project => emacs/lisp/comint.el
-relative-to-project => lisp/comint.el
-file-name => comint.el")
-
 (defgroup +yvh/modeline nil
   ""
   :group 'yvh)
@@ -187,66 +176,7 @@ file-name => comint.el")
                                (if (eq idx len) "\"};" "\",\n")))))
       'xpm t :ascent 'center))))
 
-(defun +yvh/modeline-buffer-file-name ()
-  "Propertized `buffer-file-name' based on `+yvh/modeline-buffer-file-name-style'."
-  (propertize
-   (pcase +yvh/modeline-buffer-file-name-style
-     ('truncate-upto-project (+yvh/modeline--buffer-file-name 'shrink))
-     ('truncate-upto-root (+yvh/modeline--buffer-file-name-truncate))
-     ('truncate-all (+yvh/modeline--buffer-file-name-truncate t))
-     ('relative-to-project (+yvh/modeline--buffer-file-name-relative))
-     ('relative-from-project (+yvh/modeline--buffer-file-name-relative 'include-project))
-     ('file-name (propertize (file-name-nondirectory buffer-file-name)
-                             'face
-                             (let ((face (or (and (buffer-modified-p)
-                                                  'yvh/modeline-buffer-modified)
-                                             (and (active)
-                                                  'yvh/modeline-buffer-file))))
-                               (when face `(:inherit ,face))))))
-   'help-echo buffer-file-truename))
-
-(defun +yvh/modeline--buffer-file-name-truncate (&optional truncate-tail)
-  "Propertized `buffer-file-name' that truncates every dir along path.
-If TRUNCATE-TAIL is t also truncate the parent directory of the file."
-  (let ((dirs (shrink-path-prompt (file-name-directory buffer-file-truename)))
-        (active (active)))
-    (if (null dirs)
-        (propertize "%b" 'face (if active 'yvh/modeline-buffer-file))
-      (let ((modified-faces (if (buffer-modified-p) 'yvh/modeline-buffer-modified)))
-        (let ((dirname (car dirs))
-              (basename (cdr dirs))
-              (dir-faces (or modified-faces (if active 'yvh/modeline-project-root-dir)))
-              (file-faces (or modified-faces (if active 'yvh/modeline-buffer-file))))
-          (concat (propertize (concat dirname
-                                      (if truncate-tail (substring basename 0 1) basename)
-                                      "/")
-                              'face (if dir-faces `(:inherit ,dir-faces)))
-                  (propertize (file-name-nondirectory buffer-file-name)
-                              'face (if file-faces `(:inherit ,file-faces)))))))))
-
-(defun +yvh/modeline--buffer-file-name-relative (&optional include-project)
-  "Propertized `buffer-file-name' showing directories relative to project's root only."
-  (let ((root (projectile-project-root))
-        (active (active)))
-    (if (null root)
-        (propertize "%b" 'face (if active 'yvh/modeline-buffer-file))
-      (let* ((modified-faces (if (buffer-modified-p) 'yvh/modeline-buffer-modified))
-             (relative-dirs (file-relative-name (file-name-directory buffer-file-truename)
-                                                (if include-project (concat root "../") root)))
-             (relative-faces (or modified-faces (if active 'yvh/modeline-buffer-path)))
-             (file-faces (or modified-faces (if active 'yvh/modeline-buffer-file))))
-        (if (equal "./" relative-dirs) (setq relative-dirs ""))
-        (concat (propertize relative-dirs 'face (if relative-faces `(:inherit ,relative-faces)))
-                (propertize (file-name-nondirectory buffer-file-truename)
-                            'face (if file-faces `(:inherit ,file-faces))))))))
-
-(defun +yvh/modeline--buffer-file-name (truncate-project-root-parent)
-  "Propertized `buffer-file-name'.
-If TRUNCATE-PROJECT-ROOT-PARENT is t space will be saved by truncating it down
-fish-shell style.
-
-Example:
-~/Projects/FOSS/emacs/lisp/comint.el => ~/P/F/emacs/lisp/comint.el"
+(defun yvh/modeline-buffer-file-name ()
   (let* ((project-root (projectile-project-root))
          (file-name-split (shrink-path-file-mixed project-root
                                                   (file-name-directory buffer-file-truename)
@@ -264,14 +194,10 @@ Example:
                   (project-props  `(,@(if project-faces  `(:inherit ,project-faces)) ,@(if active '(:weight bold))))
                   (relative-props `(,@(if relative-faces `(:inherit ,relative-faces))))
                   (file-props     `(,@(if file-faces     `(:inherit ,file-faces)))))
-              (concat (propertize (if truncate-project-root-parent
-                                      root-path-parent
-                                    (abbreviate-file-name project-root))
-                                  'face sp-props)
+              (concat (propertize root-path-parent 'face sp-props)
                       (propertize (concat project "/") 'face project-props)
                       (if relative-path (propertize relative-path 'face relative-props))
                       (propertize filename 'face file-props)))))))))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Modeline segments
@@ -318,7 +244,7 @@ directory, the file name, and its state (modified, read-only or non-existent)."
                           :v-adjust -0.05)
                          " ")))
           (if buffer-file-name
-              (+yvh/modeline-buffer-file-name)
+              (yvh/modeline-buffer-file-name)
             "%b")))
 
 (def-modeline-segment! major-mode
@@ -424,7 +350,8 @@ Returns \"\" to not break --no-window-system."
           (number-to-string (- (line-end-position) (line-beginning-position)))))
 
 (def-modeline-segment! ci-status
-  (format " CI %s  " (cis/propertized-status cis/latest-ci-status)))
+  (format " CI %s  "
+          (cis/propertized-status cis/latest-ci-status)))
 
 (defun line-length ()
   "Length of the Nth line."
