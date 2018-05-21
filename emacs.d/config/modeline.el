@@ -146,12 +146,6 @@ file-name => comint.el")
   "Face for bright segments of the mode-line."
   :group '+doom-modeline)
 
-(defface doom-modeline-panel
-  '((t (:inherit mode-line-highlight)))
-  "Face for 'X out of Y' segments, such as `+doom-modeline--anzu', `+doom-modeline--evil-substitute' and
-`iedit'"
-  :group '+doom-modeline)
-
 (defface doom-modeline-info
   `((t (:inherit (success bold))))
   "Face for info-level messages in the modeline. Used by `*vc'."
@@ -379,14 +373,12 @@ directory, the file name, and its state (modified, read-only or non-existent)."
 (defun +doom-ml-icon (icon &optional text face voffset)
   "Displays an octicon ICON with FACE, followed by TEXT. Uses
 `all-the-icons-octicon' to fetch the icon."
-  (concat (if vc-mode " " "  ")
-          (when icon
+  (concat (when icon
             (concat
              (all-the-icons-material icon :face face :height 1.1 :v-adjust (or voffset -0.2))
              (if text +doom-modeline-vspc)))
           (when text
-            (propertize text 'face face))
-          (if vc-mode "  " " ")))
+            (propertize text 'face face))))
 
 (def-modeline-segment! flycheck
   "Displays color-coded flycheck error status in the current buffer with pretty
@@ -442,6 +434,9 @@ Returns \"\" to not break --no-window-system."
   (concat " %c/"
           (number-to-string (- (line-end-position) (line-beginning-position)))))
 
+(def-modeline-segment! ci-status
+  (format " CI %s  " (cis/propertized-status cis/latest-ci-status)))
+
 (defun line-length ()
   "Length of the Nth line."
   (- (line-end-position)
@@ -449,7 +444,7 @@ Returns \"\" to not break --no-window-system."
 
 (def-modeline! main
   (bar macro-recording " " buffer-info point-info)
-  (major-mode vcs flycheck))
+  (major-mode vcs flycheck ci-status))
 
 (doom-set-modeline 'main t)
 
