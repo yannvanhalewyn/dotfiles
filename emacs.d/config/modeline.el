@@ -308,7 +308,6 @@ buffer where knowing the current project directory is important."
             (propertize (concat " " (abbreviate-file-name default-directory))
                         'face face))))
 
-;;
 (def-modeline-segment! buffer-info
   "Combined information about the current buffer, including the current working
 directory, the file name, and its state (modified, read-only or non-existent)."
@@ -375,8 +374,7 @@ directory, the file name, and its state (modified, read-only or non-existent)."
                        (if active (setq face 'doom-modeline-info))
                        (all-the-icons-octicon "git-branch" :face face)))
                 " "
-                (propertize (substring vc-mode (+ (if (eq backend 'Hg) 2 3) 2))
-                            'face (if active face))
+                (propertize (substring vc-mode 5) 'face (if active face))
                 " ")))))
 
 (defun +doom-ml-icon (icon &optional text face voffset)
@@ -443,8 +441,18 @@ Returns \"\" to not break --no-window-system."
        +doom-modeline-bar-width)
     ""))
 
+(def-modeline-segment! point-info
+  "The current position and line length of point"
+  (concat " %c/"
+          (number-to-string (- (line-end-position) (line-beginning-position)))))
+
+(defun line-length ()
+  "Length of the Nth line."
+  (- (line-end-position)
+     (line-beginning-position)))
+
 (def-modeline! main
-  (bar macro-recording " " buffer-info "  %l:%c %p  ")
+  (bar macro-recording " " buffer-info point-info)
   (major-mode vcs flycheck))
 
 (doom-set-modeline 'main t)
