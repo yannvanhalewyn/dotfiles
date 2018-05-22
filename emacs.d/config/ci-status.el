@@ -1,9 +1,9 @@
 (require 'util)
 
-(defface cis/failed '((t :inherit (error bold))) "")
-(defface cis/pending '((t :inherit (warning bold))) "")
-(defface cis/success '((t :inherit (success bold))) "")
-(defface cis/fetching '((t :inherit (modeline))) "")
+(defface cis/failed '((t :inherit (error bold) :height 1.2)) "")
+(defface cis/pending '((t :inherit (warning bold) :height 1.2)) "")
+(defface cis/success '((t :inherit (success bold) :height 1.2)) "")
+(defface cis/fetching '((t :inherit (modeline)) :height 1.2) "")
 (defface cis/no-status '((t :inherit (modeline) )) "")
 
 (defvar cis/latest-ci-status "no-status")
