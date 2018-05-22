@@ -160,6 +160,9 @@
   ;; Refresh VC state for modeline when magit refreshes
   (add-hook 'magit-refresh-buffer-hook 'vc-refresh-state)
 
+  ;; Enable leader keys in revision buffers
+  (general-def magit-revision-mode-map "SPC" nil)
+
   (keys :keymaps '(magit-revision-mode-map diff-mode-map)
     :states 'visual
     "y" 'yank-from-revision-buffer)
