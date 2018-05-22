@@ -353,11 +353,6 @@ Returns \"\" to not break --no-window-system."
   (let ((status (format " CI %s  " (cis/propertized-status cis/latest-ci-status))))
     (if (active) status (propertize status 'face 'modeline-inactive))))
 
-(defun line-length ()
-  "Length of the Nth line."
-  (- (line-end-position)
-     (line-beginning-position)))
-
 (def-modeline! main
   (bar macro-recording buffer-info point-info)
   (major-mode vcs flycheck ci-status))
