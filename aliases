@@ -128,9 +128,6 @@ done
 # Make parent directories on demand
 alias mkdir="mkdir -pv"
 
-# Diff to colordiff
-alias diff="mvimdiff"
-
 # Run the local npm module binaries
 alias npm-exec='PATH=$(npm bin):$PATH'
 alias npml='npm ls --depth=0'
