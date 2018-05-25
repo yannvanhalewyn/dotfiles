@@ -261,10 +261,7 @@ The bound variable is \"filename\"."
 (defun junk-file/new ()
   "Opens a new junk file, useful for testing purpouses"
   (interactive)
-  (let ((file (read-file-name "Junk Code (Enter extension): "
-                              (format-time-string
-                               (concat junk-file/directory "%Y-%m-%d-%H%M%S.")
-                               (current-time)))))
+  (let ((file (read-file-name "Junk Code: " junk-file/directory)))
     (make-directory (file-name-directory file) t)
     (find-file file)))
 
