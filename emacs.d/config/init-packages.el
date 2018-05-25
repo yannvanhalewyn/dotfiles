@@ -590,6 +590,9 @@
 
   (use-package org-bullets
     :defer t
-    :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))))
+    :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+  (use-package org-evil
+    :config (message "ORG EVIL CONFIG")))
 
 (provide 'init-packages)
