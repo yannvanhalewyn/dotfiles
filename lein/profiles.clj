@@ -4,4 +4,5 @@
                         :exclusions [org.clojure/tools.reader]]]
         :plugins [[refactor-nrepl "2.4.0-SNAPSHOT"]
                   [cider/cider-nrepl "0.18.0-SNAPSHOT"]]
-        :injections [(require 'sc.api)]}}
+        :injections [(require 'sc.api)]
+        :env {:squiggly {:checkers [:eastwood :kibit]}}}}
