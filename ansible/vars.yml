@@ -14,10 +14,8 @@ homebrew_packages:
   - gifify
   - gpg
   - git
-  - highlight
   - hub
   - imagemagick
-  - jmeter
   - jpeg
   - lame
   - leiningen
@@ -60,14 +58,13 @@ cask_apps:
   - harvest
   - iterm2-nightly
   - java
-  - postman
   - skype
   - slack
-  - spectacle
   - spectacle
   - spotify
   - steam
   - sublime-text
+  - telegram
   - the-unarchiver
   - transmission
   - tunnelblick
