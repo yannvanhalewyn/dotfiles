@@ -316,15 +316,19 @@
   :init
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc clojure-cider-typed))
   (add-hook 'after-init-hook #'global-flycheck-mode)
-  ;; (use-package flycheck-flow)
+
   :config
   (use-package flycheck-clojure
-    :config
+    :defer t
+    :init
     (eval-after-load 'flycheck '(flycheck-clojure-setup)))
+
   (use-package flycheck-pos-tip
-    :config
+    :defer t
+    :init
     (with-eval-after-load 'flycheck
       (flycheck-pos-tip-mode)))
+
   (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
   (add-hook 'c++-mode-hook
             (lambda ()
@@ -427,6 +431,7 @@
 
 (use-package clojure-mode
   :diminish eldoc-mode
+  :defer t
   :init
   (defun parainbow-mode ()
     (interactive)
@@ -549,6 +554,7 @@
   :init (setq markdown-command "multimarkdown"))
 
 (use-package org
+  :defer t
   :init
   (keys-l 'org-mode-map
     "r" 'org-refile

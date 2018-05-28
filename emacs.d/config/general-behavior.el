@@ -66,11 +66,10 @@
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
-;; Get shell PATH
-(use-package exec-path-from-shell
-  :config
-  (when (memq window-system '(mac ns))
-    (exec-path-from-shell-initialize)))
+;; Add brews to exec path
+(setenv "PATH" "/usr/local/bin:/usr/bin")
+(setq eshell-path-env "/usr/local/bin:/usr/bin")
+(add-to-list 'exec-path "/usr/local/bin")
 
 ;; Quitting everything
 (defun minibuffer-keyboard-quit ()
