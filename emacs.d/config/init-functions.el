@@ -342,4 +342,12 @@ next-actions in GTD"
    (projectile-find-implementation-or-test (buffer-file-name)))
   (read-only-mode -1))
 
+(defun yvh/jump-to-repl ()
+  (interactive)
+  (when-let ((repl-buffer (first (cider-repl-buffers))))
+    (split-window-below)
+    (evil-window-down 1)
+    (switch-to-buffer (buffer-name repl-buffer))
+    (enlarge-window -15)))
+
 (provide 'init-functions)

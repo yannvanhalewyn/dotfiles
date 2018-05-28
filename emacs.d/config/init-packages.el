@@ -356,6 +356,9 @@
     (message "Running `(reset)` in current repl")
     (cider-interactive-eval "(dev/reset)"))
 
+  (keys cider-repl-mode-map
+    "q" 'delete-window)
+
   (keys cider-inspector-mode-map
     "<return>" 'cider-inspector-operate-on-point
     "q" 'cider-inspector-pop
@@ -379,7 +382,8 @@
          "m" 'cider-macro-expand-1
          "n" 'cider-repl-set-ns
          "q" 'cider-quit
-         "r" 'reset-dev-system
+         "r" 'yvh/jump-to-repl
+         "R" 'reset-dev-system
          "m" 'cider-macroexpand-1
          "M" 'cider-macroexpand-all)
     "e" 'cider-eval-defun-at-point
