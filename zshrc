@@ -50,6 +50,9 @@ setopt autopushd
 # GPG agent for prompting passphrase
 export GPG_TTY=$(tty)
 
+# grep colors
+export GREP_OPTIONS='--color=always'
+
 # Disable bracketed paste feature when in emacs. This used to cause
 # unwanted chars to be printed out
 # https://github.com/syl20bnr/spacemacs/issues/3035
