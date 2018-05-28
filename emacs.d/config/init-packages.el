@@ -570,6 +570,9 @@
   (defconst gtd-someday (expand-file-name "someday.org" gtd-dir))
 
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
+
+  (add-hook 'org-mode-hook '(lambda () (interactive) (org-content 2)))
+
   (evil-add-hjkl-bindings org-agenda-mode-map 'emacs)
 
   (setq org-agenda-files `(,gtd-main ,gtd-inbox)
