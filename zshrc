@@ -14,12 +14,11 @@
 # Antigen
 # =======
 
-source "$HOME/.antigen/antigen.zsh"
+source /usr/local/share/antigen/antigen.zsh
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle git
-# antigen bundle rails
-antigen-theme "$HOME/.zsh/custom"
-antigen-apply
+antigen apply
+source ~/.zsh/custom/.zsh-theme
 
 setopt PROMPT_SUBST
 setopt MENU_COMPLETE

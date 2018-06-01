@@ -4,6 +4,7 @@ homebrew_taps:
 
 homebrew_packages:
   - ansible
+  - antigen
   - awscli
   - cheat
   - ctags-exuberant
