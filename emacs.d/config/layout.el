@@ -13,27 +13,13 @@
 (require 'modeline)
 
 ;; LAYOUT/Load custom themes
-(global-linum-mode t)      ;; Show line numbers
+(fringe-mode 0)
 (global-hl-line-mode t)    ;; Highlight current line
+(global-display-line-numbers-mode)
 (show-paren-mode 1)        ;; Show matching paren
 (menu-bar-mode 0)          ;; Hide menu bar
 (tool-bar-mode -1)         ;; Hide toolbar (GUI)
 (setq-default tab-width 2) ;; When tabs are in a file, display them as 2 columns io 8
-
-;; Fringe color
-(set-face-attribute 'fringe nil
-                    :foreground (face-foreground 'default)
-                    :background (face-background 'default))
-
-;; Thou shalt not cross 80 columns in thy file
-(defvar red-bg-face 'red-bg)
-(defface red-bg '((t :background "red")) "")
-;; (use-package column-marker
-;;   :config
-;;   (column-marker-create column-marker-4 red-bg-face)
-;;   (add-hooks (lambda () (column-marker-4 80))
-;;              '(coffee-mode-hook ruby-mode-hook javascript-mode-hook
-;;                                 c-mode-common-hook clojure-mode clojurescript-mode)))
 
 (if window-system
     (progn (scroll-bar-mode -1))) ;; Hide scrollbar (GUI)
