@@ -348,6 +348,7 @@ next-actions in GTD"
     (split-window-below)
     (evil-window-down 1)
     (switch-to-buffer (buffer-name repl-buffer))
+    (end-of-buffer)
     (enlarge-window (- 12 (window-height)))))
 
 (provide 'init-functions)

@@ -67,8 +67,9 @@
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
 ;; Add brews to exec path
-(setenv "PATH" "/usr/local/bin:/usr/bin")
-(setq eshell-path-env "/usr/local/bin:/usr/bin")
+(let ((paths "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"))
+  (setenv "PATH" paths)
+  (setq eshell-path-env paths))
 (add-to-list 'exec-path "/usr/local/bin")
 
 ;; Quitting everything
@@ -118,5 +119,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (toggle-read-only))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
+;; Store cursor position in buffers
+(save-place-mode 1)
+(setq save-place-file (locate-user-emacs-file "places"))
 
 (provide 'general-behavior)
