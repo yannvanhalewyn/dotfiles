@@ -17,6 +17,7 @@
 source /usr/local/share/antigen/antigen.zsh
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle git
+antigen bundle autoenv
 antigen apply
 source ~/.zsh/custom/.zsh-theme
 

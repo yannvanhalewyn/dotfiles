@@ -23,3 +23,6 @@ emacs.d/ac-comphist.dat
 /emacs.d/projectile.cache
 /emacs.d/network-security.data
 emacs.d/custom.el
+emacs.d/url/
+emacs.d/places
+lein/repl-history

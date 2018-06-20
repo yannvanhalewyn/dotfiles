@@ -6,6 +6,7 @@ homebrew_packages:
   - ansible
   - antigen
   - awscli
+  - autoenv
   - cheat
   - ctags-exuberant
   - emacs
@@ -44,6 +45,7 @@ cask_taps:
   - caskroom/cask
   - caskroom/fonts
   - caskroom/versions
+  - railwaycat/emacsmacport
 
 cask_apps:
   - 1password
@@ -53,7 +55,7 @@ cask_apps:
   - caffeine
   - chromedriver
   - dropbox
-  - emacs
+  - emacs-mac
   - google-chrome
   - google-backup-and-sync
   - gpg-suite

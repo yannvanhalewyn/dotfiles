@@ -13,16 +13,17 @@
 (require 'modeline)
 
 ;; LAYOUT/Load custom themes
-(fringe-mode 0)
 (global-hl-line-mode t)    ;; Highlight current line
-(global-display-line-numbers-mode)
+(global-display-line-numbers-mode 0)
 (show-paren-mode 1)        ;; Show matching paren
 (menu-bar-mode 0)          ;; Hide menu bar
 (tool-bar-mode -1)         ;; Hide toolbar (GUI)
 (setq-default tab-width 2) ;; When tabs are in a file, display them as 2 columns io 8
+(set-face-attribute 'default nil :font "Menlo")
 
 (if window-system
-    (progn (scroll-bar-mode -1))) ;; Hide scrollbar (GUI)
+    (progn (scroll-bar-mode -1) ;; Hide scrollbar (GUI)
+           (fringe-mode 10)))
 
 (provide 'layout)
 

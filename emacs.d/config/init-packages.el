@@ -304,8 +304,8 @@
 (use-package glsl-mode
   :defer t
   :config
-  (add-to-list 'auto-mode-alist '("\\.vert") . glsl-mode)
-  (add-to-list 'auto-mode-alist '("\\.frag") . glsl-mode))
+  (add-to-list 'auto-mode-alist '("\\.vert" . glsl-mode))
+  (add-to-list 'auto-mode-alist '("\\.frag" . glsl-mode)))
 
 (add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook js-mode-hook c-mode-common-hook))
 

@@ -123,4 +123,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (save-place-mode 1)
 (setq save-place-file (locate-user-emacs-file "places"))
 
+;; Emacs macport
+(setq mac-option-modifier 'meta)
+(setq mac-command-modifier 'super)
+(setq mac-pass-command-to-system t)
+
 (provide 'general-behavior)
