@@ -1,8 +1,6 @@
 (require 'ci-status)
 (add-hook 'magit-status-mode-hook 'cis/update)
 
-(set-face-attribute 'default nil :height 145)
-
 ;; (use-package jbeans-theme :init (load-theme 'jbeans t))
 ;; (use-package spacemacs-theme :init :init (load-theme 'spacemacs-dark t))
 ;; (use-package base16-theme :init (load-theme 'base16-ashes t))
@@ -19,7 +17,7 @@
 (menu-bar-mode 0)          ;; Hide menu bar
 (tool-bar-mode -1)         ;; Hide toolbar (GUI)
 (setq-default tab-width 2) ;; When tabs are in a file, display them as 2 columns io 8
-(set-face-attribute 'default nil :font "Menlo")
+(set-face-attribute 'default nil :font "Menlo" :height 155)
 
 (if window-system
     (progn (scroll-bar-mode -1) ;; Hide scrollbar (GUI)
