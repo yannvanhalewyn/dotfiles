@@ -1,5 +1,12 @@
+;; Garbage collection
+;; Allow 20MB of memory (instead of 0.76MB) before calling garbage collection. This means GC runs less often, which speeds up some operations.
+(setq gc-cons-threshold 20000000)
+
 ;; Hide splash screen
 (setq inhibit-startup-message t)
+
+;; Do not ring the system bell, but show a visible feedback.
+(setq visible-bell t)
 
 ;; No backup files
 (setq make-backup-files nil)
@@ -90,10 +97,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;; C++ header files
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-
-;; Easier font scaling
-(global-set-key (kbd "C-=") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
 
 ;; Open general config files with conf mode
 (let* ((conf-files '("aliases" "functions" "gitignore" "zshrc"))

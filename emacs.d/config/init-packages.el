@@ -10,7 +10,10 @@
   (general-create-definer keys-l :prefix "SPC" :states default-states)
   (general-create-definer keys :states default-states)
 
-  (keys "M-x" 'counsel-M-x)
+  (keys "M-x" 'counsel-M-x
+    "C-=" 'text-scale-increase
+    "C--" 'text-scale-decrease)
+
   (keys :prefix "g"
     "t" (find-file-i 'gtd-main)
     "i" (find-file-i 'gtd-inbox)
