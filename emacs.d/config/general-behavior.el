@@ -5,9 +5,6 @@
 ;; Hide splash screen
 (setq inhibit-startup-message t)
 
-;; Do not ring the system bell, but show a visible feedback.
-(setq visible-bell t)
-
 ;; No backup files
 (setq make-backup-files nil)
 (setq create-lockfiles nil)
@@ -33,9 +30,6 @@
 
 ;; Spaces over tabs
 (setq-default indent-tabs-mode nil)
-
-;; Silence bell
-(setq ring-bell-function 'ignore)
 
 ;; Remember cursor position of files when opening
 (setq save-place-file "~/.emacs.d/saveplace")
@@ -130,5 +124,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (setq mac-option-modifier 'meta)
 (setq mac-command-modifier 'super)
 (setq mac-pass-command-to-system t)
+
+;; Winner mode
+;; Allows to ‘undo’ (and ‘redo’) changes in the window configuration
+;; with the key commands [w and ]w
+(when (fboundp 'winner-mode)
+  (winner-mode 1))
 
 (provide 'general-behavior)

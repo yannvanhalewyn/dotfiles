@@ -23,10 +23,12 @@
   (write-region "" nil custom-file))
 (load custom-file)
 
-(add-to-list 'load-path (concat user-emacs-directory "config"))
 
-(require 'init-use-package)
-(require 'general-behavior)
+(org-babel-load-file (concat user-emacs-directory "configuration.org"))
+
+(add-to-list 'load-path (concat user-emacs-directory "config"))
+;; (require 'init-use-package)
+;; (require 'general-behavior)
 (require 'init-functions)
 (require 'init-packages)
 (require 'init-ibuffer)

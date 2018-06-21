@@ -1,0 +1,264 @@
+* General emacs stuff
+** Custom.el
+
+   Set up a different cutom file for ~custom.el~ so we don't have to check in all those random automatically added code snippets.
+
+   #+BEGIN_SRC emacs-lisp
+   (defconst custom-file (expand-file-name "custom.el" user-emacs-directory))
+   (unless (file-exists-p custom-file)
+   (write-region "" nil custom-file))
+   (load custom-file)
+   #+END_SRC
+
+** Garbage collection
+
+   Allow 20MB of memory (instead of 0.76MB) before calling garbage collection. This means GC runs less often, which speeds up some operations.
+
+   #+BEGIN_SRC emacs-lisp
+   (setq gc-cons-threshold 20000000)
+   #+END_SRC
+
+** Hide splash screen
+
+   #+BEGIN_SRC emacs-lisp
+   (setq inhibit-startup-message t)
+   #+END_SRC
+
+** Silence bell
+
+   #+BEGIN_SRC emacs-lisp
+   (setq ring-bell-function 'ignore)
+   #+END_SRC
+
+** No backup files
+
+   #+BEGIN_SRC emacs-lisp
+   (setq make-backup-files nil)
+   (setq create-lockfiles nil)
+   (auto-save-mode nil)
+   #+END_SRC
+
+** Just type y or n
+
+   #+BEGIN_SRC emacs-lisp
+   (defalias 'yes-or-no-p 'y-or-n-p)
+   #+END_SRC
+
+** Deal with temp files
+
+   #+BEGIN_SRC emacs-lisp
+   (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+   (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+   #+END_SRC
+
+** Add brews and /usr/local/bin to exec path
+
+   #+BEGIN_SRC emacs-lisp
+   (let ((paths "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"))
+     (setenv "PATH" paths)
+     (setq eshell-path-env paths))
+   (add-to-list 'exec-path "/usr/local/bin")
+   #+END_SRC
+
+** Save minibuffer history
+
+   #+BEGIN_SRC emacs-lisp
+   (require 'savehist)
+   (savehist-mode t)
+   #+END_SRC
+
+** Quitting minibuffer with ESC
+
+   Make ESC quit various types of minibuffers. Without this you need 3 esc hits to quit them.
+
+   #+BEGIN_SRC emacs-lisp
+   (defun minibuffer-keyboard-quit ()
+     "Abort recursive edit.
+   In Delete Selection mode, if the mark is active, just deactivate it;
+   then it takes a second \\[keyboard-quit] to abort the minibuffer."
+     (interactive)
+     (if (and delete-selection-mode transient-mark-mode mark-active)
+         (setq deactivate-mark  t)
+       (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+       (abort-recursive-edit)))
+   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+   (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+   #+END_SRC
+
+** Setup alt key as meta on emacs-macport
+
+   #+BEGIN_SRC emacs-lisp
+   (setq mac-option-modifier 'meta)
+   (setq mac-command-modifier 'super)
+   (setq mac-pass-command-to-system t)
+   #+END_SRC
+
+** Winner mode
+
+   Easily navigate window configurations history (bound to [w and ]w)
+
+   #+BEGIN_SRC emacs-lisp
+   (when (fboundp 'winner-mode)
+     (winner-mode 1))
+   #+END_SRC
+
+* Buffers
+** Auto newlines at end of buffer
+
+   #+BEGIN_SRC emacs-lisp
+   (setq require-final-newline t)
+   #+END_SRC
+
+** Warn when opening large files
+
+   #+BEGIN_SRC emacs-lisp
+   (setq large-file-warning-threshold 100000000)
+   #+END_SRC
+
+** Auto clear trailing whitespace
+
+   Custom function in init-functions.el. This will remove any trailing whitespace and fix tabs <> spaces before saving the buffer.
+
+   #+BEGIN_SRC emacs-lisp
+   (add-hook 'before-save-hook 'delete-trailing-whitespace)
+   #+END_SRC
+
+** Auto revert buffers when changes on file system
+
+   #+BEGIN_SRC emacs-lisp
+   (global-auto-revert-mode t)
+   #+END_SRC
+
+** Auto save buffer when leaving insert mode
+
+   #+BEGIN_SRC emacs-lisp
+   (defun set-save-hook ()
+     (interactive)
+     (add-hook 'evil-insert-state-exit-hook 'save-if-code-buffer))
+
+   (defun clear-save-hook ()
+     (interactive)
+     (remove-hook 'evil-insert-state-exit-hook 'save-if-code-buffer))
+   (set-save-hook)
+   #+END_SRC
+
+** Prevent # -*- coding: utf-8 -*-
+
+   #+BEGIN_SRC emacs-lisp
+   (setq ruby-insert-encoding-magic-comment nil)
+   #+END_SRC
+
+** Indentation
+
+   Prefer spaces over tabs
+
+   #+BEGIN_SRC emacs-lisp
+   (setq-default indent-tabs-mode nil)
+   #+END_SRC
+
+   Set indentations for various languages
+
+   #+BEGIN_SRC emacs-lisp
+   (setq js-indent-level 2
+         css-indent-offset 2
+         tab-width 2
+         c-basic-offset 4)
+   #+END_SRC
+
+** Remember cursor position when opening files
+
+   #+BEGIN_SRC emacs-lisp
+   (setq save-place-file (locate-user-emacs-file "places"))
+   (setq-default save-place t)
+   (require 'saveplace)
+   (save-place-mode 1)
+   #+END_SRC
+
+** Always follow symlinks
+
+   #+BEGIN_SRC emacs-lisp
+   (setq vc-follow-symlinks t)
+   #+END_SRC
+
+** Scratch buffer in eLisp
+
+   #+BEGIN_SRC emacs-lisp
+   (setq initial-major-mode 'emacs-lisp-mode)
+   #+END_SRC
+
+** Centering after jumping paragraphs
+
+   #+BEGIN_SRC emacs-lisp
+   (setq scroll-margin 3
+         scroll-conservatively 9999
+         scroll-step 1)
+   #+END_SRC
+
+** Don't confirm when creating new file
+
+   #+BEGIN_SRC emacs-lisp
+   (setq confirm-nonexistent-file-or-buffer nil)
+   #+END_SRC
+
+** Scroll in compilation mode
+
+   #+BEGIN_SRC emacs-lisp
+   (setq compilation-scroll-output t)
+   #+END_SRC
+
+** C++ header files
+
+   #+BEGIN_SRC emacs-lisp
+   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+   #+END_SRC
+
+** Open general config files with conf mode
+
+   #+BEGIN_SRC emacs-lisp
+   (let* ((conf-files '("aliases" "functions" "gitignore" "zshrc"))
+          (conf-regexp (concat (regexp-opt conf-files t) "\\'")))
+     (add-to-list 'auto-mode-alist (cons conf-regexp 'conf-mode)))
+   #+END_SRC
+
+** Get colorized compilation buffers
+
+   Useful for various test runners that use compilation buffers, like the mocha test runner.
+
+   #+BEGIN_SRC emacs-lisp
+   (require 'ansi-color)
+   (defun colorize-compilation-buffer ()
+     (toggle-read-only)
+     (ansi-color-apply-on-region compilation-filter-start (point))
+     (toggle-read-only))
+   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+   #+END_SRC
+
+* Packages
+
+  Set up package.el and point it to stable melpa repositories.
+
+  #+BEGIN_SRC emacs-lisp
+   (require 'package)
+
+   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+   (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+
+   (package-initialize)
+  #+END_SRC
+
+  Install ~use-package~
+
+  #+BEGIN_SRC emacs-lisp
+   (unless (package-installed-p 'use-package)
+     (package-refresh-contents)
+     (package-install 'use-package))
+
+   (eval-when-compile
+     (require 'use-package))
+
+   (setq use-package-verbose nil
+         use-package-always-ensure t)
+  #+END_SRC
