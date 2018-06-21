@@ -1,4 +1,19 @@
 * General emacs stuff
+** Load path
+
+   Add "emacs.d/config" to the load path for extra functions and custom packages.
+
+   #+BEGIN_SRC emacs-lisp
+   (add-to-list 'load-path (concat user-emacs-directory "config"))
+   #+END_SRC
+** Load utility functions
+
+   Load a generous collection of custom utility functions
+
+   #+BEGIN_SRC emacs-lisp
+   (require 'init-functions)
+   #+END_SRC
+
 ** Custom.el
 
    Set up a different cutom file for ~custom.el~ so we don't have to check in all those random automatically added code snippets.
