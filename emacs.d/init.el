@@ -21,9 +21,8 @@
 (defun load-config()
   (interactive)
   (org-babel-load-file (concat user-emacs-directory "configuration.org")))
-(load-config)
 
 (add-to-list 'load-path (concat user-emacs-directory "config"))
 (require 'init-functions)
 (require 'init-packages)
-(require 'layout)
+(load-config)

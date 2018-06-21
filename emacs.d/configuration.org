@@ -165,8 +165,13 @@
    #+BEGIN_SRC emacs-lisp
    (setq js-indent-level 2
          css-indent-offset 2
-         tab-width 2
          c-basic-offset 4)
+   #+END_SRC
+
+   Set default indentation, when file contains tabs be displayed as 2 spaces instead of 8
+
+   #+BEGIN_SRC emacs-lisp
+   (setq-default tab-width 2)
    #+END_SRC
 
 ** Remember cursor position when opening files
@@ -235,6 +240,59 @@
      (ansi-color-apply-on-region compilation-filter-start (point))
      (toggle-read-only))
    (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+   #+END_SRC
+
+* Layout
+** Setup theme and font
+
+   #+BEGIN_SRC emacs-lisp
+   (use-package monokai-theme :init (load-theme 'monokai t))
+   (set-face-attribute 'default nil :font "Menlo" :height 155)
+   #+END_SRC
+
+** Use rich icons
+
+   #+BEGIN_SRC emacs-lisp
+   (use-package all-the-icons)
+   #+END_SRC
+
+** Setup modeline
+
+   Custom packages, ci-status fetches the current status from CI using hub, and can be displayed in the modeline
+
+   #+BEGIN_SRC emacs-lisp
+   (require 'ci-status)
+   (require 'init-modeline)
+   (add-hook 'magit-status-mode-hook 'cis/update)
+   #+END_SRC
+
+** Highlight current line
+
+   #+BEGIN_SRC emacs-lisp
+   (global-hl-line-mode t)
+   #+END_SRC
+
+** Show matching paren
+
+   #+BEGIN_SRC emacs-lisp
+   (show-paren-mode 1)
+   #+END_SRC
+
+** Interface
+
+   Hide menu bar
+
+   #+BEGIN_SRC emacs-lisp
+   (menu-bar-mode 0)
+   #+END_SRC
+
+   Hide toolbar, scroll bars and setup smaller fringe in GUI version
+
+   #+BEGIN_SRC emacs-lisp
+   (if window-system
+       (progn (scroll-bar-mode -1)
+              (tool-bar-mode -1)
+              (fringe-mode 10)))
    #+END_SRC
 
 * Packages

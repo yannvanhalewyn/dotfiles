@@ -359,4 +359,4 @@ Returns \"\" to not break --no-window-system."
 
 (yvh/set-modeline 'main t)
 
-(provide 'modeline)
+(provide 'init-modeline)
