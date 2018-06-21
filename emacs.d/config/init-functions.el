@@ -30,6 +30,10 @@
   (lexical-let ((f file))
     (lambda () (interactive) (find-file (eval f)))))
 
+(defun dired-current-dir ()
+  (interactive)
+  (dired ""))
+
 (defun code-buffer? (name)
   "Returns wether or the NAME is a name for a code buffer"
   (not (string-match-p "^\*" name)))

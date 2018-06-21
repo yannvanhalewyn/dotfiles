@@ -94,7 +94,10 @@
     "]e" 'flycheck-next-error
     "[b" 'previous-code-buffer
     "]b" 'next-code-buffer
-    "]t" 'cycle-theme)
+    "]t" 'cycle-theme
+    "[w" 'winner-undo
+    "]w" 'winner-redo)
+
   (keys
     "C-h" 'evil-window-left
     "C-j" 'evil-window-down

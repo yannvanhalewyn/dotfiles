@@ -18,19 +18,12 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(defconst custom-file (expand-file-name "custom.el" user-emacs-directory))
-(unless (file-exists-p custom-file)
-  (write-region "" nil custom-file))
-(load custom-file)
-
-
-(org-babel-load-file (concat user-emacs-directory "configuration.org"))
+(defun load-config()
+  (interactive)
+  (org-babel-load-file (concat user-emacs-directory "configuration.org")))
+(load-config)
 
 (add-to-list 'load-path (concat user-emacs-directory "config"))
-;; (require 'init-use-package)
-;; (require 'general-behavior)
 (require 'init-functions)
 (require 'init-packages)
-(require 'init-ibuffer)
-(require 'init-dired)
 (require 'layout)
