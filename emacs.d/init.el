@@ -24,5 +24,4 @@
 
 (add-to-list 'load-path (concat user-emacs-directory "config"))
 (require 'init-functions)
-(require 'init-packages)
 (load-config)
