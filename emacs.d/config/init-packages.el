@@ -102,7 +102,9 @@
     "C-h" 'evil-window-left
     "C-j" 'evil-window-down
     "C-k" 'evil-window-up
-    "C-l" 'evil-window-right)
+    "C-l" 'evil-window-right
+    "j"   'evil-next-visual-line
+    "k"   'evil-previous-visual-line)
 
   (use-package evil-nerd-commenter
     :diminish evil-commentary-mode
