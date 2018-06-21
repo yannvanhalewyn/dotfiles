@@ -5,21 +5,9 @@
             (end (cadr (match-data))))
         (if (and beg end) (substring s beg end)))))
 
-(defun edit-packages ()
-  "Goes to the main emacs config file (init-plugins.el)"
-  (interactive) (find-file "~/.emacs.d/config/init-packages.el"))
-
-(defun edit-general-behavior ()
-  "Goes to the main emacs config file (init-plugins.el)"
-  (interactive) (find-file "~/.emacs.d/config/general-behavior.el"))
-
-(defun edit-evil ()
-  "Goes to the general emacs config file (general-behavior.el)"
-  (interactive) (find-file "~/.emacs.d/config/init-evil.el"))
-
-(defun edit-layout ()
-  "Goes to the layout emacs config file (layout.el)"
-  (interactive) (find-file "~/.emacs.d/config/layout.el"))
+(defun edit-config ()
+  "Goes to the main emacs config file (configuration.org)"
+  (interactive) (find-file "~/.emacs.d/configuration.org"))
 
 (defun edit-functions ()
   "Goes to the init-functions el file"
