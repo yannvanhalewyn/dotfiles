@@ -495,7 +495,7 @@
 
 ** Diminish
 
-   Hides some modes from the modeline. Integrates with `use-package`
+   Hides some modes from the modeline. Included for integration with ~use-package~.
 
    #+BEGIN_SRC emacs-lisp
    (use-package diminish)
@@ -506,37 +506,50 @@
    What would we do without [[https://github.com/emacs-evil/evil][Evil]]
 
    #+BEGIN_SRC emacs-lisp
-   (use-package evil
-     :init
-     (setq evil-want-fine-undo t)
-     (add-hook #'after-change-major-mode-hook
-               (lambda () (interactive)
-                 (modify-syntax-entry ?_ "w")))
+     (use-package evil
+       :init
+       (setq evil-want-fine-undo t)
+       (add-hook #'after-change-major-mode-hook
+                 (lambda () (interactive)
+                   (modify-syntax-entry ?_ "w")))
 
-     :config
-     (evil-mode t)
+       :config
+       (evil-mode t)
 
-     (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
-     (evil-add-hjkl-bindings ibuffer-mode-map 'emacs)
+       (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
+       (evil-add-hjkl-bindings ibuffer-mode-map 'emacs)
 
-     (keys
-       "C-h" 'evil-window-left
-       "C-j" 'evil-window-down
-       "C-k" 'evil-window-up
-       "C-l" 'evil-window-right
-       "j"   'evil-next-visual-line
-       "k"   'evil-previous-visual-line)
+       (keys
+         "C-h" 'evil-window-left
+         "C-j" 'evil-window-down
+         "C-k" 'evil-window-up
+         "C-l" 'evil-window-right
+         "j"   'evil-next-visual-line
+         "k"   'evil-previous-visual-line))
+   #+END_SRC
 
+   Easy commenting as a vi motion
+
+   #+BEGIN_SRC emacs-lisp
      (use-package evil-nerd-commenter
        :diminish evil-commentary-mode
        :init
        (keys "gc" 'evilnc-comment-operator)
        (keys-l
          "c y" 'evilnc-copy-and-comment-lines))
+   #+END_SRC
 
+   Like TPope's [[https://github.com/tpope/vim-surround][Surround]], but for evil.
+
+   #+BEGIN_SRC emacs-lisp
      (use-package evil-surround
        :config (global-evil-surround-mode 1))
+   #+END_SRC
 
+
+   Edit lisps in evil. Especially makes sure killing and yanking lines don't include unmatched parens.
+
+   #+BEGIN_SRC emacs-lisp
      (use-package evil-cleverparens
        :defer t
        :diminish evil-cleverparens-mode
@@ -547,12 +560,16 @@
        :init
        ;; Don't use crazy bindings for {, [, } and ] from evil-cleverparens
        (setq evil-cleverparens-use-additional-movement-keys nil))
+   #+END_SRC
 
+   Who doesn't love vim's c-a and c-x for incrementing and decrementing numbers.
+
+   #+BEGIN_SRC emacs-lisp
      (use-package evil-numbers
        :config
        (keys :prefix "g"
          "a" 'evil-numbers/inc-at-pt
-         "x" 'evil-numbers/dec-at-pt)))
+         "x" 'evil-numbers/dec-at-pt))
    #+END_SRC
 
 ** Magit
