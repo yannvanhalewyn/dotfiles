@@ -46,18 +46,18 @@
    (setq ring-bell-function 'ignore)
    #+END_SRC
 
+** Just type y or n
+
+   #+BEGIN_SRC emacs-lisp
+   (defalias 'yes-or-no-p 'y-or-n-p)
+   #+END_SRC
+
 ** No backup files
 
    #+BEGIN_SRC emacs-lisp
    (setq make-backup-files nil)
    (setq create-lockfiles nil)
    (auto-save-mode nil)
-   #+END_SRC
-
-** Just type y or n
-
-   #+BEGIN_SRC emacs-lisp
-   (defalias 'yes-or-no-p 'y-or-n-p)
    #+END_SRC
 
 ** Deal with temp files
@@ -68,6 +68,8 @@
    #+END_SRC
 
 ** Add brews and /usr/local/bin to exec path
+
+   [[https://github.com/purcell/exec-path-from-shell][Exec path from shell]] was a bit slow. This gives me what I need for now.
 
    #+BEGIN_SRC emacs-lisp
    (let ((paths "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"))
@@ -1004,24 +1006,23 @@
     Navigate en manage file tree in sidebar
 
     #+BEGIN_SRC emacs-lisp
-    (use-package neotree
-      :defer t
-      :init (keys-l "n" 'neotree-project-root)
-      :config
-      ;; Open current file in tree
-      (evil-make-overriding-map neotree-mode-map 'normal t)
-      (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-      (keys :keymaps '(neotree-mode-map)
-        "d" 'neotree-delete-node
-        "J" 'neotree-select-down-node
-        "K" 'neotree-select-up-node
-        "q" 'neotree-hide
-        "m" 'neotree-rename-node
-        "n" 'neotree-create-node
-        "c" 'neotree-copy-node
-        "o" 'neotree-enter
-        "x" (lambda () (interactive) (neotree-select-up-node) (neotree-enter))
-        "<tab>" 'neotree-quick-look))
+      (use-package neotree
+        :defer t
+        :init (keys-l "n" 'neotree-project-root)
+        :config
+        (evil-make-overriding-map neotree-mode-map 'normal t)
+        (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+        (keys 'neotree-mode-map
+          "d" 'neotree-delete-node
+          "J" 'neotree-select-down-node
+          "K" 'neotree-select-up-node
+          "q" 'neotree-hide
+          "m" 'neotree-rename-node
+          "n" 'neotree-create-node
+          "c" 'neotree-copy-node
+          "o" 'neotree-enter
+          "x" (lambda () (interactive) (neotree-select-up-node) (neotree-enter))
+          "<tab>" 'neotree-quick-look))
     #+END_SRC
 
 *** Ivy
@@ -1061,16 +1062,6 @@
 
          (use-package wgrep :defer t))
    #+END_SRC
-** GLSL
-
-   #+BEGIN_SRC emacs-lisp
-   (use-package glsl-mode
-     :defer t
-     :config
-     (add-to-list 'auto-mode-alist '("\\.vert" . glsl-mode))
-     (add-to-list 'auto-mode-alist '("\\.frag" . glsl-mode)))
-   #+END_SRC
-
 ** Markdown
 
    #+BEGIN_SRC emacs-lisp
@@ -1087,56 +1078,58 @@
 ** Org
 
    #+BEGIN_SRC emacs-lisp
-   (use-package org
-     :defer t
-     :init
-     (keys-l 'org-mode-map
-       "r" 'org-refile
-       "A" 'org-archive-subtree-default-with-confirmation)
-
-     (keys 'org-mode-map
-       "t" 'org-todo
-       "T" 'org-toggle-checkbox
-       "-" 'org-cycle-list-bullet
-       "RET" 'org-open-at-point)
-
-     (keys 'org-agenda-mode-map
-       "f" 'org-agenda-filter-by-tag)
-
-     :config
-     (defconst gtd-dir "~/Dropbox/Documents/gtd")
-     (defconst gtd-main (expand-file-name "gtd.org" gtd-dir))
-     (defconst gtd-inbox (expand-file-name "inbox.org" gtd-dir))
-     (defconst gtd-someday (expand-file-name "someday.org" gtd-dir))
-
-     (add-hook 'org-capture-mode-hook 'evil-insert-state)
-
-     (add-hook 'org-mode-hook '(lambda () (interactive) (org-content 2)))
-
-     (evil-add-hjkl-bindings org-agenda-mode-map 'emacs)
-
-     (setq org-agenda-files `(,gtd-main ,gtd-inbox)
-           org-log-done 'time
-           org-html-postamble nil
-           org-ellipsis "↷")
-
-     (setq org-agenda-custom-commands
-           '(("w" "Work stuff" tags-todo "@work"
-              ((org-agenda-overriding-header "Work")
-               (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
-
-     (setq org-capture-templates `(("t" "Todo [inbox]" entry
-                                    (file ,gtd-inbox)
-                                    "* TODO %i%?")))
-
-     (setq org-refile-targets '((gtd-main :maxlevel . 1)
-                                (gtd-someday :level . 1)))
-
-     (setq org-tags-column 75)
-
-     (use-package org-bullets
+     (use-package org
        :defer t
-       :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+       :init
+       (keys-l 'org-mode-map
+         "r" 'org-refile
+         "A" 'org-archive-subtree-default-with-confirmation
+         "i l" 'org-insert-link)
 
-     (use-package org-evil))
+       (keys 'org-mode-map
+         "t" 'org-todo
+         "T" 'org-toggle-checkbox
+         "-" 'org-cycle-list-bullet
+         "RET" 'org-open-at-point
+         "<S-return>" 'org-edit-special)
+
+       (keys 'org-agenda-mode-map
+         "f" 'org-agenda-filter-by-tag)
+
+       :config
+       (defconst gtd-dir "~/Dropbox/Documents/gtd")
+       (defconst gtd-main (expand-file-name "gtd.org" gtd-dir))
+       (defconst gtd-inbox (expand-file-name "inbox.org" gtd-dir))
+       (defconst gtd-someday (expand-file-name "someday.org" gtd-dir))
+
+       (add-hook 'org-capture-mode-hook 'evil-insert-state)
+
+       (add-hook 'org-mode-hook '(lambda () (interactive) (org-content 2)))
+
+       (evil-add-hjkl-bindings org-agenda-mode-map 'emacs)
+
+       (setq org-agenda-files `(,gtd-main ,gtd-inbox)
+             org-log-done 'time
+             org-html-postamble nil
+             org-ellipsis "↷")
+
+       (setq org-agenda-custom-commands
+             '(("w" "Work stuff" tags-todo "@work"
+                ((org-agenda-overriding-header "Work")
+                 (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
+
+       (setq org-capture-templates `(("t" "Todo [inbox]" entry
+                                      (file ,gtd-inbox)
+                                      "* TODO %i%?")))
+
+       (setq org-refile-targets '((gtd-main :maxlevel . 1)
+                                  (gtd-someday :level . 1)))
+
+       (setq org-tags-column 75)
+
+       (use-package org-bullets
+         :defer t
+         :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+       (use-package org-evil))
   #+END_SRC
