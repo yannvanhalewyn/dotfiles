@@ -502,75 +502,83 @@
    #+END_SRC
 
 ** Evil
+*** Evil Mode
 
-   What would we do without [[https://github.com/emacs-evil/evil][Evil]]
+    What would we do without [[https://github.com/emacs-evil/evil][Evil]]
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package evil
-       :init
-       (setq evil-want-fine-undo t)
-       (add-hook #'after-change-major-mode-hook
-                 (lambda () (interactive)
-                   (modify-syntax-entry ?_ "w")))
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil
+        :init
+        (setq evil-want-fine-undo t)
+        (add-hook #'after-change-major-mode-hook
+                  (lambda () (interactive)
+                    (modify-syntax-entry ?_ "w")))
 
-       :config
-       (evil-mode t)
+        :config
+        (evil-mode t)
 
-       (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
-       (evil-add-hjkl-bindings ibuffer-mode-map 'emacs)
+        (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
+        (evil-add-hjkl-bindings ibuffer-mode-map 'emacs)
 
-       (keys
-         "C-h" 'evil-window-left
-         "C-j" 'evil-window-down
-         "C-k" 'evil-window-up
-         "C-l" 'evil-window-right
-         "j"   'evil-next-visual-line
-         "k"   'evil-previous-visual-line))
-   #+END_SRC
+        (keys
+          "C-h" 'evil-window-left
+          "C-j" 'evil-window-down
+          "C-k" 'evil-window-up
+          "C-l" 'evil-window-right
+          "j"   'evil-next-visual-line
+          "k"   'evil-previous-visual-line))
+    #+END_SRC
 
-   Easy commenting as a vi motion
+*** Evil NerdCommenter
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package evil-nerd-commenter
-       :diminish evil-commentary-mode
-       :init
-       (keys "gc" 'evilnc-comment-operator)
-       (keys-l
-         "c y" 'evilnc-copy-and-comment-lines))
-   #+END_SRC
+    Easy commenting as a vi motion
 
-   Like TPope's [[https://github.com/tpope/vim-surround][Surround]], but for evil.
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-nerd-commenter
+        :diminish evil-commentary-mode
+        :init
+        (keys "gc" 'evilnc-comment-operator)
+        (keys-l
+          "c y" 'evilnc-copy-and-comment-lines))
+    #+END_SRC
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package evil-surround
-       :config (global-evil-surround-mode 1))
-   #+END_SRC
+*** Evil Surround
 
+    Like TPope's [[https://github.com/tpope/vim-surround][Surround]], but for evil.
 
-   Edit lisps in evil. Especially makes sure killing and yanking lines don't include unmatched parens.
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-surround
+        :config (global-evil-surround-mode 1))
+    #+END_SRC
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package evil-cleverparens
-       :defer t
-       :diminish evil-cleverparens-mode
-       :config
-       ;; Evil CP overwrites "c" for change. This will re-enable "cs"
-       ;; motion "change surrounding" of evil-surround
-       (evil-cp--enable-surround-operators)
-       :init
-       ;; Don't use crazy bindings for {, [, } and ] from evil-cleverparens
-       (setq evil-cleverparens-use-additional-movement-keys nil))
-   #+END_SRC
+*** Evil Cleverparens
 
-   Who doesn't love vim's c-a and c-x for incrementing and decrementing numbers.
+    [[https://github.com/luxbock/evil-cleverparens][Evil Cleverparens]] for editing lisps in evil. Especially makes sure killing and yanking lines don't include unmatched parens + easy surrounding expressions with ~M-[~ and ~M-(~.
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package evil-numbers
-       :config
-       (keys :prefix "g"
-         "a" 'evil-numbers/inc-at-pt
-         "x" 'evil-numbers/dec-at-pt))
-   #+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-cleverparens
+        :defer t
+        :diminish evil-cleverparens-mode
+        :config
+        ;; Evil CP overwrites "c" for change. This will re-enable "cs"
+        ;; motion "change surrounding" of evil-surround
+        (evil-cp--enable-surround-operators)
+        :init
+        ;; Don't use crazy bindings for {, [, } and ] from evil-cleverparens
+        (setq evil-cleverparens-use-additional-movement-keys nil))
+    #+END_SRC
+
+*** Evil Numbers
+
+    Who doesn't love vim's c-a and c-x for incrementing and decrementing numbers.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-numbers
+        :config
+        (keys :prefix "g"
+          "a" 'evil-numbers/inc-at-pt
+          "x" 'evil-numbers/dec-at-pt))
+    #+END_SRC
 
 ** Magit
 
@@ -616,9 +624,9 @@
      (keys :keymaps '(magit-revision-mode-map diff-mode-map)
        :states 'visual
        "y" 'yank-from-revision-buffer)
-     (keys :keymaps 'magit-blame-mode-map "q" 'magit-blame-quit)
-     (keys :keymaps 'git-rebase-mode-map "q" 'magit-rebase-abort)
-     (keys :keymaps 'magit-status-mode-map "K" 'magit-discard))
+     (keys 'magit-blame-mode-map "q" 'magit-blame-quit)
+     (keys 'git-rebase-mode-map "q" 'magit-rebase-abort)
+     (keys 'magit-status-mode-map "K" 'magit-discard))
    #+END_SRC
 
    Potentially setup github integration from Magit's interface
