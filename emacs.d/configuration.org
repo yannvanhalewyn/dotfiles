@@ -526,7 +526,10 @@
           "C-k" 'evil-window-up
           "C-l" 'evil-window-right
           "j"   'evil-next-visual-line
-          "k"   'evil-previous-visual-line))
+          "k"   'evil-previous-visual-line)
+
+        (keys :states 'insert
+          "C-y" 'evil-paste-before))
     #+END_SRC
 
 *** Evil NerdCommenter
