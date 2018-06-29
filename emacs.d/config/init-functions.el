@@ -5,14 +5,6 @@
             (end (cadr (match-data))))
         (if (and beg end) (substring s beg end)))))
 
-(defun edit-config ()
-  "Goes to the main emacs config file (configuration.org)"
-  (interactive) (find-file "~/.emacs.d/configuration.org"))
-
-(defun edit-functions ()
-  "Goes to the init-functions el file"
-  (interactive) (find-file "~/.emacs.d/config/init-functions.el"))
-
 (require 'cl)
 (defun find-file-i (file)
   (lexical-let ((f file))
@@ -21,42 +13,6 @@
 (defun dired-current-dir ()
   (interactive)
   (dired ""))
-
-(defun code-buffer? (name)
-  "Returns wether or the NAME is a name for a code buffer"
-  (not (string-match-p "^\*" name)))
-
-(defun circle-code-buffers (circle-fn)
-  (let ((bread-crumb (buffer-name)))
-    (funcall circle-fn)
-    (while
-        (and
-         (not (code-buffer? (buffer-name)))
-         (not (equal bread-crumb (buffer-name))) )
-      (funcall circle-fn))))
-
-(defun next-code-buffer ()
-  "Open next active buffer, ignoring non-code related buffers."
-  (interactive)
-  (circle-code-buffers 'next-buffer))
-
-(defun previous-code-buffer ()
-  "Open next active buffer, ignoring non-code related buffers."
-  (interactive)
-  (circle-code-buffers 'previous-buffer))
-
-;; Save buffer when exiting insert mode
-(defun save-if-code-buffer ()
-  "Saves the current buffer if code buffer"
-  (if (code-buffer? (buffer-name))
-      (save-buffer)))
-
-;; Clear emacs shell
-(defun shell-clear-buffer ()
-  (interactive)
-  ;; Size one because of my 2-line prompt
-  (let ((comint-buffer-maximum-size 1))
-    (comint-truncate-buffer)))
 
 (defun cycle-theme (&optional reverse)
   "Load the next (or previous if REVERSE is true) available theme."
@@ -94,11 +50,6 @@ root, or asks for a repl port to connect form anywhere."
   (let ((port (or (ignore-errors (file->str (projectile-expand-root ".nrepl-port")))
                   (read-number "Cider connect to port: "))))
     (cider-connect "localhost" port)))
-
-(defun cider-make-cljs-repl ()
-  "Changes the connection type of repl the buffer at point to CLJS."
-  (interactive)
-  (setq-local cider-repl-type "cljs"))
 
 (defun chrome-reload (&optional focus)
   "Use osascript to tell Google Chrome to reload. If optional argument
@@ -138,19 +89,6 @@ root, or asks for a repl port to connect form anywhere."
          (url (format "%s/%s#L%s" (-vc-current-project-remote-url) file-path line-num)))
     (browse-url url)))
 
-(defun ticket-number (branchname)
-  "returns the ticket number (eg 4+ digits number) from branchname"
-  (re-match "[0-9][0-9][0-9][0-9]" branchname))
-
-(defun redmine-url (issue)
-  "The url for the redmine ISSUE"
-  (format "http://redmine.publiekeomroep.nl/issues/%s" issue))
-
-(defun open-current-ticket-in-redmine ()
-  "Opens the current ticket (fetched from the branchname) in redmine"
-  (interactive)
-  (browse-url (redmine-url (ticket-number (-vc-current-branch)))))
-
 (defun neotree-project-root ()
   "Open NeoTree using the git root."
   (interactive)
@@ -161,13 +99,6 @@ root, or asks for a repl port to connect form anywhere."
         (progn
           (neotree-dir project-dir)
           (neotree-find file-name)))))
-
-(defun split-window-with-rspec-alternate-file ()
-  (interactive)
-  (delete-other-windows)
-  (split-window-horizontally)
-  (windmove-right)
-  (rspec-toggle-spec-and-target))
 
 (defun buff-swap ()
   "Swap current buffer with buffer to the left or right."
@@ -195,52 +126,6 @@ Returns a hash table with keys being short names and values being relative paths
                   (puthash (match-string 1 file) file hash))))
     hash))
 
-(defmacro filer--find-resource (prompt dirs)
-  "Presents files from DIRS to the user using `projectile-completing-read'.
-If users chooses a non existant file and NEWFILE-TEMPLATE is not nil
-it will use that variable to interpolate the name for the new file.
-NEWFILE-TEMPLATE will be the argument for `s-lex-format'.
-The bound variable is \"filename\"."
-  `(let* ((choices (filer--choices ,dirs))
-          (filename (projectile-completing-read ,prompt (projectile-rails-hash-keys choices))))
-     (find-file (projectile-expand-root (gethash filename choices)))))
-
-(defun coffee-find-model ()
-  (interactive)
-  (filer--find-resource "model: " '(("frontend/src/models" "/models/\\(.+\\).coffee"))))
-
-(defun coffee-find-component ()
-  (interactive)
-  (filer--find-resource "component: " '(("frontend/src/components" "/components/\\(.+\\).coffee"))))
-
-(defun coffee-find-redux ()
-  (interactive)
-  (filer--find-resource "redux: " '(("frontend/src/redux" "/redux/\\(.+\\).coffee"))))
-
-(defun coffee-find-test ()
-  (interactive)
-  (filer--find-resource "test: " '(("frontend/test" "/test/\\(.+\\)_spec.coffee"))))
-
-(defun cider-find-clj ()
-  (interactive)
-  (filer--find-resource "src: " '(("src" "/clj/\\(.+\\).clj"))))
-
-(defun cider-find-cljs ()
-  (interactive)
-  (filer--find-resource "src: " '(("src" "/cljs/\\(.+\\).cljs"))))
-
-(defun cljs-find-card ()
-  (interactive)
-  (filer--find-resource "card: " '(("src/cards" "/cards/\\(.+\\).cljs"))))
-
-(defun cljs-find-component ()
-  (interactive)
-  (filer--find-resource "component: " '(("src/cljs/frontend/" "/views/\\(.+\\).cljs"))))
-
-(defun cljs-find-model ()
-  (interactive)
-  (filer--find-resource "model: " '(("src/clj/brightmotive/" "/models/\\(.+\\).clj"))))
-
 (defun my-create-newline-and-enter-sexp (&rest _ignored)
   "Open a new brace or bracket expression, with relevant newlines and indent. "
   (newline)
@@ -249,13 +134,6 @@ The bound variable is \"filename\"."
   (indent-according-to-mode))
 
 (defvar junk-file/directory "~/.emacs.d/cache/junk/")
-
-(defun junk-file/new ()
-  "Opens a new junk file, useful for testing purpouses"
-  (interactive)
-  (let ((file (read-file-name "Junk Code: " junk-file/directory)))
-    (make-directory (file-name-directory file) t)
-    (find-file file)))
 
 (defun junk-file/find ()
   (interactive)

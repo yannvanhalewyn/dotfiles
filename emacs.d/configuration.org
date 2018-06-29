@@ -153,15 +153,25 @@
 ** Auto save buffer when leaving insert mode
 
    #+BEGIN_SRC emacs-lisp
-   (defun set-save-hook ()
-     (interactive)
-     (add-hook 'evil-insert-state-exit-hook 'save-if-code-buffer))
+     (defun code-buffer? (name)
+       "Returns wether or the NAME is a name for a code buffer"
+       (not (string-match-p "^\*" name)))
 
-   (defun clear-save-hook ()
-     (interactive)
-     (remove-hook 'evil-insert-state-exit-hook 'save-if-code-buffer))
+     ;; Save buffer when exiting insert mode
+     (defun save-if-code-buffer ()
+       "Saves the current buffer if code buffer"
+       (if (code-buffer? (buffer-name))
+           (save-buffer)))
 
-   (set-save-hook)
+     (defun set-save-hook ()
+       (interactive)
+       (add-hook 'evil-insert-state-exit-hook 'save-if-code-buffer))
+
+     (defun clear-save-hook ()
+       (interactive)
+       (remove-hook 'evil-insert-state-exit-hook 'save-if-code-buffer))
+
+     (set-save-hook)
    #+END_SRC
 
 ** Prevent # -*- coding: utf-8 -*-
@@ -363,8 +373,6 @@
        "C--" 'text-scale-decrease
        "[e" 'flycheck-previous-error
        "]e" 'flycheck-next-error
-       "[b" 'previous-code-buffer
-       "]b" 'next-code-buffer
        "]t" 'cycle-theme
        "[w" 'winner-undo
        "]w" 'winner-redo)
@@ -390,53 +398,52 @@
    Global leader keys
 
    #+BEGIN_SRC emacs-lisp
-   (keys-l
-     "a" (build-keymap
-          "a" 'org-agenda
-          "t" 'org-todo-list
-          "c" '(lambda () (interactive) (org-capture nil "t"))
-          "C" 'calc-dispatch)
-     "B" 'ibuffer
-     "b" 'ivy-switch-buffer
-     "c" (build-keymap
-          "u" 'cis/update
-          "o" 'cis/open-ci-build
-          "t" 'comment-as-title
-          "T" 'comment-as-title--bm)
-     "d" 'dired-current-dir
-     "f" (build-keymap
-          "r" 'counsel-recentf
-          "m" 'rename-current-buffer-file
-          "c" 'copy-current-buffer-file
-          "d" 'delete-current-buffer-file
-          "s" 'save-buffer
-          "S" 'save-some-buffers
-          "j" 'junk-file/new
-          "J" 'junk-file/find)
-     "v" (build-keymap
-          "f" (find-file-i (locate-user-emacs-file "config/init-functions.el"))
-          "p" (find-file-i (locate-user-emacs-file "configuration.org")))
-     "h" (build-keymap
-          "a" 'counsel-apropos
-          "f" 'describe-function
-          "K" 'which-key-show-top-level
-          "k" 'describe-key
-          "m" 'describe-mode
-          "p" 'describe-package
-          "v" 'describe-variable)
-     "i" (build-keymap
-          "u" 'insert-char)
-     "o" 'counsel-find-file
-     "Q" 'delete-other-windows
-     "q" 'kill-this-buffer
-     "R" 'chrome-reload
-     "S" 'shell
-     "s" (build-keymap
-          "s" 'shell
-          "k" 'shell-clear-buffer)
-     "w" 'buff-swap
-     "x" 'counsel-projectile-ag
-     "X" 'ag)
+     (keys-l
+       "a" (build-keymap
+            "a" 'org-agenda
+            "t" 'org-todo-list
+            "c" '(lambda () (interactive) (org-capture nil "t"))
+            "C" 'calc-dispatch)
+       "B" 'ibuffer
+       "b" 'ivy-switch-buffer
+       "c" (build-keymap
+            "u" 'cis/update
+            "o" 'cis/open-ci-build
+            "t" 'comment-as-title
+            "T" 'comment-as-title--bm)
+       "d" 'dired-current-dir
+       "f" (build-keymap
+            "r" 'counsel-recentf
+            "m" 'rename-current-buffer-file
+            "c" 'copy-current-buffer-file
+            "d" 'delete-current-buffer-file
+            "s" 'save-buffer
+            "S" 'save-some-buffers
+            "j" 'junk-file/find)
+       "v" (build-keymap
+            "f" (find-file-i (locate-user-emacs-file "config/init-functions.el"))
+            "p" (find-file-i (locate-user-emacs-file "configuration.org")))
+       "h" (build-keymap
+            "a" 'counsel-apropos
+            "f" 'describe-function
+            "K" 'which-key-show-top-level
+            "k" 'describe-key
+            "m" 'describe-mode
+            "p" 'describe-package
+            "v" 'describe-variable)
+       "i" (build-keymap
+            "u" 'insert-char)
+       "o" 'counsel-find-file
+       "Q" 'delete-other-windows
+       "q" 'kill-this-buffer
+       "R" 'chrome-reload
+       "S" 'shell
+       "s" (build-keymap
+            "s" 'shell
+            "k" 'shell-clear-buffer)
+       "w" 'buff-swap
+       "x" 'counsel-projectile-ag
+       "X" 'ag)
   #+END_SRC
 
 ** Dired
@@ -751,33 +758,28 @@
 *** Coffee-mode
 
     #+BEGIN_SRC emacs-lisp
-    (use-package coffee-mode
-      :defer t
-      :config
-      (setq coffee-tab-width 2)
-      (require 'coffee-evil-extensions)
-      (require 'mocha)
+      (use-package coffee-mode
+        :defer t
+        :config
+        (setq coffee-tab-width 2)
+        (require 'coffee-evil-extensions)
+        (require 'mocha)
 
-      (setq mocha-project-test-directory "frontend/test"
-            mocha-environment-variables "NODE_PATH=./frontend/src"
-            mocha-options "--watch ./tmp/static.js ./frontend/test/config.coffee"
-            mocha-reporter "spec")
+        (setq mocha-project-test-directory "frontend/test"
+              mocha-environment-variables "NODE_PATH=./frontend/src"
+              mocha-options "--watch ./tmp/static.js ./frontend/test/config.coffee"
+              mocha-reporter "spec")
 
-      (keys-l :keymaps '(coffee-mode-map js-mode-map)
-        "a" 'mocha-test-project
-        "t" 'mocha-test-file
-        "s" 'mocha-test-at-point)
+        (keys-l :keymaps '(coffee-mode-map js-mode-map)
+          "a" 'mocha-test-project
+          "t" 'mocha-test-file
+          "s" 'mocha-test-at-point)
 
-      (keys :keymaps 'coffee-mode-map
-        "o" 'coffee-open-below
-        "O" 'coffee-open-above
-        "<" 'coffee-indent-shift-left
-        ">" 'coffee-indent-shift-right
-        "g" (build-keymap
-             "m" 'coffee-find-model
-             "v" 'coffee-find-component
-             "r" 'coffee-find-redux
-             "t" 'coffee-find-test)))
+        (keys :keymaps 'coffee-mode-map
+          "o" 'coffee-open-below
+          "O" 'coffee-open-above
+          "<" 'coffee-indent-shift-left
+          ">" 'coffee-indent-shift-right))
     #+END_SRC
 
 *** rspec-mode
@@ -924,11 +926,7 @@
         "[p" 'cider-inspector-prev-page
         "]p" 'cider-inspector-next-page)
 
-      (keys :keymaps cider-mode-maps :prefix "g"
-        "f" 'cider-find-var
-        "v" 'cider-find-cljs
-        "b" 'cider-find-clj
-        "d" 'cljs-find-card)
+      (keys :keymaps cider-mode-maps "g f" 'cider-find-var)
 
       (keys-l :keymaps cider-mode-maps
         "c" (build-keymap
