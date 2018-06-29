@@ -1,5 +1,3 @@
-(require 'util)
-
 (defface cis/failed '((t :inherit (error bold) :height 1.2)) "")
 (defface cis/pending '((t :inherit (warning bold) :height 1.2)) "")
 (defface cis/success '((t :inherit (success bold) :height 1.2)) "")
