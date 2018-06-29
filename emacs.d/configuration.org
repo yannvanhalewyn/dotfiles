@@ -90,20 +90,20 @@
    Make ESC quit various types of minibuffers. Without this you need 3 esc hits to quit them.
 
    #+BEGIN_SRC emacs-lisp
-   (defun minibuffer-keyboard-quit ()
-     "Abort recursive edit.
-   In Delete Selection mode, if the mark is active, just deactivate it;
-   then it takes a second \\[keyboard-quit] to abort the minibuffer."
-     (interactive)
-     (if (and delete-selection-mode transient-mark-mode mark-active)
-         (setq deactivate-mark  t)
-       (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
-       (abort-recursive-edit)))
-   (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-   (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-   (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-   (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-   (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+     (defun minibuffer-keyboard-quit ()
+       "Abort recursive edit.
+     In Delete Selection mode, if the mark is active, just deactivate it;
+     then it takes a second \\[keyboard-quit] to abort the minibuffer."
+       (interactive)
+       (if (and delete-selection-mode transient-mark-mode mark-active)
+           (setq deactivate-mark  t)
+         (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+         (abort-recursive-edit)))
+     (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+     (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+     (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+     (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+     (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
    #+END_SRC
 
 ** Setup alt key as meta on emacs-macport
@@ -154,24 +154,20 @@
 
    #+BEGIN_SRC emacs-lisp
      (defun code-buffer? (name)
-       "Returns wether or the NAME is a name for a code buffer"
        (not (string-match-p "^\*" name)))
 
-     ;; Save buffer when exiting insert mode
      (defun save-if-code-buffer ()
-       "Saves the current buffer if code buffer"
-       (if (code-buffer? (buffer-name))
-           (save-buffer)))
+       (when (code-buffer? (buffer-name)) (save-buffer)))
 
-     (defun set-save-hook ()
+     (defun set-save-hook! ()
        (interactive)
        (add-hook 'evil-insert-state-exit-hook 'save-if-code-buffer))
 
-     (defun clear-save-hook ()
+     (defun clear-save-hook! ()
        (interactive)
        (remove-hook 'evil-insert-state-exit-hook 'save-if-code-buffer))
 
-     (set-save-hook)
+     (set-save-hook!)
    #+END_SRC
 
 ** Prevent # -*- coding: utf-8 -*-
@@ -351,6 +347,14 @@
    (setq use-package-verbose nil
          use-package-always-ensure t)
   #+END_SRC
+
+** Diminish
+
+   Hides some modes from the modeline. Included for integration with ~use-package~.
+
+   #+BEGIN_SRC emacs-lisp
+   (use-package diminish)
+   #+END_SRC
 ** General (keybindings)
 
    [[https://github.com/noctuid/general.el][General.el]] is an amazing tool to manage keybindings. It can create definers with prefixes, which are a great replacement for evil-leader.
@@ -498,14 +502,6 @@
    (add-hook 'ibuffer-mode-hook
              (lambda ()
                (ibuffer-switch-to-saved-filter-groups "default")))
-   #+END_SRC
-
-** Diminish
-
-   Hides some modes from the modeline. Included for integration with ~use-package~.
-
-   #+BEGIN_SRC emacs-lisp
-   (use-package diminish)
    #+END_SRC
 
 ** Evil
