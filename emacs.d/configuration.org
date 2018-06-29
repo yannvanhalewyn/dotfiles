@@ -765,7 +765,6 @@
         (interactive)
         (evil-open-below 1)
         (coffee-indent-line))
-
     #+END_SRC
 
     Setup coffee mode
@@ -800,7 +799,9 @@
               mocha-reporter "spec"))
     #+END_SRC
 
-*** rspec-mode
+*** Rspec
+
+    Running rspec tests from the editor
 
     #+BEGIN_SRC emacs-lisp
     (use-package rspec-mode
@@ -814,7 +815,9 @@
         "l" 'rspec-rerun))
     #+END_SRC
 
-*** prettier-js
+*** Prettier
+
+    Ensure consistent js formatting
 
     #+BEGIN_SRC emacs-lisp
     (use-package prettier-js
@@ -825,16 +828,17 @@
       (add-hooks #'prettier-js-mode '(js2-mode-hook js-mode-hook)))
    #+END_SRC
 
-*** inf-ruby
+*** Inf ruby
 
     Using pry in rspec buffers
+
     #+BEGIN_SRC emacs-lisp
     (use-package inf-ruby
       :config
       (add-hook 'after-init-hook 'inf-ruby-switch-setup))
    #+END_SRC
 
-*** smartparens
+*** Smartparens
 
     Close do-end blocks in ruby
 
