@@ -20,10 +20,10 @@
    Set up a different cutom file for ~custom.el~ so we don't have to check in all those random automatically added code snippets.
 
    #+BEGIN_SRC emacs-lisp
-   (defconst custom-file (expand-file-name "custom.el" user-emacs-directory))
-   (unless (file-exists-p custom-file)
-   (write-region "" nil custom-file))
-   (load custom-file)
+     (defconst custom-file (expand-file-name "custom.el" user-emacs-directory))
+     (unless (file-exists-p custom-file)
+       (write-region "" nil custom-file))
+     (load custom-file)
    #+END_SRC
 
 ** Garbage collection
