@@ -555,6 +555,10 @@
 
      #+BEGIN_SRC emacs-lisp
      (use-package counsel-projectile
+       :init
+       ;; Currently there is a breaking change in projectile. Until the fix is merged, this patches it:
+       ;; https://github.com/ericdanan/counsel-projectile/pull/92
+       (setq projectile-keymap-prefix (where-is-internal 'projectile-command-map nil t))
        :config
        (keys-l
          "f" 'counsel-projectile-find-file
