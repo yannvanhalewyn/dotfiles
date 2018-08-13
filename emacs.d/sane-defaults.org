@@ -1,0 +1,600 @@
+* General emacs
+** Load path
+
+   Add "emacs.d/config" to the load path for extra functions and custom packages.
+
+   #+BEGIN_SRC emacs-lisp
+   (add-to-list 'load-path (concat user-emacs-directory "config"))
+   #+END_SRC
+
+** Garbage collection
+
+   Allow 20MB of memory (instead of 0.76MB) before calling garbage collection. This means GC runs less often, which speeds up some operations.
+
+   #+BEGIN_SRC emacs-lisp
+   (setq gc-cons-threshold 20000000)
+   #+END_SRC
+** Hide splash screen
+
+   #+BEGIN_SRC emacs-lisp
+   (setq inhibit-startup-message t)
+   #+END_SRC
+
+** Silence bell
+
+   #+BEGIN_SRC emacs-lisp
+   (setq ring-bell-function 'ignore)
+   #+END_SRC
+
+** Just type y or n
+
+   #+BEGIN_SRC emacs-lisp
+   (defalias 'yes-or-no-p 'y-or-n-p)
+   #+END_SRC
+** Save minibuffer history
+
+   #+BEGIN_SRC emacs-lisp
+   (require 'savehist)
+   (savehist-mode t)
+   #+END_SRC
+
+** Quitting minibuffer with ESC
+
+   Make ESC quit various types of minibuffers. Without this you need 3 esc hits to quit them.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun minibuffer-keyboard-quit ()
+       "Abort recursive edit.
+     In Delete Selection mode, if the mark is active, just deactivate it;
+     then it takes a second \\[keyboard-quit] to abort the minibuffer."
+       (interactive)
+       (if (and delete-selection-mode transient-mark-mode mark-active)
+           (setq deactivate-mark  t)
+         (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+         (abort-recursive-edit)))
+     (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+     (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+     (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+     (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+     (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+   #+END_SRC
+
+** No backup files
+
+   Emacs will create annoying backup ~#file.txt#~ and lock ~file.txt~~
+   files while editing. This is more annoying than useful since we all
+   use version control.
+
+   #+BEGIN_SRC emacs-lisp
+   (setq make-backup-files nil)
+   (setq create-lockfiles nil)
+   (auto-save-mode nil)
+   #+END_SRC
+
+* Buffers
+** Auto newlines at end of buffer
+
+   #+BEGIN_SRC emacs-lisp
+   (setq require-final-newline t)
+   #+END_SRC
+** Auto clear trailing whitespace
+
+   Removes trailing whitespace when buffer saves.
+
+   #+BEGIN_SRC emacs-lisp
+   (add-hook 'before-save-hook 'delete-trailing-whitespace)
+   #+END_SRC
+
+** Auto revert buffers when changes on file system
+
+   #+BEGIN_SRC emacs-lisp
+   (global-auto-revert-mode t)
+   #+END_SRC
+
+** Indentation
+
+   Prefer spaces over tabs
+
+   #+BEGIN_SRC emacs-lisp
+   (setq-default indent-tabs-mode nil)
+   #+END_SRC
+
+   Set indentations for various languages
+
+   #+BEGIN_SRC emacs-lisp
+   (setq js-indent-level 2
+         css-indent-offset 2
+         c-basic-offset 4
+         css-indent-offset 2)
+   #+END_SRC
+
+   Set default indentation, when file contains tabs be displayed as 2 spaces instead of 8
+
+   #+BEGIN_SRC emacs-lisp
+   (setq-default tab-width 2)
+   #+END_SRC
+
+** Always follow symlinks
+
+   #+BEGIN_SRC emacs-lisp
+   (setq vc-follow-symlinks t)
+   #+END_SRC
+
+** Open common config files with conf mode
+
+   #+BEGIN_SRC emacs-lisp
+   (let* ((conf-files '("aliases" "functions" "gitignore" "rc" ".tf"))
+          (conf-regexp (concat (regexp-opt conf-files t) "\\'")))
+     (add-to-list 'auto-mode-alist (cons conf-regexp 'conf-mode)))
+   #+END_SRC
+
+* Packages
+** Package.el
+
+  Set up package.el and point it to stable melpa repositories.
+
+  #+BEGIN_SRC emacs-lisp
+   (require 'package)
+
+   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" .  "http://stable.melpa.org/packages/")))
+
+   (package-initialize)
+  #+END_SRC
+
+  Install ~use-package~
+
+  #+BEGIN_SRC emacs-lisp
+   (unless (package-installed-p 'use-package)
+     (package-refresh-contents)
+     (package-install 'use-package))
+
+   (eval-when-compile
+     (require 'use-package))
+
+   (setq use-package-verbose nil
+         use-package-always-ensure t)
+  #+END_SRC
+
+** General (keybindings)
+
+   [[https://github.com/noctuid/general.el][General.el]] is an amazing tool to manage keybindings. It can create definers with prefixes, which are a great replacement for evil-leader.
+
+   #+BEGIN_SRC emacs-lisp
+   (use-package general
+     :config
+     (setq default-states '(normal emacs motion))
+     (general-define-key :states 'motion "SPC" nil)
+     (general-create-definer keys-l :prefix "SPC" :states default-states)
+     (general-create-definer keys :states default-states))
+   #+END_SRC
+
+   A useful utility function for defining nested keymaps inline:
+
+   #+BEGIN_SRC emacs-lisp
+     (defun build-keymap (&rest key-commands)
+       "Builds a new sparse keymap containing given commands"
+       (let ((new-map (make-sparse-keymap)))
+         (while (not (cl-endp key-commands))
+           (define-key new-map (kbd (pop key-commands)) (pop key-commands)))
+         new-map))
+   #+END_SRC
+
+   Setup global keybindings
+
+   #+BEGIN_SRC emacs-lisp
+     (keys "M-x" 'counsel-M-x)
+    #+END_SRC
+
+   Global leader keys
+
+   #+BEGIN_SRC emacs-lisp
+     (keys-l
+       "b" 'ivy-switch-buffer
+       "f" 'counsel-projectile-find-file
+       "o" 'counsel-find-file
+       "h" (build-keymap
+            "a" 'counsel-apropos
+            "f" 'describe-function
+            "K" 'which-key-show-top-level
+            "k" 'describe-key
+            "m" 'describe-mode
+            "p" 'describe-package
+            "v" 'describe-variable)
+       "q" 'kill-this-buffer
+       "Q" 'delete-other-windows
+       "x" 'counsel-projectile-ag)
+   #+END_SRC
+
+** Dired
+
+   #+BEGIN_SRC emacs-lisp
+   (require 'dired)
+   #+END_SRC
+
+   Kill dired buffer when quitting
+
+   #+BEGIN_SRC emacs-lisp
+   (keys :keymaps 'dired-mode-map "q" 'kill-this-buffer)
+   #+END_SRC
+
+   Open dired in current directory
+
+   #+BEGIN_SRC emacs-lisp
+   (defun dired-current-dir ()
+     (interactive)
+     (dired ""))
+
+   (keys-l "d" 'dired-current-dir)
+   #+END_SRC
+
+   Human readable units
+
+   #+BEGIN_SRC emacs-lisp
+   (setq-default dired-listing-switches "-alh")
+   #+END_SRC
+
+** iBuffer
+
+   List view of all open buffers, open with <leader>B
+
+   #+BEGIN_SRC emacs-lisp
+   (keys-l "B" 'ibuffer)
+   #+END_SRC
+
+   Setup better filtering groups
+
+   #+BEGIN_SRC emacs-lisp
+   (setq ibuffer-saved-filter-groups
+         (quote (("default"
+                  ("code" (or (mode . clojure-mode)
+                              (mode . clojurec-mode)
+                              (mode . c-mode)
+                              (mode . ruby-mode)
+                              (mode . javascript-mode)
+                              (mode . java-mode)
+                              (mode . js-mode)
+                              (mode . coffee-mode)
+                              (mode . clojurescript-mode)))
+                  ("emacs" (or (name . "^\\*scratch\\*$")
+                               (name . "^\\*Messages\\*$")
+                               (name . "^\\*Completions\\*$")))
+                  ("configs" (or (mode . emacs-lisp-mode)
+                                 (mode . org-mode)
+                                 (mode . conf-mode)))
+                  ("Magit" (name . "magit"))
+                  ("Help" (or (name . "\*Help\*")
+                              (name . "\*Apropos\*")
+                              (name . "\*info\*")))
+                  ("tmp" (or (mode . dired-mode)
+                             (name ."^\\*")))))))
+
+   (setq ibuffer-show-empty-filter-groups nil)
+   #+END_SRC
+
+** Evil
+*** Evil Mode
+
+    What would we do without [[https://github.com/emacs-evil/evil][Evil]]
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil
+        :init
+        (setq evil-want-fine-undo t)
+
+        :config
+        (evil-mode t)
+
+        (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
+        (evil-add-hjkl-bindings ibuffer-mode-map 'emacs)
+
+        (keys
+          "C-h" 'evil-window-left
+          "C-j" 'evil-window-down
+          "C-k" 'evil-window-up
+          "C-l" 'evil-window-right
+          "j"   'evil-next-visual-line
+          "k"   'evil-previous-visual-line))
+    #+END_SRC
+
+*** Evil NerdCommenter
+
+    Easy commenting as a vi motion. Use ~gc<motion>~ to comment any vi text objects.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-nerd-commenter
+        :init
+        (keys "gc" 'evilnc-comment-operator)
+        (keys-l
+          "c y" 'evilnc-copy-and-comment-lines))
+    #+END_SRC
+
+*** Evil Cleverparens
+
+    [[https://github.com/luxbock/evil-cleverparens][Evil Cleverparens]] for editing lisps in evil. Especially makes sure killing and yanking lines don't include unmatched parens + easy surrounding expressions with ~M-[~ and ~M-(~.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-cleverparens
+        :init
+        ;; Don't use crazy bindings for {, [, } and ] from evil-cleverparens
+        (setq evil-cleverparens-use-additional-movement-keys nil))
+    #+END_SRC
+
+** Magit
+
+   The killer app for Emacs
+
+   #+BEGIN_SRC emacs-lisp
+   (use-package magit
+     :defer t
+     :init
+     (keys-l "g s" 'magit-status)
+
+     :config
+     (use-package evil-magit)
+     ;; Go into insert mode when starting a commit message
+     (add-hook 'git-commit-mode-hook 'evil-insert-state)
+
+     ;; Enable leader keys in revision buffers
+     (general-def magit-revision-mode-map "SPC" nil)
+
+     (keys 'magit-blame-mode-map "q" 'magit-blame-quit)
+     (keys 'git-rebase-mode-map "q" 'magit-rebase-abort)
+     (keys 'magit-status-mode-map "K" 'magit-discard))
+   #+END_SRC
+
+** Company (autocompletion)
+
+   #+BEGIN_SRC emacs-lisp
+   (use-package company
+     :init (global-company-mode)
+     :config
+     (setq company-idle-delay 0.1)
+     (keys :states 'insert
+       "<tab>" 'company-complete-common-or-cycle)
+     (general-def 'company-active-map
+       "C-s" 'company-filter-candidates
+       "<tab>" 'company-complete-common-or-cycle
+       "S-<tab>" 'company-select-previous-or-abort))
+   #+END_SRC
+
+** Which-key
+
+   Display available keybindings in popup
+
+   #+BEGIN_SRC emacs-lisp
+   (use-package which-key
+     :diminish which-key-mode
+     :config
+     (which-key-mode +1)
+     (setq which-key-idle-delay 0.5)
+     (which-key-setup-side-window-bottom))
+    #+END_SRC
+
+** Clojure
+*** Set up clojure mode
+
+    #+BEGIN_SRC emacs-lisp
+    (use-package clojure-mode
+      :defer t
+      :init
+      (defun parainbow-mode ()
+        (interactive)
+        (paredit-mode)
+        (evil-cleverparens-mode)
+        (rainbow-delimiters-mode)
+        (eldoc-mode))
+      (add-hook 'clojure-mode-hook 'parainbow-mode)
+      (add-hook 'scheme-mode-hook 'parainbow-mode)
+      (add-hook 'clojurescript-mode-hook 'parainbow-mode)
+      (add-hook 'cider-repl-mode-hook 'parainbow-mode)
+      (add-hook 'emacs-lisp-mode-hook 'parainbow-mode)
+
+      :config
+      (setq clojure-indent-style :always-align)
+      (put-clojure-indent 'assoc 1))
+    #+END_SRC
+
+*** Cider
+
+    Interactive repl and more
+
+    #+BEGIN_SRC emacs-lisp
+    (use-package cider
+      :defer t
+      :config
+      (setq cider-repl-display-help-banner nil
+            cider-repl-pop-to-buffer-on-connect 'display-only)
+
+      (defvar cider-mode-maps
+        '(cider-repl-mode-map
+          clojure-mode-map
+          clojurescript-mode-map))
+
+      (keys :keymaps cider-mode-maps "g f" 'cider-find-var)
+
+      (keys-l :keymaps cider-mode-maps
+        "c" (build-keymap
+             "c" 'cider-connect
+             "d" 'cider-doc
+             "i" 'cider-inspect-last-result
+             "k" 'cider-repl-clear-buffer
+             "q" 'cider-quit)
+        "e" 'cider-eval-last-sexp
+        "E" 'cider-eval-buffer))
+    #+END_SRC
+
+*** Clj Refactor
+
+    Amazing refactoring utils for clojure
+
+    #+BEGIN_SRC emacs-lisp
+    (use-package clj-refactor
+      :defer t
+      :init
+      (add-hook 'clojure-mode-hook 'clj-refactor-mode)
+      (add-hook 'clojurescript-mode-hook 'clj-refactor-mode)
+
+      ;; Copy over all mnemonic cljr functions into a keymap and bind it to <leader>r
+      :config
+      (let ((cljr-map (make-sparse-keymap)))
+        (dolist (details cljr--all-helpers)
+          (define-key cljr-map (car details) (cadr details)))
+        (keys-l :keymaps 'clojure-mode-map
+          "r" cljr-map)))
+    #+END_SRC
+
+*** Rainbow Delimiters
+
+    Display all matching parens in a different set of colours
+
+    #+BEGIN_SRC emacs-lisp
+    (use-package rainbow-delimiters :defer t)
+    #+END_SRC
+
+*** Paredit
+
+    [[https://www.emacswiki.org/emacs/ParEdit][Paredit]] allows for performing structured editing of S-expression
+    data (lisps). Especially useful for slurping and barfing
+    parentheses.
+
+    #+BEGIN_SRC emacs-lisp
+    (use-package paredit :defer t)
+    #+END_SRC
+
+*** Aggressive Indent
+
+    Enforce consistent indentation, beautiful in lisps.
+
+    #+BEGIN_SRC emacs-lisp
+    (use-package aggressive-indent
+      :defer t
+      :diminish aggressive-indent-mode
+      :init
+      (add-hook 'clojure-mode-hook 'aggressive-indent-mode)
+      (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode)
+      (add-hook 'clojurescript-mode-hook 'aggressive-indent-mode))
+    #+END_SRC
+** Project Management
+*** Projectile
+
+    #+BEGIN_SRC emacs-lisp
+    (use-package projectile
+      :diminish projectile-mode
+      :config
+      (projectile-global-mode)
+      (keys-l "p" 'projectile-command-map)
+
+      ;; Projectile-ag
+      (use-package ag :defer t :init (setq ag-reuse-buffers t)))
+     #+END_SRC
+
+*** Neotree
+
+    Navigate en manage file tree in sidebar
+
+    #+BEGIN_SRC emacs-lisp
+    (defun neotree-project-root ()
+      "Open NeoTree using the git root."
+      (interactive)
+      (let ((project-dir (projectile-project-root))
+            (file-name (buffer-file-name)))
+        (neotree-toggle)
+        (when project-dir
+          (neotree-dir project-dir)
+          (neotree-find file-name))))
+
+    (use-package neotree
+      :defer t
+      :init (keys-l "n" 'neotree-project-root)
+      :config
+      ;; (evil-make-overriding-map neotree-mode-map 'normal t)
+      (keys 'neotree-mode-map
+        "d" 'neotree-delete-node
+        "J" 'neotree-select-down-node
+        "K" 'neotree-select-up-node
+        "q" 'neotree-hide
+        "m" 'neotree-rename-node
+        "n" 'neotree-create-node
+        "c" 'neotree-copy-node
+        "o" 'neotree-enter
+        "x" (lambda () (interactive) (neotree-select-up-node) (neotree-enter))
+        "<tab>" 'neotree-quick-look))
+    #+END_SRC
+
+*** Ivy
+
+    Ivy is an amazing generic completion frontend. Ivy mode ensures
+    that any Emacs command using completing-read-function uses ivy for
+    completion.
+
+    #+BEGIN_SRC emacs-lisp
+    (use-package ivy
+      :init
+      ;; better scoring / result sorting
+      (use-package flx)
+      :diminish ivy-mode
+      :config
+      (ivy-mode)
+
+      ;; Default to fuzzy matching
+      (setq ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+
+      (general-def ivy-minibuffer-map
+        "<escape>" 'minibuffer-keyboard-quit
+        "<tab>" 'ivy-alt-done
+        "S-<tab>" 'ivy-insert-current
+        "S-<return>" '(lambda () (interactive) (ivy-alt-done t))))
+     #+END_SRC
+
+    Counsel, and more specifically counsel projectile is a file finder build on top of ivy.
+
+     #+BEGIN_SRC emacs-lisp
+     (use-package counsel-projectile
+       :config
+       (keys-l
+         "f" 'counsel-projectile-find-file
+         "p p" 'counsel-projectile-switch-project))
+     #+END_SRC
+
+* Layout
+** Setup theme and font
+
+   I like this Jansi! Even voor de pairing sessie, maar kies je eigen
+   maar uit natuurlijk.
+
+   #+BEGIN_SRC emacs-lisp
+   (use-package monokai-theme :init (load-theme 'monokai t))
+   (set-face-attribute 'default nil :font "Menlo" :height 145)
+   #+END_SRC
+
+** Highlight current line
+
+   #+BEGIN_SRC emacs-lisp
+   (global-hl-line-mode t)
+   #+END_SRC
+
+** Show matching paren
+
+   #+BEGIN_SRC emacs-lisp
+   (show-paren-mode 1)
+   #+END_SRC
+
+** Interface
+
+   Hide menu bar
+
+   #+BEGIN_SRC emacs-lisp
+   (menu-bar-mode 0)
+   #+END_SRC
+
+   Hide toolbar, scroll bars and setup smaller fringe in GUI version
+
+   #+BEGIN_SRC emacs-lisp
+   (if window-system
+       (progn (scroll-bar-mode -1)
+              (tool-bar-mode -1)
+              (fringe-mode 10)))
+   #+END_SRC
