@@ -53,11 +53,12 @@ error if it doesn't exist."
 (defun yvh/set-modeline (key &optional default)
   "Set the modeline format. Does nothing if the modeline KEY doesn't exist. If
 DEFAULT is non-nil, set the default mode-line for all buffers."
-  (when-let ((modeline (yvh/modeline key)))
-    (setf (if default
-              (default-value 'mode-line-format)
-            (buffer-local-value 'mode-line-format (current-buffer)))
-          modeline)))
+  (let ((modeline (yvh/modeline key)))
+    (when modeline
+      (setf (if default
+                (default-value 'mode-line-format)
+              (buffer-local-value 'mode-line-format (current-buffer)))
+            modeline))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keep track of active window
@@ -65,9 +66,10 @@ DEFAULT is non-nil, set the default mode-line for all buffers."
 (defvar yvh/modeline-current-window (frame-selected-window))
 (defun yvh/modeline|set-selected-window (&rest _)
   "Sets `yvh/modeline-current-window' appropriately"
-  (when-let ((win (frame-selected-window)))
-    (unless (minibuffer-window-active-p win)
-      (setq yvh/modeline-current-window win))))
+  (let ((win (frame-selected-window)))
+    (when win
+      (unless (minibuffer-window-active-p win)
+        (setq yvh/modeline-current-window win)))))
 
 (defsubst active ()
   (eq (selected-window) yvh/modeline-current-window))
