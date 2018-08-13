@@ -1,12 +1,4 @@
 * General emacs
-** Load path
-
-   Add "emacs.d/config" to the load path for extra functions and custom packages.
-
-   #+BEGIN_SRC emacs-lisp
-   (add-to-list 'load-path (concat user-emacs-directory "config"))
-   #+END_SRC
-
 ** Garbage collection
 
    Allow 20MB of memory (instead of 0.76MB) before calling garbage collection. This means GC runs less often, which speeds up some operations.
@@ -272,6 +264,14 @@
                              (name ."^\\*")))))))
 
    (setq ibuffer-show-empty-filter-groups nil)
+   #+END_SRC
+
+** Exec path from shell
+   Ensure environment variables inside Emacs look the same as in the user's shell.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package exec-path-from-shell
+       :config (exec-path-from-shell-initialize))
    #+END_SRC
 
 ** Evil
