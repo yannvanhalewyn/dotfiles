@@ -223,6 +223,7 @@ alias zp='cd $HOME/brightin/zapp'
 alias zl='cd $HOME/brightin/zappelin'
 alias psg='cd $HOME/brightin/persgroep-campagneplanner'
 alias bm='cd $HOME/brightin/brightmotive'
+alias infra='cd $HOME/brightin/infrastructure'
 alias cep='cd $HOME/brightin/cep'
 alias nk='cd $HOME/brightin/nikon-elearning'
 

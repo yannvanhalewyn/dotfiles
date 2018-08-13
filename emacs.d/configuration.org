@@ -72,7 +72,7 @@
    [[https://github.com/purcell/exec-path-from-shell][Exec path from shell]] was a bit slow. This gives me what I need for now.
 
    #+BEGIN_SRC emacs-lisp
-   (let ((paths "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"))
+   (let ((paths "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin"))
      (setenv "PATH" paths)
      (setq eshell-path-env paths))
    (add-to-list 'exec-path "/usr/local/bin")
@@ -249,7 +249,7 @@
 ** Open common config files with conf mode
 
    #+BEGIN_SRC emacs-lisp
-   (let* ((conf-files '("aliases" "functions" "gitignore" "rc"))
+   (let* ((conf-files '("aliases" "functions" "gitignore" "rc" ".tf"))
           (conf-regexp (concat (regexp-opt conf-files t) "\\'")))
      (add-to-list 'auto-mode-alist (cons conf-regexp 'conf-mode)))
    #+END_SRC
@@ -380,6 +380,9 @@
        "]t" 'cycle-theme
        "[w" 'winner-undo
        "]w" 'winner-redo)
+
+     (keys :states '(visual motion)
+       "RET" 'align-regexp)
     #+END_SRC
 
    Setup global 'goto' 'g bindings
@@ -407,7 +410,8 @@
             "a" 'org-agenda
             "t" 'org-todo-list
             "c" '(lambda () (interactive) (org-capture nil "t"))
-            "C" 'calc-dispatch)
+            "f" 'org-tags-view
+            "C" 'quick-calc)
        "B" 'ibuffer
        "b" 'ivy-switch-buffer
        "c" (build-keymap
@@ -644,6 +648,13 @@
      :config (magithub-feature-autoinject t))
    #+END_SRC
 
+** Git link
+
+   Easily get urls for commits, lines or regions in files
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package git-link :defer t)
+   #+END_SRC
 ** Company (autocompletion)
 
    #+BEGIN_SRC emacs-lisp

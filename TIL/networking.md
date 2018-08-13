@@ -23,7 +23,7 @@ IPv6 addresses are compatible with IPv4, with this notation you can reference an
 
 ## Subnets
 
-Sometimes you'd want a bunch of addresses on the HOST side, eg: 192.0.10.[0-20] has 20 addresses on the host side. 192.0.10.0 reaches that network and then proceeds to find the machine on that subnet. A part of the address would then be the network side, and a part host. Most of the times you'd have 3 bits network side, and 1 bit host side. This is a class C network, and you can have 256 machines on it. If you were lucky enough you could have gotten a class A network: only 1 byte network, and 3 host side meaning 24 bits of machines (millions of machines on a network). Some class B's exist in the middle.
+Sometimes you'd want a bunch of addresses on the HOST side, eg: 192.0.10.[0-20] has 20 addresses on the host side. 192.0.10.0 reaches that network and then proceeds to find the machine on that subnet. A part of the address would then be the network side, and a part host. Most of the times you'd have 3 bytes network side, and 1 byte host side. This is a class C network, and you can have 256 machines on it. If you were lucky enough you could have gotten a class A network: only 1 byte network, and 3 host side meaning 24 bits of machines (millions of machines on a network). Some class B's exist in the middle.
 
 The network portion of the IP is called the *netmask*, which you bitwise AND with the IP to get the network number out of it. Class C might look like: 255.255.255.0, bitwise AND with 192.0.2.12 gives you 192.0.2.0, the network address for the subnet. Since we were also running out of class C networks, you could have something like this as subnet mask: 255.255.255.252, which is 30 bits of network and 2 bits of host allowing 4 hosts on the network.
 

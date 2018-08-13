@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: erp-test
+# key: erp-test
+# --
+(let [erp (dev/tc)
+      customer-id "B10008"
+      articles [{:article-code "BPR6E" :brand-id 15}]]
+  (get-articles erp nil articles {:customer-id customer-id :disable-cache true}))
