@@ -406,26 +406,25 @@
     #+BEGIN_SRC emacs-lisp
     (use-package cider
       :defer t
-      :config
-      (setq cider-repl-display-help-banner nil
-            cider-repl-pop-to-buffer-on-connect 'display-only)
-
+      :init
       (defvar cider-mode-maps
         '(cider-repl-mode-map
           clojure-mode-map
           clojurescript-mode-map))
 
-      (keys :keymaps cider-mode-maps "g f" 'cider-find-var)
-
       (keys-l :keymaps cider-mode-maps
-        "c" (build-keymap
-             "c" 'cider-connect
-             "d" 'cider-doc
-             "i" 'cider-inspect-last-result
-             "k" 'cider-repl-clear-buffer
-             "q" 'cider-quit)
-        "e" 'cider-eval-last-sexp
-        "E" 'cider-eval-buffer))
+              "c" (build-keymap
+                   "c" 'cider-connect
+                   "d" 'cider-doc
+                   "i" 'cider-inspect-last-result
+                   "k" 'cider-repl-clear-buffer
+                   "q" 'cider-quit)
+              "e" 'cider-eval-last-sexp
+              "E" 'cider-eval-buffer)
+      (keys :keymaps cider-mode-maps "g f" 'cider-find-var)
+      :config
+      (setq cider-repl-display-help-banner nil
+            cider-repl-pop-to-buffer-on-connect 'display-only))
     #+END_SRC
 
 *** Clj Refactor
