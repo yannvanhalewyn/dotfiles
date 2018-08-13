@@ -326,8 +326,10 @@
   #+BEGIN_SRC emacs-lisp
    (require 'package)
 
-   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-   (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" .  "http://stable.melpa.org/packages/")))
 
    (package-initialize)
   #+END_SRC
@@ -461,7 +463,10 @@
    Kill dired buffer when quitting
 
    #+BEGIN_SRC emacs-lisp
-   (keys :keymaps 'dired-mode-map "q" 'kill-this-buffer)
+     (keys :keymaps 'dired-mode-map
+       "q" 'kill-this-buffer
+       "y" 'dired-copy-filename-as-kill
+       "w" 'dired-toggle-read-only)
    #+END_SRC
 
    Human readable units
