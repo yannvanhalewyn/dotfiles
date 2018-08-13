@@ -54,6 +54,10 @@
 
 ** No backup files
 
+   Emacs will create annoying backup ~#file.txt#~ and lock ~file.txt~~
+   files while editing. This is more annoying than useful since we all
+   use version control.
+
    #+BEGIN_SRC emacs-lisp
    (setq make-backup-files nil)
    (setq create-lockfiles nil)
@@ -138,7 +142,7 @@
 
 ** Auto clear trailing whitespace
 
-   Custom function in init-functions.el. This will remove any trailing whitespace and fix tabs <> spaces before saving the buffer.
+   Removes trailing whitespace when buffer saves.
 
    #+BEGIN_SRC emacs-lisp
    (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -212,12 +216,6 @@
 
    #+BEGIN_SRC emacs-lisp
    (setq vc-follow-symlinks t)
-   #+END_SRC
-
-** Scratch buffer in eLisp
-
-   #+BEGIN_SRC emacs-lisp
-   (setq initial-major-mode 'emacs-lisp-mode)
    #+END_SRC
 
 ** Centering after jumping paragraphs
@@ -1012,6 +1010,10 @@
 
 *** Paredit
 
+    [[https://www.emacswiki.org/emacs/ParEdit][Paredit]] allows for performing structured editing of S-expression
+    data (lisps). Especially useful for slurping and barfing
+    parentheses.
+
     #+BEGIN_SRC emacs-lisp
     (use-package paredit
       :defer t
@@ -1085,6 +1087,10 @@
     #+END_SRC
 
 *** Ivy
+
+    Ivy is an amazing generic completion frontend. Ivy mode will
+    automatically open most common minibuffer completion dialogs in
+    it's frontend.
 
     #+BEGIN_SRC emacs-lisp
     (use-package ivy
