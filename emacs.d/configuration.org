@@ -1105,8 +1105,7 @@
       :diminish ivy-mode
       :config
       (ivy-mode)
-      (setq ivy-display-style nil
-            ivy-re-builders-alist '((swiper . ivy--regex-plus)
+      (setq ivy-re-builders-alist '((swiper . ivy--regex-plus)
                                     (t . ivy--regex-fuzzy))
             completing-read-function 'my-ivy-completing-read-with-symbol-def)
 
