@@ -670,6 +670,8 @@
        "<tab>" 'company-complete-common-or-cycle)
      (general-def 'company-active-map
        "C-s" 'company-filter-candidates
+       "C-n" 'company-select-next
+       "C-p" 'company-select-previous
        "<tab>" 'company-complete-common-or-cycle
        "S-<tab>" 'company-select-previous-or-abort))
    #+END_SRC

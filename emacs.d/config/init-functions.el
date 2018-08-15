@@ -125,7 +125,7 @@ root, or asks for a repl port to connect form anywhere."
   (interactive)
   (let ((port (or (ignore-errors (file->str (projectile-expand-root ".nrepl-port")))
                   (read-number "Cider connect to port: "))))
-    (cider-connect "localhost" port)))
+    (cider-connect `(:host "localhost" :port ,port))))
 
 (defun chrome-reload (&optional focus)
   "Use osascript to tell Google Chrome to reload. If optional argument
@@ -171,10 +171,9 @@ root, or asks for a repl port to connect form anywhere."
   (let ((project-dir (projectile-project-root))
         (file-name (buffer-file-name)))
     (neotree-toggle)
-    (if project-dir
-        (progn
-          (neotree-dir project-dir)
-          (neotree-find file-name)))))
+    (when project-dir
+      (neotree-dir project-dir)
+      (neotree-find file-name))))
 
 (defun buff-swap ()
   "Swap current buffer with buffer to the left or right."
