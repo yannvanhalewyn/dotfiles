@@ -29,3 +29,5 @@
 	user = yann.vanhalewyn@gmail.com
 [remote]
         pushDefault = origin
+[rebase]
+	autoStash = true

@@ -157,11 +157,8 @@
 ** Auto save buffer when leaving insert mode
 
    #+BEGIN_SRC emacs-lisp
-     (defun code-buffer? (name)
-       (not (string-match-p "^\*" name)))
-
      (defun save-if-code-buffer ()
-       (when (code-buffer? (buffer-name)) (save-buffer)))
+       (when (buffer-file-name) (save-buffer)))
 
      (defun set-save-hook! ()
        (interactive)
