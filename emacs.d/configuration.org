@@ -1121,6 +1121,11 @@
       ;; Enable leader keys in occur buffer
       (general-def ivy-occur-grep-mode-map "SPC" nil)
 
+      (defun yvh/ivy-yank-action (x) (kill-new x))
+      (defun yvh/ivy-projectile-delete-action (x) (delete-file (projectile-expand-root x)))
+      (ivy-set-actions 'counsel-projectile-find-file '(("d" yvh/ivy-projectile-delete-action "delete")
+                                                       ("y" yvh/ivy-yank-action "yank")))
+
       (use-package swiper
         :defer t
         :config (keys "/" 'swiper))
@@ -1135,7 +1140,7 @@
           "f f" 'counsel-projectile-find-file
           "p p" 'counsel-projectile-switch-project))
 
-         (use-package wgrep :defer t))
+      (use-package wgrep :defer t))
    #+END_SRC
 ** Markdown
 
