@@ -353,7 +353,7 @@ Returns \"\" to not break --no-window-system."
 
 (def-modeline-segment! ci-status
   (let ((status (format " CI %s  " (cis/propertized-status cis/latest-ci-status))))
-    (if (active) status (propertize status 'face 'modeline-inactive))))
+    (if (active) status (propertize status 'face 'mode-line-inactive))))
 
 (def-modeline! main
   (bar macro-recording buffer-info point-info)
