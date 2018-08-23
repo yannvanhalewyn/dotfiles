@@ -412,6 +412,15 @@
             clojure-mode-map
             clojurescript-mode-map))
 
+        (defun cider-evil-eval-last-sexp ()
+          "Just like `cider-evail-last-sexp`, but useful in evil mode where
+                you cant move past the ending of the line. It will eval the last
+                s-expression up until including the evil point."
+          (interactive)
+          (save-excursion
+            (forward-char)
+            (cider-eval-last-sexp)))
+
         (keys-l :keymaps cider-mode-maps
           "c" (build-keymap
                "c" 'cider-connect
@@ -419,7 +428,7 @@
                "i" 'cider-inspect-last-result
                "k" 'cider-repl-clear-buffer
                "q" 'cider-quit)
-          "e" 'cider-eval-last-sexp
+          "e" 'cider-evil-eval-last-sexp
           "E" 'cider-eval-buffer)
         (keys :keymaps cider-mode-maps "g f" 'cider-find-var)
         :config

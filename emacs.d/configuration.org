@@ -952,6 +952,15 @@
           (message "Running `(reset)` in current repl")
           (cider-interactive-eval "(dev/reset)"))
 
+        (defun cider-evil-eval-last-sexp ()
+          "Just like `cider-evail-last-sexp`, but useful in evil mode where
+                you cant move past the ending of the line. It will eval the last
+                s-expression up until including the evil point."
+          (interactive)
+          (save-excursion
+            (forward-char)
+            (cider-eval-last-sexp)))
+
         (keys cider-repl-mode-map
           "q" 'delete-window)
 
@@ -978,7 +987,7 @@
                "R" 'reset-dev-system
                "m" 'cider-macroexpand-1
                "M" 'cider-macroexpand-all)
-          "e" 'cider-eval-last-sexp
+          "e" 'cider-evil-eval-last-sexp
           "E" 'cider-eval-buffer
           "t" (build-keymap
                "s" 'cider-test-run-test
