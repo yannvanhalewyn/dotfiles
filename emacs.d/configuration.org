@@ -936,57 +936,57 @@
     Interactive repl and more
 
     #+BEGIN_SRC emacs-lisp
-    (use-package cider
-      :defer t
-      :config
-      (setq cider-repl-display-help-banner nil
-            cider-repl-pop-to-buffer-on-connect 'display-only)
+      (use-package cider
+        :defer t
+        :config
+        (setq cider-repl-display-help-banner nil
+              cider-repl-pop-to-buffer-on-connect 'display-only)
 
-      (defvar cider-mode-maps
-        '(cider-repl-mode-map
-          clojure-mode-map
-          clojurescript-mode-map))
+        (defvar cider-mode-maps
+          '(cider-repl-mode-map
+            clojure-mode-map
+            clojurescript-mode-map))
 
-      (defun reset-dev-system ()
-        (interactive)
-        (message "Running `(reset)` in current repl")
-        (cider-interactive-eval "(dev/reset)"))
+        (defun reset-dev-system ()
+          (interactive)
+          (message "Running `(reset)` in current repl")
+          (cider-interactive-eval "(dev/reset)"))
 
-      (keys cider-repl-mode-map
-        "q" 'delete-window)
+        (keys cider-repl-mode-map
+          "q" 'delete-window)
 
-      (keys cider-inspector-mode-map
-        "<return>" 'cider-inspector-operate-on-point
-        "q" 'cider-inspector-pop
-        "[p" 'cider-inspector-prev-page
-        "]p" 'cider-inspector-next-page)
+        (keys cider-inspector-mode-map
+          "<return>" 'cider-inspector-operate-on-point
+          "q" 'cider-inspector-pop
+          "[p" 'cider-inspector-prev-page
+          "]p" 'cider-inspector-next-page)
 
-      (keys :keymaps cider-mode-maps "g f" 'cider-find-var)
+        (keys :keymaps cider-mode-maps "g f" 'cider-find-var)
 
-      (keys-l :keymaps cider-mode-maps
-        "c" (build-keymap
-             "a" 'cider-apropos
-             "c" 'cider-connect-local
-             "d" 'cider-doc
-             "i" 'cider-inspect-last-result
-             "j" 'cider-jack-in
-             "k" 'cider-repl-clear-buffer
-             "m" 'cider-macro-expand-1
-             "n" 'cider-repl-set-ns
-             "q" 'cider-quit
-             "r" 'yvh/jump-to-repl
-             "R" 'reset-dev-system
-             "m" 'cider-macroexpand-1
-             "M" 'cider-macroexpand-all)
-        "e" 'cider-eval-defun-at-point
-        "E" 'cider-eval-buffer
-        "t" (build-keymap
-             "s" 'cider-test-run-test
-             "t" 'cider-test-run-ns-tests
-             "f" 'cider-test-rerun-failed-tests
-             "l" 'cider-test-rerun-test
-             "a" 'cider-test-run-project-tests
-             "A" 'cider-auto-test-mode)))
+        (keys-l :keymaps cider-mode-maps
+          "c" (build-keymap
+               "a" 'cider-apropos
+               "c" 'cider-connect-local
+               "d" 'cider-doc
+               "i" 'cider-inspect-last-result
+               "j" 'cider-jack-in
+               "k" 'cider-repl-clear-buffer
+               "m" 'cider-macro-expand-1
+               "n" 'cider-repl-set-ns
+               "q" 'cider-quit
+               "r" 'yvh/jump-to-repl
+               "R" 'reset-dev-system
+               "m" 'cider-macroexpand-1
+               "M" 'cider-macroexpand-all)
+          "e" 'cider-eval-last-sexp
+          "E" 'cider-eval-buffer
+          "t" (build-keymap
+               "s" 'cider-test-run-test
+               "t" 'cider-test-run-ns-tests
+               "f" 'cider-test-rerun-failed-tests
+               "l" 'cider-test-rerun-test
+               "a" 'cider-test-run-project-tests
+               "A" 'cider-auto-test-mode)))
     #+END_SRC
 
 *** Clj Refactor
