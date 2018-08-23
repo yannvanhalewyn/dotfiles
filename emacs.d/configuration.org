@@ -958,6 +958,7 @@
                 s-expression up until including the evil point."
           (interactive)
           (save-excursion
+            (sp-end-of-sexp)
             (forward-char)
             (cider-eval-last-sexp)))
 
