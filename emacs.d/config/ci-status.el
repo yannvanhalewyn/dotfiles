@@ -43,7 +43,7 @@
 (defun cis/latest-build-url (ref callback)
   (message "Fetching CI build url for %s" ref)
   (shell-command-to-string-async
-   (format "hub ci-status %s -v | awk '{ print $2}'" ref)
+   (format "hub ci-status %s -v | awk '{ print $4}'" ref)
    callback))
 
 ;; Public API

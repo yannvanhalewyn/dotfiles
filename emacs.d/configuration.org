@@ -509,7 +509,7 @@
    #+END_SRC
 
 ** Evil
-*** Evil Mode
+*** TODO Evil Mode
 
     What would we do without [[https://github.com/emacs-evil/evil][Evil]]
 
@@ -536,7 +536,7 @@
           "k"   'evil-previous-visual-line)
 
         (keys :states 'insert
-          "C-y" 'evil-paste-before))
+          "C-y" 'yank))
     #+END_SRC
 
 *** Evil NerdCommenter
@@ -662,7 +662,7 @@
      :diminish company-mode
      :init (global-company-mode)
      :config
-     (setq company-idle-delay 0.1)
+     (setq company-idle-delay 0.3)
      (keys :states 'insert
        "<tab>" 'company-complete-common-or-cycle)
      (general-def 'company-active-map
@@ -958,7 +958,6 @@
                 s-expression up until including the evil point."
           (interactive)
           (save-excursion
-            (sp-end-of-sexp)
             (forward-char)
             (cider-eval-last-sexp)))
 
@@ -1220,3 +1219,42 @@
 
        (use-package org-evil))
   #+END_SRC
+
+** SQL
+
+   Add some keybindings for easier sending sql data to the SQLi buffer
+
+
+   #+BEGIN_SRC emacs-lisp
+     (keys-l :keymaps 'sql-mode-map
+       "e" 'sql-send-paragraph
+       "E" 'sql-send-buffer)
+   #+END_SRC
+
+   Default to postgres
+
+   #+BEGIN_SRC emacs-lisp
+     (setq sql-product 'postgres)
+   #+END_SRC
+
+   Truncate lines for wide result sets
+
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'sql-interactive-mode-hook (lambda () (toggle-truncate-lines t)))
+   #+END_SRC
+
+   Add some of the used brightmotive connections
+
+   #+BEGIN_SRC emacs-lisp
+     (setq sql-connection-alist
+           '((tc_dev     (sql-product 'postgres)
+                         (sql-port 5432)
+                         (sql-server "localhost")
+                         (sql-user "yannvanhalewyn")
+                         (sql-database "brightmotive_tc"))
+             (brezan_dev (sql-product 'postgres)
+                         (sql-port 5432)
+                         (sql-server "localhost")
+                         (sql-user "yannvanhalewyn")
+                         (sql-database "brightmotive_brezan"))))
+   #+END_SRC
