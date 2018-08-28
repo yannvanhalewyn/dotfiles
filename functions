@@ -270,3 +270,8 @@ compress_vid () {
 function bisect() {
   git bisect start && git bisect good "$1" && git bisect bad "$2" && git bisect run "$3"
 }
+
+function resetdb() {
+  dropdb $1 && createdb $1;
+  psql $1 < $2
+}

@@ -9,6 +9,7 @@ homebrew_packages:
   - autoenv
   - cheat
   - ctags-exuberant
+  - direnv
   - emacs
   - ffmpeg
   - figlet
