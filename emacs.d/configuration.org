@@ -510,7 +510,7 @@
    #+END_SRC
 
 ** Evil
-*** TODO Evil Mode
+*** Evil Mode
 
     What would we do without [[https://github.com/emacs-evil/evil][Evil]]
 
@@ -988,7 +988,7 @@
                "R" 'reset-dev-system
                "m" 'cider-macroexpand-1
                "M" 'cider-macroexpand-all)
-          "e" 'cider-evil-eval-last-sexp
+          "e" 'cider-eval-last-sexp
           "E" 'cider-eval-buffer
           "t" (build-keymap
                "s" 'cider-test-run-test
@@ -1223,13 +1223,21 @@
 
 ** Mail
 
-http://cachestocaches.com/2017/3/complete-guide-email-emacs-using-mu-and-/
-https://notanumber.io/2016-10-03/better-email-with-mu4e/
-Using
+   Text based email is great for quickly navigating and moving emails around. Some setup is needed, these guides are plenty helpful:
+
+   - http://cachestocaches.com/2017/3/complete-guide-email-emacs-using-mu-and-/
+   - https://notanumber.io/2016-10-03/better-email-with-mu4e/
+
+   Make sure to install ~mu~ with ~brew install mu --with-emacs~ to get the mu4e plugins. Then add the package to the load path:
+
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu/mu4e/")
      (require 'mu4e)
+   #+END_SRC
 
+   Next configure it!
+
+   #+BEGIN_SRC emacs-lisp
      (setq mail-user-agent 'mu4e-user-agent)
 
      (setq mu4e-contexts
