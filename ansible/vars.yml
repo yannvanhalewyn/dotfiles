@@ -23,7 +23,9 @@ homebrew_packages:
   - lame
   - leiningen
   - mit-scheme
+  - mu --with-emacs
   - node
+  - offlineimap
   - openssl
   - pgcli
   - pick
