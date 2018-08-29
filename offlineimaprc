@@ -1,0 +1,49 @@
+[general]
+accounts = Gmail, Brightin
+maxsyncaccounts = 3
+pythonfile = ~/.offlineimap.py
+
+[Account Gmail]
+localrepository = GmailLocal
+remoterepository = GmailRemote
+postsynchook = mu index --maildir ~/mail
+
+[Repository GmailLocal]
+type = GmailMaildir
+localfolders = ~/mail/gmail
+synclabels = yes
+nametrans = lambda f: '[Gmail]/' + f if f in ['Drafts', 'Starred', 'Important', 'Spam', 'Bin', 'All Mail', 'Sent Mail'] else f
+
+[Repository GmailRemote]
+type = Gmail
+remoteuser = yann.vanhalewyn@gmail.com
+remotepasseval = get_smtp_password("yann.vanhalewyn@gmail.com")
+
+realdelete = no
+ssl = yes
+sslcacertfile = /etc/ssl/cert.pem
+nametrans = lambda f: f.replace('[Gmail]/', '') if f.startswith('[Gmail]/') else f
+
+[Account Brightin]
+localrepository = BrightinLocal
+remoterepository = BrightinRemote
+postsynchook = mu index --maildir ~/mail
+
+[Repository BrightinLocal]
+type = GmailMaildir
+localfolders = ~/mail/brightin
+synclabels = yes
+nametrans = lambda f: '[Gmail]/' + f if f in ['Drafts', 'Starred', 'Important', 'Spam', 'Trash', 'All Mail', 'Sent Mail'] else f
+
+[Repository BrightinRemote]
+type = Gmail
+remoteuser = yann@brightin.nl
+auth_mechanisms = XOAUTH2
+oauth2_client_id_eval = get_smtp_password("yann@brightin.nl\^oauth2_client_id")
+oauth2_client_secret_eval = get_smtp_password("yann@brightin.nl\^oauth2_client_secret")
+oauth2_refresh_token_eval = get_smtp_password("yann@brightin.nl\^oauth2_refresh_token")
+oauth2_request_url = https://accounts.google.com/o/oauth2/token
+
+ssl = yes
+sslcacertfile = /usr/local/etc/openssl/cert.pem
+nametrans = lambda f: f.replace('[Gmail]/', '') if f.startswith('[Gmail]/') else f
