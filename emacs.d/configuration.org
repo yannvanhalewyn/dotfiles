@@ -438,6 +438,7 @@
             "v" 'describe-variable)
        "i" (build-keymap
             "u" 'insert-char)
+       "m" 'mu4e
        "o" 'counsel-find-file
        "Q" 'delete-other-windows
        "q" 'kill-this-buffer
@@ -1220,6 +1221,131 @@
        (use-package org-evil))
   #+END_SRC
 
+** Mail
+
+http://cachestocaches.com/2017/3/complete-guide-email-emacs-using-mu-and-/
+https://notanumber.io/2016-10-03/better-email-with-mu4e/
+Using
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu/mu4e/")
+     (require 'mu4e)
+
+     (setq mail-user-agent 'mu4e-user-agent)
+
+     (setq mu4e-contexts
+           `( ,(make-mu4e-context
+                :name "Gmail"
+                :match-func (lambda (msg)
+                              (when msg
+                                (string-prefix-p "/gmail" (mu4e-message-field msg :maildir))))
+                :vars '((mu4e-get-mail-command . "offlineimap -a Gmail")
+                        (user-mail-address . "yann.vanhalewyn@gmail.com")
+                        (mu4e-compose-signature . "Met vriendelijke groeten,\n\nYann Vanhalewyn")
+                        (mu4e-trash-folder . "/gmail/Bin")
+                        (mu4e-refile-folder . "/gmail/All Mail")
+                        (mu4e-drafts-folder . "/gmail/Drafts")
+                        (mu4e-sent-folder . "/gmail/Sent Mail")
+                        (mu4e-maildir-shortcuts . (("/gmail/INBOX"       . ?i)
+                                                   ("/gmail/All Mail"    . ?a)
+                                                   ("/gmail/Sent Mail"   . ?s)
+                                                   ("/gmail/Bin"       . ?t)))))
+              ,(make-mu4e-context
+                :name "Brightin"
+                :match-func (lambda (msg)
+                              (when msg
+                                (string-prefix-p "/brightin" (mu4e-message-field msg :maildir))))
+                :vars '((mu4e-get-mail-command . "offlineimap -a Brightin")
+                        (user-mail-address . "yann@brightin.nl")
+                        (mu4e-compose-signature . "Yann Vanhalewyn\nBrightin\n")
+                        (mu4e-trash-folder . "/brightin/Trash")
+                        (mu4e-refile-folder . "/brightin/All Mail")
+                        (mu4e-drafts-folder . "/brightin/Drafts")
+                        (mu4e-sent-folder . "/brightin/Sent Mail")
+                        (mu4e-maildir-shortcuts . (("/brightin/INBOX"       . ?i)
+                                                   ("/brightin/All Mail"    . ?a)
+                                                   ("/brightin/Sent Mail"   . ?s)
+                                                   ("/brightin/Trash"       . ?t))))))
+
+           mu4e-maildir "~/mail"
+           ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
+           mu4e-sent-messages-behavior 'delete
+           user-full-name  "Yann Vanhalewyn"
+
+           mu4e-bookmarks
+           `( ,(make-mu4e-bookmark
+                :name  "Inbox"
+                :query "NOT flag:trashed AND maildir:/gmail/INBOX OR
+                        NOT flag:trashed AND maildir:/brightin/INBOX"
+                :key ?i)
+              ,(make-mu4e-bookmark
+                :name  "Unread"
+                :query "flag:unread AND NOT flag:trashed AND maildir:/brightin/INBOX OR
+                        flag:unread AND NOT flag:trashed AND maildir:/gmail/INBOX"
+                :key ?u)
+              ,(make-mu4e-bookmark
+                :name "Today's messages"
+                :query "date:today..now"
+                :key ?t)))
+
+     ;; make sure the gnutls command line utils are installed
+     (require 'smtpmail)
+     (setq message-send-mail-function 'smtpmail-send-it
+           starttls-use-gnutls t
+           smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+           smtpmail-auth-credentials
+           '(("smtp.gmail.com" 587 "yann-brightin" nil))
+           smtpmail-default-smtp-server "smtp.gmail.com"
+           smtpmail-smtp-server "smtp.gmail.com"
+           smtpmail-smtp-service 587
+           message-kill-buffer-on-exit t)
+
+     (defvar my-mu4e-account-alist
+       '(("yann.vanhalewyn@gmail.com"
+          (user-mail-address "yann.vanhalewyn@gmail.com")
+          (smtpmail-smtp-user "yann.vanhalewyn@gmail.com"))
+         ("yann@brightin.nl"
+          (user-mail-address "yann@brightin.nl")
+          (smtpmail-smtp-user "yann@brightin.nl"))))
+
+     (defun my-mu4e-set-account ()
+       "Set the account for composing a message.
+        This function is taken from:
+          https://www.djcbsoftware.nl/code/mu/mu4e/Multiple-accounts.html"
+       (let* ((account
+               (if nil
+                   (mu4e-message-field mu4e-compose-parent-message :to)
+                 (completing-read (format "Compose with account: (%s) "
+                                          (mapconcat #'(lambda (var) (car var))
+                                                     my-mu4e-account-alist "/"))
+                                  (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+                                  nil t nil nil (caar my-mu4e-account-alist))))
+              (account-vars (cdr (assoc account my-mu4e-account-alist))))
+         (if account-vars
+             (mapc #'(lambda (var)
+                       (set (car var) (cadr var)))
+                   account-vars)
+           (error "No email account found"))))
+
+     (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
+
+     ;; HTML emails
+     (require 'mu4e-contrib)
+     (setq mu4e-html2text-command 'mu4e-shr2text)
+     (add-to-list 'mu4e-view-actions '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+     (setq shr-color-visible-luminance-min 80)
+     (setq shr-color-visible-distance-min 5)
+     ;; Setting Format=Flowed for non-text-based mail clients which don’t
+     ;; respect actual formatting, but let the text “flow” as they please.
+     (setq mu4e-compose-format-flowed t)
+     ;; Automatic line breaks when reading mail
+     (add-hook 'mu4e-view-mode-hook 'visual-line-mode)
+     ;; Images, doesn't seem to work
+     (setq mu4e-view-show-images t)
+     (when (fboundp 'imagemagick-register-types)
+       (imagemagick-register-types))
+
+     (use-package evil-mu4e)
+   #+END_SRC
 ** SQL
 
    Add some keybindings for easier sending sql data to the SQLi buffer
