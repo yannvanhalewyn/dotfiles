@@ -891,7 +891,22 @@
                      "B" 'sp-backward-barf-sexp
                      "s" 'sp-foward)))
     #+END_SRC
+
 ** Flycheck (linting)
+
+   [[https://github.com/flycheck/flycheck/][Flycheck]] is a nice on-the-fly linter and synthax checking framework for emacs that comes with many backends.
+
+   For the clojure setup, be sure to check out [[https://github.com/clojure-emacs/squiggly-clojure][Squiggly Clojure]], which uses a combination of [[https://github.com/jonase/eastwood][Eastwood]], [[https://github.com/jonase/kibit][Kibit]] and [[http://typedclojure.org/][core.typed]] via a Cider connection for efficiently linting files. Make sure to have these dependencies in your ~~/.lein/profiles.clj~:
+
+   #+BEGIN_SRC clojure
+     {:user {:dependencies [[acyclic/squiggly-clojure "0.1.9-SNAPSHOT"
+                             :exclusions [org.clojure/tools.reader]]]
+             :plugins [[jonase/eastwood "0.2.9"]
+                       [lein-kibit "0.1.6"]
+                       [cider/cider-nrepl "0.18.0"]]
+             ;; I personally don't use core.typed, hence the exclusion here.
+             :env {:squiggly {:checkers [:eastwood :kibit]}}}}
+   #+END_SRC
 
    #+BEGIN_SRC emacs-lisp
      (use-package flycheck
