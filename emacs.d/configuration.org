@@ -1230,7 +1230,7 @@
    - http://cachestocaches.com/2017/3/complete-guide-email-emacs-using-mu-and-/
    - https://notanumber.io/2016-10-03/better-email-with-mu4e/
 
-   Make sure to install ~mu~ with ~brew install mu --with-emacs~ to get the mu4e plugins. Then add the package to the load path:
+   Make sure to install ~mu~ with ~EMACS=$(which emacs) brew install mu --with-emacs --HEAD~ to get the mu4e plugins. The ~EMACS~ variable is to determine the actual emacs version. Then add the package to the load path:
 
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu/mu4e/")
@@ -1248,8 +1248,7 @@
                 :match-func (lambda (msg)
                               (when msg
                                 (string-prefix-p "/gmail" (mu4e-message-field msg :maildir))))
-                :vars '((mu4e-get-mail-command . "offlineimap -a Gmail")
-                        (user-mail-address . "yann.vanhalewyn@gmail.com")
+                :vars '((user-mail-address . "yann.vanhalewyn@gmail.com")
                         (mu4e-compose-signature . "Met vriendelijke groeten,\n\nYann Vanhalewyn")
                         (mu4e-trash-folder . "/gmail/Bin")
                         (mu4e-refile-folder . "/gmail/All Mail")
@@ -1264,8 +1263,7 @@
                 :match-func (lambda (msg)
                               (when msg
                                 (string-prefix-p "/brightin" (mu4e-message-field msg :maildir))))
-                :vars '((mu4e-get-mail-command . "offlineimap -a Brightin")
-                        (user-mail-address . "yann@brightin.nl")
+                :vars '((user-mail-address . "yann@brightin.nl")
                         (mu4e-compose-signature . "Yann Vanhalewyn\nBrightin\n")
                         (mu4e-trash-folder . "/brightin/Trash")
                         (mu4e-refile-folder . "/brightin/All Mail")
@@ -1280,6 +1278,7 @@
            ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
            mu4e-sent-messages-behavior 'delete
            user-full-name  "Yann Vanhalewyn"
+           mu4e-get-mail-command "offlineimap"
 
            mu4e-bookmarks
            `( ,(make-mu4e-bookmark
