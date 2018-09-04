@@ -1,10 +1,3 @@
-(defun re-match (r s)
-  "Returns the string matched by R"
-  (if (string-match r s)
-      (let ((beg (car (match-data)))
-            (end (cadr (match-data))))
-        (if (and beg end) (substring s beg end)))))
-
 (defun add-hooks (hook modes)
   "Applies hook to all mode (hooks)"
   (dolist (mode modes)
@@ -160,18 +153,6 @@ root, or asks for a repl port to connect form anywhere."
       ;; move this one to top
       (set-window-buffer other-win buf-this-buf)
       (select-window other-win))))
-
-;; Custom file finders
-(defun filer--choices (dirs)
-  "Uses `projectile-dir-files' function to find files in directories.
-The DIRS is list of lists consisting of a directory path and regexp to filter files from that directory.
-Returns a hash table with keys being short names and values being relative paths to the files."
-  (let ((hash (make-hash-table :test 'equal)))
-    (loop for (dir re) in dirs do
-          (loop for file in (projectile-dir-files (projectile-expand-root dir)) do
-                (when (string-match re file)
-                  (puthash (match-string 1 file) file hash))))
-    hash))
 
 (defun my-create-newline-and-enter-sexp (&rest _ignored)
   "Open a new brace or bracket expression, with relevant newlines and indent. "
