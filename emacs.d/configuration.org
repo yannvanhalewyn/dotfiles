@@ -524,10 +524,6 @@
       (use-package evil
         :init
         (setq evil-want-fine-undo t)
-        (add-hook #'after-change-major-mode-hook
-                  (lambda () (interactive)
-                    (modify-syntax-entry ?_ "w")))
-
         :config
         (evil-mode t)
 
