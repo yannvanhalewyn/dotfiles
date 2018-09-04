@@ -464,7 +464,13 @@
      (keys :keymaps 'dired-mode-map
        "q" 'kill-this-buffer
        "y" 'dired-copy-filename-as-kill
-       "w" 'dired-toggle-read-only)
+       "w" 'wdired-change-to-wdired-mode)
+   #+END_SRC
+
+   Enable leader keys in dired mode.
+
+   #+BEGIN_SRC emacs-lisp
+   (general-define-key :keymaps 'dired-mode-map "SPC" nil)
    #+END_SRC
 
    Human readable units
