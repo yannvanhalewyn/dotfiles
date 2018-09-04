@@ -113,9 +113,10 @@
 ** Setup alt key as meta on emacs-macport
 
    #+BEGIN_SRC emacs-lisp
-     (setq mac-option-modifier 'meta)
-     (setq mac-command-modifier 'super)
-     (setq mac-pass-command-to-system t)
+     (when (eq (window-system) 'mac)
+       (setq mac-option-modifier 'meta)
+       (setq mac-command-modifier 'super)
+       (setq mac-pass-command-to-system t))
    #+END_SRC
 
 ** Winner mode
@@ -267,7 +268,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package kaolin-themes :init (load-theme 'kaolin-galaxy t))
-     (set-face-attribute 'default nil :font "Menlo" :height 155)
+     (set-face-attribute 'default nil :font "Menlo" :height 145)
    #+END_SRC
 
 ** Use rich icons
@@ -377,7 +378,8 @@
        "]e" 'flycheck-next-error
        "]t" 'yvh/cycle-theme
        "[w" 'winner-undo
-       "]w" 'winner-redo)
+       "]w" 'winner-redo
+       "<s-return>" 'toggle-frame-fullscreen)
 
      (keys :states '(visual motion)
        "RET" 'align-regexp)
@@ -1221,7 +1223,8 @@
              org-ellipsis "↷")
 
        (setq org-agenda-custom-commands
-             '(("w" "Work stuff" tags-todo "@work"
+             '(("w" "Work (All)" tags-todo "@work")
+               ("n" "Work (Next Actions)" tags-todo "@work"
                 ((org-agenda-overriding-header "Work")
                  (org-agenda-skip-function #'yvh/org-agenda-skip-all-siblings-but-first)))))
 
