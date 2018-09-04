@@ -121,7 +121,7 @@
 
 ** Winner mode
 
-   Easily navigate window configurations history (bound to [w and ]w)
+   Easily navigate window configurations history (bound to ~[w~ and ~]w~)
 
    #+BEGIN_SRC emacs-lisp
      (when (fboundp 'winner-mode)
@@ -172,7 +172,7 @@
      (set-save-hook!)
    #+END_SRC
 
-** Prevent # -*- coding: utf-8 -*-
+** Prevent ~# -*- coding: utf-8 -*-~
 
    #+BEGIN_SRC emacs-lisp
      (setq ruby-insert-encoding-magic-comment nil)
@@ -191,8 +191,7 @@
    #+BEGIN_SRC emacs-lisp
      (setq js-indent-level 2
            css-indent-offset 2
-           c-basic-offset 4
-           css-indent-offset 2)
+           c-basic-offset 4)
    #+END_SRC
 
    Set default indentation, when file contains tabs be displayed as 2 spaces instead of 8
@@ -280,7 +279,10 @@
 
 ** Setup modeline
 
-   Custom packages, ci-status fetches the current status from CI using hub, and can be displayed in the modeline
+   Custom packages in this repo.
+
+   - [[https://github.com/yannvanhalewyn/dotfiles/blob/master/emacs.d/config/ci-status.el][ci-status]] fetches the current status from CI using hub
+   - [[https://github.com/yannvanhalewyn/dotfiles/blob/master/emacs.d/config/init-modeline.el][init-modeline]] is my own custom modeline adapted from [[https://github.com/hlissner/doom-emacs/blob/master/modules/ui/doom-modeline/config.el][DOOM modeline]]
 
    #+BEGIN_SRC emacs-lisp
      (require 'ci-status)
@@ -320,15 +322,15 @@
 * Packages
 ** Package.el
 
-  Set up package.el and point it to stable melpa repositories.
+  Set up ~package.el~ and point it to stable melpa repositories.
 
   #+BEGIN_SRC emacs-lisp
     (require 'package)
 
     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                          ("marmalade" . "https://marmalade-repo.org/packages/")
-                          ("melpa" . "https://melpa.org/packages/")
-                          ("melpa-stable" .  "http://stable.melpa.org/packages/")))
+                             ("marmalade" . "https://marmalade-repo.org/packages/")
+                             ("melpa" . "https://melpa.org/packages/")
+                             ("melpa-stable" .  "http://stable.melpa.org/packages/")))
 
     (package-initialize)
   #+END_SRC
@@ -354,6 +356,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package diminish)
    #+END_SRC
+
 ** General (keybindings)
 
    [[https://github.com/noctuid/general.el][General.el]] is an amazing tool to manage keybindings. It can create definers with prefixes, which are a great replacement for evil-leader.
@@ -590,7 +593,8 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package evil-numbers
-        :config
+        :defer t
+        :init
         (keys :prefix "g"
           "a" 'evil-numbers/inc-at-pt
           "x" 'evil-numbers/dec-at-pt))
@@ -598,7 +602,7 @@
 
 ** Magit
 
-   The killer app for Emacs
+   The killer app for Emacs. Seriously.
 
    #+BEGIN_SRC emacs-lisp
      (use-package magit
@@ -656,7 +660,7 @@
 
 ** Git link
 
-   Easily get urls for commits, lines or regions in files
+   Easily get github urls for commits, lines or regions in files
 
    #+BEGIN_SRC emacs-lisp
      (use-package git-link
@@ -856,8 +860,9 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package inf-ruby
-        :config
-        (add-hook 'after-init-hook 'inf-ruby-switch-setup))
+        :defer t
+        :init
+        (add-hook 'ruby-mode-hook 'inf-ruby-switch-setup))
    #+END_SRC
 
 *** Smartparens
@@ -873,6 +878,7 @@
         (require 'smartparens-ruby)
         (sp-local-pair 'c++-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
         (sp-local-pair 'c-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
+        (sp-local-pair 'js-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
         (sp-local-pair 'js2-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
         (sp-local-pair 'glsl-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
 
@@ -917,6 +923,8 @@
 ** Clojure
 *** Clojure mode
 
+    Initialize clojure mode and setup some useful minor modes for editing those lisps.
+
     #+BEGIN_SRC emacs-lisp
       (use-package clojure-mode
         :diminish eldoc-mode
@@ -930,10 +938,10 @@
           (eldoc-mode))
 
         (yhv/add-hooks #'parainbow-mode '(clojure-mode-hook
-                                      scheme-mode
-                                      clojurescript-mode-hook
-                                      cider-repl-mode-hook
-                                      emacs-lisp-mode-hook))
+                                          scheme-mode
+                                          clojurescript-mode-hook
+                                          cider-repl-mode-hook
+                                          emacs-lisp-mode-hook))
         :config
         (setq clojure-indent-style :always-align)
         (dolist (word '(try-let assoc-if transform match facts fact assoc render))
