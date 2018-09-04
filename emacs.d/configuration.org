@@ -266,7 +266,7 @@
 ** Setup theme and font
 
    #+BEGIN_SRC emacs-lisp
-   (use-package monokai-theme :init (load-theme 'monokai t))
+   (use-package kaolin-themes :init (load-theme 'kaolin-galaxy t))
    (set-face-attribute 'default nil :font "Menlo" :height 155)
    #+END_SRC
 
