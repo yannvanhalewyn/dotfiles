@@ -348,8 +348,12 @@ Returns \"\" to not break --no-window-system."
 
 (def-modeline-segment! point-info
   "The current position and line length of point"
-  (concat " %c/"
-          (number-to-string (- (line-end-position) (line-beginning-position)))))
+  (let ((line-length (number-to-string (- (line-end-position) (line-beginning-position))))
+        (buffer-length (int-to-string (count-lines (point-min) (point-max)))))
+    (propertize
+     (concat " L %l:" buffer-length
+             " C %c:" line-length)
+     'face 'mode-line-emphasis)))
 
 (def-modeline-segment! ci-status
   (let ((status (format " CI %s  " (cis/propertized-status cis/latest-ci-status))))
