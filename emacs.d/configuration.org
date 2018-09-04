@@ -4,7 +4,7 @@
    Add "emacs.d/config" to the load path for extra functions and custom packages.
 
    #+BEGIN_SRC emacs-lisp
-   (add-to-list 'load-path (concat user-emacs-directory "config"))
+     (add-to-list 'load-path (concat user-emacs-directory "config"))
    #+END_SRC
 
 ** Load utility functions
@@ -12,7 +12,7 @@
    Load a generous collection of custom utility functions
 
    #+BEGIN_SRC emacs-lisp
-   (require 'init-functions)
+     (require 'init-functions)
    #+END_SRC
 
 ** Custom.el
@@ -31,25 +31,25 @@
    Allow 20MB of memory (instead of 0.76MB) before calling garbage collection. This means GC runs less often, which speeds up some operations.
 
    #+BEGIN_SRC emacs-lisp
-   (setq gc-cons-threshold 20000000)
+     (setq gc-cons-threshold 20000000)
    #+END_SRC
 
 ** Hide splash screen
 
    #+BEGIN_SRC emacs-lisp
-   (setq inhibit-startup-message t)
+     (setq inhibit-startup-message t)
    #+END_SRC
 
 ** Silence bell
 
    #+BEGIN_SRC emacs-lisp
-   (setq ring-bell-function 'ignore)
+     (setq ring-bell-function 'ignore)
    #+END_SRC
 
 ** Just type y or n
 
    #+BEGIN_SRC emacs-lisp
-   (defalias 'yes-or-no-p 'y-or-n-p)
+     (defalias 'yes-or-no-p 'y-or-n-p)
    #+END_SRC
 
 ** No backup files
@@ -59,16 +59,16 @@
    use version control.
 
    #+BEGIN_SRC emacs-lisp
-   (setq make-backup-files nil)
-   (setq create-lockfiles nil)
-   (auto-save-mode nil)
+     (setq make-backup-files nil)
+     (setq create-lockfiles nil)
+     (auto-save-mode nil)
    #+END_SRC
 
 ** Deal with temp files
 
    #+BEGIN_SRC emacs-lisp
-   (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
-   (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
+     (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
+     (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
    #+END_SRC
 
 ** Add brews and /usr/local/bin to exec path
@@ -76,17 +76,17 @@
    [[https://github.com/purcell/exec-path-from-shell][Exec path from shell]] was a bit slow. This gives me what I need for now.
 
    #+BEGIN_SRC emacs-lisp
-   (let ((paths "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin"))
-     (setenv "PATH" paths)
-     (setq eshell-path-env paths))
-   (add-to-list 'exec-path "/usr/local/bin")
+     (let ((paths "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin"))
+       (setenv "PATH" paths)
+       (setq eshell-path-env paths))
+     (add-to-list 'exec-path "/usr/local/bin")
    #+END_SRC
 
 ** Save minibuffer history
 
    #+BEGIN_SRC emacs-lisp
-   (require 'savehist)
-   (savehist-mode t)
+     (require 'savehist)
+     (savehist-mode t)
    #+END_SRC
 
 ** Quitting minibuffer with ESC
@@ -113,9 +113,9 @@
 ** Setup alt key as meta on emacs-macport
 
    #+BEGIN_SRC emacs-lisp
-   (setq mac-option-modifier 'meta)
-   (setq mac-command-modifier 'super)
-   (setq mac-pass-command-to-system t)
+     (setq mac-option-modifier 'meta)
+     (setq mac-command-modifier 'super)
+     (setq mac-pass-command-to-system t)
    #+END_SRC
 
 ** Winner mode
@@ -123,21 +123,21 @@
    Easily navigate window configurations history (bound to [w and ]w)
 
    #+BEGIN_SRC emacs-lisp
-   (when (fboundp 'winner-mode)
-     (winner-mode 1))
+     (when (fboundp 'winner-mode)
+       (winner-mode 1))
    #+END_SRC
 
 * Buffers
 ** Auto newlines at end of buffer
 
    #+BEGIN_SRC emacs-lisp
-   (setq require-final-newline t)
+     (setq require-final-newline t)
    #+END_SRC
 
 ** Warn when opening large files
 
    #+BEGIN_SRC emacs-lisp
-   (setq large-file-warning-threshold 100000000)
+     (setq large-file-warning-threshold 100000000)
    #+END_SRC
 
 ** Auto clear trailing whitespace
@@ -145,13 +145,13 @@
    Removes trailing whitespace when buffer saves.
 
    #+BEGIN_SRC emacs-lisp
-   (add-hook 'before-save-hook 'delete-trailing-whitespace)
+     (add-hook 'before-save-hook 'delete-trailing-whitespace)
    #+END_SRC
 
 ** Auto revert buffers when changes on file system
 
    #+BEGIN_SRC emacs-lisp
-   (global-auto-revert-mode t)
+     (global-auto-revert-mode t)
    #+END_SRC
 
 ** Auto save buffer when leaving insert mode
@@ -174,7 +174,7 @@
 ** Prevent # -*- coding: utf-8 -*-
 
    #+BEGIN_SRC emacs-lisp
-   (setq ruby-insert-encoding-magic-comment nil)
+     (setq ruby-insert-encoding-magic-comment nil)
    #+END_SRC
 
 ** Indentation
@@ -182,71 +182,71 @@
    Prefer spaces over tabs
 
    #+BEGIN_SRC emacs-lisp
-   (setq-default indent-tabs-mode nil)
+     (setq-default indent-tabs-mode nil)
    #+END_SRC
 
    Set indentations for various languages
 
    #+BEGIN_SRC emacs-lisp
-   (setq js-indent-level 2
-         css-indent-offset 2
-         c-basic-offset 4
-         css-indent-offset 2)
+     (setq js-indent-level 2
+           css-indent-offset 2
+           c-basic-offset 4
+           css-indent-offset 2)
    #+END_SRC
 
    Set default indentation, when file contains tabs be displayed as 2 spaces instead of 8
 
    #+BEGIN_SRC emacs-lisp
-   (setq-default tab-width 2)
+     (setq-default tab-width 2)
    #+END_SRC
 
 ** Remember cursor position when opening files
 
    #+BEGIN_SRC emacs-lisp
-   (setq save-place-file (locate-user-emacs-file "places"))
-   (setq-default save-place t)
-   (require 'saveplace)
-   (save-place-mode 1)
+     (setq save-place-file (locate-user-emacs-file "places"))
+     (setq-default save-place t)
+     (require 'saveplace)
+     (save-place-mode 1)
    #+END_SRC
 
 ** Always follow symlinks
 
    #+BEGIN_SRC emacs-lisp
-   (setq vc-follow-symlinks t)
+     (setq vc-follow-symlinks t)
    #+END_SRC
 
 ** Centering after jumping paragraphs
 
    #+BEGIN_SRC emacs-lisp
-   (setq scroll-margin 3
-         scroll-conservatively 9999
-         scroll-step 1)
+     (setq scroll-margin 3
+           scroll-conservatively 9999
+           scroll-step 1)
    #+END_SRC
 
 ** Don't confirm when creating new file
 
    #+BEGIN_SRC emacs-lisp
-   (setq confirm-nonexistent-file-or-buffer nil)
+     (setq confirm-nonexistent-file-or-buffer nil)
    #+END_SRC
 
 ** Scroll in compilation mode
 
    #+BEGIN_SRC emacs-lisp
-   (setq compilation-scroll-output t)
+     (setq compilation-scroll-output t)
    #+END_SRC
 
 ** C++ header files
 
    #+BEGIN_SRC emacs-lisp
-   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+     (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
    #+END_SRC
 
 ** Open common config files with conf mode
 
    #+BEGIN_SRC emacs-lisp
-   (let* ((conf-files '("aliases" "functions" "gitignore" "rc" ".tf"))
-          (conf-regexp (concat (regexp-opt conf-files t) "\\'")))
-     (add-to-list 'auto-mode-alist (cons conf-regexp 'conf-mode)))
+     (let* ((conf-files '("aliases" "functions" "gitignore" "rc" ".tf"))
+            (conf-regexp (concat (regexp-opt conf-files t) "\\'")))
+       (add-to-list 'auto-mode-alist (cons conf-regexp 'conf-mode)))
    #+END_SRC
 
 ** Get colorized compilation buffers
@@ -254,26 +254,27 @@
    Useful for various test runners that use compilation buffers, like the mocha test runner.
 
    #+BEGIN_SRC emacs-lisp
-   (require 'ansi-color)
-   (defun colorize-compilation-buffer ()
-     (toggle-read-only)
-     (ansi-color-apply-on-region compilation-filter-start (point))
-     (toggle-read-only))
-   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+     (require 'ansi-color)
+     (defun colorize-compilation-buffer ()
+       (toggle-read-only)
+       (ansi-color-apply-on-region compilation-filter-start (point))
+       (toggle-read-only))
+     (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
    #+END_SRC
 
 * Layout
 ** Setup theme and font
 
    #+BEGIN_SRC emacs-lisp
-   (use-package kaolin-themes :init (load-theme 'kaolin-galaxy t))
-   (set-face-attribute 'default nil :font "Menlo" :height 155)
+     (use-package kaolin-themes :init (load-theme 'kaolin-galaxy t))
+     (set-face-attribute 'default nil :font "Menlo" :height 155)
    #+END_SRC
 
 ** Use rich icons
 
+   Have pretty icons for neotree and the modeline. Be sure to run ~M-x all-the-icons-install-fonts~
    #+BEGIN_SRC emacs-lisp
-   (use-package all-the-icons)
+     (use-package all-the-icons)
    #+END_SRC
 
 ** Setup modeline
@@ -281,21 +282,21 @@
    Custom packages, ci-status fetches the current status from CI using hub, and can be displayed in the modeline
 
    #+BEGIN_SRC emacs-lisp
-   (require 'ci-status)
-   (require 'init-modeline)
-   (add-hook 'magit-status-mode-hook 'cis/update)
+     (require 'ci-status)
+     (require 'init-modeline)
+     (add-hook 'magit-status-mode-hook 'cis/update)
    #+END_SRC
 
 ** Highlight current line
 
    #+BEGIN_SRC emacs-lisp
-   (global-hl-line-mode t)
+     (global-hl-line-mode t)
    #+END_SRC
 
 ** Show matching paren
 
    #+BEGIN_SRC emacs-lisp
-   (show-paren-mode 1)
+     (show-paren-mode 1)
    #+END_SRC
 
 ** Interface
@@ -303,16 +304,16 @@
    Hide menu bar
 
    #+BEGIN_SRC emacs-lisp
-   (menu-bar-mode 0)
+     (menu-bar-mode 0)
    #+END_SRC
 
    Hide toolbar, scroll bars and setup smaller fringe in GUI version
 
    #+BEGIN_SRC emacs-lisp
-   (if window-system
-       (progn (scroll-bar-mode -1)
-              (tool-bar-mode -1)
-              (fringe-mode 10)))
+     (when window-system
+       (scroll-bar-mode -1)
+       (tool-bar-mode -1)
+       (fringe-mode 10))
    #+END_SRC
 
 * Packages
@@ -321,28 +322,28 @@
   Set up package.el and point it to stable melpa repositories.
 
   #+BEGIN_SRC emacs-lisp
-   (require 'package)
+    (require 'package)
 
-   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" .  "http://stable.melpa.org/packages/")))
+    (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                          ("marmalade" . "https://marmalade-repo.org/packages/")
+                          ("melpa" . "https://melpa.org/packages/")
+                          ("melpa-stable" .  "http://stable.melpa.org/packages/")))
 
-   (package-initialize)
+    (package-initialize)
   #+END_SRC
 
   Install ~use-package~
 
   #+BEGIN_SRC emacs-lisp
-   (unless (package-installed-p 'use-package)
-     (package-refresh-contents)
-     (package-install 'use-package))
+    (unless (package-installed-p 'use-package)
+      (package-refresh-contents)
+      (package-install 'use-package))
 
-   (eval-when-compile
-     (require 'use-package))
+    (eval-when-compile
+      (require 'use-package))
 
-   (setq use-package-verbose nil
-         use-package-always-ensure t)
+    (setq use-package-verbose nil
+          use-package-always-ensure t)
   #+END_SRC
 
 ** Diminish
@@ -350,19 +351,19 @@
    Hides some modes from the modeline. Included for integration with ~use-package~.
 
    #+BEGIN_SRC emacs-lisp
-   (use-package diminish)
+     (use-package diminish)
    #+END_SRC
 ** General (keybindings)
 
    [[https://github.com/noctuid/general.el][General.el]] is an amazing tool to manage keybindings. It can create definers with prefixes, which are a great replacement for evil-leader.
 
    #+BEGIN_SRC emacs-lisp
-   (use-package general
-     :config
-     (setq default-states '(normal emacs motion))
-     (general-define-key :states 'motion "SPC" nil)
-     (general-create-definer keys-l :prefix "SPC" :states default-states)
-     (general-create-definer keys :states default-states))
+     (use-package general
+       :config
+       (setq default-states '(normal emacs motion))
+       (general-define-key :states 'motion "SPC" nil)
+       (general-create-definer keys-l :prefix "SPC" :states default-states)
+       (general-create-definer keys :states default-states))
    #+END_SRC
 
    Setup global keybindings
@@ -394,9 +395,9 @@
    Global leaders for evaluating emacs-lisp code
 
    #+BEGIN_SRC emacs-lisp
-   (keys-l :keymaps '(emacs-lisp-mode-map scheme-mode-map)
-     "e" 'eval-defun
-     "E" 'eval-buffer)
+     (keys-l :keymaps '(emacs-lisp-mode-map scheme-mode-map)
+       "e" 'eval-defun
+       "E" 'eval-buffer)
    #+END_SRC
 
    Global leader keys
@@ -455,7 +456,7 @@
 ** Dired
 
    #+BEGIN_SRC emacs-lisp
-   (require 'dired)
+     (require 'dired)
    #+END_SRC
 
    Kill dired buffer when quitting
@@ -470,13 +471,13 @@
    Enable leader keys in dired mode.
 
    #+BEGIN_SRC emacs-lisp
-   (general-define-key :keymaps 'dired-mode-map "SPC" nil)
+     (general-define-key :keymaps 'dired-mode-map "SPC" nil)
    #+END_SRC
 
    Human readable units
 
    #+BEGIN_SRC emacs-lisp
-   (setq-default dired-listing-switches "-alh")
+     (setq-default dired-listing-switches "-alh")
    #+END_SRC
 
 ** iBuffer
@@ -484,35 +485,35 @@
    Setup better filtering groups
 
    #+BEGIN_SRC emacs-lisp
-   (setq ibuffer-saved-filter-groups
-         (quote (("default"
-                  ("code" (or (mode . clojure-mode)
-                              (mode . clojurec-mode)
-                              (mode . c-mode)
-                              (mode . ruby-mode)
-                              (mode . javascript-mode)
-                              (mode . java-mode)
-                              (mode . js-mode)
-                              (mode . coffee-mode)
-                              (mode . clojurescript-mode)))
-                  ("emacs" (or (name . "^\\*scratch\\*$")
-                               (name . "^\\*Messages\\*$")
-                               (name . "^\\*Completions\\*$")))
-                  ("configs" (or (mode . emacs-lisp-mode)
-                                 (mode . org-mode)
-                                 (mode . conf-mode)))
-                  ("Magit" (name . "magit"))
-                  ("Help" (or (name . "\*Help\*")
-                              (name . "\*Apropos\*")
-                              (name . "\*info\*")))
-                  ("tmp" (or (mode . dired-mode)
-                             (name ."^\\*")))))))
+     (setq ibuffer-saved-filter-groups
+           (quote (("default"
+                    ("code" (or (mode . clojure-mode)
+                                (mode . clojurec-mode)
+                                (mode . c-mode)
+                                (mode . ruby-mode)
+                                (mode . javascript-mode)
+                                (mode . java-mode)
+                                (mode . js-mode)
+                                (mode . coffee-mode)
+                                (mode . clojurescript-mode)))
+                    ("emacs" (or (name . "^\\*scratch\\*$")
+                                 (name . "^\\*Messages\\*$")
+                                 (name . "^\\*Completions\\*$")))
+                    ("configs" (or (mode . emacs-lisp-mode)
+                                   (mode . org-mode)
+                                   (mode . conf-mode)))
+                    ("Magit" (name . "magit"))
+                    ("Help" (or (name . "\*Help\*")
+                                (name . "\*Apropos\*")
+                                (name . "\*info\*")))
+                    ("tmp" (or (mode . dired-mode)
+                               (name ."^\\*")))))))
 
-   (setq ibuffer-show-empty-filter-groups nil)
+     (setq ibuffer-show-empty-filter-groups nil)
 
-   (add-hook 'ibuffer-mode-hook
-             (lambda ()
-               (ibuffer-switch-to-saved-filter-groups "default")))
+     (add-hook 'ibuffer-mode-hook
+               (lambda ()
+                 (ibuffer-switch-to-saved-filter-groups "default")))
    #+END_SRC
 
 ** Evil
@@ -598,57 +599,57 @@
    The killer app for Emacs
 
    #+BEGIN_SRC emacs-lisp
-   (use-package magit
-     :defer t
-     :init
-     (keys-l "g" (yvh/build-keymap
-                  "b" 'magit-blame
-                  "c" 'magit-checkout
-                  "C" 'magit-branch-and-checkout
-                  "d" 'vc-diff
-                  "D" 'magit-diff
-                  "f" 'magit-find-file
-                  "F" 'magit-pull-from-pushremote
-                  "l" 'magit-log-head
-                  "L" 'magit-log-popup
-                  "m" 'magit-merge
-                  "M" 'magit-merge-popup
-                  "o" 'browse-current-line-github
-                  "p" 'magit-push-current-to-pushremote
-                  "P" 'yvh/force-push-with-lease
-                  "r" (yvh/build-keymap
-                       "a" 'magit-rebase-abort
-                       "c" 'magit-rebase-continue
-                       "i" 'magit-rebase-interactive
-                       "r" 'magit-rebase
-                       "s" 'magit-rebase-skip)
-                  "s" 'magit-status
-                  "S" 'magit-stash))
+     (use-package magit
+       :defer t
+       :init
+       (keys-l "g" (yvh/build-keymap
+                    "b" 'magit-blame
+                    "c" 'magit-checkout
+                    "C" 'magit-branch-and-checkout
+                    "d" 'vc-diff
+                    "D" 'magit-diff
+                    "f" 'magit-find-file
+                    "F" 'magit-pull-from-pushremote
+                    "l" 'magit-log-head
+                    "L" 'magit-log-popup
+                    "m" 'magit-merge
+                    "M" 'magit-merge-popup
+                    "o" 'browse-current-line-github
+                    "p" 'magit-push-current-to-pushremote
+                    "P" 'yvh/force-push-with-lease
+                    "r" (yvh/build-keymap
+                         "a" 'magit-rebase-abort
+                         "c" 'magit-rebase-continue
+                         "i" 'magit-rebase-interactive
+                         "r" 'magit-rebase
+                         "s" 'magit-rebase-skip)
+                    "s" 'magit-status
+                    "S" 'magit-stash))
 
-     :config
-     (use-package evil-magit)
-     (add-hook 'git-commit-mode-hook 'evil-insert-state)
-     ;; Refresh VC state for modeline when magit refreshes
-     (add-hook 'magit-refresh-buffer-hook 'vc-refresh-state)
+       :config
+       (use-package evil-magit)
+       (add-hook 'git-commit-mode-hook 'evil-insert-state)
+       ;; Refresh VC state for modeline when magit refreshes
+       (add-hook 'magit-refresh-buffer-hook 'vc-refresh-state)
 
-     ;; Enable leader keys in revision buffers
-     (general-def magit-revision-mode-map "SPC" nil)
+       ;; Enable leader keys in revision buffers
+       (general-def magit-revision-mode-map "SPC" nil)
 
-     (keys :keymaps '(magit-revision-mode-map diff-mode-map)
-       :states 'visual
-       "y" 'yvh/yank-from-revision-buffer)
-     (keys 'magit-blame-mode-map "q" 'magit-blame-quit)
-     (keys 'git-rebase-mode-map "q" 'magit-rebase-abort)
-     (keys 'magit-status-mode-map "K" 'magit-discard))
+       (keys :keymaps '(magit-revision-mode-map diff-mode-map)
+         :states 'visual
+         "y" 'yvh/yank-from-revision-buffer)
+       (keys 'magit-blame-mode-map "q" 'magit-blame-quit)
+       (keys 'git-rebase-mode-map "q" 'magit-rebase-abort)
+       (keys 'magit-status-mode-map "K" 'magit-discard))
    #+END_SRC
 
    Potentially setup github integration from Magit's interface
 
    #+BEGIN_SRC emacs-lisp
-   (use-package magithub
-     :after magit
-     :defer t
-     :config (magithub-feature-autoinject t))
+     (use-package magithub
+       :after magit
+       :defer t
+       :config (magithub-feature-autoinject t))
    #+END_SRC
 
 ** Git link
@@ -660,34 +661,35 @@
        :defer t
        :config (setq git-link-open-in-browser t))
    #+END_SRC
+
 ** Company (autocompletion)
 
    #+BEGIN_SRC emacs-lisp
-   (use-package company
-     :diminish company-mode
-     :init (global-company-mode)
-     :config
-     (setq company-idle-delay 0.3)
-     (keys :states 'insert
-       "<tab>" 'company-complete-common-or-cycle)
-     (general-def 'company-active-map
-       "C-s" 'company-filter-candidates
-       "C-n" 'company-select-next
-       "C-p" 'company-select-previous
-       "<tab>" 'company-complete-common-or-cycle
-       "S-<tab>" 'company-select-previous-or-abort))
+     (use-package company
+       :diminish company-mode
+       :init (global-company-mode)
+       :config
+       (setq company-idle-delay 0.3)
+       (keys :states 'insert
+         "<tab>" 'company-complete-common-or-cycle)
+       (general-def 'company-active-map
+         "C-s" 'company-filter-candidates
+         "C-n" 'company-select-next
+         "C-p" 'company-select-previous
+         "<tab>" 'company-complete-common-or-cycle
+         "S-<tab>" 'company-select-previous-or-abort))
    #+END_SRC
 
 ** Yasnippet
 
    #+BEGIN_SRC emacs-lisp
-   (use-package yasnippet
-     :diminish yas-minor-mode
-     :config
-     (yas-global-mode 1)
-     (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
-     (keys :states '(insert)
-       "S-<tab>" 'yas-expand))
+     (use-package yasnippet
+       :diminish yas-minor-mode
+       :config
+       (yas-global-mode 1)
+       (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+       (keys :states '(insert)
+         "S-<tab>" 'yas-expand))
     #+END_SRC
 
 ** Ace jump
@@ -695,20 +697,20 @@
    Jump to anywhere with double SPC
 
    #+BEGIN_SRC emacs-lisp
-   (use-package ace-jump-mode
-     :defer t
-     :init
-     (keys-l
-       "SPC" 'ace-jump-mode
-       "S-SPC" 'ace-jump-char-mode))
+     (use-package ace-jump-mode
+       :defer t
+       :init
+       (keys-l
+         "SPC" 'ace-jump-mode
+         "S-SPC" 'ace-jump-char-mode))
     #+END_SRC
 
 ** Undo-tree
 
    #+BEGIN_SRC emacs-lisp
-   (use-package undo-tree
-     :diminish undo-tree-mode
-     :config (global-undo-tree-mode t))
+     (use-package undo-tree
+       :diminish undo-tree-mode
+       :config (global-undo-tree-mode t))
    #+END_SRC
 
 ** Which-key
@@ -716,57 +718,57 @@
    Display available keybindings in popup
 
    #+BEGIN_SRC emacs-lisp
-   (use-package which-key
-     :diminish which-key-mode
-     :config
-     (which-key-mode +1)
-     (setq which-key-idle-delay 0.5)
-     (which-key-setup-side-window-bottom)
-     (which-key-add-key-based-replacements
-       "SPC a" "Applications"
-       "SPC c" "Cider / CI / Comment"
-       "SPC f" "Files"
-       "SPC g" "Git"
-       "SPC g r" "Rebase"
-       "SPC h" "Help"
-       "SPC i" "Insert"
-       "SPC p" "Project"
-       "SPC s" "Sexp / Shell"
-       "SPC v" "View configuration"))
+     (use-package which-key
+       :diminish which-key-mode
+       :config
+       (which-key-mode +1)
+       (setq which-key-idle-delay 0.5)
+       (which-key-setup-side-window-bottom)
+       (which-key-add-key-based-replacements
+         "SPC a" "Applications"
+         "SPC c" "Cider / CI / Comment"
+         "SPC f" "Files"
+         "SPC g" "Git"
+         "SPC g r" "Rebase"
+         "SPC h" "Help"
+         "SPC i" "Insert"
+         "SPC p" "Project"
+         "SPC s" "Sexp / Shell"
+         "SPC v" "View configuration"))
     #+END_SRC
 
 ** Ruby/Rails
 *** Basic web modes
 
     #+BEGIN_SRC emacs-lisp
-    (use-package haml-mode :defer t)
-    (use-package yaml-mode :defer t)
-    (use-package css-mode :defer t)
-    (use-package sass-mode :defer t)
-    (use-package scss-mode :defer t)
+      (use-package haml-mode :defer t)
+      (use-package yaml-mode :defer t)
+      (use-package css-mode :defer t)
+      (use-package sass-mode :defer t)
+      (use-package scss-mode :defer t)
     #+END_SRC
 
 *** projectile-rails
 
     #+BEGIN_SRC emacs-lisp
-    (use-package projectile-rails
-      :defer t
-      :init
-      (keys :prefix "g"
-        :keymaps  'ruby-mode-map
-        "r" 'projectile-rails-find-current-controller
-        "R" 'projectile-rails-find-controller
-        "f" 'projectile-rails-goto-file-at-point
-        "m" 'projectile-rails-find-current-model
-        "M" 'projectile-rails-find-model
-        "v" 'projectile-rails-find-current-view
-        "V" 'projectile-rails-find-view
-        "i" 'open-current-ticket-in-redmine
-        "t" 'split-window-with-rspec-alternate-file
-        "T" 'projectile-rails-find-spec)
-      :config
-      ;; Won't start unless rails project
-      (add-hook 'projectile-mode-hook 'projectile-rails-on))
+      (use-package projectile-rails
+        :defer t
+        :init
+        (keys :prefix "g"
+          :keymaps  'ruby-mode-map
+          "r" 'projectile-rails-find-current-controller
+          "R" 'projectile-rails-find-controller
+          "f" 'projectile-rails-goto-file-at-point
+          "m" 'projectile-rails-find-current-model
+          "M" 'projectile-rails-find-model
+          "v" 'projectile-rails-find-current-view
+          "V" 'projectile-rails-find-view
+          "i" 'open-current-ticket-in-redmine
+          "t" 'split-window-with-rspec-alternate-file
+          "T" 'projectile-rails-find-spec)
+        :config
+        ;; Won't start unless rails project
+        (add-hook 'projectile-mode-hook 'projectile-rails-on))
     #+END_SRC
 
 *** Coffee-mode
@@ -822,15 +824,15 @@
     Running rspec tests from the editor
 
     #+BEGIN_SRC emacs-lisp
-    (use-package rspec-mode
-      :defer t
-      :init
-      (eval-after-load 'rspec-mode '(rspec-install-snippets))
-      (keys-l :keymaps 'ruby-mode-map
-        "t" 'rspec-verify
-        "a" 'rspec-verify-all
-        "s" 'rspec-verify-single
-        "l" 'rspec-rerun))
+      (use-package rspec-mode
+        :defer t
+        :init
+        (eval-after-load 'rspec-mode '(rspec-install-snippets))
+        (keys-l :keymaps 'ruby-mode-map
+          "t" 'rspec-verify
+          "a" 'rspec-verify-all
+          "s" 'rspec-verify-single
+          "l" 'rspec-rerun))
     #+END_SRC
 
 *** Prettier
@@ -838,12 +840,12 @@
     Ensure consistent js formatting
 
     #+BEGIN_SRC emacs-lisp
-    (use-package prettier-js
-      :defer t
-      :config
-      (setq prettier-js-args '("--trailing-comma" "all"))
-      :init
-      (yhv/add-hooks #'prettier-js-mode '(js2-mode-hook js-mode-hook)))
+      (use-package prettier-js
+        :defer t
+        :config
+        (setq prettier-js-args '("--trailing-comma" "all"))
+        :init
+        (yhv/add-hooks #'prettier-js-mode '(js2-mode-hook js-mode-hook)))
    #+END_SRC
 
 *** Inf ruby
@@ -851,9 +853,9 @@
     Using pry in rspec buffers
 
     #+BEGIN_SRC emacs-lisp
-    (use-package inf-ruby
-      :config
-      (add-hook 'after-init-hook 'inf-ruby-switch-setup))
+      (use-package inf-ruby
+        :config
+        (add-hook 'after-init-hook 'inf-ruby-switch-setup))
    #+END_SRC
 
 *** Smartparens
@@ -861,79 +863,79 @@
     Close do-end blocks in ruby
 
     #+BEGIN_SRC emacs-lisp
-    (use-package smartparens
-      :defer t
-      :init
-      (yhv/add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook js-mode-hook c-mode-common-hook))
-      :config
-      (require 'smartparens-ruby)
-      (sp-local-pair 'c++-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
-      (sp-local-pair 'c-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
-      (sp-local-pair 'js2-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
-      (sp-local-pair 'glsl-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
+      (use-package smartparens
+        :defer t
+        :init
+        (yhv/add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook js-mode-hook c-mode-common-hook))
+        :config
+        (require 'smartparens-ruby)
+        (sp-local-pair 'c++-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
+        (sp-local-pair 'c-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
+        (sp-local-pair 'js2-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
+        (sp-local-pair 'glsl-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
 
-      (keys-l "s" (yvh/build-keymap
-                   "a" 'sp-absorb-sexp
-                   "c" 'paredit-convolute-sexp
-                   "l" 'sp-forward-slurp-sexp
-                   "h" 'sp-forward-barf-sexp
-                   "b" 'sp-forward-barf-sexp
-                   "B" 'sp-backward-barf-sexp
-                   "s" 'sp-foward)))
+        (keys-l "s" (yvh/build-keymap
+                     "a" 'sp-absorb-sexp
+                     "c" 'paredit-convolute-sexp
+                     "l" 'sp-forward-slurp-sexp
+                     "h" 'sp-forward-barf-sexp
+                     "b" 'sp-forward-barf-sexp
+                     "B" 'sp-backward-barf-sexp
+                     "s" 'sp-foward)))
     #+END_SRC
 ** Flycheck (linting)
 
    #+BEGIN_SRC emacs-lisp
-   (use-package flycheck
-     :diminish flycheck-mode
-     :defer t
-     :init
-     (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc clojure-cider-typed))
-     (add-hook 'after-init-hook #'global-flycheck-mode)
-
-     :config
-     (use-package flycheck-clojure
+     (use-package flycheck
+       :diminish flycheck-mode
        :defer t
        :init
-       (eval-after-load 'flycheck '(flycheck-clojure-setup)))
+       (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc clojure-cider-typed))
+       (add-hook 'after-init-hook #'global-flycheck-mode)
 
-     (use-package flycheck-pos-tip
-       :defer t
-       :init
-       (with-eval-after-load 'flycheck
-         (flycheck-pos-tip-mode)))
+       :config
+       (use-package flycheck-clojure
+         :defer t
+         :init
+         (eval-after-load 'flycheck '(flycheck-clojure-setup)))
 
-     (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
-     (add-hook 'c++-mode-hook
-               (lambda ()
-                 (setq flycheck-gcc-language-standard "c++14")
-                 (setq flycheck-clang-language-standard "c++14"))))
+       (use-package flycheck-pos-tip
+         :defer t
+         :init
+         (with-eval-after-load 'flycheck
+           (flycheck-pos-tip-mode)))
+
+       (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
+       (add-hook 'c++-mode-hook
+                 (lambda ()
+                   (setq flycheck-gcc-language-standard "c++14")
+                   (setq flycheck-clang-language-standard "c++14"))))
     #+END_SRC
 
 ** Clojure
 *** Set up clojure mode
 
     #+BEGIN_SRC emacs-lisp
-    (use-package clojure-mode
-      :diminish eldoc-mode
-      :defer t
-      :init
-      (defun parainbow-mode ()
-        (interactive)
-        (paredit-mode)
-        (evil-cleverparens-mode)
-        (rainbow-delimiters-mode)
-        (eldoc-mode))
+      (use-package clojure-mode
+        :diminish eldoc-mode
+        :defer t
+        :init
+        (defun parainbow-mode ()
+          (interactive)
+          (paredit-mode)
+          (evil-cleverparens-mode)
+          (rainbow-delimiters-mode)
+          (eldoc-mode))
 
-      (yhv/add-hooks #'parainbow-mode '(clojure-mode-hook
-                                    scheme-mode
-                                    clojurescript-mode-hook
-                                    cider-repl-mode-hook
-                                    emacs-lisp-mode-hook))
-      :config
-      (setq clojure-indent-style :always-align)
-      (dolist (word '(try-let assoc-if transform match facts fact assoc render))
-        (put-clojure-indent word 1)))
+        (yhv/add-hooks #'parainbow-mode '(clojure-mode-hook
+                                      scheme-mode
+                                      clojurescript-mode-hook
+                                      cider-repl-mode-hook
+                                      emacs-lisp-mode-hook))
+        :config
+        (setq clojure-indent-style :always-align)
+        (dolist (word '(try-let assoc-if transform match facts fact assoc render))
+          (put-clojure-indent word 1)))
     #+END_SRC
 
 *** Cider
@@ -1008,22 +1010,22 @@
     Amazing refactoring utils for clojure
 
     #+BEGIN_SRC emacs-lisp
-    (use-package clj-refactor
-      :defer t
-      :init
-      (yhv/add-hooks #'clj-refactor-mode '(clojure-mode-hook clojurescript-mode-hook))
-      :config
-      (let ((cljr-map (make-sparse-keymap)))
-        (dolist (details cljr--all-helpers)
-          (define-key cljr-map (car details) (cadr details)))
-        (keys-l :keymaps 'clojure-mode-map
-          "r" cljr-map)))
+      (use-package clj-refactor
+        :defer t
+        :init
+        (yhv/add-hooks #'clj-refactor-mode '(clojure-mode-hook clojurescript-mode-hook))
+        :config
+        (let ((cljr-map (make-sparse-keymap)))
+          (dolist (details cljr--all-helpers)
+            (define-key cljr-map (car details) (cadr details)))
+          (keys-l :keymaps 'clojure-mode-map
+            "r" cljr-map)))
     #+END_SRC
 
 *** Rainbow Delimiters
 
     #+BEGIN_SRC emacs-lisp
-    (use-package rainbow-delimiters :defer t)
+      (use-package rainbow-delimiters :defer t)
     #+END_SRC
 
 *** Paredit
@@ -1033,13 +1035,13 @@
     parentheses.
 
     #+BEGIN_SRC emacs-lisp
-    (use-package paredit
-      :defer t
-      :diminish paredit-mode
-      :init
-      (keys paredit-mode-map
-        ")" 'paredit-forward-slurp-sexp
-        "(" 'paredit-backward-slurp-sexp))
+      (use-package paredit
+        :defer t
+        :diminish paredit-mode
+        :init
+        (keys paredit-mode-map
+          ")" 'paredit-forward-slurp-sexp
+          "(" 'paredit-backward-slurp-sexp))
     #+END_SRC
 
 *** Aggressive Indent
@@ -1047,37 +1049,37 @@
     Enforce consistent indentation, beautiful in lisps
 
     #+BEGIN_SRC emacs-lisp
-    (use-package aggressive-indent
-      :defer t
-      :diminish aggressive-indent-mode
-      :init
-      (yhv/add-hooks #'aggressive-indent-mode '(clojure-mode-hook
-                                            emacs-lisp-mode-hook
-                                            clojurescript-mode-hook)))
+      (use-package aggressive-indent
+        :defer t
+        :diminish aggressive-indent-mode
+        :init
+        (yhv/add-hooks #'aggressive-indent-mode '(clojure-mode-hook
+                                              emacs-lisp-mode-hook
+                                              clojurescript-mode-hook)))
     #+END_SRC
 ** Project Management
 *** Projectile
 
     #+BEGIN_SRC emacs-lisp
-    (use-package projectile
-      :diminish projectile-mode
-      :config
-      (projectile-global-mode)
-      (setq projectile-require-project-root nil
-            projectile-switch-project-action 'counsel-projectile-find-file)
-      (define-key projectile-command-map (kbd "C") 'projectile-compile-project)
-      (define-key projectile-command-map (kbd "c") 'recompile)
-      (keys-l
-        "p" 'projectile-command-map
-        "p T" 'yvh/view-test-file-in-other-window)
+      (use-package projectile
+        :diminish projectile-mode
+        :config
+        (projectile-global-mode)
+        (setq projectile-require-project-root nil
+              projectile-switch-project-action 'counsel-projectile-find-file)
+        (define-key projectile-command-map (kbd "C") 'projectile-compile-project)
+        (define-key projectile-command-map (kbd "c") 'recompile)
+        (keys-l
+          "p" 'projectile-command-map
+          "p T" 'yvh/view-test-file-in-other-window)
 
-      (projectile-register-project-type 'clojure '("project.clj")
-                                        :test-suffix "_test")
+        (projectile-register-project-type 'clojure '("project.clj")
+                                          :test-suffix "_test")
 
-      ;; Projectile-ag
-      (use-package ag
-        :defer t
-        :init (setq ag-reuse-buffers t)))
+        ;; Projectile-ag
+        (use-package ag
+          :defer t
+          :init (setq ag-reuse-buffers t)))
      #+END_SRC
 
 *** Neotree
@@ -1111,59 +1113,59 @@
     it's frontend.
 
     #+BEGIN_SRC emacs-lisp
-    (use-package ivy
-      :init
-      ;; better scoring / result sorting
-      (use-package flx)
-      :diminish ivy-mode
-      :config
-      (ivy-mode)
-      (setq ivy-re-builders-alist '((swiper . ivy--regex-plus)
-                                    (t . ivy--regex-fuzzy))
-            completing-read-function 'yvh/ivy-completing-read-with-symbol-def)
-
-      (general-def ivy-minibuffer-map
-        "<escape>" 'minibuffer-keyboard-quit
-        "<tab>" 'ivy-alt-done
-        "S-<tab>" 'ivy-insert-current
-        "S-<return>" '(lambda () (interactive) (ivy-alt-done t))
-        "C-o" 'ivy-occur)
-
-      ;; Enable leader keys in occur buffer
-      (general-def ivy-occur-grep-mode-map "SPC" nil)
-
-      (defun yvh/ivy-yank-action (x) (kill-new x))
-      (defun yvh/ivy-projectile-delete-action (x) (delete-file (projectile-expand-root x)))
-      (ivy-set-actions 'counsel-projectile-find-file '(("d" yvh/ivy-projectile-delete-action "delete")
-                                                       ("y" yvh/ivy-yank-action "yank")))
-
-      (use-package swiper
-        :defer t
-        :config (keys "/" 'swiper))
-
-      (use-package counsel-projectile
+      (use-package ivy
         :init
-        ;; Currently there is a breaking change in projectile. Until the fix is merged, this patches it:
-        ;; https://github.com/ericdanan/counsel-projectile/pull/92
-        (setq projectile-keymap-prefix (where-is-internal 'projectile-command-map nil t))
+        ;; better scoring / result sorting
+        (use-package flx)
+        :diminish ivy-mode
         :config
-        (keys-l
-          "f f" 'counsel-projectile-find-file
-          "p p" 'counsel-projectile-switch-project))
+        (ivy-mode)
+        (setq ivy-re-builders-alist '((swiper . ivy--regex-plus)
+                                      (t . ivy--regex-fuzzy))
+              completing-read-function 'yvh/ivy-completing-read-with-symbol-def)
 
-      (use-package wgrep :defer t))
+        (general-def ivy-minibuffer-map
+          "<escape>" 'minibuffer-keyboard-quit
+          "<tab>" 'ivy-alt-done
+          "S-<tab>" 'ivy-insert-current
+          "S-<return>" '(lambda () (interactive) (ivy-alt-done t))
+          "C-o" 'ivy-occur)
+
+        ;; Enable leader keys in occur buffer
+        (general-def ivy-occur-grep-mode-map "SPC" nil)
+
+        (defun yvh/ivy-yank-action (x) (kill-new x))
+        (defun yvh/ivy-projectile-delete-action (x) (delete-file (projectile-expand-root x)))
+        (ivy-set-actions 'counsel-projectile-find-file '(("d" yvh/ivy-projectile-delete-action "delete")
+                                                         ("y" yvh/ivy-yank-action "yank")))
+
+        (use-package swiper
+          :defer t
+          :config (keys "/" 'swiper))
+
+        (use-package counsel-projectile
+          :init
+          ;; Currently there is a breaking change in projectile. Until the fix is merged, this patches it:
+          ;; https://github.com/ericdanan/counsel-projectile/pull/92
+          (setq projectile-keymap-prefix (where-is-internal 'projectile-command-map nil t))
+          :config
+          (keys-l
+            "f f" 'counsel-projectile-find-file
+            "p p" 'counsel-projectile-switch-project))
+
+        (use-package wgrep :defer t))
    #+END_SRC
 ** Markdown
 
    #+BEGIN_SRC emacs-lisp
-   (use-package markdown-mode
-     :defer t
-     :ensure t
-     :commands (markdown-mode gfm-mode)
-     :mode (("README\\.md\\'" . gfm-mode)
-            ("\\.md\\'" . markdown-mode)
-            ("\\.markdown\\'" . markdown-mode))
-     :init (setq markdown-command "multimarkdown"))
+     (use-package markdown-mode
+       :defer t
+       :ensure t
+       :commands (markdown-mode gfm-mode)
+       :mode (("README\\.md\\'" . gfm-mode)
+              ("\\.md\\'" . markdown-mode)
+              ("\\.markdown\\'" . markdown-mode))
+       :init (setq markdown-command "multimarkdown"))
    #+END_SRC
 
 ** Org
