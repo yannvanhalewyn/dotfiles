@@ -23,7 +23,7 @@
 (defun cis/status (ref callback)
   "Fetches the ci status for the given REF and calls CALLBACK with status text"
   (message "Fetching CI status for %s" ref)
-  (shell-command-to-string-async
+  (yvh/shell-command-to-string-async
    (format "hub ci-status %s" ref)
    callback))
 
@@ -42,7 +42,7 @@
 
 (defun cis/latest-build-url (ref callback)
   (message "Fetching CI build url for %s" ref)
-  (shell-command-to-string-async
+  (yvh/shell-command-to-string-async
    (format "hub ci-status %s -v | awk '{ print $4}'" ref)
    callback))
 

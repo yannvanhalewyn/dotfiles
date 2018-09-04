@@ -1,16 +1,16 @@
-(defun add-hooks (hook modes)
+(defun yhv/add-hooks (hook modes)
   "Applies hook to all mode (hooks)"
   (dolist (mode modes)
     (add-hook mode hook)))
 
-(defun build-keymap (&rest key-commands)
+(defun yvh/build-keymap (&rest key-commands)
   "Builds a new sparse keymap containing given commands"
   (let ((new-map (make-sparse-keymap)))
     (while (not (cl-endp key-commands))
       (define-key new-map (kbd (pop key-commands)) (pop key-commands)))
     new-map))
 
-(defun shell-command-to-string-async (command callback)
+(defun yvh/shell-command-to-string-async (command callback)
   "Execute shell command COMMAND asynchronously in the
   background. Return the temporary output buffer which command is
   writing to during execution. When the command is finished, call
@@ -30,17 +30,17 @@
          (kill-buffer output-buffer))))
     output-buffer))
 
-(defun operate-current-buffer-file (fn)
+(defun yvh/operate-current-buffer-file (fn)
   (let ((name (buffer-name))
         (filename (buffer-file-name)))
     (if (not (and filename (file-exists-p filename)))
         (error "Buffer '%s' is not visiting a file!" name)
       (funcall fn filename))))
 
-(defun rename-current-buffer-file ()
+(defun yvh/rename-current-buffer-file ()
   "Renames current buffer and file it is visiting."
   (interactive)
-  (operate-current-buffer-file
+  (yvh/operate-current-buffer-file
    (lambda (filename)
      (let ((new-name (read-file-name "New name: " filename)))
        (if (get-buffer new-name)
@@ -52,10 +52,10 @@
          (message "File '%s' successfully renamed to '%s'"
                   filename (file-name-nondirectory new-name)))))))
 
-(defun copy-current-buffer-file ()
+(defun yvh/copy-current-buffer-file ()
   "Copies the current buffer file and visits the copy"
   (interactive)
-  (operate-current-buffer-file
+  (yvh/operate-current-buffer-file
    (lambda (filename)
      (let ((new-name (read-file-name "Copy to: " filename)))
        (if (get-buffer new-name)
@@ -65,25 +65,25 @@
          (message "File '%s' successfully copied to '%s'"
                   filename (file-name-nondirectory new-name)))))))
 
-(defun delete-current-buffer-file ()
+(defun yvh/delete-current-buffer-file ()
   "Copies the current buffer file and visits the copy"
   (interactive)
-  (operate-current-buffer-file
+  (yvh/operate-current-buffer-file
    (lambda (filename)
      (when (y-or-n-p (format "Permanently delete %s?" filename))
        (delete-file filename)
        (kill-this-buffer)))))
 
 (require 'cl)
-(defun find-file-i (file)
+(defun yvh/find-file-i (file)
   (lexical-let ((f file))
     (lambda () (interactive) (find-file (eval f)))))
 
-(defun dired-current-dir ()
+(defun yvh/dired-current-dir ()
   (interactive)
   (dired ""))
 
-(defun cycle-theme (&optional reverse)
+(defun yvh/cycle-theme (&optional reverse)
   "Load the next (or previous if REVERSE is true) available theme."
   (interactive)
   (let* ((current-theme (car custom-enabled-themes))
@@ -94,7 +94,7 @@
          (go (lambda (theme)
                (message "Loading %s." (symbol-name theme))
                (disable-theme current-theme)
-               (load-theme theme)))
+               (load-theme theme t)))
          theme)
     (if (catch 'done
           (while (setq theme (pop all-themes))
@@ -106,21 +106,21 @@
           t)
         (funcall go first-theme))))
 
-(defun file->str (path)
+(defun yvh/file->str (path)
   "Return path's file content."
   (with-temp-buffer
     (insert-file-contents path)
     (buffer-string)))
 
-(defun cider-connect-local ()
+(defun yvh/cider-connect-local ()
   "Directly connects to an nrepl server by repl started in project
 root, or asks for a repl port to connect form anywhere."
   (interactive)
-  (let ((port (or (ignore-errors (file->str (projectile-expand-root ".nrepl-port")))
+  (let ((port (or (ignore-errors (yvh/file->str (projectile-expand-root ".nrepl-port")))
                   (read-number "Cider connect to port: "))))
     (cider-connect `(:host "localhost" :port ,port))))
 
-(defun chrome-reload (&optional focus)
+(defun yvh/chrome-reload (&optional focus)
   "Use osascript to tell Google Chrome to reload. If optional argument
   FOCUS is non-nil, give Chrome the focus as well."
   (interactive "P")
@@ -130,7 +130,7 @@ root, or asks for a repl port to connect form anywhere."
                      "'")))
     (with-temp-buffer (shell-command cmd t))))
 
-(defun neotree-project-root ()
+(defun yvh/neotree-project-root ()
   "Open NeoTree using the git root."
   (interactive)
   (let ((project-dir (projectile-project-root))
@@ -140,7 +140,7 @@ root, or asks for a repl port to connect form anywhere."
       (neotree-dir project-dir)
       (neotree-find file-name))))
 
-(defun buff-swap ()
+(defun yvh/buff-swap ()
   "Swap current buffer with buffer to the left or right."
   (interactive)
   (let* ((other-win (or (windmove-find-other-window 'right)
@@ -154,7 +154,7 @@ root, or asks for a repl port to connect form anywhere."
       (set-window-buffer other-win buf-this-buf)
       (select-window other-win))))
 
-(defun my-create-newline-and-enter-sexp (&rest _ignored)
+(defun yvh/newline-in-sexp (&rest _ignored)
   "Open a new brace or bracket expression, with relevant newlines and indent. "
   (newline)
   (indent-according-to-mode)
@@ -167,7 +167,7 @@ root, or asks for a repl port to connect form anywhere."
   (interactive)
   (counsel-find-file junk-file/directory))
 
-(defun comment-as-title()
+(defun yvh/comment-as-title ()
   (interactive)
   (move-beginning-of-line 1)
   (kill-line)
@@ -180,14 +180,14 @@ root, or asks for a repl port to connect form anywhere."
   (backward-word)
   (replace-regexp "." "=" nil (point) (line-end-position)))
 
-(defun comment-as-title--bm()
+(defun yvh/comment-as-title--bm()
   (interactive)
   (forward-line -1)
   (newline)
   (insert-char ?\; 81)
   (move-beginning-of-line nil))
 
-(defun yank-from-revision-buffer ()
+(defun yvh/yank-from-revision-buffer ()
   "Revision buffers are full of \+ and \- characters at the beginning
 of lines. This function will yank the current region from a revision
 buffer and sanitize it."
@@ -197,7 +197,7 @@ buffer and sanitize it."
     (deactivate-mark)
     (move-beginning-of-line 1)))
 
-(defun force-push-with-lease ()
+(defun yvh/force-push-with-lease ()
   (interactive)
   (magit-push-current-to-pushremote "--force-with-lease"))
 
@@ -205,7 +205,7 @@ buffer and sanitize it."
   (interactive)
   (magit-reset-soft "HEAD~1"))
 
-(defun my-ivy-completing-read-with-symbol-def
+(defun yvh/ivy-completing-read-with-symbol-def
     (prompt collection
             &optional predicate require-match initial-input
             history def inherit-input-method)
@@ -216,24 +216,24 @@ Specifically, if DEF is a symbol, it is converted to a string. Useful for cljr's
    prompt collection predicate require-match initial-input
    history (if (symbolp def) (symbol-name def) def) inherit-input-method))
 
-(defun org-current-is-todo ()
+(defun yvh/org-current-is-todo ()
   (string= "TODO" (org-get-todo-state)))
 
-(defun my-org-agenda-skip-all-siblings-but-first ()
+(defun yvh/org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry. Useful for capturing project
 next-actions in GTD"
   (let (should-skip-entry)
-    (unless (org-current-is-todo)
+    (unless (yvh/org-current-is-todo)
       (setq should-skip-entry t))
     (save-excursion
       (while (and (not should-skip-entry) (org-goto-sibling t))
-        (when (and (org-current-is-todo) (member "@work" (org-get-tags)))
+        (when (and (yvh/org-current-is-todo) (member "@work" (org-get-tags)))
           (setq should-skip-entry t))))
     (when should-skip-entry
       (or (outline-next-heading)
           (goto-char (point-max))))))
 
-(defun view-test-file-in-other-window ()
+(defun yvh/view-test-file-in-other-window ()
   (interactive)
   (delete-other-windows)
   (view-file-other-window

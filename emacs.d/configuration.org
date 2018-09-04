@@ -374,7 +374,7 @@
        "C--" 'text-scale-decrease
        "[e" 'flycheck-previous-error
        "]e" 'flycheck-next-error
-       "]t" 'cycle-theme
+       "]t" 'yvh/cycle-theme
        "[w" 'winner-undo
        "]w" 'winner-redo)
 
@@ -386,9 +386,9 @@
 
    #+BEGIN_SRC emacs-lisp
      (keys :prefix "g"
-       "t" (find-file-i 'gtd-main)
-       "i" (find-file-i 'gtd-inbox)
-       "s" (find-file-i 'gtd-someday))
+       "t" (yvh/find-file-i 'gtd-main)
+       "i" (yvh/find-file-i 'gtd-inbox)
+       "s" (yvh/find-file-i 'gtd-someday))
    #+END_SRC
 
    Global leaders for evaluating emacs-lisp code
@@ -403,7 +403,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (keys-l
-       "a" (build-keymap
+       "a" (yvh/build-keymap
             "a" 'org-agenda
             "t" 'org-todo-list
             "c" '(lambda () (interactive) (org-capture nil "t"))
@@ -411,24 +411,24 @@
             "C" 'quick-calc)
        "B" 'ibuffer
        "b" 'ivy-switch-buffer
-       "c" (build-keymap
+       "c" (yvh/build-keymap
             "u" 'cis/update
             "o" 'cis/open-ci-build
-            "t" 'comment-as-title
-            "T" 'comment-as-title--bm)
-       "d" 'dired-current-dir
-       "f" (build-keymap
+            "t" 'yvh/comment-as-title
+            "T" 'yvh/comment-as-title--bm)
+       "d" 'yvh/dired-current-dir
+       "f" (yvh/build-keymap
             "r" 'counsel-recentf
-            "m" 'rename-current-buffer-file
-            "c" 'copy-current-buffer-file
-            "d" 'delete-current-buffer-file
+            "m" 'yvh/rename-current-buffer-file
+            "c" 'yvh/copy-current-buffer-file
+            "d" 'yvh/delete-current-buffer-file
             "s" 'save-buffer
             "S" 'save-some-buffers
             "j" 'junk-file/find)
-       "v" (build-keymap
-            "f" (find-file-i (locate-user-emacs-file "config/init-functions.el"))
-            "p" (find-file-i (locate-user-emacs-file "configuration.org")))
-       "h" (build-keymap
+       "v" (yvh/build-keymap
+            "f" (yvh/find-file-i (locate-user-emacs-file "config/init-functions.el"))
+            "p" (yvh/find-file-i (locate-user-emacs-file "configuration.org")))
+       "h" (yvh/build-keymap
             "a" 'counsel-apropos
             "f" 'describe-function
             "K" 'which-key-show-top-level
@@ -436,18 +436,18 @@
             "m" 'describe-mode
             "p" 'describe-package
             "v" 'describe-variable)
-       "i" (build-keymap
+       "i" (yvh/build-keymap
             "u" 'insert-char)
        "m" 'mu4e
        "o" 'counsel-find-file
        "Q" 'delete-other-windows
        "q" 'kill-this-buffer
-       "R" 'chrome-reload
+       "R" 'yvh/chrome-reload
        "S" 'shell
-       "s" (build-keymap
+       "s" (yvh/build-keymap
             "s" 'shell
             "k" 'shell-clear-buffer)
-       "w" 'buff-swap
+       "w" 'yvh/buff-swap
        "x" 'counsel-projectile-ag
        "X" 'ag)
   #+END_SRC
@@ -601,7 +601,7 @@
    (use-package magit
      :defer t
      :init
-     (keys-l "g" (build-keymap
+     (keys-l "g" (yvh/build-keymap
                   "b" 'magit-blame
                   "c" 'magit-checkout
                   "C" 'magit-branch-and-checkout
@@ -615,8 +615,8 @@
                   "M" 'magit-merge-popup
                   "o" 'browse-current-line-github
                   "p" 'magit-push-current-to-pushremote
-                  "P" 'force-push-with-lease
-                  "r" (build-keymap
+                  "P" 'yvh/force-push-with-lease
+                  "r" (yvh/build-keymap
                        "a" 'magit-rebase-abort
                        "c" 'magit-rebase-continue
                        "i" 'magit-rebase-interactive
@@ -636,7 +636,7 @@
 
      (keys :keymaps '(magit-revision-mode-map diff-mode-map)
        :states 'visual
-       "y" 'yank-from-revision-buffer)
+       "y" 'yvh/yank-from-revision-buffer)
      (keys 'magit-blame-mode-map "q" 'magit-blame-quit)
      (keys 'git-rebase-mode-map "q" 'magit-rebase-abort)
      (keys 'magit-status-mode-map "K" 'magit-discard))
@@ -843,7 +843,7 @@
       :config
       (setq prettier-js-args '("--trailing-comma" "all"))
       :init
-      (add-hooks #'prettier-js-mode '(js2-mode-hook js-mode-hook)))
+      (yhv/add-hooks #'prettier-js-mode '(js2-mode-hook js-mode-hook)))
    #+END_SRC
 
 *** Inf ruby
@@ -864,15 +864,15 @@
     (use-package smartparens
       :defer t
       :init
-      (add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook js-mode-hook c-mode-common-hook))
+      (yhv/add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook js-mode-hook c-mode-common-hook))
       :config
       (require 'smartparens-ruby)
-      (sp-local-pair 'c++-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair 'c-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair 'js2-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
-      (sp-local-pair 'glsl-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+      (sp-local-pair 'c++-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
+      (sp-local-pair 'c-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
+      (sp-local-pair 'js2-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
+      (sp-local-pair 'glsl-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
 
-      (keys-l "s" (build-keymap
+      (keys-l "s" (yvh/build-keymap
                    "a" 'sp-absorb-sexp
                    "c" 'paredit-convolute-sexp
                    "l" 'sp-forward-slurp-sexp
@@ -925,7 +925,7 @@
         (rainbow-delimiters-mode)
         (eldoc-mode))
 
-      (add-hooks #'parainbow-mode '(clojure-mode-hook
+      (yhv/add-hooks #'parainbow-mode '(clojure-mode-hook
                                     scheme-mode
                                     clojurescript-mode-hook
                                     cider-repl-mode-hook
@@ -978,9 +978,9 @@
         (keys :keymaps cider-mode-maps "g f" 'cider-find-var)
 
         (keys-l :keymaps cider-mode-maps
-          "c" (build-keymap
+          "c" (yvh/build-keymap
                "a" 'cider-apropos
-               "c" 'cider-connect-local
+               "c" 'yvh/cider-connect-local
                "d" 'cider-doc
                "i" 'cider-inspect-last-result
                "j" 'cider-jack-in
@@ -994,7 +994,7 @@
                "M" 'cider-macroexpand-all)
           "e" 'cider-eval-last-sexp
           "E" 'cider-eval-buffer
-          "t" (build-keymap
+          "t" (yvh/build-keymap
                "s" 'cider-test-run-test
                "t" 'cider-test-run-ns-tests
                "f" 'cider-test-rerun-failed-tests
@@ -1011,7 +1011,7 @@
     (use-package clj-refactor
       :defer t
       :init
-      (add-hooks #'clj-refactor-mode '(clojure-mode-hook clojurescript-mode-hook))
+      (yhv/add-hooks #'clj-refactor-mode '(clojure-mode-hook clojurescript-mode-hook))
       :config
       (let ((cljr-map (make-sparse-keymap)))
         (dolist (details cljr--all-helpers)
@@ -1051,7 +1051,7 @@
       :defer t
       :diminish aggressive-indent-mode
       :init
-      (add-hooks #'aggressive-indent-mode '(clojure-mode-hook
+      (yhv/add-hooks #'aggressive-indent-mode '(clojure-mode-hook
                                             emacs-lisp-mode-hook
                                             clojurescript-mode-hook)))
     #+END_SRC
@@ -1069,7 +1069,7 @@
       (define-key projectile-command-map (kbd "c") 'recompile)
       (keys-l
         "p" 'projectile-command-map
-        "p T" 'view-test-file-in-other-window)
+        "p T" 'yvh/view-test-file-in-other-window)
 
       (projectile-register-project-type 'clojure '("project.clj")
                                         :test-suffix "_test")
@@ -1087,7 +1087,7 @@
     #+BEGIN_SRC emacs-lisp
       (use-package neotree
         :defer t
-        :init (keys-l "n" 'neotree-project-root)
+        :init (keys-l "n" 'yvh/neotree-project-root)
         :config
         (evil-make-overriding-map neotree-mode-map 'normal t)
         (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
@@ -1120,7 +1120,7 @@
       (ivy-mode)
       (setq ivy-re-builders-alist '((swiper . ivy--regex-plus)
                                     (t . ivy--regex-fuzzy))
-            completing-read-function 'my-ivy-completing-read-with-symbol-def)
+            completing-read-function 'yvh/ivy-completing-read-with-symbol-def)
 
       (general-def ivy-minibuffer-map
         "<escape>" 'minibuffer-keyboard-quit
@@ -1205,7 +1205,7 @@
        (setq org-agenda-custom-commands
              '(("w" "Work stuff" tags-todo "@work"
                 ((org-agenda-overriding-header "Work")
-                 (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
+                 (org-agenda-skip-function #'yvh/org-agenda-skip-all-siblings-but-first)))))
 
        (setq org-capture-templates `(("t" "Todo [inbox]" entry
                                       (file ,gtd-inbox)
