@@ -654,7 +654,9 @@
    Easily get urls for commits, lines or regions in files
 
    #+BEGIN_SRC emacs-lisp
-     (use-package git-link :defer t)
+     (use-package git-link
+       :defer t
+       :config (setq git-link-open-in-browser t))
    #+END_SRC
 ** Company (autocompletion)
 

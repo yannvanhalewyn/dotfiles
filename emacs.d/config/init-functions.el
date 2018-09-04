@@ -137,34 +137,6 @@ root, or asks for a repl port to connect form anywhere."
                      "'")))
     (with-temp-buffer (shell-command cmd t))))
 
-(defun -vc-current-project-remote-url ()
-  "The base remote url for current git remote"
-  (string-trim (shell-command-to-string "hub browse -u")))
-
-(defun -vc-current-branch ()
-  "Asks git what the current branch is"
-  (string-trim
-   (shell-command-to-string "git branch 2> /dev/null | awk '{ if ( $1 == \"*\" ) { print $2 } }'")))
-
-(defun -vc-url-for-file (repo filepath)
-  "The url for a FILEPATH on REPO (url). Will point to optional BRANCH-REF"
-  (format "%s/%s" repo filepath))
-
-(defun browse-url (url)
-  "Open URL in browser"
-  (call-process "open" nil nil nil url))
-
-(defun browse-current-line-github ()
-  "Go to the current file's current line on the codebase site."
-  (interactive)
-  (let* ((line-num (number-to-string (line-number-at-pos)))
-         (file-path (replace-regexp-in-string
-                     (expand-file-name (vc-find-root (buffer-file-name) ".git"))
-                     ""
-                     (buffer-file-name)))
-         (url (format "%s/%s#L%s" (-vc-current-project-remote-url) file-path line-num)))
-    (browse-url url)))
-
 (defun neotree-project-root ()
   "Open NeoTree using the git root."
   (interactive)
