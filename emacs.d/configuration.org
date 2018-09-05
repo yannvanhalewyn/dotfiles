@@ -1011,6 +1011,26 @@
           "[p" 'cider-inspector-prev-page
           "]p" 'cider-inspector-next-page)
 
+        (keys cider-stacktrace-mode-map
+          "C-j" 'cider-stacktrace-next-cause
+          "C-k" 'cider-stacktrace-previous-cause
+          "TAB" 'cider-stacktrace-cycle-current-cause
+          "A"   'cider-stacktrace-toggle-all
+          "C"   'cider-stacktrace-toggle-clj
+          "D"   'cider-stacktrace-toggle-duplicates
+          "J"   'cider-stacktrace-toggle-java
+          "R"   'cider-stacktrace-toggle-repl
+          "T"   'cider-stacktrace-toggle-tooling
+          "q"   'cider-popup-buffer-quit)
+
+        (keys cider-test-report-mode-map
+          "C-j" 'cider-test-next-result
+          "C-k" 'cider-test-previous-result
+          "d"   'cider-test-ediff
+          "r"   'cider-test-rerun-test
+          "s"   'cider-test-stacktrace
+          "q"   'cider-popup-buffer-quit)
+
         (keys :keymaps cider-mode-maps "g f" 'cider-find-var)
 
         (keys-l :keymaps cider-mode-maps
