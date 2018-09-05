@@ -1239,6 +1239,11 @@
          "RET" 'org-open-at-point
          "<S-return>" 'org-edit-special)
 
+       ;; Override company complete and yas expand snippet
+       (keys 'org-mode-map :states 'insert
+         "<tab>" 'org-cycle
+         "S-<tab>" 'org-shifttab)
+
        (keys 'org-agenda-mode-map
          "f" 'org-agenda-filter-by-tag)
 
