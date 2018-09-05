@@ -128,6 +128,24 @@
        (winner-mode 1))
    #+END_SRC
 
+** Initial frame size
+
+   Default initial frame size is pretty weird. This will open emacs in
+   a more comfortable position and size.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun yvh/set-frame-size (&optional base-factor)
+       (let* ((factor (or base-factor 0.7))
+              (width (display-pixel-width))
+              (height (display-pixel-height))
+              (left (truncate (* width (- 1 factor) 0.5)))
+              (top (truncate (* height (- 1 factor) 0.5))))
+         (set-frame-position (selected-frame) left top)
+         (set-frame-size (selected-frame) (truncate (* width factor))  (truncate (* height factor)) t)))
+
+     (add-hook 'after-init-hook 'yvh/set-frame-size)
+   #+END_SRC
+
 * Buffers
 ** Auto newlines at end of buffer
 
