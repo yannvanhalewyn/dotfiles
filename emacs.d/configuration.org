@@ -298,8 +298,17 @@
 
 ** Show matching paren
 
+   This is a must when editing lisps.
+
    #+BEGIN_SRC emacs-lisp
      (show-paren-mode 1)
+   #+END_SRC
+
+   Make sure the matching paren has an aPARENt apparent
+
+   #+BEGIN_SRC emacs-lisp
+     (custom-set-faces
+      '(show-paren-match ((t (:background "#0E9E97" :weight bold)))))
    #+END_SRC
 
 ** Interface
