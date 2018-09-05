@@ -226,7 +226,7 @@ directory, the file name, and its state (modified, read-only or non-existent)."
                           :face 'yvh/modeline-warning
                           :v-adjust -0.05)
                          " "))
-                ((buffer-modified-p)
+                ((and buffer-file-name (buffer-modified-p))
                  (concat (all-the-icons-faicon
                           "floppy-o"
                           :face 'yvh/modeline-buffer-modified
