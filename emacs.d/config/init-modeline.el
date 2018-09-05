@@ -353,7 +353,7 @@ Returns \"\" to not break --no-window-system."
     (propertize
      (concat " L %l:" buffer-length
              " C %c:" line-length)
-     'face 'mode-line-emphasis)))
+     'face (if (active) 'mode-line-emphasis 'mode-line-inactive))))
 
 (def-modeline-segment! ci-status
   (let ((status (format " CI %s  " (cis/propertized-status cis/latest-ci-status))))
