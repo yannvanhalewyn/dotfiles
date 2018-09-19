@@ -262,7 +262,7 @@
 ** Open common config files with conf mode
 
    #+BEGIN_SRC emacs-lisp
-     (let* ((conf-files '("aliases" "functions" "gitignore" "rc" ".tf"))
+     (let* ((conf-files '("aliases" "functions" "gitignore" "rc" ".tf" "Dockerfile"))
             (conf-regexp (concat (regexp-opt conf-files t) "\\'")))
        (add-to-list 'auto-mode-alist (cons conf-regexp 'conf-mode)))
    #+END_SRC
@@ -504,6 +504,12 @@
 
    #+BEGIN_SRC emacs-lisp
      (general-define-key :keymaps 'dired-mode-map "SPC" nil)
+   #+END_SRC
+
+   DWIM: Do What I Mean. Setting this to a non nil value will automatically fill copy / move targets with the working directory of another dired buffer.
+
+   #+BEGIN_SRC emacs-lisp
+   (setq dired-dwim-target t)
    #+END_SRC
 
    Human readable units
@@ -986,7 +992,7 @@
                                           emacs-lisp-mode-hook))
         :config
         (setq clojure-indent-style :always-align)
-        (dolist (word '(try-let assoc-if transform match facts fact assoc render))
+        (dolist (word '(try-let assoc-if transform match facts fact assoc render for-all))
           (put-clojure-indent word 1)))
     #+END_SRC
 
@@ -1079,7 +1085,7 @@
 
 *** Eval Sexp Fu
 
-    [[https://github.com/emacsmirror/eval-sexp-fu][Eval Sexp Fu]] highlights (flashes) what region is being evaluated with some visual feedback.
+    [[https://github.com/emacsmirror/eval-sexp-fu][Eval Sexp Fu]] highlights (flashes) what region is being evaluated for some visual feedback.
 
     #+BEGIN_SRC emacs-lisp
       (use-package eval-sexp-fu
@@ -1478,6 +1484,13 @@
      (add-hook 'sql-interactive-mode-hook (lambda () (toggle-truncate-lines t)))
    #+END_SRC
 
+   Enable the window movement bindings in sql shell buffers
+
+   #+BEGIN_SRC emacs-lisp
+     (keys 'sql-interactive-mode-map
+       "C-j" 'evil-window-down)
+   #+END_SRC
+
    Add some of the used brightmotive connections
 
    #+BEGIN_SRC emacs-lisp
@@ -1491,5 +1504,11 @@
                          (sql-port 5432)
                          (sql-server "localhost")
                          (sql-user "yannvanhalewyn")
-                         (sql-database "brightmotive_brezan"))))
+                         (sql-database "brightmotive_brezan"))
+             (brightlocal_dev (sql-product 'postgres)
+                              (sql-port 5432)
+                              (sql-server "localhost")
+                              (sql-user "yannvanhalewyn")
+                              (sql-server "localhost")
+                              (sql-database "brightlocal_development"))))
    #+END_SRC
