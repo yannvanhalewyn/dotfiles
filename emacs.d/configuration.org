@@ -674,6 +674,7 @@
        ;; Enable leader keys in revision buffers
        (general-def magit-revision-mode-map "SPC" nil)
 
+       (setq magit-diff-refine-hunk 'all)
        (keys :keymaps '(magit-revision-mode-map diff-mode-map)
          :states 'visual
          "y" 'yvh/yank-from-revision-buffer)

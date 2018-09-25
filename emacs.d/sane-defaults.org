@@ -343,6 +343,7 @@
      ;; Enable leader keys in revision buffers
      (general-def magit-revision-mode-map "SPC" nil)
 
+     (setq magit-diff-refine-hunk 'all)
      (keys 'magit-blame-mode-map "q" 'magit-blame-quit)
      (keys 'git-rebase-mode-map "q" 'magit-rebase-abort)
      (keys 'magit-status-mode-map "K" 'magit-discard))
