@@ -1,0 +1,7 @@
+# key: try
+# name: try
+# --
+(try
+  $0
+  (catch ${1:Exception} e
+  $2))

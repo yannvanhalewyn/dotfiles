@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: defn
+# key: df
+# --
+(defn ${1:name}
+  "$3
+
+   Example:
+     `($1 $2)"
+  [${2:arg-list}]
+  $0)
