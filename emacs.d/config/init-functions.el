@@ -240,13 +240,37 @@ next-actions in GTD"
    (projectile-find-implementation-or-test (buffer-file-name)))
   (read-only-mode -1))
 
+(defun yvh/transpose-windows ()
+  "Toggle between horizontal and vertical split with two windows."
+  (interactive)
+  (if (> (length (window-list)) 2)
+      (error "Can't toggle with more than 2 windows!")
+    (let ((func (if (window-full-height-p)
+                    #'split-window-vertically
+                  #'split-window-horizontally)))
+      (delete-other-windows)
+      (funcall func)
+      (save-selected-window
+        (other-window 1)
+        (switch-to-buffer (other-buffer))))))
+
 (defun yvh/jump-to-repl ()
   (interactive)
   (when-let ((repl-buffer (first (cider-repl-buffers))))
-    (split-window-below)
-    (evil-window-down 1)
-    (switch-to-buffer (buffer-name repl-buffer))
-    (end-of-buffer)
-    (enlarge-window (- 12 (window-height)))))
+    (cider-switch-to-repl-buffer)
+    (enlarge-window (- 12 (window-height)))
+    (evil-insert-state)))
+
+(defun yvh/cycle-file-in-dir (&optional backward)
+  (when buffer-file-name
+    (let* ((file (expand-file-name buffer-file-name))
+           (files (cl-remove-if (lambda (file) (cl-first (file-attributes file)))
+                                (sort (directory-files (file-name-directory file) t nil t) 'string<)))
+           (pos (mod (+ (cl-position file files :test 'equal) (if backward -1 1))
+                     (length files))))
+      (find-file (nth pos files)))))
+
+(defun yvh/next-file-in-dir () (interactive) (yvh/cycle-file-in-dir))
+(defun yvh/prev-file-in-dir () (interactive) (yvh/cycle-file-in-dir t))
 
 (provide 'init-functions)
