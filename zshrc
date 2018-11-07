@@ -52,6 +52,8 @@ export GPG_TTY=$(tty)
 # grep colors
 export GREP_OPTIONS='--color=always'
 
+export PATH="$HOME/.scripts:$PATH"
+
 # Disable bracketed paste feature when in emacs. This used to cause
 # unwanted chars to be printed out
 # https://github.com/syl20bnr/spacemacs/issues/3035

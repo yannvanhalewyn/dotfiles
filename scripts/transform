@@ -1,0 +1,37 @@
+#!/usr/bin/env plk
+;; pbpaste | transform --from json --to edn --pretty true
+
+(ns script.transform
+  (:require [planck.core :refer [*in* slurp]]
+            [clojure.tools.reader.edn :as edn]
+            [clojure.pprint :refer [pprint]]
+            [clojure.string :as str]))
+
+(defn- parse-args [args]
+  (loop [res {}
+         [cur & rest] args]
+    (if (empty? rest)
+      res
+      (if (str/starts-with? cur "--")
+        (recur (assoc res (keyword (subs cur 2)) (first rest))
+               (drop 1 rest))
+        (recur res rest)))))
+
+(defn- json [data]
+  (println (JSON.stringify (clj->js data))))
+
+(defn- pretty-json [data]
+  (println (JSON.stringify (clj->js data) nil 2)))
+
+(defn -main [args]
+  (let [opts (parse-args args)
+        reader (case (:from opts)
+                 "json" (comp #(js->clj % :keywordize-keys true) JSON.parse)
+                 edn/read-string)
+        printer (case [(keyword (:to opts)) (if (:pretty opts) :pretty :default)]
+                  [:json :pretty] pretty-json
+                  [:json :default] json
+                  pprint)]
+    (printer (reader (slurp *in*)))))
+
+(-main *command-line-args*)

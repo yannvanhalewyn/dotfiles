@@ -1,0 +1,23 @@
+# key: slides
+# name: slides
+# --
+#+TITLE: ${1:Presentation name}
+#+AUTHOR: Yann Vanhalewyn
+#+EMAIL: yann@brightin.nl
+#+REVEAL_THEME: black
+#+OPTIONS: num:nil toc:nil
+#+REVEAL_PLUGINS: (highlight notes)
+#+REVEAL_HIGHLIGHT_CSS: https://highlightjs.org/static/demo/styles/railscasts.css
+
+* 1. Slide 1
+
+  $0#+ATTR_REVEAL: :frag (roll-in)
+  - Foo
+  - Bar
+  - Baz
+  - Bax
+
+* Thanks!
+   :PROPERTIES:
+   :reveal_background: #652332
+   :END:
