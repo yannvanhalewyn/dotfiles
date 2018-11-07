@@ -180,9 +180,9 @@ DEFAULT is non-nil, set the default mode-line for all buffers."
 
 (defun yvh/modeline-buffer-file-name ()
   (let* ((project-root (projectile-project-root))
-         (file-name-split (shrink-path-file-mixed project-root
-                                                  (file-name-directory buffer-file-truename)
-                                                  buffer-file-truename))
+         (file-name-split (when project-root (shrink-path-file-mixed project-root
+                                                                     (file-name-directory buffer-file-truename)
+                                                                     buffer-file-truename)))
          (active (active)))
     (if (null file-name-split)
         (propertize "%b" 'face (if active 'yvh/modeline-buffer-file))
