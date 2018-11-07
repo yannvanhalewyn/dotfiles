@@ -110,13 +110,16 @@
      (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
    #+END_SRC
 
-** Setup alt key as meta on emacs-macport
+** Setup emacs macport
+
+   Make alt-key work as meta, and disable tab bar
 
    #+BEGIN_SRC emacs-lisp
      (when (eq (window-system) 'mac)
        (setq mac-option-modifier 'meta)
        (setq mac-command-modifier 'super)
-       (setq mac-pass-command-to-system t))
+       (setq mac-pass-command-to-system t)
+       (mac-set-frame-tab-group-property nil :tab-bar-visible-p nil))
    #+END_SRC
 
 ** Winner mode
@@ -678,12 +681,15 @@
 
        ;; Enable leader keys in revision buffers
        (general-def magit-revision-mode-map "SPC" nil)
+       (general-def magit-status-mode-map "SPC" nil)
 
-       (setq magit-diff-refine-hunk 'all)
+       (setq magit-diff-refine-hunk t)
        (keys :keymaps '(magit-revision-mode-map diff-mode-map)
          :states 'visual
          "y" 'yvh/yank-from-revision-buffer)
-       (keys 'magit-blame-mode-map "q" 'magit-blame-quit)
+       (keys 'magit-blame-mode-map
+         "q" 'magit-blame-quit
+         "|" 'magit-blame-cycle-style)
        (keys 'git-rebase-mode-map "q" 'magit-rebase-abort)
        (keys 'magit-status-mode-map "K" 'magit-discard))
    #+END_SRC
@@ -732,9 +738,12 @@
        :diminish yas-minor-mode
        :config
        (yas-global-mode 1)
-       (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+       ;; Fill $0 with selected region when using yas-insert-snippet.
+       (setq yas-wrap-around-region t
+             yas-snippet-dirs '("~/.emacs.d/snippets"))
        (keys :states '(insert)
-         "S-<tab>" 'yas-expand))
+         "M-<tab>" 'yas-expand)
+       (keys-l "i u" 'yas-insert-snippet))
     #+END_SRC
 
 ** Ace jump
@@ -967,7 +976,7 @@
          (with-eval-after-load 'flycheck
            (flycheck-popup-tip-mode)))
 
-       (setq flycheck-check-syntax-automatically '(save idle-change mode-enabled))
+       (setq flycheck-check-syntax-automatically '(save mode-enabled))
        (add-hook 'c++-mode-hook
                  (lambda ()
                    (setq flycheck-gcc-language-standard "c++14")
@@ -989,7 +998,7 @@
           (paredit-mode)
           (evil-cleverparens-mode)
           (rainbow-delimiters-mode)
-          (eldoc-mode))
+          (eldoc-mode t))
 
         (yhv/add-hooks #'parainbow-mode '(clojure-mode-hook
                                           scheme-mode
@@ -1025,8 +1034,8 @@
 
         (defun cider-evil-eval-last-sexp ()
           "Just like `cider-evail-last-sexp`, but useful in evil mode where
-                you cant move past the ending of the line. It will eval the last
-                s-expression up until including the evil point."
+           you cant move past the ending of the line. It will eval the last
+           s-expression up until including the evil point."
           (interactive)
           (save-excursion
             (forward-char)
@@ -1034,6 +1043,11 @@
 
         (keys cider-repl-mode-map
           "q" 'delete-window)
+
+        (general-def cider-repl-mode-map
+          "<up>" 'cider-repl-backward-input
+          "<down>" 'cider-repl-forward-input
+          "<return>" 'cider-repl-return)
 
         (keys cider-inspector-mode-map
           "<return>" 'cider-inspector-operate-on-point
@@ -1061,11 +1075,18 @@
           "s"   'cider-test-stacktrace
           "q"   'cider-popup-buffer-quit)
 
+        (keys (cider-browse-spec-mode-map
+               cider-browse-spec-view-mode-map
+               cider-browse-spec-example-mode-map)
+          "TAB" 'cider-browse-spec--print-curr-spec-example)
+
         (keys :keymaps cider-mode-maps "g f" 'cider-find-var)
 
         (keys-l :keymaps cider-mode-maps
           "c" (yvh/build-keymap
                "a" 'cider-apropos
+               "e" 'cider-read-and-eval
+               "s" 'cider-browse-spec
                "c" 'yvh/cider-connect-local
                "d" 'cider-doc
                "i" 'cider-inspect-last-result
@@ -1144,7 +1165,7 @@
         :init
         (keys paredit-mode-map
           ")" 'paredit-forward-slurp-sexp
-          "(" 'paredit-backward-slurp-sexp))
+          "(" 'paredit-forward-barf-sexp))
     #+END_SRC
 
 *** Aggressive Indent
@@ -1292,7 +1313,8 @@
        ;; Override company complete and yas expand snippet
        (keys 'org-mode-map :states 'insert
          "<tab>" 'org-cycle
-         "S-<tab>" 'org-shifttab)
+         "S-<tab>" 'org-shifttab
+         "<return>" 'org-return-indent)
 
        (keys 'org-agenda-mode-map
          "f" 'org-agenda-filter-by-tag)
@@ -1473,9 +1495,14 @@
 
 
    #+BEGIN_SRC emacs-lisp
-     (keys-l :keymaps 'sql-mode-map
+     (keys-l sql-mode-map
        "e" 'sql-send-paragraph
        "E" 'sql-send-buffer)
+
+     (general-def comint-mode-map
+       "<up>" 'comint-previous-matching-input-from-input
+       "<down>" 'comint-next-matching-input-from-input
+       "<return>" 'comint-send-input)
    #+END_SRC
 
    Default to postgres
@@ -1517,4 +1544,22 @@
                               (sql-user "yannvanhalewyn")
                               (sql-server "localhost")
                               (sql-database "brightlocal_development"))))
+   #+END_SRC
+
+** Shell
+
+    The shell is pretty damn useful in emacs. Just some bindings:
+
+    #+BEGIN_SRC emacs-lisp
+      (general-def shell-mode-map
+        "<up>" 'comint-previous-input
+        "<down>" 'comint-next-input)
+    #+END_SRC
+** Make
+
+   #+BEGIN_SRC emacs-lisp
+     (general-def
+       :states 'insert
+       :keymap 'makefile-mode-map
+       "<tab>" (lambda () (interactive) (insert-tab)))
    #+END_SRC
