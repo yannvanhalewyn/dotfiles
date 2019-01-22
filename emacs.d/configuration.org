@@ -31,7 +31,8 @@
    Allow 20MB of memory (instead of 0.76MB) before calling garbage collection. This means GC runs less often, which speeds up some operations.
 
    #+BEGIN_SRC emacs-lisp
-     (setq gc-cons-threshold 20000000)
+     (setq gc-cons-threshold 0)
+     (setq gc-cons-percentage 0.3)
    #+END_SRC
 
 ** Hide splash screen
