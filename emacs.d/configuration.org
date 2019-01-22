@@ -150,6 +150,12 @@
      (add-hook 'after-init-hook 'yvh/set-frame-size)
    #+END_SRC
 
+** User email adress
+
+   #+BEGIN_EXAMPLE emacs-lisp
+     (setq user-mail-address "yann.vanhalewyn@gmail.com")
+   #+END_EXAMPLE
+
 * Buffers
 ** Auto newlines at end of buffer
 
@@ -213,7 +219,8 @@
    #+BEGIN_SRC emacs-lisp
      (setq js-indent-level 2
            css-indent-offset 2
-           c-basic-offset 4)
+           c-basic-offset 4
+           python-indent 2)
    #+END_SRC
 
    Set default indentation, when file contains tabs be displayed as 2 spaces instead of 8
@@ -1048,7 +1055,8 @@
         (general-def cider-repl-mode-map
           "<up>" 'cider-repl-backward-input
           "<down>" 'cider-repl-forward-input
-          "<return>" 'cider-repl-return)
+          "<return>" 'cider-repl-return
+          "<S-return>" 'cider-repl-newline-and-indent)
 
         (keys cider-inspector-mode-map
           "<return>" 'cider-inspector-operate-on-point
