@@ -452,8 +452,8 @@
        "[f" 'yvh/prev-file-in-dir
        "[w" 'winner-undo
        "]w" 'winner-redo
-       "[b" 'previous-buffer
-       "]b" 'next-buffer
+       "[b" 'yvh/previous-code-buffer
+       "]b" 'yvh/next-code-buffer
        "|"  'yvh/transpose-windows
        "<s-return>" 'toggle-frame-fullscreen)
 

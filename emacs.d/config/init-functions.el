@@ -74,6 +74,23 @@
        (delete-file filename)
        (kill-this-buffer)))))
 
+(defun yvh/circle-code-buffers (circle-fn)
+  (let ((bread-crumb (current-buffer)))
+    (loop (funcall circle-fn)
+          (when (or (buffer-file-name)
+                    (eq bread-crumb (current-buffer)))
+            (return)))))
+
+(defun yvh/next-code-buffer ()
+  "Open next active buffer, ignoring non-code related buffers."
+  (interactive)
+  (yvh/circle-code-buffers 'next-buffer))
+
+(defun yvh/previous-code-buffer ()
+  "Open next active buffer, ignoring non-code related buffers."
+  (interactive)
+  (yvh/circle-code-buffers 'previous-buffer))
+
 (require 'cl)
 (defun yvh/find-file-i (file)
   (lexical-let ((f file))

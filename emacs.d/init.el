@@ -6,6 +6,6 @@
 
 (defun load-config()
   (interactive)
-  (org-babel-load-file (concat user-emacs-directory "configuration.org")))
+  (org-babel-load-file (locate-user-emacs-file "configuration.org")))
 
 (load-config)
