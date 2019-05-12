@@ -329,14 +329,15 @@
        :config
        (column-number-mode) ;; Show column number in modeline
        (setq doom-modeline-height 25
-             doom-modeline-percent-position nil)
+             doom-modeline-percent-position nil
+             column-number-indicator-zero-based nil)
 
        (require 'ci-status)
        (doom-modeline-def-segment ci-status
-         (let ((status (format "CI %s " (cis/propertized-status cis/latest-ci-status))))
-           (if (cis/has-status?)
-               (if (doom-modeline--active) status
-                 (propertize status 'face 'mode-line-inactive)))))
+         (when (cis/has-status?)
+           (let ((status (format "CI %s " (cis/propertized-status cis/latest-ci-status))))
+             (if (doom-modeline--active) status
+               (propertize status 'face 'mode-line-inactive)))))
 
        (doom-modeline-def-modeline 'yvh/modeline
          '(bar matches buffer-info remote-host buffer-position selection-info)

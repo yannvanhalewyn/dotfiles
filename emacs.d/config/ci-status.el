@@ -4,7 +4,7 @@
 (defface cis/fetching '((t :inherit (modeline)) :height 1.2) "")
 (defface cis/no-status '((t :inherit (modeline) )) "")
 
-(defvar cis/latest-ci-status "no-status")
+(defvar cis/latest-ci-status "no status")
 (defvar cis/no-status-char "-")
 (defvar cis/failed-status-char "✘")
 (defvar cis/success-status-char "✓")
@@ -59,7 +59,8 @@
 
 (defun cis/has-status? ()
   (not (or (null cis/latest-ci-status)
-           (string-equal "no status" cis/latest-ci-status))))
+           (string-equal "no status" cis/latest-ci-status)))
+  )
 
 (defun cis/open-ci-build ()
   (interactive)
