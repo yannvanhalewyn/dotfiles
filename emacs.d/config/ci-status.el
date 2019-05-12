@@ -57,6 +57,10 @@
                 (setq cis/latest-ci-status (string-trim status))
                 (message cis/latest-ci-status))))
 
+(defun cis/has-status? ()
+  (not (or (null cis/latest-ci-status)
+           (string-equal "no status" cis/latest-ci-status))))
+
 (defun cis/open-ci-build ()
   (interactive)
   (cis/latest-build-url (cis/origin (cis/current-branch))

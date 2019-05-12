@@ -316,15 +316,35 @@
 
 ** Setup modeline
 
-   Custom packages in this repo.
+   [[https://github.com/seagle0128/doom-modeline][DOOM modeline]] is the modeline from DOOM emacs and is beautiful with lots of great features.
+
+   Custom package used for my modeline:
 
    - [[https://github.com/yannvanhalewyn/dotfiles/blob/master/emacs.d/config/ci-status.el][ci-status]] fetches the current status from CI using hub
-   - [[https://github.com/yannvanhalewyn/dotfiles/blob/master/emacs.d/config/init-modeline.el][init-modeline]] is my own custom modeline adapted from [[https://github.com/hlissner/doom-emacs/blob/master/modules/ui/doom-modeline/config.el][DOOM modeline]]
 
    #+BEGIN_SRC emacs-lisp
-     (require 'ci-status)
-     (require 'init-modeline)
-     (add-hook 'magit-status-mode-hook 'cis/update)
+     (use-package doom-modeline
+       :ensure t
+       :hook (after-init . doom-modeline-mode)
+       :config
+       (column-number-mode) ;; Show column number in modeline
+       (setq doom-modeline-height 25
+             doom-modeline-percent-position nil)
+
+       (require 'ci-status)
+       (doom-modeline-def-segment ci-status
+         (let ((status (format "CI %s " (cis/propertized-status cis/latest-ci-status))))
+           (if (cis/has-status?)
+               (if (doom-modeline--active) status
+                 (propertize status 'face 'mode-line-inactive)))))
+
+       (doom-modeline-def-modeline 'yvh/modeline
+         '(bar matches buffer-info remote-host buffer-position selection-info)
+         '(misc-info minor-modes major-mode process vcs checker ci-status))
+
+       (defun yvh/setup-default-modeline ()
+         (doom-modeline-set-modeline 'yvh/modeline 'default))
+       (add-hook 'doom-modeline-mode-hook 'yvh/setup-default-modeline))
    #+END_SRC
 
 ** Highlight current line
