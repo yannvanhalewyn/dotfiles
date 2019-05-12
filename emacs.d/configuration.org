@@ -291,11 +291,19 @@
      (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
    #+END_SRC
 
+** Allow to erase buffers without warning
+
+   This is useful for clearing the shell buffer without emacs complaining.
+
+   #+BEGIN_SRC emacs-lisp
+     (put 'erase-buffer 'disabled nil)
+   #+END_SRC
+
 * Layout
 ** Setup theme and font
 
    #+BEGIN_SRC emacs-lisp
-     (use-package kaolin-themes :init (load-theme 'kaolin-galaxy t))
+     (use-package kaolin-themes :init (load-theme 'kaolin-ocean t))
      (set-face-attribute 'default nil :font "Menlo" :height 145)
    #+END_SRC
 
@@ -368,7 +376,8 @@
     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                              ("marmalade" . "https://marmalade-repo.org/packages/")
                              ("melpa" . "https://melpa.org/packages/")
-                             ("melpa-stable" .  "http://stable.melpa.org/packages/")))
+                             ("melpa-stable" .  "http://stable.melpa.org/packages/")
+                             ("org" . "https://orgmode.org/elpa/")))
 
     (package-initialize)
   #+END_SRC
@@ -437,7 +446,8 @@
      (keys :prefix "g"
        "t" (yvh/find-file-i 'gtd-main)
        "i" (yvh/find-file-i 'gtd-inbox)
-       "s" (yvh/find-file-i 'gtd-someday))
+       "s" (yvh/find-file-i 'gtd-someday)
+       "h" (yvh/find-file-i "~/Google Drive/Documents/timesheet.org"))
    #+END_SRC
 
    Global leaders for evaluating emacs-lisp code
@@ -595,6 +605,15 @@
 
         (keys :states 'insert
           "C-y" 'yank))
+    #+END_SRC
+
+    Grab - and _ as part of the word (more vim-like)
+
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'prog-mode-hook
+                (lambda ()
+                  (modify-syntax-entry ?_ "w")
+                  (modify-syntax-entry ?- "w")))
     #+END_SRC
 
 *** Evil NerdCommenter
@@ -929,7 +948,7 @@
       (use-package smartparens
         :defer t
         :init
-        (yhv/add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook js-mode-hook c-mode-common-hook))
+        (yhv/add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook js-mode-hook c-mode-common-hook rust-mode-hook))
         :config
         (require 'smartparens-ruby)
         (sp-local-pair 'c++-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
@@ -937,6 +956,9 @@
         (sp-local-pair 'js-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
         (sp-local-pair 'js2-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
         (sp-local-pair 'glsl-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
+        (sp-local-pair 'java-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
+        (sp-local-pair 'java-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
+        (sp-local-pair 'rust-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
 
         (keys-l "s" (yvh/build-keymap
                      "a" 'sp-absorb-sexp
@@ -1190,6 +1212,32 @@
                                               emacs-lisp-mode-hook
                                               clojurescript-mode-hook)))
     #+END_SRC
+
+** Java
+*** Company intellisense completion
+
+    Meghanada is an all-round IDE package for java development. It
+    integrates with Company mode completions and flycheck linting. It
+    starts a dev server in the background automatically.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package meghanada
+        :defer t
+        :init
+
+        (add-hook 'java-mode-hook
+                  (lambda ()
+                    (meghanada-mode t)
+                    ;; (setq c-basic-offset 2)
+                    ;; Now calls this before every save hook, even in non java files..
+                    ;; (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)
+                    ))
+
+        :config
+        (setq meghanada-java-path "java"
+              meghanada-maven-path "mvn"))
+    #+END_SRC
+
 ** Project Management
 *** Projectile
 
@@ -1365,6 +1413,20 @@
        (use-package org-evil))
   #+END_SRC
 
+** Org reveal.js presentations
+
+   The following package allows you to create awesome reveal.js
+   presentations from org files using org-export.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package ox-reveal
+       :ensure ox-reveal
+       :config
+       (setq org-reveal-root "https://cdn.jsdelivr.net/reveal.js/3.0.0/"
+             org-reveal-title-slide "<h2>%t</h2>  <p>%a</br>%e</p>"
+             org-reveal-control nil
+             org-reveal-slide-number nil))
+   #+END_SRC
 ** Mail
 
    Text based email is great for quickly navigating and moving emails around. Some setup is needed, these guides are plenty helpful:
@@ -1571,4 +1633,9 @@
        :states 'insert
        :keymap 'makefile-mode-map
        "<tab>" (lambda () (interactive) (insert-tab)))
+   #+END_SRC
+** Rust
+   #+BEGIN_SRC emacs-lisp
+     (use-package rust-mode
+       :defer t)
    #+END_SRC
