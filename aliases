@@ -47,6 +47,7 @@ export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40
 alias ls='ls -AF ${colorflag}'
 alias l='ls -lha'
 alias gls='gls -AF --color'
+alias grep='grep --color=always'
 
 # List only directories
 alias lsd='ls -l | grep "^d"'
@@ -193,7 +194,7 @@ alias linecount='git ls-files | xargs wc -l'
 alias linecountjs='git ls-files | egrep ".jsx?$" | xargs wc -l'
 alias gulps="grep 'gulp.task(.*)' gulpfile.js | awk -F\' '{print $2}'"
 alias lint='git ls-files | grep -v "test" | egrep ".jsx?$" | xargs eslint'
-alias psqld='postgres -D /usr/local/var/postgres> psql.log 2>&1 &'
+alias pg='pgcli'
 alias sha1='openssl sha1'
 
 ## TMUX vimlike aliases
@@ -226,6 +227,7 @@ alias bm='cd $HOME/brightin/brightmotive'
 alias infra='cd $HOME/brightin/infrastructure'
 alias cep='cd $HOME/brightin/cep'
 alias nk='cd $HOME/brightin/nikon-elearning'
+alias bl='cd $HOME/brightin/brightlocal'
 
 # Rails stuff
 alias mpdi='mina production db:import'
@@ -237,6 +239,9 @@ alias fs='foreman start'
 alias ys='yarn start'
 alias yc='yarn check'
 alias yi='yarn install'
+
+alias dc='docker-compose'
+alias dclogs='docker-compose logs -f'
 
 # For history
 alias history='history 0'

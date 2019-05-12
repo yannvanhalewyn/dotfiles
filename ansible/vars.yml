@@ -17,6 +17,7 @@ homebrew_packages:
   - gifify
   - gpg
   - git
+  - grep
   - hub
   - imagemagick
   - jpeg

@@ -49,10 +49,19 @@ setopt autopushd
 # GPG agent for prompting passphrase
 export GPG_TTY=$(tty)
 
-# grep colors
-export GREP_OPTIONS='--color=always'
+# man colors
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'
 
-export PATH="$HOME/.scripts:$PATH"
+# Man pages with progress percentage
+export MANPAGER='less -s -M +Gg'
+
+export PATH="$HOME/.scripts:/usr/local/opt/grep/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 # Disable bracketed paste feature when in emacs. This used to cause
 # unwanted chars to be printed out
