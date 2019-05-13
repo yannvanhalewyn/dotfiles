@@ -579,7 +579,6 @@
                                 (mode . javascript-mode)
                                 (mode . java-mode)
                                 (mode . js-mode)
-                                (mode . coffee-mode)
                                 (mode . clojurescript-mode)))
                     ("emacs" (or (name . "^\\*scratch\\*$")
                                  (name . "^\\*Messages\\*$")
@@ -873,54 +872,6 @@
         (add-hook 'projectile-mode-hook 'projectile-rails-on))
     #+END_SRC
 
-*** Coffee-mode
-
-    Coffee indentation is always a hassle. These functions allow some form of sanity when opening newlines with Evil's ~o~ and ~O~.
-
-    #+BEGIN_SRC emacs-lisp
-      (defun coffee-open-above ()
-        (interactive)
-        (evil-open-above 1)
-        (coffee-indent-line))
-
-      (defun coffee-open-below ()
-        (interactive)
-        (evil-open-below 1)
-        (coffee-indent-line))
-    #+END_SRC
-
-    Setup coffee mode
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package coffee-mode
-        :defer t
-        :config
-        (setq coffee-tab-width 2)
-
-        (keys :keymaps 'coffee-mode-map
-          "o" 'coffee-open-below
-          "O" 'coffee-open-above
-          "<" 'coffee-indent-shift-left
-          ">" 'coffee-indent-shift-right))
-    #+END_SRC
-
-    Run mocha tests from within emacs:
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package mocha
-        :defer t
-        :init
-        (keys-l :keymaps '(coffee-mode-map js-mode-map)
-          "a" 'mocha-test-project
-          "t" 'mocha-test-file
-          "s" 'mocha-test-at-point)
-        :config
-        (setq mocha-project-test-directory "frontend/test"
-              mocha-environment-variables "NODE_PATH=./frontend/src"
-              mocha-options "--watch ./tmp/static.js ./frontend/test/config.coffee"
-              mocha-reporter "spec"))
-    #+END_SRC
-
 *** Rspec
 
     Running rspec tests from the editor
@@ -971,7 +922,7 @@
       (use-package smartparens
         :defer t
         :init
-        (yhv/add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook js-mode-hook c-mode-common-hook rust-mode-hook))
+        (yhv/add-hooks #'smartparens-mode '(ruby-mode-hook js-mode-hook c-mode-common-hook rust-mode-hook))
         :config
         (require 'smartparens-ruby)
         (dolist (mode '(c++-mode 'c-mode 'js-mode 'js2-mode 'glsl-mode
