@@ -441,6 +441,7 @@
    Setup global keybindings
 
    #+BEGIN_SRC emacs-lisp
+     (keys :states 'insert "C-i" 'insert-char)
      (keys
        "M-x" 'counsel-M-x
        "C-=" 'text-scale-increase
@@ -516,17 +517,12 @@
             "m" 'describe-mode
             "p" 'describe-package
             "v" 'describe-variable)
-       "i" (yvh/build-keymap
-            "u" 'insert-char)
        "m" 'mu4e
        "o" 'counsel-find-file
        "Q" 'delete-other-windows
        "q" 'kill-this-buffer
        "R" 'yvh/chrome-reload
        "S" 'shell
-       "s" (yvh/build-keymap
-            "s" 'shell
-            "k" 'shell-clear-buffer)
        "w" 'yvh/buff-swap
        "x" 'counsel-projectile-ag
        "X" 'ag)
@@ -550,7 +546,7 @@
    Enable leader keys in dired mode.
 
    #+BEGIN_SRC emacs-lisp
-     (general-define-key :keymaps 'dired-mode-map "SPC" nil)
+     (general-def dired-mode-map "SPC" nil)
    #+END_SRC
 
    DWIM: Do What I Mean. Setting this to a non nil value will automatically fill copy / move targets with the working directory of another dired buffer.
@@ -563,6 +559,23 @@
 
    #+BEGIN_SRC emacs-lisp
      (setq-default dired-listing-switches "-alh")
+   #+END_SRC
+
+   Sort listings by directories first
+
+   #+BEGIN_SRC emacs-lisp
+     (defun yvh/sort-dired-listings-by-directory ()
+       "Sort dired listings with directories first."
+       (save-excursion
+         (let (buffer-read-only)
+           (forward-line 2) ;; beyond dir. header
+           (sort-regexp-fields t "^.*$" "[ ]*." (point) (point-max)))
+         (set-buffer-modified-p nil)))
+
+     (defadvice dired-readin
+         (after dired-after-updating-hook first () activate)
+       "Sort dired listings with directories first before adding marks."
+       (yvh/sort-dired-listings-by-directory))
    #+END_SRC
 
 ** iBuffer
@@ -1596,6 +1609,7 @@
     The shell is pretty damn useful in emacs. Just some bindings:
 
     #+BEGIN_SRC emacs-lisp
+      (keys-l :keymaps 'shell-mode-map "s k" 'erase-buffer)
       (general-def shell-mode-map
         "<up>" 'comint-previous-input
         "<down>" 'comint-next-input)
