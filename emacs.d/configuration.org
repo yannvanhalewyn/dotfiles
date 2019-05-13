@@ -156,6 +156,36 @@
      (setq user-mail-address "yann.vanhalewyn@gmail.com")
    #+END_EXAMPLE
 
+** Package manager
+
+  Set up ~package.el~ and point it to stable melpa repositories.
+
+  #+BEGIN_SRC emacs-lisp
+    (require 'package)
+
+    (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                             ("marmalade" . "https://marmalade-repo.org/packages/")
+                             ("melpa" . "https://melpa.org/packages/")
+                             ("melpa-stable" .  "http://stable.melpa.org/packages/")
+                             ("org" . "https://orgmode.org/elpa/")))
+
+    (package-initialize)
+  #+END_SRC
+
+  Install ~use-package~
+
+  #+BEGIN_SRC emacs-lisp
+    (unless (package-installed-p 'use-package)
+      (package-refresh-contents)
+      (package-install 'use-package))
+
+    (eval-when-compile
+      (require 'use-package))
+
+    (setq use-package-verbose nil
+          use-package-always-ensure t)
+  #+END_SRC
+
 * Buffers
 ** Auto newlines at end of buffer
 
@@ -303,7 +333,7 @@
 ** Setup theme and font
 
    #+BEGIN_SRC emacs-lisp
-     (use-package kaolin-themes :init (load-theme 'kaolin-ocean t))
+     (use-package kaolin-themes :init (load-theme 'kaolin-galaxy t))
      (set-face-attribute 'default nil :font "Menlo" :height 145)
    #+END_SRC
 
@@ -387,36 +417,6 @@
    #+END_SRC
 
 * Packages
-** Package.el
-
-  Set up ~package.el~ and point it to stable melpa repositories.
-
-  #+BEGIN_SRC emacs-lisp
-    (require 'package)
-
-    (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                             ("marmalade" . "https://marmalade-repo.org/packages/")
-                             ("melpa" . "https://melpa.org/packages/")
-                             ("melpa-stable" .  "http://stable.melpa.org/packages/")
-                             ("org" . "https://orgmode.org/elpa/")))
-
-    (package-initialize)
-  #+END_SRC
-
-  Install ~use-package~
-
-  #+BEGIN_SRC emacs-lisp
-    (unless (package-installed-p 'use-package)
-      (package-refresh-contents)
-      (package-install 'use-package))
-
-    (eval-when-compile
-      (require 'use-package))
-
-    (setq use-package-verbose nil
-          use-package-always-ensure t)
-  #+END_SRC
-
 ** Diminish
 
    Hides some modes from the modeline. Included for integration with ~use-package~.
@@ -721,7 +721,7 @@
                     "L" 'magit-log-popup
                     "m" 'magit-merge
                     "M" 'magit-merge-popup
-                    "o" 'browse-current-line-github
+                    "o" 'git-link
                     "p" 'magit-push-current-to-pushremote
                     "P" 'yvh/force-push-with-lease
                     "r" (yvh/build-keymap
@@ -744,7 +744,7 @@
        (general-def magit-status-mode-map "SPC" nil)
 
        (setq magit-diff-refine-hunk t)
-       (keys :keymaps '(magit-revision-mode-map diff-mode-map)
+       (keys :keymaps '(magit-revision-mode-map diff-mode-map magit-status-mode-map)
          :states 'visual
          "y" 'yvh/yank-from-revision-buffer)
        (keys 'magit-blame-mode-map
