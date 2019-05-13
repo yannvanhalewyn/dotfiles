@@ -754,15 +754,6 @@
        (keys 'magit-status-mode-map "K" 'magit-discard))
    #+END_SRC
 
-   Potentially setup github integration from Magit's interface
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package magithub
-       :after magit
-       :defer t
-       :config (magithub-feature-autoinject t))
-   #+END_SRC
-
 ** Git link
 
    Easily get github urls for commits, lines or regions in files
