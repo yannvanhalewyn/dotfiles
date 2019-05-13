@@ -77,7 +77,7 @@
    [[https://github.com/purcell/exec-path-from-shell][Exec path from shell]] was a bit slow. This gives me what I need for now.
 
    #+BEGIN_SRC emacs-lisp
-     (let ((paths "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin"))
+     (let ((paths "/Users/yannvanhalewyn/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin"))
        (setenv "PATH" paths)
        (setq eshell-path-env paths))
      (add-to-list 'exec-path "/usr/local/bin")
@@ -963,7 +963,9 @@
 
 *** Smartparens
 
-    Close do-end blocks in ruby
+    Balance parentheses, brackets and quotes in c, ruby, js, .. and
+    close do-end blocks in ruby. Also insert an extra newline when
+    pressing return after a bracket.
 
     #+BEGIN_SRC emacs-lisp
       (use-package smartparens
@@ -972,23 +974,11 @@
         (yhv/add-hooks #'smartparens-mode '(coffee-mode-hook ruby-mode-hook js-mode-hook c-mode-common-hook rust-mode-hook))
         :config
         (require 'smartparens-ruby)
-        (sp-local-pair 'c++-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
-        (sp-local-pair 'c-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
-        (sp-local-pair 'js-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
-        (sp-local-pair 'js2-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
-        (sp-local-pair 'glsl-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
-        (sp-local-pair 'java-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
-        (sp-local-pair 'java-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
-        (sp-local-pair 'rust-mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
-
-        (keys-l "s" (yvh/build-keymap
-                     "a" 'sp-absorb-sexp
-                     "c" 'paredit-convolute-sexp
-                     "l" 'sp-forward-slurp-sexp
-                     "h" 'sp-forward-barf-sexp
-                     "b" 'sp-forward-barf-sexp
-                     "B" 'sp-backward-barf-sexp
-                     "s" 'sp-foward)))
+        (dolist (mode '(c++-mode 'c-mode 'js-mode 'js2-mode 'glsl-mode
+                                 'java-mode 'java-mode 'rust-mode 'ruby-mode))
+          (sp-local-pair mode "{" nil :post-handlers '((yvh/newline-in-sexp "RET")))
+          (sp-local-pair mode "(" nil :post-handlers '((yvh/newline-in-sexp "RET")))
+          (sp-local-pair mode "[" nil :post-handlers '((yvh/newline-in-sexp "RET")))))
     #+END_SRC
 
 ** Flycheck (linting)
@@ -1217,7 +1207,10 @@
         :init
         (keys paredit-mode-map
           ")" 'paredit-forward-slurp-sexp
-          "(" 'paredit-forward-barf-sexp))
+          "(" 'paredit-forward-barf-sexp
+          "C-(" 'paredit-backward-slurp-sexp
+          "C-)" 'paredit-backward-barf-sexp)
+        (keys-l "s c" 'paredit-convolute-sexp))
     #+END_SRC
 
 *** Aggressive Indent
