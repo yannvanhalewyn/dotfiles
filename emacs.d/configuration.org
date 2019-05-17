@@ -147,7 +147,8 @@
          (set-frame-position (selected-frame) left top)
          (set-frame-size (selected-frame) (truncate (* width factor))  (truncate (* height factor)) t)))
 
-     (add-hook 'after-init-hook 'yvh/set-frame-size)
+     (when (window-system)
+       (add-hook 'after-init-hook 'yvh/set-frame-size))
    #+END_SRC
 
 ** User email adress
@@ -363,9 +364,10 @@
              column-number-indicator-zero-based nil)
 
        (require 'ci-status)
+       (add-hook 'magit-status-mode-hook 'cis/update)
        (doom-modeline-def-segment ci-status
          (when (cis/has-status?)
-           (let ((status (format "CI %s " (cis/propertized-status cis/latest-ci-status))))
+           (let ((status (format "CI %s  " (cis/propertized-status cis/latest-ci-status))))
              (if (doom-modeline--active) status
                (propertize status 'face 'mode-line-inactive)))))
 
@@ -498,7 +500,9 @@
             "t" 'yvh/comment-as-title
             "T" 'yvh/comment-as-title--bm)
        "d" 'yvh/dired-current-dir
+       "D" 'yvh/dired-project-root
        "f" (yvh/build-keymap
+            "f" 'counsel-projectile-find-file
             "r" 'counsel-recentf
             "m" 'yvh/rename-current-buffer-file
             "c" 'yvh/copy-current-buffer-file
@@ -701,6 +705,15 @@
           "x" 'evil-numbers/dec-at-pt))
     #+END_SRC
 
+*** Evil Iedit
+
+    [[https://github.com/syl20bnr/evil-iedit-state][Evil Iedit]] is a sort of multiple cursor that works well with Evil mode
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-iedit-state
+        :commands (evil-iedit-state evil-iedit-state/iedit-mode)
+        :init (keys-l "s i" 'evil-iedit-state/iedit-mode))
+    #+END_SRC
 ** Magit
 
    The killer app for Emacs. Seriously.
@@ -751,7 +764,10 @@
          "q" 'magit-blame-quit
          "|" 'magit-blame-cycle-style)
        (keys 'git-rebase-mode-map "q" 'magit-rebase-abort)
-       (keys 'magit-status-mode-map "K" 'magit-discard))
+       (keys 'magit-status-mode-map "K" 'magit-discard)
+       (general-def 'transient-map        "q" 'transient-quit-one)
+       (general-def 'transient-edit-map   "q" 'transient-quit-one)
+       (general-def 'transient-sticky-map "q" 'transient-quit-seq))
    #+END_SRC
 
 ** Git link
@@ -766,20 +782,33 @@
 
 ** Company (autocompletion)
 
+   [[https://github.com/company-mode/company-mode][Company Mode]] is a great autocompletion frontend for Emacs. It will
+   hook into various completion systems automatically. This config will
+   enable the `tng` frontend, which stands for "tab 'n go". The
+   default will select the first candidate and close the list. This
+   frontend it will complete the first candidate when pressing tab,
+   but will keep other candidates in the popup so you can keep
+   cycling. Pressing return or any other key will stop the completion.
+
    #+BEGIN_SRC emacs-lisp
      (use-package company
        :diminish company-mode
        :init (global-company-mode)
        :config
-       (setq company-idle-delay 0.3)
-       (keys :states 'insert
-         "<tab>" 'company-complete-common-or-cycle)
+       (setq company-idle-delay 0
+             company-require-match nil
+             company-frontends '(company-tng-frontend
+                                 company-pseudo-tooltip-frontend
+                                 company-echo-metadata-frontend))
        (general-def 'company-active-map
+         "<tab>" 'company-select-next
+         "S-<tab>" 'company-select-previous
+         "RET" 'company-complete
+         "C-h" nil
+         "C-d" 'company-show-doc-buffer
          "C-s" 'company-filter-candidates
          "C-n" 'company-select-next
-         "C-p" 'company-select-previous
-         "<tab>" 'company-complete-common-or-cycle
-         "S-<tab>" 'company-select-previous-or-abort))
+         "C-p" 'company-select-previous))
    #+END_SRC
 
 ** Yasnippet
@@ -1271,6 +1300,7 @@
         :config
         (ivy-mode)
         (setq ivy-re-builders-alist '((swiper . ivy--regex-plus)
+                                      (counsel-ag . ivy--regex)
                                       (t . ivy--regex-fuzzy))
               completing-read-function 'yvh/ivy-completing-read-with-symbol-def)
 
@@ -1299,9 +1329,7 @@
           ;; https://github.com/ericdanan/counsel-projectile/pull/92
           (setq projectile-keymap-prefix (where-is-internal 'projectile-command-map nil t))
           :config
-          (keys-l
-            "f f" 'counsel-projectile-find-file
-            "p p" 'counsel-projectile-switch-project))
+          (keys-l "p p" 'counsel-projectile-switch-project))
 
         (use-package wgrep :defer t))
    #+END_SRC
@@ -1608,9 +1636,7 @@
 ** Make
 
    #+BEGIN_SRC emacs-lisp
-     (general-def
-       :states 'insert
-       :keymap 'makefile-mode-map
+     (keys :states 'insert :keymaps 'makefile-mode-map
        "<tab>" (lambda () (interactive) (insert-tab)))
    #+END_SRC
 ** Rust

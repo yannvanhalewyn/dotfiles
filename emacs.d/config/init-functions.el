@@ -100,6 +100,10 @@
   (interactive)
   (dired ""))
 
+(defun yvh/dired-project-root ()
+  (interactive)
+  (dired (projectile-project-root)))
+
 (defun yvh/cycle-theme (&optional reverse)
   "Load the next (or previous if REVERSE is true) available theme."
   (interactive)
