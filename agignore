@@ -8,6 +8,7 @@ node_modules/
 _http/
 _snapshots/
 target/
+resources/public/polyfill.js
 resources/public/js/
 foreign_libs/
 *.svg
