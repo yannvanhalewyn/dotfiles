@@ -1432,23 +1432,25 @@
    - https://notanumber.io/2016-10-03/better-email-with-mu4e/
 
 
-   Moving to mbsync because offlineimap was slow. Feels way better. Set up config using:
+   Tried mbsync because offlineimap was slow. Set up config using:
 
    http://pragmaticemacs.com/emacs/migrating-from-offlineimap-to-mbsync-for-mu4e/
+
+   But moved back to using offlineimap because isync did not support oauth2 for my work email.
 
    Make sure to install ~mu~ with ~EMACS=$(which emacs) brew install mu --with-emacs --HEAD~ to get the mu4e plugins. The ~EMACS~ variable is to determine the actual emacs version. Then add the package to the load path:
 
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu/mu4e/")
      (require 'mu4e)
+     (use-package evil-mu4e)
    #+END_SRC
 
    Next configure it!
 
    #+BEGIN_SRC emacs-lisp
-     (setq mail-user-agent 'mu4e-user-agent)
-
-     (setq mu4e-contexts
+     (setq mail-user-agent 'mu4e-user-agent
+           mu4e-contexts
            `( ,(make-mu4e-context
                 :name "Gmail"
                 :match-func (lambda (msg)
@@ -1456,56 +1458,59 @@
                                 (string-prefix-p "/gmail" (mu4e-message-field msg :maildir))))
                 :vars '((user-mail-address . "yann.vanhalewyn@gmail.com")
                         (mu4e-compose-signature . "Met vriendelijke groeten,\n\nYann Vanhalewyn")
-                        (mu4e-trash-folder . "/gmail/trash")
-                        (mu4e-refile-folder . "/gmail/all")
-                        (mu4e-drafts-folder . "/gmail/drafts")
-                        (mu4e-sent-folder . "/gmail/sent")
-                        (mu4e-maildir-shortcuts . (("/gmail/inbox" . ?i)
-                                                   ("/gmail/all"   . ?a)
-                                                   ("/gmail/sent"  . ?s)
-                                                   ("/gmail/trash" . ?t)))))
+                        (mu4e-sent-folder . "/gmail/Sent Mail")
+                        (mu4e-trash-folder . "/gmail/Bin")
+                        (mu4e-refile-folder . "/gmail/All Mail")
+                        (mu4e-drafts-folder . "/gmail/Drafts")
+                        (mu4e-maildir-shortcuts . (("/gmail/INBOX" . ?i)
+                                                   ("/gmail/All Mail" . ?a)
+                                                   ("/gmail/Bin" . ?t)
+                                                   ("/gmail/Sent Mail" . ?s)))))
               ,(make-mu4e-context
                 :name "Brightin"
                 :match-func (lambda (msg)
                               (when msg
                                 (string-prefix-p "/brightin" (mu4e-message-field msg :maildir))))
                 :vars '((user-mail-address . "yann@brightin.nl")
-                        (mu4e-compose-signature . "Yann Vanhalewyn\nBrightin\n")
-                        (mu4e-trash-folder . "/brightin/trash")
-                        (mu4e-refile-folder . "/brightin/all")
-                        (mu4e-drafts-folder . "/brightin/drafts")
-                        (mu4e-sent-folder . "/brightin/sent")
-                        (mu4e-maildir-shortcuts . (("/brightin/inbox"       . ?i)
-                                                   ("/brightin/all"    . ?a)
-                                                   ("/brightin/sent"   . ?s)
-                                                   ("/brightin/trash"       . ?t))))))
+                        (mu4e-compose-signature . "Groeten,\n\nYann Vanhalewyn\nBrightmotive\n")
+                        (mu4e-sent-folder . "/brightin/Sent Mail")
+                        (mu4e-trash-folder . "/brightin/Trash")
+                        (mu4e-refile-folder . "/brightin/All Mail")
+                        (mu4e-drafts-folder . "/brightin/Drafts")
+                        (mu4e-maildir-shortcuts . (("/brightin/INBOX" . ?i)
+                                                   ("/brightin/All Mail" . ?a)
+                                                   ("/brightin/Trash" . ?t)
+                                                   ("/brightin/Sent Mail" . ?s))))))
 
-           mu4e-maildir "~/mbsync"
-
-           ;; Needed for mbsync (not for offlineimap)
-           mu4e-change-filenames-when-moving t
+           mu4e-maildir "~/mail"
 
            ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
            mu4e-sent-messages-behavior 'delete
            user-full-name  "Yann Vanhalewyn"
-           mu4e-get-mail-command "mbsync -a"
+           mu4e-get-mail-command "offlineimap -o"
+           mu4e-headers-auto-update t
+           ;; mu4e-update-interval 300
 
            mu4e-bookmarks
            `( ,(make-mu4e-bookmark
-                :name  "Inbox"
-                :query "NOT flag:trashed AND maildir:/gmail/inbox OR
-                        NOT flag:trashed AND maildir:/brightin/inbox"
-                :key ?i)
-              ,(make-mu4e-bookmark
-                :name  "Unread"
-                :query "flag:unread AND NOT flag:trashed AND maildir:/brightin/inbox OR
-                        flag:unread AND NOT flag:trashed AND maildir:/gmail/inbox"
+                :name  "Inbox Unread"
+                :query "flag:unread AND maildir:/brightin/INBOX"
                 :key ?u)
               ,(make-mu4e-bookmark
-                :name "Today's messages"
-                :query "date:today..now"
-                :key ?t)))
+                :name "Monitoring"
+                :query "flag:unread AND maildir:/brightin/INBOX AND
+                        (from:Rollbar OR from:Datadog OR from:AWS)"
+                :key ?m)))
 
+     (keys 'mu4e-headers-mode-map
+       ;; Hack: Delete will actually just archive it in Gmail. Being in "All
+       ;; Mail" will be ineffective
+       "r" 'mu4e-headers-mark-for-delete)
+   #+END_SRC
+
+   Configure sending email:
+
+   #+BEGIN_SRC emacs-lisp
      ;; make sure the gnutls command line utils are installed
      (require 'smtpmail)
      (setq message-send-mail-function 'smtpmail-send-it
@@ -1546,24 +1551,32 @@
            (error "No email account found"))))
 
      (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
+   #+END_SRC
 
-     ;; HTML emails
+   Set up displaying html emails
+
+   #+BEGIN_SRC emacs-lisp
      (require 'mu4e-contrib)
-     (setq mu4e-html2text-command 'mu4e-shr2text)
-     (add-to-list 'mu4e-view-actions '("ViewInBrowser" . mu4e-action-view-in-browser) t)
-     (setq shr-color-visible-luminance-min 80)
-     (setq shr-color-visible-distance-min 5)
-     ;; Setting Format=Flowed for non-text-based mail clients which don’t
-     ;; respect actual formatting, but let the text “flow” as they please.
-     (setq mu4e-compose-format-flowed t)
-     ;; Automatic line breaks when reading mail
-     (add-hook 'mu4e-view-mode-hook 'visual-line-mode)
-     ;; Images, doesn't seem to work
-     (setq mu4e-view-show-images t)
+
+     (setq mu4e-html2text-command 'mu4e-shr2text
+           ;; Uncomment this to use w3m to extract text from html emails
+           ;; mu4e-html2text-command "w3m -dump -T text/html"
+           shr-color-visible-luminance-min 80
+           shr-color-visible-distance-min 5
+           ;; Setting Format=Flowed for non-text-based mail clients which don’t
+           ;; respect actual formatting, but let the text “flow” as they please.
+           ;; Automatic line breaks when reading mail
+           mu4e-compose-format-flowed t
+           ;; Images, doesn't seem to work
+           mu4e-view-show-images t)
+
      (when (fboundp 'imagemagick-register-types)
        (imagemagick-register-types))
 
-     (use-package evil-mu4e)
+     (add-hook 'mu4e-view-mode-hook 'visual-line-mode)
+     ;; When viewing an email press "a" for actions, "V" to open the email
+     ;; in a browser.
+     (add-to-list 'mu4e-view-actions '("ViewInBrowser" . mu4e-action-view-in-browser) t)
    #+END_SRC
 
 ** SQL

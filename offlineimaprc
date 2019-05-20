@@ -1,18 +1,30 @@
+# All config options: https://gist.github.com/dabrahams/3030332
 [general]
-accounts = Gmail, Brightin
+accounts = gmail, brightin
 maxsyncaccounts = 3
 pythonfile = ~/.offlineimap.py
 
-[Account Gmail]
+fsync = false
+
+[Account gmail]
 localrepository = GmailLocal
 remoterepository = GmailRemote
-postsynchook = mu index --maildir ~/mail
+autorefresh = 1
+postsynchook = pkill -2 -u $UID mu; sleep 1; mu index --maildir ~/mail
+
+# Don't check all the flags to know if there is a need for sync. Only
+# do so every x shallow checks with the remote server.
+quick = 24
+maxage=2019-05-01
 
 [Repository GmailLocal]
 type = GmailMaildir
 localfolders = ~/mail/gmail
 synclabels = yes
-nametrans = lambda f: '[Gmail]/' + f if f in ['Drafts', 'Starred', 'Important', 'Spam', 'Bin', 'All Mail', 'Sent Mail'] else f
+nametrans = lambda f: f if f == "INBOX" else '[Gmail]/' + f
+trashfolder =  ["Bin"]
+folderfilter = lambda foldername: False
+folderfilter = lambda folder: folder in ['INBOX', 'Sent Mail', 'All Mail', 'Bin']
 
 [Repository GmailRemote]
 type = Gmail
@@ -22,18 +34,27 @@ remotepasseval = get_smtp_password("yann.vanhalewyn@gmail.com")
 realdelete = no
 ssl = yes
 sslcacertfile = /etc/ssl/cert.pem
-nametrans = lambda f: f.replace('[Gmail]/', '') if f.startswith('[Gmail]/') else f
+nametrans = lambda f: f.replace('[Gmail]/', '')
+maxconnections = 3
+trashfolder =  ["Bin"]
+folderfilter = lambda foldername: False
+folderincludes = ['INBOX', '[Gmail]/All Mail', '[Gmail]/Sent Mail', '[Gmail]/Bin']
 
-[Account Brightin]
+[Account brightin]
 localrepository = BrightinLocal
 remoterepository = BrightinRemote
-postsynchook = mu index --maildir ~/mail
+autorefresh = 3
+quick = 24
+maxage=2019-01-01
 
 [Repository BrightinLocal]
 type = GmailMaildir
 localfolders = ~/mail/brightin
 synclabels = yes
-nametrans = lambda f: '[Gmail]/' + f if f in ['Drafts', 'Starred', 'Important', 'Spam', 'Trash', 'All Mail', 'Sent Mail'] else f
+nametrans = lambda f: f if f == "INBOX" else '[Gmail]/' + f
+trashfolder =  ["Trash"]
+folderfilter = lambda foldername: False
+folderincludes = ['INBOX', 'All Mail', 'Sent Mail', 'Trash']
 
 [Repository BrightinRemote]
 type = Gmail
@@ -44,6 +65,11 @@ oauth2_client_secret_eval = get_smtp_password("yann@brightin.nl\^oauth2_client_s
 oauth2_refresh_token_eval = get_smtp_password("yann@brightin.nl\^oauth2_refresh_token")
 oauth2_request_url = https://accounts.google.com/o/oauth2/token
 
+realdelete = no
 ssl = yes
-sslcacertfile = /usr/local/etc/openssl/cert.pem
-nametrans = lambda f: f.replace('[Gmail]/', '') if f.startswith('[Gmail]/') else f
+sslcacertfile = /etc/ssl/cert.pem
+nametrans = lambda f: f.replace('[Gmail]/', '')
+maxconnections = 3
+trashfolder =  ["Trash"]
+folderfilter = lambda foldername: False
+folderincludes = ['INBOX', '[Gmail]/All Mail', '[Gmail]/Sent Mail', '[Gmail]/Trash']
