@@ -839,6 +839,22 @@
          "S-SPC" 'ace-jump-char-mode))
     #+END_SRC
 
+** Smart jump
+
+   Smart jump uses multiple backends for jumping to definitions of
+   symbols at point. It falls back to dumb-jump by default when no
+   other jumpers are available.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package smart-jump
+       :commands (smart-jump smart-jump-go)
+       :init
+       (keys "<M-.>" 'smart-jump-go
+             "<M-,>" 'smart-jump-back)
+       :config
+       (smart-jump-setup-default-registers))
+   #+END_SRC
+
 ** Undo-tree
 
    #+BEGIN_SRC emacs-lisp
