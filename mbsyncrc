@@ -1,0 +1,86 @@
+Create Both
+Expunge Both
+SyncState *
+
+IMAPAccount gmail
+Host imap.gmail.com
+User yann.vanhalewyn@gmail.com
+PassCmd "security find-generic-password -s mbsync-apppassword-gmail -w"
+SSLType IMAPS
+AuthMechs LOGIN
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+Path ~/mbsync/gmail/
+Inbox ~/mbsync/gmail/inbox
+
+Channel gmail-inbox
+Master :gmail-remote:
+Slave :gmail-local:
+Patterns "INBOX"
+
+Channel gmail-sent
+Master :gmail-remote:"[Gmail]/Sent Mail"
+Slave :gmail-local:sent
+
+Channel gmail-trash
+Master :gmail-remote:"[Gmail]/Bin"
+Slave :gmail-local:trash
+
+Channel gmail-all
+Master :gmail-remote:"[Gmail]/All Mail"
+Slave :gmail-local:all
+
+Group gmail
+Channel gmail-inbox
+Channel gmail-sent
+Channel gmail-trash
+Channel gmail-all
+
+# Gmail mailboxes:
+# "All Mail"
+# "Drafts"
+# "Important"
+# "Sent Mail"
+# "Spam"
+# "Starred"
+# "Trash"
+
+IMAPAccount brightin
+Host imap.gmail.com
+User yann@brightin.nl
+PassCmd "security find-generic-password -s mbsync-apppassword-brightin -w"
+SSLType IMAPS
+AuthMechs LOGIN
+
+IMAPStore brightin-remote
+Account brightin
+
+MaildirStore brightin-local
+Path ~/mbsync/brightin/
+Inbox ~/mbsync/brightin/inbox
+
+Channel brightin-inbox
+Master :brightin-remote:
+Slave :brightin-local:
+Patterns "INBOX"
+
+Channel brightin-sent
+Master :brightin-remote:"[Gmail]/Sent Mail"
+Slave :brightin-local:sent
+
+Channel brightin-trash
+Master :brightin-remote:"[Gmail]/Trash"
+Slave :brightin-local:trash
+
+Channel brightin-all
+Master :brightin-remote:"[Gmail]/All Mail"
+Slave :brightin-local:all
+
+Group brightin
+Channel brightin-inbox
+Channel brightin-sent
+Channel brightin-trash
+Channel brightin-all
