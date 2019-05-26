@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -eo pipefail
+
+token=$(security find-generic-password -s harvest_access_token -w)
+account_id=$(security find-generic-password -s harvest_account_id -w)
+
+java -jar ~/.scripts/harvest_sync.jar \
+  sync ~/Google\ Drive/Documents/timesheet.org \
+  --harvest-access-token $token \
+  --harvest-account-id $account_id \
+  --default-project brightmotive%product \
+  $@
