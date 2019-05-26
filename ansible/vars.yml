@@ -1,28 +1,40 @@
 ---
 homebrew_taps:
   - caskroom/cask
+  - railwaycat/emacsmacport
 
 homebrew_packages:
   - ansible
   - antigen
-  - awscli
   - autoenv
+  - awscli
+  - chamber
   - cheat
+  - cloc
+  - clojure
+  - csvkit
+  - ctags
   - ctags-exuberant
   - direnv
-  - emacs
+  - docker
+  - emacs-mac
   - ffmpeg
   - figlet
   - gcc
+  - gettext
   - gifify
-  - gpg
   - git
+  - gpg
   - grep
   - hub
   - imagemagick
+  - ispell
   - jpeg
+  - jq
   - lame
   - leiningen
+  - magic-wormhole
+  - make
   - mit-scheme
   - mu --with-emacs
   - node
@@ -30,6 +42,8 @@ homebrew_packages:
   - openssl
   - pgcli
   - pick
+  - postgresql
+  - prettier
   - python
   - rbenv
   - rbenv-vars
@@ -37,6 +51,8 @@ homebrew_packages:
   - rename
   - rlwrap
   - ruby-build
+  - sqlite
+  - terminal-notifier
   - the_silver_searcher
   - tmux # with-nvim-tui-color
   - tree
@@ -44,6 +60,7 @@ homebrew_packages:
   - wget
   - yarn
   - youtube-dl
+  - zsh
 
 cask_taps:
   - caskroom/cask
