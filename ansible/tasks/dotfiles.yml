@@ -1,8 +1,8 @@
 ---
-- name: Dotfiles | Copy dotfiles
-  file: src="~/dotfiles/{{ item }}"
-        dest="~/.{{ item }}"
-        state="link"
+- name: Dotfiles | Link dotfiles
+  file: src=~/dotfiles/{{ item }}
+        dest=~/.{{ item }}
+        state=link
   with_items:
     - lein
     - agignore
@@ -25,9 +25,13 @@
     - pryrc
     - rspec
     - rubocop.yml
-    - scripts
     - tmux.conf
     - vim
     - vimrc
     - zsh
     - zshrc
+
+- name: Dotfiles | Link bin
+  file: src=~/dotfiles/bin
+        dest=~/bin
+        state=link

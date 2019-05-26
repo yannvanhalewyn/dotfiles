@@ -13,7 +13,7 @@ main() {
 
   # VIM time
   echo "Testing vim"
-  vim_elapsed_time=$( (time nvim +q) >$(tty))
+  vim_elapsed_time=$( (time vim +q) >$(tty))
   echo "vim:\t$vim_elapsed_time"
 }
 

@@ -61,7 +61,7 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 # Man pages with progress percentage
 export MANPAGER='less -s -M +Gg'
 
-export PATH="$HOME/.scripts:/usr/local/opt/grep/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+export PATH="$HOME/bin:/usr/local/opt/grep/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 # Disable bracketed paste feature when in emacs. This used to cause
 # unwanted chars to be printed out

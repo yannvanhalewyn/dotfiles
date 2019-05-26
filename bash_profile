@@ -14,8 +14,8 @@
 # remove /usr/local/bin and /usr/bin
 export PATH=`echo ":$PATH:" | sed -e "s#:/usr/local/bin:#:#g" -e "s/^://" -e "s/:$//"`
 export PATH=`echo ":$PATH:" | sed -e "s#:/usr/bin:#:#g" -e "s/^://" -e "s/:$//"`
-# add ~/.scripts /usr/local/bin and /usr/bin in that order
-export PATH="$HOME/.scripts:/usr/local/bin:/usr/bin:$PATH"
+# add ~/bin /usr/local/bin and /usr/bin in that order
+export PATH="$HOME/bin:/usr/local/bin:/usr/bin:$PATH"
 
 # Load ~/.aliases, ~/.functions and ~/.profile, ~/.bash_prompt
 for file in ~/.{aliases,functions,profile,bash_prompt}; do

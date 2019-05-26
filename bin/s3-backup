@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -eo pipefail
+
+aws s3 sync ~/code s3://yanns-macbook-backups/code
+aws s3 sync ~/Music/ableton-projects s3://yanns-macbook-backups/ableton-projects

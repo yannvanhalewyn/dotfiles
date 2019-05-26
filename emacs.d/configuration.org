@@ -77,7 +77,7 @@
    [[https://github.com/purcell/exec-path-from-shell][Exec path from shell]] was a bit slow. This gives me what I need for now.
 
    #+BEGIN_SRC emacs-lisp
-     (let ((paths "/Users/yannvanhalewyn/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin"))
+     (let ((paths "/Users/yannvanhalewyn/bin:/Users/yannvanhalewyn/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin"))
        (setenv "PATH" paths)
        (setq eshell-path-env paths))
      (add-to-list 'exec-path "/usr/local/bin")
