@@ -1,0 +1,178 @@
+-*- mode: org -*-
+* Org Reveal Cheatsheet
+** Revealing items
+
+   These list items will reveal themselves one by one:
+
+   #+ATTR_REVEAL: :frag (roll-in)
+     - No strings in the views
+     - Views call a translate function with a key and language
+     - A table for every language maps each key to text
+
+** Source code
+
+   Will be highlighted by the plugin
+
+   #+BEGIN_SRC clojure
+   (tempura/tr i18n [:global-search/placeholder]) ;; => "Search by license-plate..."
+   #+END_SRC
+
+** Inline html
+
+   #+REVEAL_HTML: <h3>Your fucking codebase is a fucking datastructure</h3>
+
+** Other background
+   :PROPERTIES:
+   :reveal_background: #652332
+   :END:
+
+** HTML styles
+   #+ATTR_HTML: :style color:red
+** Thanks
+   :PROPERTIES:
+   :reveal_background: #3a3a3a
+   :reveal_style: color: black
+   :END:
+
+   #+REVEAL_HTML: <h3>And enjoy the next talk</h3>
+
+** List styles
+*** Grow
+
+    Some list items will appear:
+
+    #+ATTR_REVEAL: :frag (grow)
+      - Foo
+      - Bar
+      - Baz
+      - Bax
+
+    #+BEGIN_NOTES
+    Enter speaker notes here.
+    #+END_NOTES
+
+*** Shrink
+
+    Some list items will appear:
+
+    #+ATTR_REVEAL: :frag (shrink)
+      - Foo
+      - Bar
+      - Baz
+      - Bax
+
+    #+BEGIN_NOTES
+    Enter speaker notes here.
+    #+END_NOTES
+*** Roll-in
+
+    Some list items will appear:
+
+    #+ATTR_REVEAL: :frag (roll-in)
+      - Foo
+      - Bar
+      - Baz
+      - Bax
+
+    #+BEGIN_NOTES
+    Enter speaker notes here.
+    #+END_NOTES
+
+*** Appear
+
+    Some list items will appear:
+
+    #+ATTR_REVEAL: :frag (roll-in)
+      - Foo
+      - Bar
+      - Baz
+      - Bax
+
+    #+BEGIN_NOTES
+    Enter speaker notes here.
+    #+END_NOTES
+
+*** Fade-out
+
+    Some list items will appear:
+
+    #+ATTR_REVEAL: :frag (fade-out)
+      - Foo
+      - Bar
+      - Baz
+      - Bax
+
+    #+BEGIN_NOTES
+    Enter speaker notes here.
+    #+END_NOTES
+
+*** Highlight red
+
+    Some list items will appear:
+
+    #+ATTR_REVEAL: :frag (highlight-red)
+      - Foo
+      - Bar
+      - Baz
+      - Bax
+
+    #+BEGIN_NOTES
+    Enter speaker notes here.
+    #+END_NOTES
+
+*** Combine multiple
+
+    Some list items will appear:
+
+    #+ATTR_REVEAL: :frag (grow shrink roll-in fade-out none) :frag_idx (4 3 2 1 -)
+      - Foo
+      - Bar
+      - Baz
+      - Bax
+      - Qux
+
+    #+BEGIN_NOTES
+    Enter speaker notes here.
+    #+END_NOTES
+
+** Extra features
+*** Reveal on next slide
+    #+REVEAL: split
+    Something revealed!
+*** Speaker notes
+
+    Startup a webserver (on https if reveal.js is loaded over ssl) serving the presentation:
+    #+BEGIN_SRC bash
+      $ php -m SimpleHTTPServer
+    #+END_SRC
+
+    #+BEGIN_SRC bash
+      $ ngrok 8000
+    #+END_SRC
+    And hit 's' to show the speaker notes in another window
+
+*** A table
+    | Name   | Age |
+    |--------+-----|
+    | Yann   |  39 |
+    | Fred   |  27 |
+    | Gerard | 100 |
+*** A quote
+    #+BEGIN_QUOTE
+    "Don't eat yellow snow."
+    #+END_QUOTE
+*** Pause
+    Hitting 'b' will darken the slide as to not be distracting.
+
+** Themes I Like
+    - Beige
+    - Black
+    - Moon
+    - Night (Kinda)
+    - Solarized
+** CSS for highlight js I like
+   - https://highlightjs.org/static/demo/styles/atom-one-dark.css
+   - gruvbox dark
+   - Ocean
+   - Railscasts (favorite)
+   - Zenburn
