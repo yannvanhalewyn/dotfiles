@@ -294,4 +294,10 @@ next-actions in GTD"
 (defun yvh/next-file-in-dir () (interactive) (yvh/cycle-file-in-dir))
 (defun yvh/prev-file-in-dir () (interactive) (yvh/cycle-file-in-dir t))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Useful macros
+
+(fset 'yvh/timestamp-to-date-time
+      (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([134217768 105 116 47 100 97 116 101 45 116 105 109 101 escape 102 34 100 115 34 102 45 114 32 102 45 114 32 102 84 114 32 102 58 114 32 102 58 68] 0 "%d")) arg)))
+
 (provide 'init-functions)

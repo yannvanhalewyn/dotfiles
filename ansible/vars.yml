@@ -29,6 +29,7 @@ homebrew_packages:
   - hub
   - imagemagick
   - ispell
+  - borkdude/brew/jet
   - jpeg
   - jq
   - lame

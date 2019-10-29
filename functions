@@ -275,3 +275,19 @@ function resetdb() {
   dropdb $1 && createdb $1;
   psql $1 < $2
 }
+
+function awsv() {
+  local env=$1;
+  shift;
+  aws-vault exec $env --assume-role-ttl=60m -- $@;
+}
+
+function interval() {
+  local interval=$1;
+  shift;
+  $@;
+  while sleep $interval;
+  do
+    $@;
+  done
+}

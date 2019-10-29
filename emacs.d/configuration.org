@@ -334,8 +334,9 @@
 ** Setup theme and font
 
    #+BEGIN_SRC emacs-lisp
-     (use-package kaolin-themes :init (load-theme 'kaolin-galaxy t))
-     (set-face-attribute 'default nil :font "Menlo" :height 145)
+     ;; (use-package kaolin-themes :config (load-theme 'kaolin-ocean t))
+     (use-package doom-themes :config (load-theme 'doom-one t) (doom-themes-neotree-config))
+     (set-face-attribute 'default nil :font "Menlo" :height 155)
    #+END_SRC
 
 ** Use rich icons
@@ -383,7 +384,7 @@
 ** Highlight current line
 
    #+BEGIN_SRC emacs-lisp
-     (global-hl-line-mode t)
+     (global-hl-line-mode nil)
    #+END_SRC
 
 ** Show matching paren
@@ -471,7 +472,8 @@
        "t" (yvh/find-file-i 'gtd-main)
        "i" (yvh/find-file-i 'gtd-inbox)
        "s" (yvh/find-file-i 'gtd-someday)
-       "h" (yvh/find-file-i "~/Google Drive/Documents/timesheet.org"))
+       "h" (yvh/find-file-i "~/Google Drive/Documents/timesheet.org")
+       "p" (yvh/find-file-i "/ssh:yann@glados:/media/drive1/"))
    #+END_SRC
 
    Global leaders for evaluating emacs-lisp code
@@ -527,6 +529,7 @@
        "q" 'kill-this-buffer
        "R" 'yvh/chrome-reload
        "S" 'shell
+       "u" 'undo-tree-visualize
        "w" 'yvh/buff-swap
        "x" 'counsel-projectile-ag
        "X" 'ag)
@@ -731,10 +734,11 @@
                     "f" 'magit-find-file
                     "F" 'magit-pull-from-pushremote
                     "l" 'magit-log-head
-                    "L" 'magit-log-popup
+                    "L" 'magit-log
                     "m" 'magit-merge
                     "M" 'magit-merge-popup
                     "o" 'git-link
+                    "O" 'git-link-homepage
                     "p" 'magit-push-current-to-pushremote
                     "P" 'yvh/force-push-with-lease
                     "r" (yvh/build-keymap
@@ -821,8 +825,7 @@
        ;; Fill $0 with selected region when using yas-insert-snippet.
        (setq yas-wrap-around-region t
              yas-snippet-dirs '("~/.emacs.d/snippets"))
-       (keys :states '(insert)
-         "M-<tab>" 'yas-expand)
+       (keys :states 'insert "M-<tab>" 'yas-expand)
        (keys-l "i u" 'yas-insert-snippet))
     #+END_SRC
 
@@ -1048,7 +1051,8 @@
                                           emacs-lisp-mode-hook))
         :config
         (setq clojure-indent-style :always-align)
-        (dolist (word '(try-let assoc-if transform match facts fact assoc render for-all))
+        (put-clojure-indent 'cond-> 0)
+        (dolist (word '(try-let assoc-if t/to-at transform match facts fact assoc render for-all))
           (put-clojure-indent word 1)))
     #+END_SRC
 
@@ -1061,6 +1065,7 @@
         :defer t
         :config
         (setq cider-repl-display-help-banner nil
+              cider-repl-history-file ".cider-history"
               cider-repl-pop-to-buffer-on-connect 'display-only)
 
         (defvar cider-mode-maps
@@ -1223,8 +1228,8 @@
         :diminish aggressive-indent-mode
         :init
         (yhv/add-hooks #'aggressive-indent-mode '(clojure-mode-hook
-                                              emacs-lisp-mode-hook
-                                              clojurescript-mode-hook)))
+                                                  emacs-lisp-mode-hook
+                                                  clojurescript-mode-hook)))
     #+END_SRC
 
 ** Java
@@ -1269,6 +1274,8 @@
           "p T" 'yvh/view-test-file-in-other-window)
 
         (projectile-register-project-type 'clojure '("project.clj")
+                                          :test-suffix "_test")
+        (projectile-register-project-type 'clojure '("deps.edn")
                                           :test-suffix "_test")
 
         ;; Projectile-ag
@@ -1337,7 +1344,10 @@
 
         (use-package swiper
           :defer t
-          :config (keys "/" 'swiper))
+          :config
+          (keys "/" 'swiper)
+          ;; Allow use of vim . (repeat) after swiping to next result
+          (evil-declare-not-repeat 'swiper))
 
         (use-package counsel-projectile
           :init
@@ -1360,6 +1370,17 @@
               ("\\.md\\'" . markdown-mode)
               ("\\.markdown\\'" . markdown-mode))
        :init (setq markdown-command "multimarkdown"))
+   #+END_SRC
+
+** CSV
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package csv-mode
+       :defer t
+       :config
+       (keys 'csv-mode-map
+         "C-c C-c" 'csv-align-fields
+         "C-c C-k" 'csv-unalign-fields))
    #+END_SRC
 
 ** Org
