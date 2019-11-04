@@ -221,6 +221,12 @@
    (keys-l "d" 'dired-current-dir)
    #+END_SRC
 
+   Enable leader keys in Dired mode
+
+   #+BEGIN_SRC emacs-lisp
+   (general-def dired-mode-map "SPC" nil)
+   #+END_SRC
+
    Human readable units
 
    #+BEGIN_SRC emacs-lisp
@@ -430,6 +436,12 @@
           (save-excursion
             (forward-char)
             (cider-eval-last-sexp)))
+
+        (keys cider-repl-mode-map
+            "<up>" 'cider-repl-backward-input
+            "<down>" 'cider-repl-forward-input
+            "<return>" 'cider-repl-return
+            "<S-return>" 'cider-repl-newline-and-indent)
 
         (keys-l :keymaps cider-mode-maps
           "c" (build-keymap
