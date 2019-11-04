@@ -336,23 +336,29 @@
    The killer app for Emacs
 
    #+BEGIN_SRC emacs-lisp
-   (use-package magit
-     :defer t
-     :init
-     (keys-l "g s" 'magit-status)
+     (use-package magit
+       :defer t
+       :init
+       (keys-l "g s" 'magit-status)
 
-     :config
-     (use-package evil-magit)
-     ;; Go into insert mode when starting a commit message
-     (add-hook 'git-commit-mode-hook 'evil-insert-state)
+       :config
+       (use-package evil-magit)
+       ;; Go into insert mode when starting a commit message
+       (add-hook 'git-commit-mode-hook 'evil-insert-state)
 
-     ;; Enable leader keys in revision buffers
-     (general-def magit-revision-mode-map "SPC" nil)
+       ;; Enable leader keys in revision buffers
+       (general-def magit-revision-mode-map "SPC" nil)
+       (general-def magit-status-mode-map "SPC" nil)
 
-     (setq magit-diff-refine-hunk 'all)
-     (keys 'magit-blame-mode-map "q" 'magit-blame-quit)
-     (keys 'git-rebase-mode-map "q" 'magit-rebase-abort)
-     (keys 'magit-status-mode-map "K" 'magit-discard))
+       (setq magit-diff-refine-hunk 'all)
+       (keys 'magit-blame-mode-map "q" 'magit-blame-quit)
+       (keys 'git-rebase-mode-map "q" 'magit-rebase-abort)
+       (keys 'magit-status-mode-map "K" 'magit-discard)
+
+       ;; Quit magit popup's with "q" instead of "C-g"
+       (general-def 'transient-map        "q" 'transient-quit-one)
+       (general-def 'transient-edit-map   "q" 'transient-quit-one)
+       (general-def 'transient-sticky-map "q" 'transient-quit-seq))
    #+END_SRC
 
 ** Company (autocompletion)
@@ -437,7 +443,7 @@
             (forward-char)
             (cider-eval-last-sexp)))
 
-        (keys cider-repl-mode-map
+        (general-def cider-repl-mode-map
             "<up>" 'cider-repl-backward-input
             "<down>" 'cider-repl-forward-input
             "<return>" 'cider-repl-return
@@ -605,6 +611,17 @@
        (keys-l
          "f" 'counsel-projectile-find-file
          "p p" 'counsel-projectile-switch-project))
+     #+END_SRC
+
+     [[https://github.com/abo-abo/swiper][Swiper]] uses the same Ivy minibuffer to display search results within a code file. It's pretty neat. Trigger with "/" to start searching!
+
+     #+BEGIN_SRC emacs-lisp
+       (use-package swiper
+         :defer t
+         :config
+         (keys "/" 'swiper)
+         ;; Allow use of vim . (repeat) after swiping to next result
+         (evil-declare-not-repeat 'swiper))
      #+END_SRC
 
 * Layout
