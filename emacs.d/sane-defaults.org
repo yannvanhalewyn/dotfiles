@@ -378,6 +378,14 @@
     #+END_SRC
 
 ** Clojure
+*** Rainbow Delimiters
+
+    Display all matching parens in a different set of colours
+
+    #+BEGIN_SRC emacs-lisp
+    (use-package rainbow-delimiters :defer t)
+    #+END_SRC
+
 *** Set up clojure mode
 
     #+BEGIN_SRC emacs-lisp
@@ -475,14 +483,6 @@
           (define-key cljr-map (car details) (cadr details)))
         (keys-l :keymaps 'clojure-mode-map
           "r" cljr-map)))
-    #+END_SRC
-
-*** Rainbow Delimiters
-
-    Display all matching parens in a different set of colours
-
-    #+BEGIN_SRC emacs-lisp
-    (use-package rainbow-delimiters :defer t)
     #+END_SRC
 
 *** Paredit
