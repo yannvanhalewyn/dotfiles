@@ -77,10 +77,11 @@
    [[https://github.com/purcell/exec-path-from-shell][Exec path from shell]] was a bit slow. This gives me what I need for now.
 
    #+BEGIN_SRC emacs-lisp
-     (let ((paths "/Users/yannvanhalewyn/bin:/Users/yannvanhalewyn/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin"))
+     (let ((paths "/Users/yannvanhalewyn/bin:/Users/yannvanhalewyn/.rbenv/shims:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/usr/local/opt/inetutils/libexec/gnubin"))
        (setenv "PATH" paths)
        (setq eshell-path-env paths))
      (add-to-list 'exec-path "/usr/local/bin")
+     (add-to-list 'exec-path "/usr/local/opt/inetutils/libexec/gnubin")
    #+END_SRC
 
 ** Save minibuffer history
@@ -517,12 +518,12 @@
             "p" (yvh/find-file-i (locate-user-emacs-file "configuration.org")))
        "h" (yvh/build-keymap
             "a" 'counsel-apropos
-            "f" 'describe-function
+            "f" 'counsel-describe-function
             "K" 'which-key-show-top-level
             "k" 'describe-key
             "m" 'describe-mode
             "p" 'describe-package
-            "v" 'describe-variable)
+            "v" 'counsel-describe-variable)
        "m" 'mu4e
        "o" 'counsel-find-file
        "Q" 'delete-other-windows
@@ -640,6 +641,7 @@
           "C-j" 'evil-window-down
           "C-k" 'evil-window-up
           "C-l" 'evil-window-right
+          "C-u" 'evil-scroll-up ;; Vim default but is emacs built-in
           "j"   'evil-next-visual-line
           "k"   'evil-previous-visual-line)
 
@@ -692,7 +694,8 @@
         (evil-cp--enable-surround-operators)
         :init
         ;; Don't use crazy bindings for {, [, } and ] from evil-cleverparens
-        (setq evil-cleverparens-use-additional-movement-keys nil))
+        (setq evil-cleverparens-use-additional-movement-keys nil
+              evil-cleverparens-use-regular-insert t))
     #+END_SRC
 
 *** Evil Numbers
@@ -850,7 +853,6 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package smart-jump
-       :commands (smart-jump smart-jump-go)
        :init
        (keys "<M-.>" 'smart-jump-go
              "<M-,>" 'smart-jump-back)
@@ -974,7 +976,7 @@
       (use-package smartparens
         :defer t
         :init
-        (yhv/add-hooks #'smartparens-mode '(ruby-mode-hook js-mode-hook c-mode-common-hook rust-mode-hook))
+        (yhv/add-hooks #'smartparens-mode '(ruby-mode-hook js-mode-hook c-mode-common-hook rust-mode-hook css-mode-hook scss-mode-hook))
         :config
         (require 'smartparens-ruby)
         (dolist (mode '(c++-mode 'c-mode 'js-mode 'js2-mode 'glsl-mode
@@ -1007,12 +1009,11 @@
        :init
        (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc clojure-cider-typed))
        (add-hook 'after-init-hook #'global-flycheck-mode)
+       (evil-declare-not-repeat 'flycheck-next-error)
+       (evil-declare-not-repeat 'flycheck-previous-error)
 
        :config
-       (use-package flycheck-clojure
-         :defer t
-         :init
-         (eval-after-load 'flycheck '(flycheck-clojure-setup)))
+       (use-package flycheck-clj-kondo)
 
        (use-package flycheck-popup-tip
          :defer t
@@ -1051,8 +1052,7 @@
                                           emacs-lisp-mode-hook))
         :config
         (setq clojure-indent-style :always-align)
-        (put-clojure-indent 'cond-> 0)
-        (dolist (word '(try-let assoc-if t/to-at transform match facts fact assoc render for-all))
+        (dolist (word '(try-let assoc-if letsc t/do-at transform match facts fact assoc render for-all))
           (put-clojure-indent word 1)))
     #+END_SRC
 
@@ -1067,6 +1067,8 @@
         (setq cider-repl-display-help-banner nil
               cider-repl-history-file ".cider-history"
               cider-repl-pop-to-buffer-on-connect 'display-only)
+
+        (evil-declare-not-repeat 'cider-eval-buffer)
 
         (defvar cider-mode-maps
           '(cider-repl-mode-map
@@ -1142,12 +1144,22 @@
                "m" 'cider-macro-expand-1
                "n" 'cider-repl-set-ns
                "q" 'cider-quit
-               "r" 'yvh/jump-to-repl
-               "R" 'reset-dev-system
+               "r" 'cider-ns-refresh
+               "R" 'yvh/jump-to-repl
                "m" 'cider-macroexpand-1
                "M" 'cider-macroexpand-all)
-          "e" 'cider-eval-last-sexp
           "E" 'cider-eval-buffer
+          "e" (yvh/build-keymap
+               "e" 'yvh/cider-eval-sexp-up-to-point
+               "d" 'cider-eval-defun-at-point
+               "D" 'yvh/cider-eval-defun-up-to-point
+               "b" 'cider-eval-buffer
+               "l" 'cider-eval-last-sexp
+               "p" (yvh/build-keymap
+                    "d" 'cider-pprint-eval-defun-at-point
+                    "c" 'cider-pprint-eval-defun-to-comment
+                    "l" 'cider-eval-print-last-sexp
+                    "p" 'cider-pprint-eval-last-sexp))
           "t" (yvh/build-keymap
                "s" 'cider-test-run-test
                "t" 'cider-test-run-ns-tests
@@ -1211,10 +1223,12 @@
         :diminish paredit-mode
         :init
         (keys paredit-mode-map
-          ")" 'paredit-forward-slurp-sexp
-          "(" 'paredit-forward-barf-sexp
-          "C-(" 'paredit-backward-slurp-sexp
-          "C-)" 'paredit-backward-barf-sexp)
+          ")"   'paredit-forward-slurp-sexp
+          "("   'paredit-forward-barf-sexp
+          "s-)" 'paredit-backward-barf-sexp
+          "C-)" 'paredit-backward-barf-sexp
+          "s-(" 'paredit-backward-slurp-sexp
+          "C-(" 'paredit-backward-slurp-sexp)
         (keys-l "s c" 'paredit-convolute-sexp))
     #+END_SRC
 
@@ -1357,7 +1371,62 @@
           :config
           (keys-l "p p" 'counsel-projectile-switch-project))
 
-        (use-package wgrep :defer t))
+        (use-package wgrep :defer t)
+
+        (use-package ivy-rich
+          :preface
+          (defun yvh/icon-or-default (icon)
+            (if (symbolp icon)
+                (all-the-icons-icon-for-mode 'fundamental-mode)
+              icon))
+          (defun yvh/ivy-rich-buffer-icon (candidate)
+            (with-current-buffer (get-buffer candidate)
+              (yvh/icon-or-default (all-the-icons-icon-for-mode major-mode))))
+          (defun yvh/ivy-rich-file-icon (candidate)
+            (yvh/icon-or-default (all-the-icons-icon-for-file candidate)))
+          :init
+          (setq ivy-rich-display-transformers-list ; max column width sum = (ivy-poframe-width - 1)
+                '(ivy-switch-buffer
+                  (:columns
+                   ((ivy-rich-candidate (:width 35))
+                    (ivy-rich-switch-buffer-project (:width 15 :face success))
+                    (yvh/ivy-rich-file-icon (:width 2))
+                    (ivy-rich-switch-buffer-major-mode (:width 30 :face warning)))
+                   :predicate
+                   (lambda (cand) (get-buffer cand)))
+                  counsel-projectile-find-file
+                  (:columns
+                   ((yvh/ivy-rich-file-icon (:width 2))
+                    (ivy-rich-candidate (:width nil))))
+                  counsel-fzf
+                  (:columns
+                   ((yvh/ivy-rich-file-icon (:width 2))
+                    (ivy-rich-candidate (:width nil))))
+                  counsel-M-x
+                  (:columns
+                   ((counsel-M-x-transformer (:width 35))
+                    (ivy-rich-counsel-function-docstring (:width nil :face font-lock-doc-face))))
+                  counsel-projectile-switch-project
+                  (:columns
+                   ((projectile-project-name (:width 25))
+                    (ivy-rich-candidate (:face font-lock-doc-face))))
+                  counsel-describe-function
+                  (:columns
+                   ((counsel-describe-function-transformer (:width 35))
+                    (ivy-rich-counsel-function-docstring (:width nil :face font-lock-doc-face))))
+                  counsel-describe-variable
+                  (:columns
+                   ((counsel-describe-variable-transformer (:width 35))
+                    (ivy-rich-counsel-variable-docstring (:width nil :face font-lock-doc-face))))
+                  package-install
+                  (:columns
+                   ((ivy-rich-candidate (:width 25))
+                    (ivy-rich-package-version (:width 12 :face font-lock-comment-face))
+                    (ivy-rich-package-archive-summary (:width 7 :face font-lock-builtin-face))
+                    (ivy-rich-package-install-summary (:width nil :face font-lock-doc-face))))))
+          :config
+          (ivy-rich-mode +1)
+          (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)))
    #+END_SRC
 ** Markdown
 
@@ -1394,10 +1463,13 @@
          "A" 'org-archive-subtree-default-with-confirmation
          "i l" 'org-insert-link)
 
+       (keys-l 'org-mode-map
+         "t" (yvh/build-keymap
+              "t" 'org-todo
+              "c" 'org-toggle-checkbox
+              "l" 'org-cycle-list-bullet))
+
        (keys 'org-mode-map
-         "t" 'org-todo
-         "T" 'org-toggle-checkbox
-         "-" 'org-cycle-list-bullet
          "RET" 'org-open-at-point
          "<S-return>" 'org-edit-special)
 
@@ -1411,12 +1483,15 @@
          "f" 'org-agenda-filter-by-tag)
 
        :config
+       ;; Use own css for code snippets in export to html
+       (setq org-html-htmlize-output-type 'css)
        (defconst gtd-dir "~/Dropbox/Documents/gtd")
        (defconst gtd-main (expand-file-name "gtd.org" gtd-dir))
        (defconst gtd-inbox (expand-file-name "inbox.org" gtd-dir))
        (defconst gtd-someday (expand-file-name "someday.org" gtd-dir))
 
        (add-hook 'org-capture-mode-hook 'evil-insert-state)
+       (add-hook 'org-mode-hook 'auto-fill-mode)
 
        (add-hook 'org-mode-hook '(lambda () (interactive) (org-content 2)))
 
@@ -1442,7 +1517,7 @@
 
        (use-package org-bullets
          :defer t
-         :init (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+         :hook (org-mode . org-bullets-mode))
 
        (add-hook 'org-mode-hook (lambda ()
                                   (push '("[ ]" . "☐") prettify-symbols-alist)

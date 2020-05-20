@@ -444,10 +444,10 @@
             (cider-eval-last-sexp)))
 
         (general-def cider-repl-mode-map
-            "<up>" 'cider-repl-backward-input
-            "<down>" 'cider-repl-forward-input
-            "<return>" 'cider-repl-return
-            "<S-return>" 'cider-repl-newline-and-indent)
+          "<up>" 'cider-repl-backward-input
+          "<down>" 'cider-repl-forward-input
+          "<return>" 'cider-repl-return
+          "<S-return>" 'cider-repl-newline-and-indent)
 
         (keys-l :keymaps cider-mode-maps
           "c" (build-keymap
@@ -456,8 +456,11 @@
                "i" 'cider-inspect-last-result
                "k" 'cider-repl-clear-buffer
                "q" 'cider-quit)
-          "e" 'cider-evil-eval-last-sexp
-          "E" 'cider-eval-buffer)
+          "e" (build-keymap
+               "e" 'cider-eval-sexp-at-point
+               "d" 'cider-eval-defun-to-comment
+               "b" 'cider-eval-buffer
+               "l" 'cider-evil-eval-last-sexp))
         (keys :keymaps cider-mode-maps "g f" 'cider-find-var)
         :config
         (setq cider-repl-display-help-banner nil

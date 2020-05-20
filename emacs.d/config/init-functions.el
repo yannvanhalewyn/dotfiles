@@ -278,7 +278,7 @@ next-actions in GTD"
 (defun yvh/jump-to-repl ()
   (interactive)
   (when-let ((repl-buffer (first (cider-repl-buffers))))
-    (cider-switch-to-repl-buffer)
+    (cider-switch-to-repl-buffer (cider-current-ns))
     (enlarge-window (- 12 (window-height)))
     (evil-insert-state)))
 
@@ -293,6 +293,46 @@ next-actions in GTD"
 
 (defun yvh/next-file-in-dir () (interactive) (yvh/cycle-file-in-dir))
 (defun yvh/prev-file-in-dir () (interactive) (yvh/cycle-file-in-dir t))
+
+(defun yvh/sexp-at-point (&optional bounds)
+  (save-excursion
+    (or (cider-sexp-at-point bounds)
+        (progn (evil-jump-item)
+               (cider-sexp-at-point bounds)))))
+
+(defun yvh/cider-eval-sexp-at-point ()
+  "Like cider-eval-sexp-at-point, but works on ending parentheses of a sexp"
+  (interactive)
+  (cider-interactive-eval (yvh/sexp-at-point)
+                          nil
+                          (yvh/sexp-at-point 'bounds)
+                          (cider--nrepl-pr-request-map)))
+
+(defun yvh/cider-eval-defun-up-to-point (&optional output-to-current-buffer)
+  (interactive "P")
+  (let* ((beg-of-defun (save-excursion (beginning-of-defun) (point)))
+         (code (buffer-substring-no-properties beg-of-defun (point)))
+         (code (concat code (cider--calculate-closing-delimiters))))
+    (cider-interactive-eval code
+                            (when output-to-current-buffer
+                              (cider-eval-print-handler))
+                            (list beg-of-defun (point))
+                            (cider--nrepl-pr-request-map))))
+
+
+(defun yvh/cider-eval-sexp-up-to-point (&optional  output-to-current-buffer)
+  (interactive "P")
+  (let* ((beg-of-sexp (save-excursion (up-list) (backward-list) (point)))
+         (beg-delimiter (save-excursion (up-list) (backward-list) (char-after)))
+         (beg-set?  (save-excursion (up-list) (backward-list) (char-before)))
+         (code (buffer-substring-no-properties beg-of-sexp (point)))
+         (code (if (= beg-set? ?#) (concat (list beg-set?) code) code))
+         (code (concat code (list (cider--matching-delimiter beg-delimiter)))))
+    (cider-interactive-eval code
+                            (when output-to-current-buffer
+                              (cider-eval-print-handler))
+                            (list beg-of-sexp (point))
+                            (cider--nrepl-pr-request-map))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Useful macros
