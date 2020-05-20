@@ -10,4 +10,5 @@ java -jar ~/bin/harvest_sync.jar \
   --harvest-access-token $token \
   --harvest-account-id $account_id \
   --default-project brightmotive%product \
-  $@
+  --week last \
+  "$@"

@@ -1,6 +1,7 @@
 # Some variables
 user_color=blue
 machine_color=magenta
+date_color=magenta
 path_color=yellow
 
 # =======
@@ -30,6 +31,13 @@ machine() {
   prompt_segment "%m" $machine_color
 }
 
+datetime() {
+  prompt_segment "on"
+  prompt_segment "$(date '+%d %b')" $date_color
+  prompt_segment "at"
+  prompt_segment $(date "+%H:%M") $date_color
+}
+
 path() {
   prompt_segment "in"
   prompt_segment "%~" $path_color
@@ -57,7 +65,7 @@ build_prompt() {
   RETVAL=$?
   echo -n "\n"
   user
-  machine
+  datetime
   path
   git_branch
 
