@@ -21,13 +21,15 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
-;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
+(setq doom-font (font-spec :family "Monaco" :size 14 :weight 'semi-light))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-solarized-light)
+(map! :leader "SPC" nil)
+(setq doom-localleader-key "SPC SPC")
+
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -72,9 +74,6 @@
 
       org-tags-column 75)
 
-;; (add-hook 'org-capture-mode-hook 'evil-insert-state)
-;;
-
 (add-hook 'org-mode-hook '(lambda () (interactive) (org-content 3)))
 (add-hook 'org-mode-hook
           (lambda ()
@@ -100,7 +99,6 @@
  "C-l" 'evil-window-right
 
  :i "C-y" 'yank
-
  :n "[ r" 'lsp-ui-find-prev-reference
  :n "] r" 'lsp-ui-find-next-reference
  :n "/"   'counsel-grep-or-swiper
@@ -113,22 +111,56 @@
 
  (:leader
   "q" 'kill-current-buffer
+  "Q" 'doom/window-maximize-buffer
   "x" 'counsel-projectile-ag
   "d" 'yvh/dired-current-dir
   "D" 'yvh/dired-project-root
   "n" '+neotree/open
   "N" '+neotree/find-this-file
-  "f f" '+ivy/projectile-find-file
-  "f o" 'counsel-find-file
+  (:prefix "f"
+   "f" '+ivy/projectile-find-file
+   "o" 'counsel-find-file)
   "c t" 'yvh/comment-as-title--bm
+  "p t" 'yvh/view-test-file-in-other-window
   (:prefix "o"
+   :desc "Capture inbox"
    "c" '(lambda () (interactive) (org-capture nil "t"))))
 
  (:prefix "g"
   :n "t" (yvh/find-file-i 'yvh/gtd-main)
   :n "i" (yvh/find-file-i 'yvh/gtd-inbox)
   :n "s" (yvh/find-file-i 'yvh/gtd-someday)
-  :n "h" (yvh/find-file-i 'yvh/org-timesheet)))
+  :n "h" (yvh/find-file-i 'yvh/org-timesheet))
+
+ ;; :leader will put them in a doom-leader map. I want leader bindings that are not localleader
+ (:localleader
+  ;; Clojure bindings
+  (:map (clojure-mode-map clojurescript-mode-map)
+   (:prefix ("e" . "eval")
+    :n "e" 'yvh/cider-eval-sexp-up-to-point
+    :n "d" 'cider-eval-defun-at-point
+    :n "b" 'cider-eval-buffer
+    :n "l" 'cider-eval-last-sexp
+    (:prefix ("p" . "print")
+     :n "d" 'cider-pprint-eval-defun-at-point
+     :n "c" 'cider-pprint-eval-defun-to-comment
+     :n "l" 'cider-eval-print-last-sexp
+     :n "p" 'cider-pprint-eval-last-sexp))
+   (:prefix "s"
+    :n "c" 'sp-convolute-sexp)
+   (:prefix ("t" . "test")
+    "l" 'cider-test-rerun-test
+    "b" 'cider-test-run-ns-tests)
+   (:prefix ("c" . "cider")
+    :n "c" 'yvh/cider-connect-local))))
+
+;; (map!
+;;  (:prefix "SPC"
+;;   ;; Clojure bindings
+;;   (:map emacs-lisp-mode-map
+;;    (:prefix ("e" . "eval")
+;;     :n "e" 'eval-last-sexp))
+;;   ))
 
 (defun save-if-code-buffer ()
   (when (buffer-file-name) (save-buffer)))
@@ -146,16 +178,19 @@
 (show-paren-mode 1)
 
 (custom-set-faces
-      '(show-paren-match ((t (:background "#0E9E97" :weight bold)))))
+ '(show-paren-match ((t (:background "#0E9E97" :weight bold)))))
+
+(after! clojure-mode
+  (dolist (word '(try-let assoc-if letsc t/do-at transform match facts fact assoc render for-all))
+    (put-clojure-indent word 1)))
 
 (setq which-key-idle-delay 0.5)
-
-(setq evil-cleverparens-use-additional-movement-keys nil
-      evil-cleverparens-use-regular-insert t)
+;; Disable flycheck lsp checker, it conflicts with kondo too much
+(setq lsp-diagnostic-package :none)
 
 (use-package! evil-cleverparens
-  :commands evil-cleverparens-mode
-  ;; :hook ((emacs-lisp-mode-hook clojure-mode-hook) . evil-cleverparens-mode)
+  :hook ((clojure-mode clojurescript-mode cider-repl-mode emacs-lisp-mode)
+         . evil-cleverparens-mode)
   :config
   ;; Evil CP overwrites "c" for change. This will re-enable "cs"
   ;; motion "change surrounding" of evil-surround
@@ -164,20 +199,7 @@
   :init
   ;; Don't use crazy bindings for {, [, } and ] from evil-cleverparens
   (setq evil-cleverparens-use-additional-movement-keys nil
-        evil-cleverparens-use-regular-insert t)
-
-  (defun yvh/enable-lisp-modes ()
-  (interactive)
-  ;; (paredit-mode)
-  (evil-cleverparens-mode))
-
-  (yhv/add-hooks #'yvh/enable-lisp-modes
-                 '(scheme-mode
-                   clojure-mode-hook
-                   clojurescript-mode-hook
-                   cider-repl-mode-hook
-                   emacs-lisp-mode-hook)))
-
+        evil-cleverparens-use-regular-insert t))
 
 (use-package! eval-sexp-fu
   :config
@@ -191,3 +213,7 @@
   (setq eval-sexp-fu-flash-duration 0.1)
 
   (use-package! cider-eval-sexp-fu))
+
+(use-package! aggressive-indent
+  :hook ((clojure-mode clojurescript-mode emacs-lisp-mode)
+         . aggressive-indent-mode))
