@@ -5,26 +5,27 @@
 (setq user-full-name "Yann Vanhalewyn"
       user-mail-address "yann.vanhalewyn@gmail.com")
 
-(setq doom-font (font-spec :family "Monaco" :size 14 :weight 'semi-light))
-(setq doom-theme 'doom-one)
+(setq doom-font (font-spec :family "Monaco" :size 14 :weight 'semi-light)
+      doom-theme 'doom-one
+      doom-leader-alt-key "C-SPC")
+(setq fill-column 81) ;; 80 is ok but this gets reset
 
 (map! :leader "SPC" nil)
 (setq doom-localleader-key "SPC SPC")
-
 
 (setq display-line-numbers-type t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ORG
 
+(setq org-directory "~/Google Drive/Documents/org")
+
 (defconst yvh/gtd-main (expand-file-name "gtd.org" org-directory))
 (defconst yvh/gtd-inbox (expand-file-name "inbox.org" org-directory))
 (defconst yvh/gtd-someday (expand-file-name "someday.org" org-directory))
 (defconst yvh/org-timesheet (expand-file-name "timesheet.org" org-directory))
 
-(setq org-directory "~/Google Drive/Documents/org"
-
-      org-refile-targets '((yvh/gtd-main :maxlevel . 1)
+(setq org-refile-targets '((yvh/gtd-main :maxlevel . 1)
                            (yvh/gtd-someday :level . 1))
 
       org-capture-templates `(("t" "Todo [inbox]" entry
@@ -33,9 +34,11 @@
 
       org-tags-column 75
       org-agenda-files `(,yvh/gtd-main ,yvh/gtd-inbox)
-      org-ellipsis "↷")
+      org-ellipsis "▼"
+      ;; org-ellipsis "↷"
+      org-todo-keywords '((sequence "TODO" "DONE")))
 
-(add-hook 'org-mode-hook '(lambda () (interactive) (org-content 3)))
+;; (add-hook 'org-mode-hook '(lambda () (interactive) (org-content 3)))
 (add-hook 'org-mode-hook
           (lambda ()
             (push '("[ ]" . "☐") prettify-symbols-alist)
@@ -45,6 +48,8 @@
             (push '("#+END_SRC" . "λ") prettify-symbols-alist)
             (prettify-symbols-mode)))
 
+
+
 (setq ivy-re-builders-alist '((counsel-ag . ivy--regex)
                               (swiper . ivy--regex-plus)
                               (t . ivy--regex-fuzzy)))
@@ -52,9 +57,7 @@
 (map!
  (:map org-mode-map
   :n "-" 'org-toggle-checkbox
-  (:localleader
-   "r" 'org-refile
-   "a" 'org-archive-subtree-default-with-confirmation)))
+  :n "RET" 'org-open-at-point))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; General
@@ -64,6 +67,10 @@
  "C-j" 'evil-window-down
  "C-k" 'evil-window-up
  "C-l" 'evil-window-right
+ :n "M-." 'dumb-jump-go
+ :n "M-," 'dumb-jump-back
+ :n "j"   'evil-next-visual-line
+ :n "k"   'evil-previous-visual-line
 
  :i "C-y" 'yank
  :n "[ r" 'lsp-ui-find-prev-reference
@@ -71,6 +78,15 @@
  :n "[ e" 'flycheck-previous-error
  :n "] e" 'flycheck-next-error
  :n "/"   'counsel-grep-or-swiper
+ :n "|"   'yvh/transpose-windows
+ ;; Disable visual mode to unlearn some bad habits.
+ :n "v" '(lambda () (interactive) (message "DON'T USE VISUAL MODE"))
+ :n "V" '(lambda () (interactive) (message "DON'T USE VISUAL MODE"))
+
+ (:map ivy-minibuffer-map
+  "<tab>" 'ivy-alt-done
+  "S-<tab>" 'ivy-insert-current
+  "S-<return>" '(lambda () (interactive) (ivy-alt-done t)))
 
  (:map smartparens-mode-map
   :n ")"   'sp-forward-slurp-sexp
@@ -80,6 +96,7 @@
 
  (:leader
   "q" 'kill-current-buffer
+  "r" 'clj-refactor-map
   "Q" 'doom/window-maximize-buffer
   "S" 'shell
   "x" 'counsel-projectile-ag
@@ -87,7 +104,13 @@
   "D" 'yvh/dired-project-root
   "n" '+neotree/open
   "N" '+neotree/find-this-file
-  (:prefix "f"
+  "R" 'yvh/chrome-reload
+  (:prefix-map ("e" . "eDiff")
+   "b" 'ediff-buffers
+   "B" 'ediff-buffers3
+   "f" 'ediff-files
+   "F" 'ediff-files3)
+  (:prefix ("f" . "file")
    "f" '+ivy/projectile-find-file
    "S" 'save-some-buffers
    "o" 'counsel-find-file
@@ -98,37 +121,11 @@
    :desc "Capture inbox"
    "c" '(lambda () (interactive) (org-capture nil "t"))))
 
- (:prefix "g"
+ (:prefix ("g" . "goto")
   :n "t" (yvh/find-file-i 'yvh/gtd-main)
   :n "i" (yvh/find-file-i 'yvh/gtd-inbox)
   :n "s" (yvh/find-file-i 'yvh/gtd-someday)
-  :n "h" (yvh/find-file-i 'yvh/org-timesheet))
-
- ;; Clojure bindings
- (:map (clojure-mode-map clojurescript-mode-map)
-  :i "C-0" 'sp-forward-slurp-sexp
-  :i "C-9" 'sp-forward-barf-sexp)
-
- ;; :leader will put them in a doom-leader map. I want leader bindings that are not localleader
- (:localleader  
-  (:map (clojure-mode-map clojurescript-mode-map)
-   (:prefix ("e" . "eval")
-    :n "e" 'yvh/cider-eval-sexp-up-to-point
-    :n "d" 'cider-eval-defun-at-point
-    :n "b" 'cider-eval-buffer
-    :n "l" 'cider-eval-last-sexp
-    (:prefix ("p" . "print")
-     :n "d" 'cider-pprint-eval-defun-at-point
-     :n "c" 'cider-pprint-eval-defun-to-comment
-     :n "l" 'cider-eval-print-last-sexp
-     :n "p" 'cider-pprint-eval-last-sexp))
-   (:prefix "s"
-    :n "c" 'sp-convolute-sexp)
-   (:prefix ("t" . "test")
-    "l" 'cider-test-rerun-test
-    "b" 'cider-test-run-ns-tests)
-   (:prefix ("r" . "repl")
-    :n "c" 'yvh/cider-connect-local))))
+  :n "h" (yvh/find-file-i 'yvh/org-timesheet)))
 
 
 (defun yvh/save-if-code-buffer ()
@@ -157,6 +154,32 @@
 ;; Disable flycheck lsp checker, it conflicts with kondo too much
 (setq lsp-diagnostic-package :none)
 
+(use-package! cider
+  :config
+  (map!
+   (:map (clojure-mode-map clojurescript-mode-map)
+    :i "C-0" 'sp-forward-slurp-sexp
+    :i "C-9" 'sp-forward-barf-sexp
+    (:localleader
+     (:prefix ("e" . "eval")
+      :n "e" 'yvh/cider-eval-sexp-up-to-point
+      :n "l" 'cider-eval-last-sexp
+      (:prefix ("p" . "pprint")
+       :n "d" 'cider-pprint-eval-defun-at-point
+       :n "c" 'cider-pprint-eval-defun-to-comment
+       :n "p" 'cider-pprint-eval-last-sexp))
+     (:prefix ("t" . "test")
+      "l" 'cider-test-rerun-test
+      "b" 'cider-test-run-ns-tests)
+     (:prefix ("r" . "repl")
+      "c" 'yvh/cider-connect-local
+      ;; TODO have entire cljr-map somewhere
+      "a m" 'cljr-add-missing-libspec
+      "t l" 'cljr-thread-last-all
+      "t f" 'cljr-thread-first-all)))))
+
+(setq +evil-want-o/O-to-continue-comments nil)
+
 (use-package! evil-cleverparens
   :hook ((clojure-mode clojurescript-mode cider-repl-mode emacs-lisp-mode)
          . evil-cleverparens-mode)
@@ -183,6 +206,18 @@
 
   (use-package! cider-eval-sexp-fu))
 
+(use-package! clj-refactor
+  :config
+  (let ((cljr-map (make-sparse-keymap)))
+    (dolist (details cljr--all-helpers)
+      (define-key cljr-map (car details) (cadr details)))
+    (map!
+     (:leader "r" cljr-map))) )
+
 (use-package! aggressive-indent
   :hook ((clojure-mode clojurescript-mode emacs-lisp-mode)
          . aggressive-indent-mode))
+
+(use-package! company
+  :config
+  (setq company-idle-delay 0))

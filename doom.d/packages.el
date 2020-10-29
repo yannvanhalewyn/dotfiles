@@ -51,6 +51,10 @@
 
 ;; Evil-snipe rebinds the 's' key, which I use to change the character at point
 (package! evil-snipe :disable t)
+;; Disable the 'jk' chord to return to normal mode
+(package! evil-escape :disable t)
+
 (package! evil-cleverparens)
 (package! eval-sexp-fu)
 (package! cider-eval-sexp-fu)
+(package! aggressive-indent)

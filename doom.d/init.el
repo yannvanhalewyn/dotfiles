@@ -13,6 +13,7 @@
 ;;
 ;;      Alternatively, press 'gd' (or 'C-c g d') on a module to browse its
 ;;      directory (for easy access to its source code).
+;;
 
 (doom! :input
        ;;chinese
@@ -53,10 +54,10 @@
        (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
-       (format +onsave)  ; automated prettiness
+       (format)          ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
-       ;;multiple-cursors  ; editing in many places at once
+       multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
        ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
@@ -65,7 +66,7 @@
 
        :emacs
        (dired +icons)             ; making dired pretty [functional]
-       electric          ; smarter, keyword-based electric-indent
+       ;;electric          ; smarter, keyword-based electric-indent
        ;;ibuffer         ; interactive buffer management
        undo              ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree
@@ -92,7 +93,7 @@
        ;;gist              ; interacting with github gists
        lookup              ; navigate your code and its documentation
        (lsp +peek)
-       ;;macos             ; MacOS-specific commands
+       macos             ; MacOS-specific commands
        magit             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
@@ -135,7 +136,7 @@
        ;;lean
        ;;factor
        ;;ledger            ; an accounting system in Emacs
-       ;;lua               ; one-based indices? one-based indices
+       lua               ; one-based indices? one-based indices
        markdown          ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
        ;;nix               ; I hereby declare "nix geht mehr!"
@@ -160,7 +161,7 @@
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
        ;;web               ; the tubes
-       ;;yaml              ; JSON, but readable
+       yaml              ; JSON, but readable
 
        :email
        ;;(mu4e +gmail)
