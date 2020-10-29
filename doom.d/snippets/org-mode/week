@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: week
+# key: week
+# --
+* `(format-time-string "%d %b")`
+** Monday
+*** $0
+** Tuesday
+** Wednesday
+** Thursday
+** Friday

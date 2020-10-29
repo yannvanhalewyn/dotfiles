@@ -1,0 +1,29 @@
+F1: Toggle HUD
+F2: Screenshot
+F4: Disable shaders
+F5: Change perspective
+F11: Toggle fullscreen (Alt tab toggle out?)
+
+F3 Commands
+===========
+
+B HitBoxes
+G ChunkBorders
+N Change Spectator / creative mode
+P Toggle Auto Pause if lost focus
+C Copy player location and rotation as TP command
+I Copy block or entity data to clipboard
+Q Help, show all commands
+H Detailed item descriptions (durability)
+F4 Gamemode switcher (F3 + F4)
+
+
+
+
+Extra's, not very useful
+------------------------
+A Reload Chunks
+T Reload textures models and sounds
+Shift Toggle profile graph and debug screen
+Alt Toggle frame time graph
+F / Shift F change render distnace

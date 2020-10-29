@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: unmap
+# key: unmap
+# --
+(ns-unmap *ns* '$0)

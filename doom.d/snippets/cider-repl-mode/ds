@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: ds
+# key: ds
+# --
+(eval `(sc.api/defsc ~(sc.api/last-ep-id)))

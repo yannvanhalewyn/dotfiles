@@ -1,0 +1,9 @@
+Programming
+===========
+
+- Fn + Right shift    Select layer
+- Fn + Right ctrl     Enter programming mode [right led blue]
+- [.]                 Press desired target key [right led flashing]
+- [....]              Pres sequence of keys to execute (limit 32)
+- Pn                  Complete step (repeat if more)
+- Fn + Right ctrl     End programming mode (or cancel during programming)
