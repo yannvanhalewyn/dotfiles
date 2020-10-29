@@ -1,7 +1,7 @@
 ---
 homebrew_taps:
   - caskroom/cask
-  - railwaycat/emacsmacport
+  - d12frosted/emacs-plus
 
 homebrew_packages:
   - ansible
@@ -17,7 +17,7 @@ homebrew_packages:
   - ctags-exuberant
   - direnv
   - docker
-  - emacs-mac
+  - emacs-plus --with-modern-icon-papirus
   - ffmpeg
   - figlet
   - gcc

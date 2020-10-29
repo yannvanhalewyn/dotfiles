@@ -128,6 +128,9 @@ alias tmpaste='reattach-to-user-namespace pbpaste'
 # Brew
 alias brews='brew list'
 alias bubu="brew update && brew upgrade --all && brew cleanup"
+alias blist="brew services list"
+alias bstart="brew services start"
+alias bstop="brew services stop"
 
 # Mysql
 alias mysqlstatus='mysqladmin -u root -p ping'
@@ -221,3 +224,5 @@ alias alias-ideas="history | awk '{a[\$2]++}END{for(i in a){print a [i] \" \" i}
 
 alias pag='ps aux | grep'
 alias flushdns='dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
+alias tw='cat ~/tailwind-classes | fzf'
+alias transit='pbpaste | jet --from transit --to edn --pretty | less'

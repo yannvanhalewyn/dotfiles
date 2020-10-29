@@ -6,7 +6,7 @@ token=$(security find-generic-password -s harvest_access_token -w)
 account_id=$(security find-generic-password -s harvest_account_id -w)
 
 java -jar ~/bin/harvest_sync.jar \
-  sync ~/Google\ Drive/Documents/timesheet.org \
+  sync ~/Google\ Drive/Documents/org/timesheet.org \
   --harvest-access-token $token \
   --harvest-account-id $account_id \
   --default-project brightmotive%product \
