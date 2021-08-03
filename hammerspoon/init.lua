@@ -1,10 +1,23 @@
+hs.window.animationDuration = 0
+
+function moveWindowToNextScreen(toEast)
+  local window = hs.window.focusedWindow()
+  local screen = window:screen()
+  if toEast then
+    screen = screen:toEast()
+  else
+    screen = screen:toWest()
+  end
+  window:moveToScreen(screen)
+end
+
 function resizeToScreen(f)
   local window = hs.window.focusedWindow()
   local screen = window:screen()
   local max = screen:frame()
 
   -- Fix Broken LCD by adding right padding
-  if screen == hs.screen.primaryScreen() then
+  if screen:name() == "Color LCD" then
     local offset = 0
 
     -- For some reason different offset is needed if we have an external display
@@ -18,7 +31,7 @@ function resizeToScreen(f)
   end
 
   local new_frame = f(window:frame(), max)
-  window:setFrame(new_frame, 0)
+  window:setFrame(new_frame)
 end
 
 --------------------------------------------------------------------------------
@@ -42,11 +55,13 @@ end)
 -- Moving between screens
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "left", function()
-    hs.window.focusedWindow():moveOneScreenWest(false, true, 0)
+    moveWindowToNextScreen(false)
+    -- hs.window.focusedWindow():moveOneScreenWest(false, true, 0)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "right", function()
-    hs.window.focusedWindow():moveOneScreenEast(false, true, 0)
+    moveWindowToNextScreen(true)
+    -- hs.window.focusedWindow():moveOneScreenEast(false, true, 0)
 end)
 
 --------------------------------------------------------------------------------
@@ -128,6 +143,17 @@ hs.hotkey.bind({"cmd", "alt"}, "3", function()
         frame.y = max.y
         frame.w = max.w / 3
         frame.h = max.h
+        return frame
+    end)
+end)
+
+-- 7 for 720p, resizes the window to fit 720p screen-recording
+hs.hotkey.bind({"cmd", "alt"}, "7", function()
+    resizeToScreen(function(frame, max)
+        frame.x = max.x + ((max.w - 1280) / 2)
+        frame.y = max.y + ((max.h - 720) / 2)
+        frame.w = 1280
+        frame.h = 720
         return frame
     end)
 end)
