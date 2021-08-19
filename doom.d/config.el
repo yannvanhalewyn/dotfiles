@@ -5,6 +5,8 @@
 (setq user-full-name "Yann Vanhalewyn"
       user-mail-address "yann.vanhalewyn@gmail.com")
 
+(setq delete-by-moving-to-trash nil)
+
 (setq doom-font (font-spec :family "Monaco" :size 14 :weight 'semi-light)
       doom-theme 'doom-one
       doom-leader-alt-key "C-SPC")
@@ -63,30 +65,32 @@
 ;; General
 
 (map!
- "C-h" 'evil-window-left
- "C-j" 'evil-window-down
- "C-k" 'evil-window-up
- "C-l" 'evil-window-right
+ :n "C-h" 'evil-window-left
+ :n "C-j" 'evil-window-down
+ :n "C-k" 'evil-window-up
+ :n "C-l" 'evil-window-right
  :n "M-." 'dumb-jump-go
  :n "M-," 'dumb-jump-back
  :n "j"   'evil-next-visual-line
  :n "k"   'evil-previous-visual-line
 
  :i "C-y" 'yank
+ :i "C-i" 'insert-char
  :n "[ r" 'lsp-ui-find-prev-reference
  :n "] r" 'lsp-ui-find-next-reference
+ ;; :n "[ e" 'flymake-goto-prev-error
+ ;; :n "] e" 'flymake-goto-next-error
  :n "[ e" 'flycheck-previous-error
  :n "] e" 'flycheck-next-error
  :n "/"   'counsel-grep-or-swiper
  :n "|"   'yvh/transpose-windows
- ;; Disable visual mode to unlearn some bad habits.
- :n "v" '(lambda () (interactive) (message "DON'T USE VISUAL MODE"))
- :n "V" '(lambda () (interactive) (message "DON'T USE VISUAL MODE"))
 
  (:map ivy-minibuffer-map
+  "<escape>" 'minibuffer-keyboard-quit
   "<tab>" 'ivy-alt-done
   "S-<tab>" 'ivy-insert-current
-  "S-<return>" '(lambda () (interactive) (ivy-alt-done t)))
+  "S-<return>" '(lambda () (interactive) (ivy-alt-done t))
+  "C-o" 'ivy-occur)
 
  (:map smartparens-mode-map
   :n ")"   'sp-forward-slurp-sexp
@@ -102,8 +106,7 @@
   "x" 'counsel-projectile-ag
   "d" 'yvh/dired-current-dir
   "D" 'yvh/dired-project-root
-  "n" '+neotree/open
-  "N" '+neotree/find-this-file
+  "n" '+neotree/find-this-file
   "R" 'yvh/chrome-reload
   (:prefix-map ("e" . "eDiff")
    "b" 'ediff-buffers
@@ -127,6 +130,8 @@
   :n "s" (yvh/find-file-i 'yvh/gtd-someday)
   :n "h" (yvh/find-file-i 'yvh/org-timesheet)))
 
+
+(setq js-indent-level 2)
 
 (defun yvh/save-if-code-buffer ()
   (when (buffer-file-name) (save-buffer)))
@@ -178,6 +183,13 @@
       "t l" 'cljr-thread-last-all
       "t f" 'cljr-thread-first-all)))))
 
+(use-package! emmet-mode
+  :config
+  (map!
+   ;; Disable annoying default keybind
+   (:map emmet-mode-keymap
+    "C-j" nil)))
+
 (setq +evil-want-o/O-to-continue-comments nil)
 
 (use-package! evil-cleverparens
@@ -221,3 +233,22 @@
 (use-package! company
   :config
   (setq company-idle-delay 0))
+
+(use-package! neotree
+  :config
+  (evil-make-overriding-map neotree-mode-map 'normal t)
+  (map!
+   (:map
+    neotree-mode-map
+    :n "q" 'neotree-hide
+    :n "d" 'neotree-delete-node
+    :n "m" 'neotree-rename-node
+    :n "c" 'neotree-copy-node
+    :n "o" 'neotree-enter
+    :n "x" (lambda () (interactive) (neotree-select-up-node) (neotree-enter))
+    :n "<tab>" 'neotree-quick-look)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Rust
+
+(setq rustic-lsp-server 'rust-analyzer)

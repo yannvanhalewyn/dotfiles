@@ -1,9 +1,8 @@
 {:user {:dependencies [[nrepl "0.6.0"]
                        [vvvvalvalval/scope-capture "0.3.2"]
-                       [acyclic/squiggly-clojure "0.1.9-SNAPSHOT"
-                        :exclusions [org.clojure/tools.reader]]]
-        :plugins [[refactor-nrepl "2.4.0"]
-                  [cider/cider-nrepl "0.22.0-beta1" ]]
+                       [vvvvalvalval/scope-capture-nrepl "0.3.1"]]
+        :plugins [[refactor-nrepl "2.5.0"]
+                  [cider/cider-nrepl "0.25.0" ]
+                  [lein-ns-dep-graph "0.2.0-SNAPSHOT"]]
         :middleware [refactor-nrepl.plugin/middleware cider-nrepl.plugin/middleware]
-        :injections [(require 'sc.api)]
-        :env {:squiggly {:checkers [:eastwood :kibit]}}}}
+        :injections [(require 'sc.api)]}}

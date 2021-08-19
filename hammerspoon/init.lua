@@ -1,3 +1,5 @@
+-- Useful docs / functions:
+-- https://www.hammerspoon.org/docs/hs.fnutils.html
 hs.window.animationDuration = 0
 
 function moveWindowToNextScreen(toEast)
@@ -171,3 +173,50 @@ end)
 --     }
 --     hs.layout.apply(windowLayout)
 -- end)
+
+
+--------------------------------------------------------------------------------
+-- Mouse button toggle
+
+function toggleButton(buttonCode)
+  return function()
+    local application = hs.application.frontmostApplication()
+    local mousePosition = hs.mouse.absolutePosition()
+    eventType = hs.eventtap.event.types[buttonCode .. "Down"]
+    event = hs.eventtap.event.newMouseEvent(eventType, mousePosition, {})
+    event:post()
+  end
+end
+
+hs.hotkey.bind({}, "f10", toggleButton("rightMouse"))
+
+function keyStrokes(strings)
+  return function()
+    -- hs.eventtap.keyStrokes is cleaner but won't submit strokes to minecraft
+    -- for some reason
+    (strings):gsub(".", function(c)
+        hs.eventtap.keyStroke({}, c)
+    end)
+  end
+end
+
+function keyStroke(to)
+  return function()
+    print("keycode", to)
+    hs.eventtap.keyStroke({}, to)
+  end
+end
+
+function all(fns)
+  return function()
+    for i, f in ipairs(fns) do
+      f()
+    end
+  end
+end
+
+hs.hotkey.bind({}, "f12", all({
+      keyStroke("/"),
+      keyStroke("up"),
+      keyStroke("return")
+}))
