@@ -13,6 +13,15 @@
   ignore_errors: true
   with_items: "{{ homebrew_packages }}"
 
+- name: Apps | Cask taps
+  homebrew_tap: name={{ item }} state=present
+  with_items: "{{ cask_taps }}"
+
+- name: Apps | Install Casks
+  homebrew_cask: name={{ item }} state=installed
+  with_items: "{{ cask_apps }}"
+  ignore_errors: true
+
 - name: Packages | Fonts
   homebrew_cask: name={{ item }} state=installed
   with_items:
