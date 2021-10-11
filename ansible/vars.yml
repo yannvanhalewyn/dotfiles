@@ -2,64 +2,50 @@
 homebrew_taps:
   - caskroom/cask
   - d12frosted/emacs-plus
+  - clojure/tools
 
 homebrew_packages:
   - ansible
   - antigen
-  - autoenv
   - awscli
-  - chamber
+  - aws-vault
   - cheat
   - cloc
   - clojure
+  - clojure-lsp
   - csvkit
-  - ctags
-  - ctags-exuberant
-  - direnv
-  - docker
-  - emacs-plus --with-modern-icon-papirus
+  - emacs-plus --with-modern-purple-flat-icon
   - ffmpeg
   - figlet
   - gcc
-  - gettext
-  - gifify
   - git
-  - gpg
   - grep
-  - hub
   - imagemagick
   - ispell
   - borkdude/brew/jet
-  - jpeg
   - jq
   - lame
   - leiningen
   - magic-wormhole
   - make
   - mit-scheme
-  - mu --with-emacs
-  - node
-  - offlineimap
-  - openssl
   - pgcli
   - pick
   - postgresql
-  - prettier
   - python
   - rbenv
   - rbenv-vars
-  - reattach-to-user-namespace
   - rename
   - rlwrap
   - ruby-build
   - sqlite
   - terminal-notifier
   - the_silver_searcher
+  - tldr
   - tmux # with-nvim-tui-color
   - tree
   - vim
   - wget
-  - yarn
   - youtube-dl
   - zsh
 
@@ -67,31 +53,24 @@ cask_taps:
   - caskroom/cask
   - caskroom/fonts
   - caskroom/versions
-  - railwaycat/emacsmacport
 
 cask_apps:
   - 1password
   - airflow
-  - airmail-beta
   - alfred
   - caffeine
-  - chromedriver
   - dropbox
-  - emacs-mac
   - google-chrome
   - google-backup-and-sync
   - gpg-suite
-  - harvest
+  - hammerspoon
   - iterm2-nightly
   - java
+  - karabiner-elements
   - skype
   - slack
-  - spectacle
   - spotify
   - steam
-  - sublime-text
   - telegram
   - the-unarchiver
   - transmission
-  - tunnelblick
-  - vlc-nightly

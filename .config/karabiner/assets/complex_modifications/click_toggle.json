@@ -1,0 +1,25 @@
+{
+  "title": "Click toggle",
+  "rules": [
+    {
+      "description": "Press F10 to toggle a mouse click [testing]",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "f10"
+          },
+          "to": [
+            {
+              "pointing_button": "button1",
+              "halt": true
+            },
+            {
+              "key_code": "w"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

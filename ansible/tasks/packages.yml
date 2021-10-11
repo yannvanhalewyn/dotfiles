@@ -18,13 +18,14 @@
   with_items:
     - font-liberation-mono-for-powerline
 
-- name: Packages | Ensure ~/.antigen exists
-  file: path={{ home }}/.antigen state=directory
+# - name: Packages | Ensure ~/.antigen exists
+#   file: path={{ home }}/.antigen state=directory
 
-- name: Packages | Install Antigen
-  get_url:
-    url: https://cdn.rawgit.com/zsh-users/antigen/v1.2.0/bin/antigen.zsh
-    dest: "{{ home }}/.antigen/antigen.zsh"
+# Using brew
+# - name: Packages | Install Antigen
+#   get_url:
+#     url: https://cdn.rawgit.com/zsh-users/antigen/v1.2.0/bin/antigen.zsh
+#     dest: "{{ home }}/.antigen/antigen.zsh"
 
 - name: Packages | Configure vim
   command: vim +PluginInstall +qall

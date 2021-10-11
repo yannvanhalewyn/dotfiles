@@ -1,37 +1,30 @@
 ---
 - name: Dotfiles | Link dotfiles
   file: src=~/dotfiles/{{ item }}
-        dest=~/.{{ item }}
+        dest=~/{{ item }}
         state=link
   with_items:
-    - lein
-    - agignore
-    - aliases
-    - bash_profile
-    - bash_prompt
-    - cheat
-    - ctags
-    - emacs.d
-    - eslintrc.json
-    - functions
-    - gemrc
-    - git_template
-    - gitconfig
-    - gitignore_global
-    - gvimrc
-    - irbrc
-    - psqlrc
-    - osx
-    - pryrc
-    - rspec
-    - rubocop.yml
-    - tmux.conf
-    - vim
-    - vimrc
-    - zsh
-    - zshrc
-
-- name: Dotfiles | Link bin
-  file: src=~/dotfiles/bin
-        dest=~/bin
-        state=link
+    - .agignore
+    - .aliases
+    - .bash_profile
+    - .bash_prompt
+    - bin
+    - .cheat
+    - .config
+    - .ctags
+    - .doom.d
+    - .eslintrc.json
+    - .functions
+    - .gemrc
+    - .gitconfig
+    - .gitignore_global
+    - .hammerspoon
+    - .lein
+    - .osx
+    - .psqlrc
+    - .sqliterc
+    - .tmux.conf
+    - .vim
+    - .vimrc
+    - .zsh
+    - .zshrc

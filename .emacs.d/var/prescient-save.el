@@ -1,0 +1,2 @@
+
+(funcall prescient-cache-callback :version (quote 5) :history (quote #s(hash-table size 65 test equal rehash-size 1.5 rehash-threshold 0.8125 data ("ivy-prescient-mode" 3 ".emacs.d/" 2 "configuration.org" 1 "env/dev/user.clj" 0))) :frequency (quote #s(hash-table size 65 test equal rehash-size 1.5 rehash-threshold 0.8125 data ("ivy-prescient-mode" 1.9672241916182993 ".emacs.d/" 0.988053892081 "configuration.org" 0.991026973 "env/dev/user.clj" 1.9910089999999998))) :serial-number (quote 6))
