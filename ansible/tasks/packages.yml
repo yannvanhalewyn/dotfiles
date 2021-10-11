@@ -1,29 +1,27 @@
 ---
 - name: Packages | Update Homebrew
-  homebrew: update_homebrew=yes upgrade_all=yes
+  community.general.homebrew: update_homebrew=yes upgrade_all=yes
 
 - name: Packages | Homebrew taps
-  homebrew_tap: name={{ item }} state=present
+  community.general.homebrew_tap: name={{ item }} state=present
   with_items: "{{ homebrew_taps }}"
 
-- name: Packages | Install Homebrew packages
-  homebrew:
-    formula: "{{ item }}"
-    state: present
-  ignore_errors: true
-  with_items: "{{ homebrew_packages }}"
-
-- name: Apps | Cask taps
-  homebrew_tap: name={{ item }} state=present
+- name: Packages | Cask taps
+  community.general.homebrew_tap: name={{ item }} state=present
   with_items: "{{ cask_taps }}"
 
-- name: Apps | Install Casks
-  homebrew_cask: name={{ item }} state=installed
+- name: Packages | Install Homebrew packages
+  community.general.homebrew: name={{ item }} state=present
+  with_items: "{{ homebrew_packages }}"
+  ignore_errors: true
+
+- name: Packages | Install Casks
+  community.general.homebrew_cask: name={{ item }} state=installed
   with_items: "{{ cask_apps }}"
   ignore_errors: true
 
 - name: Packages | Fonts
-  homebrew_cask: name={{ item }} state=installed
+  community.general.homebrew_cask: name={{ item }} state=installed
   with_items:
     - font-liberation-mono-for-powerline
 

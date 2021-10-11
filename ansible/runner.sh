@@ -14,7 +14,7 @@ fi
 
 export PATH=/usr/local/bin:$PATH
 
-if [[ ! -x /usr/local/bin/python ]]; then
+if ! command -v python &> /dev/null; then
   echo "Install python"
   brew install python
 fi
@@ -24,4 +24,5 @@ if [[ ! -x /usr/local/bin/ansible ]]; then
   brew install ansible
 fi
 
+ansible-galaxy collection install community.general
 ansible-playbook main.yml -i hosts --ask-become-pass
