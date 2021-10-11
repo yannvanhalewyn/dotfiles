@@ -1,6 +1,6 @@
 ---
 homebrew_taps:
-  - caskroom/cask
+  - homebrew/cask
   - d12frosted/emacs-plus
   - clojure/tools
 
