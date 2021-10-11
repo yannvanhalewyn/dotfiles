@@ -18,6 +18,7 @@ source /usr/local/share/antigen/antigen.zsh
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle git
+antigen bundle jump
 antigen apply
 source ~/.zsh/custom/.zsh-theme
 
@@ -64,15 +65,45 @@ export MANPAGER='less -s -M +Gg'
 
 export PATH="$HOME/bin:/usr/local/opt/grep/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
-# Disable bracketed paste feature when in emacs. This used to cause
-# unwanted chars to be printed out
-# https://github.com/syl20bnr/spacemacs/issues/3035
-if [ -n "$INSIDE_EMACS" ]; then
-    export EDITOR=emacsclient
-    unset zle_bracketed_paste  # This line
-fi
-# =====
+################################################################################
 # RBENV
-# =====
+
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 eval "$(direnv hook zsh)"
+export HOMEBREW_GITHUB_API_TOKEN=***
+
+################################################################################
+# JAVA
+
+export JAVA_8_HOME=$(/usr/libexec/java_home -v1.8)
+export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
+export JAVA_16_HOME=$(/usr/libexec/java_home -v16)
+export JAVA_HOME=$JAVA_8_HOME
+alias java8='export JAVA_HOME=$JAVA_8_HOME'
+alias java11='export JAVA_HOME=$JAVA_11_HOME'
+alias java16='export JAVA_HOME=$JAVA_16_HOME'
+
+################################################################################
+# Rust
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
+################################################################################
+# Android SDK
+
+export ANDROID_SDK="$HOME/Library/Android/sdk"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export ANDROID_AVD_HOME=~/.android/avd
+export PATH="$ANDROID_SDK/platform-tools:$PATH"
+export PATH="$ANDROID_SDK/tools:$PATH"
+export PATH="$ANDROID_SDK/tools/bin:$PATH"
+export PATH="$ANDROID_SDK/emulator/:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm

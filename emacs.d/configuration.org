@@ -1,3 +1,6 @@
+#+TITLE: Yann's emacs config
+#+SETUPFILE: /Users/yannvanhalewyn/.emacs.d/config/org_html.config
+
 * General emacs stuff
 ** Load path
 
@@ -336,8 +339,8 @@
 
    #+BEGIN_SRC emacs-lisp
      ;; (use-package kaolin-themes :config (load-theme 'kaolin-ocean t))
-     (use-package doom-themes :config (load-theme 'doom-one t) (doom-themes-neotree-config))
-     (set-face-attribute 'default nil :font "Menlo" :height 155)
+     (use-package doom-themes :config (load-theme 'doom-solarized-light t) (doom-themes-neotree-config))
+     (set-face-attribute 'default nil :font "Source Code Pro" :height 155)
    #+END_SRC
 
 ** Use rich icons
@@ -375,7 +378,7 @@
 
        (doom-modeline-def-modeline 'yvh/modeline
          '(bar matches buffer-info remote-host buffer-position selection-info)
-         '(misc-info minor-modes major-mode process vcs checker ci-status))
+         '(misc-info minor-modes major-mode mu4e process vcs checker ci-status))
 
        (defun yvh/setup-default-modeline ()
          (doom-modeline-set-modeline 'yvh/modeline 'default))
@@ -473,7 +476,7 @@
        "t" (yvh/find-file-i 'gtd-main)
        "i" (yvh/find-file-i 'gtd-inbox)
        "s" (yvh/find-file-i 'gtd-someday)
-       "h" (yvh/find-file-i "~/Google Drive/Documents/timesheet.org")
+       "h" (yvh/find-file-i "~/Google Drive/Documents/org/timesheet.org")
        "p" (yvh/find-file-i "/ssh:yann@glados:/media/drive1/"))
    #+END_SRC
 
@@ -818,6 +821,15 @@
          "C-p" 'company-select-previous))
    #+END_SRC
 
+** LSP
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package lsp-mode
+       :commands lsp
+       :config (require 'lsp-clients))
+
+     (use-package lsp-ui)
+   #+END_SRC
 ** Yasnippet
 
    #+BEGIN_SRC emacs-lisp
@@ -829,6 +841,17 @@
        (setq yas-wrap-around-region t
              yas-snippet-dirs '("~/.emacs.d/snippets"))
        (keys :states 'insert "M-<tab>" 'yas-expand)
+       ;; Use TAB to expand snippets. The code snippet below also
+       ;; avoids clashing with company-mode.
+       (advice-add 'company-complete-common
+                   :before
+                   (lambda ()
+                     (setq my-company-point (point))))
+       (advice-add 'company-complete-common
+                   :after
+                   (lambda ()
+                     (when (equal my-company-point (point))
+                       (yas-expand))))
        (keys-l "i u" 'yas-insert-snippet))
     #+END_SRC
 
@@ -1036,7 +1059,6 @@
     #+BEGIN_SRC emacs-lisp
       (use-package clojure-mode
         :diminish eldoc-mode
-        :defer t
         :init
         (defun parainbow-mode ()
           (interactive)
@@ -1225,9 +1247,7 @@
         (keys paredit-mode-map
           ")"   'paredit-forward-slurp-sexp
           "("   'paredit-forward-barf-sexp
-          "s-)" 'paredit-backward-barf-sexp
           "C-)" 'paredit-backward-barf-sexp
-          "s-(" 'paredit-backward-slurp-sexp
           "C-(" 'paredit-backward-slurp-sexp)
         (keys-l "s c" 'paredit-convolute-sexp))
     #+END_SRC
@@ -1443,7 +1463,7 @@
 
 ** CSV
 
-   #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
      (use-package csv-mode
        :defer t
        :config
@@ -1485,7 +1505,7 @@
        :config
        ;; Use own css for code snippets in export to html
        (setq org-html-htmlize-output-type 'css)
-       (defconst gtd-dir "~/Dropbox/Documents/gtd")
+       (defconst gtd-dir "~/Google Drive/Documents/org")
        (defconst gtd-main (expand-file-name "gtd.org" gtd-dir))
        (defconst gtd-inbox (expand-file-name "inbox.org" gtd-dir))
        (defconst gtd-someday (expand-file-name "someday.org" gtd-dir))
@@ -1708,6 +1728,16 @@
      ;; When viewing an email press "a" for actions, "V" to open the email
      ;; in a browser.
      (add-to-list 'mu4e-view-actions '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+   #+END_SRC
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package mu4e-alert
+       :config
+       ;; (mu4e-alert-set-default-style 'terminal-notifier)
+       ;; (mu4e-alert-enable-notifications)
+       (mu4e-alert-enable-mode-line-display)
+       (setq mu4e-alert-interesting-mail-query "flag:unread and maildir:/brightin/INBOX")
+       (keys-l "M" 'mu4e-alert-view-unread-mails))
    #+END_SRC
 
 ** SQL

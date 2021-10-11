@@ -217,6 +217,7 @@ alias yi='yarn install'
 
 alias dc='docker-compose'
 alias dclogs='docker-compose logs -f'
+alias pixel2='~/Library/Android/sdk/emulator/emulator "@Pixel_2_API_30"'
 
 # For history
 alias history='history 0'
@@ -225,4 +226,6 @@ alias alias-ideas="history | awk '{a[\$2]++}END{for(i in a){print a [i] \" \" i}
 alias pag='ps aux | grep'
 alias flushdns='dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
 alias tw='cat ~/tailwind-classes | fzf'
+alias jmp="marks | fzf |  awk '{print \$3}' | xargs -I{} cd {}"
+alias jmp="cd \$(marks | fzf |  awk '{print \$3}')"
 alias transit='pbpaste | jet --from transit --to edn --pretty | less'

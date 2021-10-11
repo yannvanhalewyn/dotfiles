@@ -17,11 +17,11 @@ export PATH=`echo ":$PATH:" | sed -e "s#:/usr/bin:#:#g" -e "s/^://" -e "s/:$//"`
 # add ~/bin /usr/local/bin and /usr/bin in that order
 export PATH="$HOME/bin:/usr/local/bin:/usr/bin:$PATH"
 
-# Load ~/.aliases, ~/.functions and ~/.profile, ~/.bash_prompt
-for file in ~/.{aliases,functions,profile,bash_prompt}; do
-  [ -r "$file" ] && source "$file"
-done
-unset file
+# # Load ~/.aliases, ~/.functions and ~/.profile, ~/.bash_prompt
+# for file in ~/.{aliases,functions,profile,bash_prompt}; do
+#   [ -r "$file" ] && source "$file"
+# done
+# unset file
 
 # Colors for 'ls' and 'grep'
 export CLICOLOR=1
@@ -34,3 +34,6 @@ export EDITOR=vim
 
 # True vim colors in neovim
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"

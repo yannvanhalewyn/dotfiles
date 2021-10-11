@@ -12,10 +12,10 @@
       doom-leader-alt-key "C-SPC")
 (setq fill-column 81) ;; 80 is ok but this gets reset
 
-(map! :leader "SPC" nil)
-(setq doom-localleader-key "SPC SPC")
+;; (map! :leader "SPC" nil)
+;; (setq doom-localleader-key "SPC SPC")
 
-(setq display-line-numbers-type t)
+(global-display-fill-column-indicator-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ORG
@@ -82,6 +82,8 @@
  ;; :n "] e" 'flymake-goto-next-error
  :n "[ e" 'flycheck-previous-error
  :n "] e" 'flycheck-next-error
+ :n "[ <space>" '+default/newline-above
+ :n "] <space>" '+default/newline-below
  :n "/"   'counsel-grep-or-swiper
  :n "|"   'yvh/transpose-windows
 
@@ -103,7 +105,7 @@
   "r" 'clj-refactor-map
   "Q" 'doom/window-maximize-buffer
   "S" 'shell
-  "x" 'counsel-projectile-ag
+  "x" 'counsel-projectile-rg
   "d" 'yvh/dired-current-dir
   "D" 'yvh/dired-project-root
   "n" '+neotree/find-this-file
@@ -113,22 +115,24 @@
    "B" 'ediff-buffers3
    "f" 'ediff-files
    "F" 'ediff-files3)
+  "b b" 'counsel-switch-buffer
   (:prefix ("f" . "file")
    "f" '+ivy/projectile-find-file
    "S" 'save-some-buffers
    "o" 'counsel-find-file
    "m" 'yvh/rename-current-buffer-file)
-  "c t" 'yvh/comment-as-title--bm
+  "c t" 'yvh/comment-as-title
   "p t" 'yvh/view-test-file-in-other-window
   (:prefix "o"
    :desc "Capture inbox"
    "c" '(lambda () (interactive) (org-capture nil "t"))))
 
  (:prefix ("g" . "goto")
-  :n "t" (yvh/find-file-i 'yvh/gtd-main)
+  :n "t" (yvh/find-file-i "~/Google Drive/Documents/org/pilloxa_timesheet.org")
   :n "i" (yvh/find-file-i 'yvh/gtd-inbox)
   :n "s" (yvh/find-file-i 'yvh/gtd-someday)
-  :n "h" (yvh/find-file-i 'yvh/org-timesheet)))
+  :n "h" (yvh/find-file-i 'yvh/org-timesheet)
+  :n "w" (lambda () (interactive) (counsel-find-file "~/Google Drive/Documents/writing/"))))
 
 
 (setq js-indent-level 2)
@@ -152,12 +156,16 @@
  '(show-paren-match ((t (:background "#0E9E97" :weight bold)))))
 
 (after! clojure-mode
-  (dolist (word '(try-let assoc-if letsc t/do-at transform match facts fact assoc render for-all))
+  (dolist (word '(try-let assoc-if assoc-some letsc t/do-at transform match facts fact assoc render for-all))
     (put-clojure-indent word 1)))
 
 (setq which-key-idle-delay 0.5)
 ;; Disable flycheck lsp checker, it conflicts with kondo too much
-(setq lsp-diagnostic-package :none)
+;; Enable for RUST, but disable for CLojure?
+;; Probably add or modify the predicate for the 'lsp checker
+;; (setq lsp-diagnostic-package :none)
+(evil-declare-not-repeat 'flycheck-next-error)
+(evil-declare-not-repeat 'flycheck-previous-error)
 
 (use-package! cider
   :config
@@ -169,6 +177,9 @@
      (:prefix ("e" . "eval")
       :n "e" 'yvh/cider-eval-sexp-up-to-point
       :n "l" 'cider-eval-last-sexp
+      :n "r" nil
+      :n "r l" 'yvh/rebl-eval-last-sexp
+      :n "r d" 'yvh/rebl-eval-defun
       (:prefix ("p" . "pprint")
        :n "d" 'cider-pprint-eval-defun-at-point
        :n "c" 'cider-pprint-eval-defun-to-comment
@@ -226,29 +237,36 @@
     (map!
      (:leader "r" cljr-map))) )
 
-(use-package! aggressive-indent
-  :hook ((clojure-mode clojurescript-mode emacs-lisp-mode)
-         . aggressive-indent-mode))
+;; Performance killer, find alternative
+;; (use-package! aggressive-indent
+;;   :hook ((clojure-mode clojurescript-mode emacs-lisp-mode)
+;;          . aggressive-indent-mode))
 
 (use-package! company
   :config
-  (setq company-idle-delay 0))
+  (setq company-idle-delay 0)
+  (map!
+   (:map company-active-map
+    "C-h" nil
+    "C-d" 'company-show-doc-buffer)))
 
 (use-package! neotree
   :config
-  (evil-make-overriding-map neotree-mode-map 'normal t)
+  ;; Necessary?
+  ;; (evil-make-overriding-map neotree-mode-map 'normal t)
   (map!
    (:map
     neotree-mode-map
-    :n "q" 'neotree-hide
-    :n "d" 'neotree-delete-node
-    :n "m" 'neotree-rename-node
     :n "c" 'neotree-copy-node
     :n "o" 'neotree-enter
     :n "x" (lambda () (interactive) (neotree-select-up-node) (neotree-enter))
     :n "<tab>" 'neotree-quick-look)))
 
+(use-package! lsp-ui
+  :config
+  (setq lsp-ui-sideline-show-code-actions nil))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rust
 
-(setq rustic-lsp-server 'rust-analyzer)
+;; (setq rustic-lsp-server 'rust-analyzer)

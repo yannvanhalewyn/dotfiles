@@ -28,6 +28,7 @@ set wildmenu                      " Showing a list of command completions
 set wildmode=longest,list,full    " get a shell like completion
 set history=200                   " More ex-commands history
 set hlsearch                      " Show what 'n' would go to
+set incsearch                     " Highlight matching search patterns while typing
 set formatoptions+=j              " remove comment chars when joining lines
 set t_ut=                         " Weird bug in Tmux where background won't fill workspace.
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1 " True gui colors in terminal
@@ -238,12 +239,13 @@ Plug 'nelstrom/vim-textobj-rubyblock', {'for': 'ruby'} " Change inside ruby {cir
 Plug 'wellle/targets.vim'                              " Some extra targets like inside next parens, etc..
 Plug 'heavenshell/vim-jsdoc', {'for': 'javascript'}    " Easy interface for adding javascript documentation.
 Plug 'tpope/vim-rails', {'for': 'ruby'}
-Plug 'AndrewRadev/splitjoin.vim'
+" Plug 'AndrewRadev/splitjoin.vim'
 
 " Layout / syntax support
 Plug 'w0rp/ale'                                        " Async linter
-Plug 'flazz/vim-colorschemes'                          " All the colorschemes of the world
-Plug 'chriskempson/base16-vim'                         " And more
+" Plug 'flazz/vim-colorschemes'                          " All the colorschemes of the world
+" Plug 'chriskempson/base16-vim'                         " And more
+Plug 'embark-theme/vim', { 'as': 'embark' }            " Another great colorscheme"
 Plug 'mustache/vim-mustache-handlebars'                " Syntax for handlebars/mustache
 Plug 'junegunn/vim-easy-align'                         " Aligning stuff
 Plug 'Keithbsmiley/rspec.vim', {'for': 'ruby'}         " RSPEC syntax higlighting
@@ -347,8 +349,9 @@ if has('nvim')
   au VimEnter * AirlineTheme dark
 else
   au VimEnter * set background=dark
-  au VimEnter * colorscheme jellybeans
-  au VimEnter * AirlineTheme base16
+  au VimEnter * colorscheme embark
+  let g:embark_terminal_italics = 1
+  " au VimEnter * AirlineTheme base16
 endif
 
 "/* My favorite colorschemes
@@ -356,6 +359,7 @@ endif
 
 " colorscheme jellybeans
 " colorscheme solarized
+" colorscheme base16-ocean
 " colorscheme base16-chalk
 " colorscheme base16-aterlierdune set bg=dark
 " colorscheme candyman

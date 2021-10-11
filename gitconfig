@@ -14,6 +14,10 @@
         tool = nvimdiff
 [difftool "nvimdiff"]
   cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+[diff "lisp"]
+  xfuncname = "^(\\(.*)$"
+[diff "org"]
+  xfuncname = "^(\\*+ +.*)$"
 [pull]
         rebase = true
 [difftool]
@@ -33,3 +37,5 @@
         pushDefault = origin
 [rebase]
 	autoStash = true
+[credential]
+	helper = osxkeychain

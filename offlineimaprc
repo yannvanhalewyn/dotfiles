@@ -10,7 +10,7 @@ fsync = false
 localrepository = GmailLocal
 remoterepository = GmailRemote
 autorefresh = 1
-postsynchook = pkill -2 -u $UID mu; sleep 1; mu index --maildir ~/mail
+postsynchook = pkill -2 -u $UID mu; sleep 1; mu index --maildir ~/mail; emacsclient -e "(mu4e-alert-update-mail-count-modeline)"
 
 # Don't check all the flags to know if there is a need for sync. Only
 # do so every x shallow checks with the remote server.

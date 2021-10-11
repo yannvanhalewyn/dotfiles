@@ -58,3 +58,4 @@
 (package! eval-sexp-fu)
 (package! cider-eval-sexp-fu)
 (package! aggressive-indent)
+(package! zprint-mode)

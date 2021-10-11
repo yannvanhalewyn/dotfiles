@@ -190,6 +190,13 @@ root, or asks for a repl port to connect form anywhere."
 
 (defun yvh/comment-as-title ()
   (interactive)
+  (forward-line -1)
+  (newline)
+  (insert-char (string-to-char sp-comment-char) 80)
+  (move-beginning-of-line nil))
+
+(defun yvh/comment-as-title--underline ()
+  (interactive)
   (move-beginning-of-line 1)
   (kill-line)
   (yank)
@@ -200,13 +207,6 @@ root, or asks for a repl port to connect form anywhere."
   (forward-word)
   (backward-word)
   (replace-regexp "." "=" nil (point) (line-end-position)))
-
-(defun yvh/comment-as-title--bm()
-  (interactive)
-  (forward-line -1)
-  (newline)
-  (insert-char ?\; 81)
-  (move-beginning-of-line nil))
 
 (defun yvh/yank-from-revision-buffer ()
   "Revision buffers are full of \+ and \- characters at the beginning
@@ -333,6 +333,23 @@ next-actions in GTD"
                               (cider-eval-print-handler))
                             (list beg-of-sexp (point))
                             (cider--nrepl-pr-request-map))))
+
+(defun yvh/rebl-eval (s bounds)
+  (let* ((reblized (concat "(cognitect.rebl/inspect " s ")")))
+    (cider-interactive-eval reblized nil bounds (cider--nrepl-print-request-map))))
+
+(defun yvh/rebl-eval-last-sexp ()
+  (interactive)
+  (yvh/rebl-eval (cider-last-sexp) (cider-last-sexp 'bounds)))
+
+(defun yvh/rebl-eval-defun ()
+  (interactive)
+  (yvh/rebl-eval (cider-defun-at-point) (cider-defun-at-point 'bounds)))
+
+(defun yvh/launch-rebl-ui ()
+  (interactive)
+  (cider-interactive-eval
+   "(cognitect.rebl/ui)" nil (cider-last-sexp 'bounds) (cider--nrepl-print-request-map)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Useful macros

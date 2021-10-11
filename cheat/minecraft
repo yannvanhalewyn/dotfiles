@@ -16,6 +16,10 @@ I Copy block or entity data to clipboard
 Q Help, show all commands
 H Detailed item descriptions (durability)
 F4 Gamemode switcher (F3 + F4)
+T Reload textures models and sounds
+
+TIP: F3 + T while holding a mouse click will lock the input after reloading.
+Useful for AFK farms like simple concrete makers.
 
 
 
@@ -23,7 +27,6 @@ F4 Gamemode switcher (F3 + F4)
 Extra's, not very useful
 ------------------------
 A Reload Chunks
-T Reload textures models and sounds
 Shift Toggle profile graph and debug screen
 Alt Toggle frame time graph
 F / Shift F change render distnace
