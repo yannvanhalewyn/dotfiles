@@ -10,19 +10,28 @@
   community.general.homebrew_tap: name={{ item }} state=present
   with_items: "{{ cask_taps }}"
 
-- name: Packages | Install Homebrew packages
-  community.general.homebrew: name={{ item }} state=present
-  with_items: "{{ homebrew_packages }}"
-  ignore_errors: true
+# - name: Packages | Install Homebrew packages
+#   community.general.homebrew: name={{ item }} state=present
+#   with_items: "{{ homebrew_packages }}"
+#   ignore_errors: true
+#   register: homebrew_package
+
+# - debug: msg="{{ homebrew_package.stdout }}"
+# - debug: msg="{{ homebrew_package.stderr }}"
 
 - name: Packages | Install Casks
   community.general.homebrew_cask: name={{ item }} state=installed
   with_items: "{{ cask_apps }}"
   ignore_errors: true
+  register: homebrew_cask
+
+# - debug: msg="{{ homebrew_cask.stdout }}"
+# - debug: msg="{{ homebrew_cask.stderr }}"
 
 - name: Packages | Fonts
   community.general.homebrew_cask: name={{ item }} state=installed
   with_items:
+    - svn # Font formula depends on it.
     - font-liberation-mono-for-powerline
 
 # - name: Packages | Ensure ~/.antigen exists
@@ -34,5 +43,3 @@
 #     url: https://cdn.rawgit.com/zsh-users/antigen/v1.2.0/bin/antigen.zsh
 #     dest: "{{ home }}/.antigen/antigen.zsh"
 
-- name: Packages | Configure vim
-  command: vim +PluginInstall +qall

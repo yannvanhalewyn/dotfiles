@@ -1,7 +1,4 @@
 ---
-- name: Shell | Install zsh
-  homebrew: name=zsh state=present
-
 - name: Shell | Ensure {{ shell }} is in /etc/shells
   lineinfile: dest=/etc/shells line={{ shell }} state=present owner=root group=wheel mode=0644
   become: true

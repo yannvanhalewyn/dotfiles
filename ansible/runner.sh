@@ -25,4 +25,4 @@ if [[ ! -x /usr/local/bin/ansible ]]; then
 fi
 
 ansible-galaxy collection install community.general
-ansible-playbook main.yml -i hosts --ask-become-pass
+ansible-playbook -v -i hosts --ask-become-pass main.yml 

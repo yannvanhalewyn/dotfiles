@@ -1,13 +1,15 @@
 ---
 - hosts: localhost
   user: "{{ lookup('env', 'USER') }}"
+  become: yes
   connection: local
   tasks:
-    - include: tasks/packages.yml
-    - include: tasks/databases.yml
-    - include: tasks/dotfiles.yml
     - include: tasks/shell.yml
-    - include: tasks/config.yml
+    # - include: tasks/packages.yml
+    # - include: tasks/databases.yml
+    # - include: tasks/editors.yml
+    # - include: tasks/dotfiles.yml
+    # - include: tasks/config.yml
   vars_files:
     - vars.yml
   vars:

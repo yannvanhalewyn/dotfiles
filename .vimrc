@@ -348,9 +348,13 @@ if has('nvim')
   au VimEnter * set background=dark
   au VimEnter * AirlineTheme dark
 else
+  au VimEnter * colorscheme base16-ocean
   au VimEnter * set background=dark
-  au VimEnter * colorscheme embark
-  let g:embark_terminal_italics = 1
+  au VimEnter * AirlineTheme dark
+
+  " au VimEnter * set backgrouj
+  " au VimEnter * colorscheme embark
+  " let g:embark_terminal_italics = 1
   " au VimEnter * AirlineTheme base16
 endif
 

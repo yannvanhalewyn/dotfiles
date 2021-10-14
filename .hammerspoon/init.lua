@@ -15,25 +15,11 @@ end
 
 function resizeToScreen(f)
   local window = hs.window.focusedWindow()
-  local screen = window:screen()
-  local max = screen:frame()
+  local frame = hs.window.focusedWindow():frame()
+  local max = hs.window.focusedWindow():screen():frame()
 
-  -- Fix Broken LCD by adding right padding
-  if screen:name() == "Color LCD" then
-    local offset = 0
-
-    -- For some reason different offset is needed if we have an external display
-    -- connected
-    if #hs.screen.allScreens() > 1
-    then offset = 154
-    else offset = 180
-    end
-
-    max.w = max.w - offset
-  end
-
-  local new_frame = f(window:frame(), max)
-  window:setFrame(new_frame)
+  local new_frame = f(frame, max)
+  hs.window.focusedWindow():setFrame(new_frame)
 end
 
 --------------------------------------------------------------------------------

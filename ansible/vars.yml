@@ -1,8 +1,11 @@
 ---
 homebrew_taps:
-  - homebrew/cask
   - d12frosted/emacs-plus
   - clojure/tools
+
+cask_taps:
+  - homebrew/cask-fonts
+  - homebrew/cask-versions
 
 homebrew_packages:
   - ansible
@@ -14,7 +17,7 @@ homebrew_packages:
   - clojure
   - clojure-lsp
   - csvkit
-  - emacs-plus --with-modern-purple-flat-icon
+  - emacs-plus # --with-modern-purple-flat-icon
   - ffmpeg
   - figlet
   - gcc
@@ -23,6 +26,7 @@ homebrew_packages:
   - imagemagick
   - ispell
   - borkdude/brew/jet
+  - java11
   - jq
   - lame
   - leiningen
@@ -36,6 +40,7 @@ homebrew_packages:
   - rbenv
   - rbenv-vars
   - rename
+  - ripgrep
   - rlwrap
   - ruby-build
   - sqlite
@@ -47,12 +52,6 @@ homebrew_packages:
   - vim
   - wget
   - youtube-dl
-  - zsh
-
-cask_taps:
-  - caskroom/cask
-  - caskroom/fonts
-  - caskroom/versions
 
 cask_apps:
   - 1password
@@ -61,11 +60,10 @@ cask_apps:
   - caffeine
   - dropbox
   - google-chrome
-  - google-backup-and-sync
+  - google-drive
   - gpg-suite
   - hammerspoon
   - iterm2-nightly
-  - java
   - karabiner-elements
   - skype
   - slack
@@ -74,3 +72,4 @@ cask_apps:
   - telegram
   - the-unarchiver
   - transmission
+  - adoptopenjdk/openjdk/adoptopenjdk8
