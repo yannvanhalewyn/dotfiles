@@ -10,6 +10,7 @@
     - .bash_prompt
     - bin
     - .cheat
+    - .clojure
     - .config
     - .ctags
     - .doom.d
