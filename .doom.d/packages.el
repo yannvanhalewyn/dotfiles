@@ -59,3 +59,4 @@
 (package! cider-eval-sexp-fu)
 (package! aggressive-indent)
 (package! zprint-mode)
+(package! groovy-mode)

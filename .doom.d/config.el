@@ -57,6 +57,12 @@
                               (swiper . ivy--regex-plus)
                               (t . ivy--regex-fuzzy)))
 
+(setq ivy-sort-matches-functions-alist
+      '((t . nil)
+        (projectile-find-file . ivy--shorter-matches-first)
+        (ivy-completion-in-region . ivy--shorter-matches-first)
+        (ivy-switch-buffer . ivy-sort-function-buffer)))
+
 (map!
  (:map org-mode-map
   :n "-" 'org-toggle-checkbox
@@ -74,7 +80,7 @@
  :n "M-," 'dumb-jump-back
  :n "j"   'evil-next-visual-line
  :n "k"   'evil-previous-visual-line
-
+ :i "M-<tab>" 'yas-expand
  :i "C-y" 'yank
  :i "C-i" 'insert-char
  :n "[ r" 'lsp-ui-find-prev-reference
@@ -123,13 +129,15 @@
    "o" 'counsel-find-file
    "m" 'yvh/rename-current-buffer-file)
   "c t" 'yvh/comment-as-title
+  "c r" 'lsp-ui-peek-find-references
+  "c R" 'lsp-rename
   "p t" 'yvh/view-test-file-in-other-window
   (:prefix "o"
    :desc "Capture inbox"
    "c" '(lambda () (interactive) (org-capture nil "t"))))
 
  (:prefix ("g" . "goto")
-  :n "t" (yvh/find-file-i "~/Google Drive/Documents/org/pilloxa_timesheet.org")
+  :n "t" (yvh/find-file-i "~/Google Drive/My Drive/Documents/org/pilloxa_timesheet.org")
   :n "i" (yvh/find-file-i 'yvh/gtd-inbox)
   :n "s" (yvh/find-file-i 'yvh/gtd-someday)
   :n "h" (yvh/find-file-i 'yvh/org-timesheet)
@@ -253,8 +261,6 @@
 
 (use-package! neotree
   :config
-  ;; Necessary?
-  ;; (evil-make-overriding-map neotree-mode-map 'normal t)
   (map!
    (:map
     neotree-mode-map
@@ -266,6 +272,9 @@
 (use-package! lsp-ui
   :config
   (setq lsp-ui-sideline-show-code-actions nil))
+
+(use-package! groovy-mode
+  :defer t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rust

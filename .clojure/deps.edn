@@ -3,11 +3,20 @@
              "cognitect-dev-tools" {:url "https://dev-tools.cognitect.com/maven/releases/"}}
 
  :aliases
- {:cider-nrepl
-  {:extra-deps {refactor-nrepl/refactor-nrepl {:mvn/version "2.5.1"}
+ {:dev
+  {:extra-deps {refactor-nrepl/refactor-nrepl {:mvn/version "3.2.2"}
                 vvvvalvalval/scope-capture {:mvn/version "0.3.2"}
                 vvvvalvalval/scope-capture-nrepl {:mvn/version "0.3.1"}
-                cider/cider-nrepl {:mvn/version "0.26.0"}}
+                cider/cider-nrepl {:mvn/version "0.27.2"}}
+   :main-opts ["-m" "nrepl.cmdline"
+               "--middleware"
+               "[refactor-nrepl.middleware/wrap-refactor,cider.nrepl/cider-middleware]"]}
+
+  :cider-nrepl
+  {:extra-deps {refactor-nrepl/refactor-nrepl {:mvn/version "3.2.2"}
+                vvvvalvalval/scope-capture {:mvn/version "0.3.2"}
+                vvvvalvalval/scope-capture-nrepl {:mvn/version "0.3.1"}
+                cider/cider-nrepl {:mvn/version "0.27.2"}}
    :main-opts ["-m" "nrepl.cmdline"
                "--middleware"
                "[refactor-nrepl.middleware/wrap-refactor,cider.nrepl/cider-middleware]"]}
@@ -28,4 +37,9 @@
                       org.openjfx/javafx-swing    {:mvn/version "15-ea+6"}
                       org.openjfx/javafx-base     {:mvn/version "15-ea+6"}
                       org.openjfx/javafx-web      {:mvn/version "15-ea+6"}}
-         :main-opts ["-m" "cognitect.rebl"]}}}
+         :main-opts ["-m" "cognitect.rebl"]}
+
+  :new {:extra-deps {com.github.seancorfield/clj-new
+                     {:mvn/version "1.2.381"}}
+        :exec-fn clj-new/create
+        :exec-args {:template "app"}}}}

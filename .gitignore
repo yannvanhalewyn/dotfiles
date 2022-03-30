@@ -28,3 +28,8 @@
 .lein/repl-history
 .emacs.d/tramp
 .config/iterm2/
+/.clojure/.cpcache/
+/.config/configstore/
+/.config/gh/
+/.config/pgcli/log
+/.config/yarn/

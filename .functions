@@ -254,6 +254,10 @@ function gh_diff() {
   git diff "$1"...HEAD
 }
 
+function git_date() {
+  git rev-list -n 1 --first-parent --before="$1 23:59" master
+}
+
 function tomp3() {
  ffmpeg -i $1 -vn -ar 44100 -ac 2 -ab 192k -f mp3 $2
 }
