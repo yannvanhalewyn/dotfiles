@@ -4,14 +4,13 @@
   become: yes
   connection: local
   tasks:
-    - include: tasks/shell.yml
-    # - include: tasks/packages.yml
-    # - include: tasks/databases.yml
+    # - include: tasks/shell.yml
     # - include: tasks/editors.yml
-    # - include: tasks/dotfiles.yml
-    # - include: tasks/config.yml
+    - include: tasks/dotfiles.yml
+    # - include: tasks/osx_defaults.yml
   vars_files:
     - vars.yml
   vars:
     shell: "/usr/local/bin/zsh"
+    user: "{{ lookup('env','USER') }}"
     home: "{{ lookup('env','HOME') }}"

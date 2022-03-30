@@ -348,7 +348,7 @@ if has('nvim')
   au VimEnter * set background=dark
   au VimEnter * AirlineTheme dark
 else
-  au VimEnter * colorscheme base16-ocean
+  au VimEnter * colorscheme monokai
   au VimEnter * set background=dark
   au VimEnter * AirlineTheme dark
 

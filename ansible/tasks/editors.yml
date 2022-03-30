@@ -1,7 +1,4 @@
 ---
-#- name: Editors | Configure vim
-#  command: vim +PluginInstall +qall
-
 - name: Editors | Clone Doom
   ansible.builtin.git:
       repo: https://github.com/hlissner/doom-emacs
@@ -12,4 +9,4 @@
     msg: "To follow logs use: tail -f doom-install.log"
 
 - name: Editors | Install Doom
-  ansible.builtin.shell: ~/emacs.d/bin/doom sync >> doom-install.log
+  ansible.builtin.shell: ~/emacs.d/bin/doom install >> doom-install.log

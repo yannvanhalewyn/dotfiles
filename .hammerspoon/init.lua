@@ -115,6 +115,16 @@ hs.hotkey.bind({"cmd", "alt"}, "1", function()
     end)
 end)
 
+hs.hotkey.bind({"cmd", "alt", "shift"}, "1", function()
+    resizeToScreen(function(frame, max)
+        frame.x = max.x
+        frame.y = max.y
+        frame.w = max.w * 2 / 3
+        frame.h = max.h
+        return frame
+    end)
+end)
+
 hs.hotkey.bind({"cmd", "alt"}, "2", function()
     resizeToScreen(function(frame, max)
         frame.x = max.x + (max.w / 3)
@@ -134,6 +144,17 @@ hs.hotkey.bind({"cmd", "alt"}, "3", function()
         return frame
     end)
 end)
+
+hs.hotkey.bind({"cmd", "alt", "shift"}, "3", function()
+    resizeToScreen(function(frame, max)
+        frame.x = max.x + (max.w / 3)
+        frame.y = max.y
+        frame.w = max.w * 2 / 3
+        frame.h = max.h
+        return frame
+    end)
+end)
+
 
 -- 7 for 720p, resizes the window to fit 720p screen-recording
 hs.hotkey.bind({"cmd", "alt"}, "7", function()

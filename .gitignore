@@ -27,3 +27,4 @@
 .emacs.d/places
 .lein/repl-history
 .emacs.d/tramp
+.config/iterm2/

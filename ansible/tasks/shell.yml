@@ -1,7 +1,7 @@
 ---
 - name: Shell | Ensure {{ shell }} is in /etc/shells
   lineinfile: dest=/etc/shells line={{ shell }} state=present owner=root group=wheel mode=0644
-  become: true
+  become: yes
 
 - name: Shell | Checking for current user shell
   shell: dscl . read ~ UserShell | awk '{print $2}'
@@ -9,6 +9,8 @@
   changed_when: false
 
 - name: Shell | Making zsh active shell
-  shell: chsh -s {{ osx_login_shell }}
-  become: no
+  become: yes
+  user:
+    name: "{{ user }}"
+    shell: "{{ shell }}"
   when: osx_login_shell_current_login_shell.stdout != "{{ shell }}"

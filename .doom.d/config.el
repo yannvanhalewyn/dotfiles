@@ -53,6 +53,7 @@
 
 
 (setq ivy-re-builders-alist '((counsel-ag . ivy--regex)
+                              (counsel-rg . ivy--regex)
                               (swiper . ivy--regex-plus)
                               (t . ivy--regex-fuzzy)))
 

@@ -1,0 +1,47 @@
+- name: Config | OSX | Finder - Default finder location
+  community.general.osx_defaults: domain=com.apple.finder key=NewWindowTargetPath type=string value=file://${HOME}
+
+# - name: Config | OSX | Show battery percentage
+#   osx_defaults: domain=com.apple.menuextra.battery key=ShowPercent value=YES
+
+- name: Config | OSX | Finder - Search from current folder
+  community.general.osx_defaults: domain=com.apple.finder key=FXDefaultSearchScope type=string value=SCcf
+
+- name: Config | OSX | Finder default to list view
+  community.general.osx_defaults: domain=com.apple.finder key=FXPreferredViewStyle value=kNlsvk
+
+- name: Config | OSX | Finder show path bar
+  community.general.osx_defaults: domain=com.apple.finder key=ShowPathbar type=bool value=true
+
+- name: Config | OSX | Disable rich text in text-edit
+  community.general.osx_defaults: domain=com.apple.TextEdit key=RichText type=int value=0
+
+# - name: Config | OSX | Disable Dock Hide delay
+#   osx_defaults: domain=com.apple.Dock key=autohide-delay type=float value=0
+
+# - name: Config | OSX | Hide Dock
+#   osx_defaults: domain=com.apple.dock key=autohide type=bool value=true
+
+# - name: Config | OSX | Disable opening application warnings
+#   osx_defaults: domain=com.apple.LaunchServices key=LSQuarantine type=bool value=false
+
+# - name: Config | OSX | Disable rearranging spaces based on most recent use
+#   osx_defaults: domain=com.apple.dock key=mru-spaces type=bool value=false
+
+# - name: Config | OSX | Disable warning when changing file extension
+#   osx_defaults: domain=com.apple.finder key=FXEnableExtensionChangeWarning type=bool value=false
+
+- name: Config | OSX | Enable developer menu in Safari
+  community.general.osx_defaults: domain=com.apple.Safari key=IncludeDevelopMenu type=bool value=true
+
+# - name: Config | OSX | Prevent Time Machine from prompting to use new hard drives as backup volume
+#   osx_defaults: domain=com.apple.TimeMachine key=DoNotOfferNewDisksForBackup type=bool value=true
+
+- name: Config | OSX | Blazingly fast key repeat
+  community.general.osx_defaults: domain=NSGlobalDomain key=KeyRepeat type=int value=1
+
+- name: Config | OSX | Initial key repeat
+  community.general.osx_defaults: domain=NSGlobalDomain key=InitialKeyRepeat type=int value=10
+
+- name: Config | Restart Finder, Dock and UI
+  command: killall Finder && killall Dock && killall SystemUIServer
