@@ -3,20 +3,15 @@
              "cognitect-dev-tools" {:url "https://dev-tools.cognitect.com/maven/releases/"}}
 
  :aliases
- {:dev
+ {:local-dev
   {:extra-deps {refactor-nrepl/refactor-nrepl {:mvn/version "3.2.2"}
                 vvvvalvalval/scope-capture {:mvn/version "0.3.2"}
                 vvvvalvalval/scope-capture-nrepl {:mvn/version "0.3.1"}
-                cider/cider-nrepl {:mvn/version "0.27.2"}}
-   :main-opts ["-m" "nrepl.cmdline"
-               "--middleware"
-               "[refactor-nrepl.middleware/wrap-refactor,cider.nrepl/cider-middleware]"]}
+                cider/cider-nrepl {:mvn/version "0.27.2"}}}
 
   :cider-nrepl
-  {:extra-deps {refactor-nrepl/refactor-nrepl {:mvn/version "3.2.2"}
-                vvvvalvalval/scope-capture {:mvn/version "0.3.2"}
-                vvvvalvalval/scope-capture-nrepl {:mvn/version "0.3.1"}
-                cider/cider-nrepl {:mvn/version "0.27.2"}}
+  {:extra-deps {cider/cider-nrepl {:mvn/version "0.29.0"}
+                refactor-nrepl/refactor-nrepl {:mvn/version "3.6.0"}}
    :main-opts ["-m" "nrepl.cmdline"
                "--middleware"
                "[refactor-nrepl.middleware/wrap-refactor,cider.nrepl/cider-middleware]"]}

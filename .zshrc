@@ -105,6 +105,7 @@ export PATH="$ANDROID_SDK/emulator/:$PATH"
 export PATH="$HOME/.emacs.d/bin:$PATH"     # Doom cli
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

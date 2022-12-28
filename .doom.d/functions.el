@@ -267,9 +267,10 @@ next-actions in GTD"
   (if (> (length (window-list)) 2)
       (error "Can't toggle with more than 2 windows!")
     (let ((func (if (window-full-height-p)
-                    #'split-window-horizontally
-                  #'split-window-vertically)))
+                    #'split-window-vertically
+                  #'split-window-horizontally)))
       (delete-other-windows)
+
       (funcall func)
       (save-selected-window
         (other-window 1)

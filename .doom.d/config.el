@@ -7,13 +7,13 @@
 
 (setq delete-by-moving-to-trash nil)
 
-(setq doom-font (font-spec :family "Monaco" :size 14 :weight 'semi-light)
+(setq doom-font (font-spec :family "Fira Code" :size 16)
       doom-theme 'doom-one
       doom-leader-alt-key "C-SPC")
 (setq fill-column 81) ;; 80 is ok but this gets reset
 
 ;; (map! :leader "SPC" nil)
-;; (setq doom-localleader-key "SPC SPC")
+(setq doom-localleader-key ",")
 
 (global-display-fill-column-indicator-mode)
 
@@ -60,6 +60,7 @@
 (setq ivy-sort-matches-functions-alist
       '((t . nil)
         (projectile-find-file . ivy--shorter-matches-first)
+        (+ivy/projectile-find-file . ivy--shorter-matches-first)
         (ivy-completion-in-region . ivy--shorter-matches-first)
         (ivy-switch-buffer . ivy-sort-function-buffer)))
 
@@ -91,6 +92,8 @@
  :n "] e" 'flycheck-next-error
  :n "[ <space>" '+default/newline-above
  :n "] <space>" '+default/newline-below
+ :n "[ <tab>" '+fold/close-all
+ :n "] <tab>" '+fold/open-all
  :n "/"   'counsel-grep-or-swiper
  :n "|"   'yvh/transpose-windows
 
@@ -108,6 +111,7 @@
   :n "s-(" 'sp-backward-slurp-sexp)
 
  (:leader
+  "SPC" 'counsel-fzf
   "q" 'kill-current-buffer
   "r" 'clj-refactor-map
   "Q" 'doom/window-maximize-buffer
@@ -122,15 +126,19 @@
    "B" 'ediff-buffers3
    "f" 'ediff-files
    "F" 'ediff-files3)
-  "b b" 'counsel-switch-buffer
+  ;; "b b" 'counsel-switch-buffer
   (:prefix ("f" . "file")
    "f" '+ivy/projectile-find-file
+   ;; "f" 'counsel-fzf
    "S" 'save-some-buffers
    "o" 'counsel-find-file
    "m" 'yvh/rename-current-buffer-file)
+  "b a" 'persp-add-buffer
+  "c d" 'lsp-ui-doc-show ;; 'code doc'
   "c t" 'yvh/comment-as-title
   "c r" 'lsp-ui-peek-find-references
   "c R" 'lsp-rename
+  "t s" 'flyspell-mode
   "p t" 'yvh/view-test-file-in-other-window
   (:prefix "o"
    :desc "Capture inbox"
@@ -196,8 +204,9 @@
      (:prefix ("t" . "test")
       "l" 'cider-test-rerun-test
       "b" 'cider-test-run-ns-tests)
-     (:prefix ("r" . "repl")
-      "c" 'yvh/cider-connect-local
+     (:prefix ("r" . "repl / refactor")
+      ;; "c" nil
+      ;; "c n" 'cljr-clean-ns
       ;; TODO have entire cljr-map somewhere
       "a m" 'cljr-add-missing-libspec
       "t l" 'cljr-thread-last-all
@@ -209,6 +218,15 @@
    ;; Disable annoying default keybind
    (:map emmet-mode-keymap
     "C-j" nil)))
+
+(use-package! markdown-mode
+  :config
+  (map!
+   (:map markdown-mode-map
+    :n "C-c <space>" 'markdown-table-align
+    (:localleader
+     (:prefix ("t" . "align")
+      :n "a" 'markdown-table-align)))))
 
 (setq +evil-want-o/O-to-continue-comments nil)
 
