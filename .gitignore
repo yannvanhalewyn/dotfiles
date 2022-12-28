@@ -33,3 +33,5 @@
 /.config/gh/
 /.config/pgcli/log
 /.config/yarn/
+/.clj-kondo/.cache/v1/lock
+/.lsp/.cache/
