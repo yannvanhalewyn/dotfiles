@@ -269,8 +269,54 @@
   :config
   (setq lsp-ui-sideline-show-code-actions nil))
 
-(use-package! groovy-mode
-  :defer t)
+(use-package! git-link
+  :defer t
+  :config
+  (setq git-link-open-in-browser t))
+
+(use-package popper
+  :config
+  (map!
+   "M-p" 'popper-toggle-latest
+   "M-P" 'popper-cycle
+   (:leader "t p" 'popper-toggle-type))
+
+  ;; Disable conflicting bindings in cider repl
+  (map!
+   :map cider-repl-mode-map
+   "M-p" nil
+   "M-P" nil)
+
+  :init
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$"
+          "\\*Async Shell Command\\*"
+          "\\*xref\\*"
+          "\\*rg\\*"
+          "\\*cider-test-report\\*"
+          "\\*cider-error\\*"
+          "\\*cider-result\\*"
+          "\\*cider-repl.*"
+          "\\*Embark Export:.*"
+          "\\*Backtrace\\*"
+          "\\*helpful.*"
+          "\\*ert\\*"
+          "\\*ivy-occur.*"
+          help-mode
+          compilation-mode))
+
+  (defun yvh/popper-height (win)
+    (fit-window-to-buffer
+     win
+     (floor (frame-height) 2)
+     (floor (frame-height) 3)))
+
+  (setq popper-window-height #'yvh/popper-height)
+
+  (popper-mode +1)
+  (popper-echo-mode +1))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rust
