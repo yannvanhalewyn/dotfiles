@@ -30,20 +30,6 @@
             (push '("#+END_SRC" . "λ") prettify-symbols-alist)
             (prettify-symbols-mode)))
 
-
-
-(setq ivy-re-builders-alist '((counsel-ag . ivy--regex)
-                              (counsel-rg . ivy--regex)
-                              (swiper . ivy--regex-plus)
-                              (t . ivy--regex-fuzzy)))
-
-(setq ivy-sort-matches-functions-alist
-      '((t . nil)
-        (projectile-find-file . ivy--shorter-matches-first)
-        (+ivy/projectile-find-file . ivy--shorter-matches-first)
-        (ivy-completion-in-region . ivy--shorter-matches-first)
-        (ivy-switch-buffer . ivy-sort-function-buffer)))
-
 (map!
  (:map org-mode-map
   :n "-" 'org-toggle-checkbox
@@ -74,15 +60,8 @@
  :n "] <space>" '+default/newline-below
  :n "[ <tab>" '+fold/close-all
  :n "] <tab>" '+fold/open-all
- :n "/"   'counsel-grep-or-swiper
+ :n "/"   'consult-line
  :n "|"   'yvh/transpose-windows
-
- (:map ivy-minibuffer-map
-  "<escape>" 'minibuffer-keyboard-quit
-  "<tab>" 'ivy-alt-done
-  "S-<tab>" 'ivy-insert-current
-  "S-<return>" '(lambda () (interactive) (ivy-alt-done t))
-  "C-o" 'ivy-occur)
 
  (:map smartparens-mode-map
   :n ")"   'sp-forward-slurp-sexp
@@ -91,12 +70,12 @@
   :n "s-(" 'sp-backward-slurp-sexp)
 
  (:leader
-  "SPC" 'counsel-fzf
+  "SPC" 'projectile-find-file
   "q" 'kill-current-buffer
-  "r" 'clj-refactor-map
+  ;; "r" 'clj-refactor-map
   "Q" 'doom/window-maximize-buffer
   "S" 'shell
-  "x" 'counsel-projectile-rg
+  "x" 'consult-ripgrep
   "d" 'yvh/dired-current-dir
   "D" 'yvh/dired-project-root
   "n" '+neotree/find-this-file
@@ -106,17 +85,15 @@
    "B" 'ediff-buffers3
    "f" 'ediff-files
    "F" 'ediff-files3)
-  ;; "b b" 'counsel-switch-buffer
   (:prefix ("f" . "file")
    "f" '+ivy/projectile-find-file
-   ;; "f" 'counsel-fzf
    "S" 'save-some-buffers
-   "o" 'counsel-find-file
+   "o" 'find-file
    "m" 'yvh/rename-current-buffer-file)
   "b a" 'persp-add-buffer
   "c d" 'lsp-ui-doc-show ;; 'code doc'
   "c t" 'yvh/comment-as-title
-  "c r" 'lsp-ui-peek-find-references
+  "c r" 'lsp-find-references
   "c R" 'lsp-rename
   "t s" 'flyspell-mode
   "p t" 'yvh/view-test-file-in-other-window
