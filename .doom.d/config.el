@@ -20,26 +20,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ORG
 
-(setq org-directory "~/Google Drive/Documents/org")
-
-(defconst yvh/gtd-main (expand-file-name "gtd.org" org-directory))
-(defconst yvh/gtd-inbox (expand-file-name "inbox.org" org-directory))
-(defconst yvh/gtd-someday (expand-file-name "someday.org" org-directory))
-(defconst yvh/org-timesheet (expand-file-name "timesheet.org" org-directory))
-
-(setq org-refile-targets '((yvh/gtd-main :maxlevel . 1)
-                           (yvh/gtd-someday :level . 1))
-
-      org-capture-templates `(("t" "Todo [inbox]" entry
-                               (file ,yvh/gtd-inbox)
-                               "* TODO %i%?"))
-
-      org-tags-column 75
-      org-agenda-files `(,yvh/gtd-main ,yvh/gtd-inbox)
-      org-ellipsis "▼"
-      ;; org-ellipsis "↷"
-      org-todo-keywords '((sequence "TODO" "DONE")))
-
 ;; (add-hook 'org-mode-hook '(lambda () (interactive) (org-content 3)))
 (add-hook 'org-mode-hook
           (lambda ()
@@ -148,9 +128,7 @@
   :n "t" (yvh/find-file-i "~/Google Drive/My Drive/Documents/org/pilloxa_timesheet.org")
   :n "i" (yvh/find-file-i 'yvh/gtd-inbox)
   :n "s" (yvh/find-file-i 'yvh/gtd-someday)
-  :n "h" (yvh/find-file-i 'yvh/org-timesheet)
-  :n "w" (lambda () (interactive) (counsel-find-file "~/Google Drive/Documents/writing/"))))
-
+  :n "h" (yvh/find-file-i 'yvh/org-timesheet)))
 
 (setq js-indent-level 2)
 
