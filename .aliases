@@ -200,11 +200,12 @@ alias zp='cd $HOME/brightin/zapp'
 alias zl='cd $HOME/brightin/zappelin'
 alias psg='cd $HOME/brightin/persgroep-campagneplanner'
 alias px='bash $HOME/pilloxa/app/bin/pilloxa'
-alias bm='cd $HOME/brightin/brightmotive'
+alias bm='bash $HOME/brightin/brightmotive/bin/bm'
 alias infra='cd $HOME/brightin/infrastructure'
 alias cep='cd $HOME/brightin/cep'
 alias nk='cd $HOME/brightin/nikon-elearning'
 alias bl='cd $HOME/brightin/brightlocal'
+alias adhoc='cd ~/code/adhoc && clj -M -m adhoc.core'
 
 # Rails stuff
 alias mpdi='mina production db:import'
