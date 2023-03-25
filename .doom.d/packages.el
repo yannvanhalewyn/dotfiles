@@ -58,7 +58,6 @@
 (package! evil-cleverparens)
 (package! eval-sexp-fu)
 (package! cider-eval-sexp-fu)
-(package! aggressive-indent)
 (package! zprint-mode)
 (package! git-link)
 (package! popper)

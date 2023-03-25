@@ -225,10 +225,6 @@
       (define-key cljr-map (car details) (cadr details)))
     (map! (:localleader "R" cljr-map))) )
 
-;; Performance killer, find alternative
-;; (use-package! aggressive-indent
-;;   :hook ((clojure-mode clojurescript-mode emacs-lisp-mode)
-;;          . aggressive-indent-mode))
 
 (use-package! company
   :config
