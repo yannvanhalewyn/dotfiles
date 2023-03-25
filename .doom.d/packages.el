@@ -48,6 +48,7 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+(unpin! cider clj-refactor clojure-mode)
 
 ;; Evil-snipe rebinds the 's' key, which I use to change the character at point
 (package! evil-snipe :disable t)
