@@ -74,7 +74,6 @@
 
  (:leader
   "q" 'kill-current-buffer
-  ;; "r" 'clj-refactor-map
   "Q" 'doom/window-maximize-buffer
   "S" 'shell
   "x" '+default/search-project
@@ -217,12 +216,14 @@
   (use-package! cider-eval-sexp-fu))
 
 (use-package! clj-refactor
+  :init
+  (setq +clojure-load-clj-refactor-with-lsp t)
+
   :config
   (let ((cljr-map (make-sparse-keymap)))
     (dolist (details cljr--all-helpers)
       (define-key cljr-map (car details) (cadr details)))
-    (map!
-     (:leader "r" cljr-map))) )
+    (map! (:localleader "R" cljr-map))) )
 
 ;; Performance killer, find alternative
 ;; (use-package! aggressive-indent
