@@ -3,37 +3,40 @@
 (load! "functions")
 
 (setq user-full-name "Yann Vanhalewyn"
-      user-mail-address "yann.vanhalewyn@gmail.com")
+      user-mail-address "yann.vanhalewyn@gmail.com"
+      delete-by-moving-to-trash nil
 
-(setq delete-by-moving-to-trash nil)
-
-(setq doom-font (font-spec :family "Fira Code" :size 16)
+      doom-font (font-spec :family "Fira Code" :size 16)
       doom-theme 'doom-one
-      doom-leader-alt-key "C-SPC")
-(setq fill-column 81) ;; 80 is ok but this gets reset
+      doom-localleader-key ","
 
-;; (map! :leader "SPC" nil)
-(setq doom-localleader-key ",")
+      ;; 80 is ok but this gets reset
+      fill-column 81)
 
 (global-display-fill-column-indicator-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ORG
 
-;; (add-hook 'org-mode-hook '(lambda () (interactive) (org-content 3)))
-(add-hook 'org-mode-hook
-          (lambda ()
-            (push '("[ ]" . "☐") prettify-symbols-alist)
-            (push '("[X]" . "☑" ) prettify-symbols-alist)
-            (push '("[-]" . "❍" ) prettify-symbols-alist)
-            (push '("#+BEGIN_SRC" . "λ") prettify-symbols-alist)
-            (push '("#+END_SRC" . "λ") prettify-symbols-alist)
-            (prettify-symbols-mode)))
+(use-package! org
+  :config
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (push '("[ ]" . "☐") prettify-symbols-alist)
+              (push '("[X]" . "☑" ) prettify-symbols-alist)
+              (push '("[-]" . "❍" ) prettify-symbols-alist)
+              (push '("#+begin_src" . "λ") prettify-symbols-alist)
+              (push '("#+end_src" . "λ") prettify-symbols-alist)
+              (prettify-symbols-mode)))
 
-(map!
- (:map org-mode-map
-  :n "-" 'org-toggle-checkbox
-  :n "RET" 'org-open-at-point))
+  (map!
+   (:map org-mode-map
+    :n "-" 'org-toggle-checkbox
+    :n "RET" 'org-open-at-point))
+
+  (setq org-ellipsis "↷"
+        ;; org-ellipsis "▼"
+        org-todo-keywords '((sequence "TODO" "DONE"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; General
@@ -70,12 +73,11 @@
   :n "s-(" 'sp-backward-slurp-sexp)
 
  (:leader
-  "SPC" 'projectile-find-file
   "q" 'kill-current-buffer
   ;; "r" 'clj-refactor-map
   "Q" 'doom/window-maximize-buffer
   "S" 'shell
-  "x" 'consult-ripgrep
+  "x" '+default/search-project
   "d" 'yvh/dired-current-dir
   "D" 'yvh/dired-project-root
   "n" '+neotree/find-this-file
@@ -96,7 +98,7 @@
   "c r" 'lsp-find-references
   "c R" 'lsp-rename
   "t s" 'flyspell-mode
-  "p t" 'yvh/view-test-file-in-other-window
+  "p t" 'projectile-toggle-between-implementation-and-test
   (:prefix "o"
    :desc "Capture inbox"
    "c" '(lambda () (interactive) (org-capture nil "t"))))
@@ -146,20 +148,21 @@
     :i "C-0" 'sp-forward-slurp-sexp
     :i "C-9" 'sp-forward-barf-sexp
     (:localleader
-     (:prefix ("e" . "eval")
-      :n "e" 'yvh/cider-eval-sexp-up-to-point
+     (:prefix ("e" . "Eval")
+      :n "e" 'cider-eval-list-at-point
+      :n "j" 'jet
       :n "l" 'cider-eval-last-sexp
       :n "r" nil
       :n "r l" 'yvh/rebl-eval-last-sexp
       :n "r d" 'yvh/rebl-eval-defun
-      (:prefix ("p" . "pprint")
+      (:prefix ("p" . "Pretty Print")
        :n "d" 'cider-pprint-eval-defun-at-point
        :n "c" 'cider-pprint-eval-defun-to-comment
        :n "p" 'cider-pprint-eval-last-sexp))
-     (:prefix ("t" . "test")
+     (:prefix ("t" . "Test")
       "l" 'cider-test-rerun-test
       "b" 'cider-test-run-ns-tests)
-     (:prefix ("r" . "repl / refactor")
+     (:prefix ("r" . "REPL / Refactor")
       ;; "c" nil
       ;; "c n" 'cljr-clean-ns
       ;; TODO have entire cljr-map somewhere
@@ -252,18 +255,6 @@
   (setq git-link-open-in-browser t))
 
 (use-package popper
-  :config
-  (map!
-   "M-p" 'popper-toggle-latest
-   "M-P" 'popper-cycle
-   (:leader "t p" 'popper-toggle-type))
-
-  ;; Disable conflicting bindings in cider repl
-  (map!
-   :map cider-repl-mode-map
-   "M-p" nil
-   "M-P" nil)
-
   :init
   (setq popper-reference-buffers
         '("\\*Messages\\*"
@@ -283,13 +274,17 @@
           help-mode
           compilation-mode))
 
-  (defun yvh/popper-height (win)
-    (fit-window-to-buffer
-     win
-     (floor (frame-height) 2)
-     (floor (frame-height) 3)))
+  :config
+  (map!
+   "M-p" 'popper-toggle-latest
+   "M-P" 'popper-cycle
+   (:leader "t p" 'popper-toggle-type))
 
-  (setq popper-window-height #'yvh/popper-height)
+  ;; Disable conflicting bindings in cider repl
+  (map!
+   :map cider-repl-mode-map
+   "M-p" nil
+   "M-P" nil)
 
   (popper-mode +1)
   (popper-echo-mode +1))
