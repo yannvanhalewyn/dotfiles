@@ -64,13 +64,14 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 export MANPAGER='less -s -M +Gg'
 
 export PATH="$HOME/bin:/usr/local/opt/grep/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+export PATH="/Applications/SuperCollider.app/Contents/Resources:$PATH"
+export PATH="$HOME/repos/elasticsearch-8.6.2/bin:$PATH"
 
 ################################################################################
 # RBENV
 
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 if which direnv > /dev/null; then eval "$(direnv hook zsh)"; fi
-export HOMEBREW_GITHUB_API_TOKEN=***
 
 ################################################################################
 # JAVA
@@ -78,10 +79,12 @@ export HOMEBREW_GITHUB_API_TOKEN=***
 export JAVA_8_HOME=$(/usr/libexec/java_home -v1.8)
 export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
 export JAVA_16_HOME=$(/usr/libexec/java_home -v16)
-export JAVA_HOME=$JAVA_8_HOME
+export JAVA_17_HOME=$(/usr/libexec/java_home -v17)
+export JAVA_HOME=$JAVA_17_HOME
 alias java8=' export JAVA_HOME=$JAVA_8_HOME'
 alias java11='export JAVA_HOME=$JAVA_11_HOME'
 alias java16='export JAVA_HOME=$JAVA_16_HOME'
+alias java17='export JAVA_HOME=$JAVA_17_HOME'
 
 ################################################################################
 # Rust
