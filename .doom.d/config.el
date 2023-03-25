@@ -88,9 +88,7 @@
    "f" 'ediff-files
    "F" 'ediff-files3)
   (:prefix ("f" . "file")
-   "f" '+ivy/projectile-find-file
    "S" 'save-some-buffers
-   "o" 'find-file
    "m" 'yvh/rename-current-buffer-file)
   "b a" 'persp-add-buffer
   "c d" 'lsp-ui-doc-show ;; 'code doc'
@@ -128,6 +126,10 @@
 
 (custom-set-faces
  '(show-paren-match ((t (:background "#0E9E97" :weight bold)))))
+
+;; TODO check fix and make PR?
+(set-tree-sitter-lang! 'clojurescript-mode 'clojure)
+(set-tree-sitter-lang! 'clojurec-mode 'clojure)
 
 (after! clojure-mode
   (dolist (word '(try-let assoc-if assoc-some letsc t/do-at transform match facts fact assoc render for-all))
