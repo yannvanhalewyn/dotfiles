@@ -4,13 +4,13 @@
 
  :aliases
  {:local-dev
-  {:extra-deps {refactor-nrepl/refactor-nrepl {:mvn/version "3.2.2"}
+  {:extra-deps {refactor-nrepl/refactor-nrepl {:mvn/version "3.6.0"}
                 vvvvalvalval/scope-capture {:mvn/version "0.3.2"}
                 vvvvalvalval/scope-capture-nrepl {:mvn/version "0.3.1"}
-                cider/cider-nrepl {:mvn/version "0.27.2"}}}
+                cider/cider-nrepl {:mvn/version "0.28.6"}}}
 
   :cider-nrepl
-  {:extra-deps {cider/cider-nrepl {:mvn/version "0.29.0"}
+  {:extra-deps {cider/cider-nrepl {:mvn/version "0.30.0"}
                 refactor-nrepl/refactor-nrepl {:mvn/version "3.6.0"}}
    :main-opts ["-m" "nrepl.cmdline"
                "--middleware"
