@@ -91,8 +91,8 @@
   "b a" 'persp-add-buffer
   "c d" 'lsp-ui-doc-show ;; 'code doc'
   "c t" 'yvh/comment-as-title
-  "c r" 'lsp-find-references
-  "c R" 'lsp-rename
+  "c r" '+lookup/references
+  "c R" 'eglot-rename
   "t s" 'flyspell-mode
   "p t" 'projectile-toggle-between-implementation-and-test
   (:prefix "o"
@@ -223,14 +223,6 @@
         which-key-idle-delay 0.5)
   (global-display-fill-column-indicator-mode))
 
-;; (use-package! company
-;;   :config
-;;   (setq company-idle-delay 0)
-;;   (map!
-;;    (:map company-active-map
-;;     "C-h" nil
-;;     "C-d" 'company-show-doc-buffer)))
-
 (use-package! consult
   :config
   (setq consult-line-start-from-top t)
@@ -259,10 +251,6 @@ This only works with orderless and for the first component of the search."
     :n "o" 'neotree-enter
     :n "x" (lambda () (interactive) (neotree-select-up-node) (neotree-enter))
     :n "<tab>" 'neotree-quick-look)))
-
-(use-package! lsp-ui
-  :config
-  (setq lsp-ui-sideline-show-code-actions nil))
 
 (use-package! git-link
   :defer t
@@ -332,7 +320,7 @@ This only works with orderless and for the first component of the search."
                    (side . right)
                    (slot . -1)))))
 
-(use-package embark
+(use-package! embark
   :config
   ;; Enable fuzzy search
   ;; (setq orderless-matching-styles '(orderless-flex))
@@ -340,4 +328,4 @@ This only works with orderless and for the first component of the search."
 
 (use-package! glsl-mode)
 
-;; (load-file "~/.doom.d/experimental.el")
+(load-file "~/.doom.d/experimental.el")

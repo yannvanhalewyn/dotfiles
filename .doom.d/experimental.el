@@ -62,24 +62,25 @@
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 ;; See https://github.com/minad/corfu/wiki#basic-example-configuration-with-orderless
-(use-package! orderless
-  :init
-  ;; Tune the global completion style settings to your liking!
-  ;; This affects the minibuffer and non-lsp completion at point.
-  (setq completion-styles '(orderless partial-completion basic)
-        completion-category-defaults nil
-        completion-category-overrides nil))
+;; (use-package! orderless
+;;   :init
+;;   ;; Tune the global completion style settings to your liking!
+;;   ;; This affects the minibuffer and non-lsp completion at point.
+;;   (setq completion-styles '(orderless partial-completion basic)
+;;         completion-category-defaults nil
+;;         completion-category-overrides nil))
 
-(use-package lsp-mode
-  :custom
-  (lsp-completion-provider :none) ;; we use Corfu!
-  :init
-  (defun my/lsp-mode-setup-completion ()
-    (message "MY LSP MODE SETUP COMPLETION")
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless))) ;; Configure orderless
-  :hook
-  (lsp-completion-mode . my/lsp-mode-setup-completion))
+;; (use-package lsp-mode
+;;   :custom
+;;   (lsp-completion-provider :none) ;; we use Corfu!
+;;   ;; :init
+;;   ;; (defun my/lsp-mode-setup-completion ()
+;;   ;;   (message "MY LSP MODE SETUP COMPLETION")
+;;   ;;   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+;;   ;;         '(orderless))) ;; Configure orderless
+;;   ;; :hook
+;;   ;; (lsp-completion-mode . my/lsp-mode-setup-completion)
+;;   )
 
 ;; Add extensions
 (use-package! cape
