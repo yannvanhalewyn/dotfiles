@@ -101,6 +101,7 @@ alias gdotf='open "http://www.github.com/yannvanhalewyn/dotfiles"'
 alias v="vim"
 alias e="emacs"
 alias ec="emacsclient"
+alias emacs-debug="emacs -q --load ~/.doom.d/debug.el"
 
 # Run the local npm module binaries
 alias npm-exec='PATH=$(npm bin):$PATH'
