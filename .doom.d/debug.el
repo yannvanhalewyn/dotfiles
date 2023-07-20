@@ -30,28 +30,55 @@
 
 (use-package clojure-mode :ensure t)
 
-(use-package lsp-mode
-  :ensure t
-  :custom
-  ;; (lsp-lens-enable t)
-  ;; (lsp-semantic-tokens-enable t)
-)
+;; (use-package lsp-mode :ensure t)
+;; (add-hook 'clojure-mode-hook 'lsp)
+;; (add-hook 'clojurescript-mode-hook 'lsp)
+;; (add-hook 'clojurec-mode-hook 'lsp)
 
-(add-hook 'clojure-mode-hook 'lsp)
-(add-hook 'clojurescript-mode-hook 'lsp)
-(add-hook 'clojurec-mode-hook 'lsp)
+(use-package eglot :ensure t)
+(add-hook 'clojure-mode-hook 'eglot)
+(add-hook 'clojurescript-mode-hook 'eglot)
+(add-hook 'clojurec-mode-hook 'eglot)
 
 (use-package cider :ensure t)
 (use-package lsp-treemacs :ensure t)
 (use-package flycheck :ensure t)
 
 (use-package evil
-  :bind (("C-." . completion-at-point))
   :ensure t
+  :bind (("C-." . completion-at-point)
+         :map evil-normal-state-map
+         ("[ b" . previous-buffer)
+         ("] b" . next-buffer))
+  :init (evil-mode t))
+
+(use-package corfu
+  :ensure t
+  :bind (:map corfu-map
+              ;; ("<tab>" . corfu-insert)
+              ("C-j" . corfu-next)
+              )
+  :config
+  (setq corfu-cycle t
+        corfu-auto t
+        corfu-auto-prefix 1
+        corfu-auto-delay 0.01
+        corfu-separator ?\s
+        corfu-quit-at-boundary 'separator
+        corfu-quit-no-match t
+        corfu-preview-current nil
+        corfu-preselect-first t
+        corfu-on-exact-match nil
+        corfu-echo-documentation nil
+        corfu-scroll-margin 10
+        corfu-popupinfo-delay 0)
+
   :init
-  (evil-mode t))
+  (global-corfu-mode)
+  (corfu-popupinfo-mode))
 
 ;; (use-package company
+;;   :ensure t
 ;;   :diminish company-mode
 ;;   ;; :init (global-company-mode)
 ;;   :bind (:map company-active-map
