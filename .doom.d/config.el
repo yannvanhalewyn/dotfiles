@@ -223,13 +223,13 @@
         which-key-idle-delay 0.5)
   (global-display-fill-column-indicator-mode))
 
-(use-package! company
-  :config
-  (setq company-idle-delay 0)
-  (map!
-   (:map company-active-map
-    "C-h" nil
-    "C-d" 'company-show-doc-buffer)))
+;; (use-package! company
+;;   :config
+;;   (setq company-idle-delay 0)
+;;   (map!
+;;    (:map company-active-map
+;;     "C-h" nil
+;;     "C-d" 'company-show-doc-buffer)))
 
 (use-package! consult
   :config
@@ -339,3 +339,5 @@ This only works with orderless and for the first component of the search."
   (setq orderless-matching-styles '(orderless-literal orderless-regexp)))
 
 (use-package! glsl-mode)
+
+;; (load-file "~/.doom.d/experimental.el")

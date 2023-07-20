@@ -62,5 +62,10 @@
 (package! cider-eval-sexp-fu)
 (package! zprint-mode)
 (package! git-link)
-(package! popper)
 (package! glsl-mode)
+(package! popper)
+
+(package! company :disable t)
+(package! corfu :recipe (:files (:defaults "extensions/*.el")))
+(package! cape)
+(package! kind-icon)

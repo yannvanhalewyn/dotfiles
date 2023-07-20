@@ -11,7 +11,7 @@
      (cider-default-cljs-repl . shadow)
      (cider-preferred-build-tool . shadow-cljs)
      (cljr-insert-newline-after-require)
-     (cider-clojure-cli-global-options . "-A:dev:cljs:cider")
+     (cider-clojure-cli-global-options . "-A:dev:cljs:cider"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
