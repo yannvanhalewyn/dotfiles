@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Snippet for sc.api/letsc
+# key: letsc
+# --
+(sc.api/letsc ${1:binding}
+  ${2:body})

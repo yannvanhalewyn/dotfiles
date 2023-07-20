@@ -2,4 +2,4 @@
 # name: unalias
 # key: unalias
 # --
-(ns-unalias *ns* ')
+(ns-unalias *ns* '${0:alias})

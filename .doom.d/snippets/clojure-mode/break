@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: break
-# key: break
-# --
-(debugger.core/break $1)

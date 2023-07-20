@@ -1,4 +1,4 @@
-# key: echo
+# key: Add a function that echoes
 # name: echo
 # --
 (defn echo [a] (.log js/console a) a)

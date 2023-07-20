@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: cl
+# name: Log something
 # key: cl
 # --
 (.log js/console $1)

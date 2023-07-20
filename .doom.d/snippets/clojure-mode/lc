@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: lc
-# key: lc
-# --
-(sc.api/letsc
-  $0)

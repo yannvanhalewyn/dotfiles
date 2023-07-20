@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Log something
+# key: cl
+# --
+(println $1)

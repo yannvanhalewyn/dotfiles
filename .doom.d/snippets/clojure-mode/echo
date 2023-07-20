@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: echo
+# name: Add a function that echoes
 # key: echo
 # --
 (defn echo [m]
