@@ -1,5 +1,5 @@
-# key: print-edn
-# name: print-edn
+# key: write-edn
+# name: write-edn
 # --
 (binding [*print-namespace-maps* false]
   (clojure.pprint/pprint ${1:coll} (clojure.java.io/writer "${2:file}")))

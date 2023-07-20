@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: taf-dir
+# key: taf-dir
+# --
+(let [taf-dir (taf.directory/make "target/tecdoc_data_package")]
+  $0)

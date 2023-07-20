@@ -61,7 +61,14 @@ function json() {
   fi
 }
 
+function getline() {
+  if [[ -z "$1" || -z "$2" ]]; then
+    echo "Usage: getline <line_number> <file_path>"
+    return 1
+  fi
 
+  sed -n "${1}p" $2
+}
 
 
 # get gzipped size

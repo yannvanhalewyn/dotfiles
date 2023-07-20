@@ -35,3 +35,4 @@
 /.config/yarn/
 /.clj-kondo/.cache/v1/lock
 /.lsp/.cache/
+/.config/flipper/

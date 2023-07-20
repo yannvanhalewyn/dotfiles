@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: live-mode
+# key: live-mode
+# --
+(binding [bm.test-support.system/*force-live-mode* true]
+  $0
+)

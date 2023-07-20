@@ -1,0 +1,14 @@
+# key: rnf
+# name: rnf
+# --
+import {View, Text} from 'react-native';
+
+const ${0:Component} = props => {
+  return (
+    <View>
+      <Text>$0</Text>
+    </View>
+  );
+};
+
+export default $0;

@@ -221,6 +221,7 @@ alias yi='yarn install'
 alias dc='docker-compose'
 alias dclogs='docker-compose logs -f'
 alias pixel2='~/Library/Android/sdk/emulator/emulator "@Pixel_2_API_30"'
+alias androidshake="adb shell input keyevent 82"
 
 # For history
 alias history='history 0'

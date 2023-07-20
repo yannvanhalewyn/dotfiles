@@ -66,6 +66,7 @@ export MANPAGER='less -s -M +Gg'
 export PATH="$HOME/bin:/usr/local/opt/grep/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="/Applications/SuperCollider.app/Contents/Resources:$PATH"
 export PATH="$HOME/repos/elasticsearch-8.6.2/bin:$PATH"
+export PATH="$HOME/repos/kibana-8.6.2/bin:$PATH"
 
 ################################################################################
 # RBENV
