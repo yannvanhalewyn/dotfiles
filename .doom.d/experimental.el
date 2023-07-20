@@ -82,6 +82,18 @@
 ;;   ;; (lsp-completion-mode . my/lsp-mode-setup-completion)
 ;;   )
 
+(defun yvh/load-capf--programming ()
+  (interactive)
+  (dolist (capf '(cape-file cape-yasnippet cape-dabbrev))
+    (add-to-list 'completion-at-point-functions capf)))
+
+(defun yvh/load-capf--writing ()
+  (interactive)
+  (dolist (capf '(cape-file cape-symbol cape-dabbrev cape-dict cape-ispell cape-line  cape-rfc1345 cape-yasnippet))
+    (add-to-list 'completion-at-point-functions capf)))
+
+(add-hook 'prog-mode-hook 'yvh/load-capf--programming)
+
 ;; Add extensions
 (use-package! cape
   :init
