@@ -48,12 +48,14 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-(unpin! cider clj-refactor clojure-mode)
+(unpin! cider clojure-mode lsp-mode)
 
 ;; Evil-snipe rebinds the 's' key, which I use to change the character at point
 (package! evil-snipe :disable t)
 ;; Disable the 'jk' chord to return to normal mode
 (package! evil-escape :disable t)
+;; We use lsp-clojure for refactorings
+(package! clj-refactor :disable t)
 
 (package! evil-cleverparens)
 (package! eval-sexp-fu)
@@ -61,3 +63,4 @@
 (package! zprint-mode)
 (package! git-link)
 (package! popper)
+(package! glsl-mode)

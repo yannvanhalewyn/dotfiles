@@ -13,8 +13,6 @@
       ;; 80 is ok but this gets reset
       fill-column 81)
 
-(global-display-fill-column-indicator-mode)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ORG
 
@@ -30,6 +28,7 @@
               (prettify-symbols-mode)))
 
   (map!
+   (:leader :n "o l" 'org-store-link)
    (:map org-mode-map
     :n "-" 'org-toggle-checkbox
     :n "RET" 'org-open-at-point))
@@ -126,32 +125,29 @@
 (custom-set-faces
  '(show-paren-match ((t (:background "#0E9E97" :weight bold)))))
 
-;; TODO check fix and make PR?
-(set-tree-sitter-lang! 'clojurescript-mode 'clojure)
-(set-tree-sitter-lang! 'clojurec-mode 'clojure)
-
-(after! clojure-mode
-  (dolist (word '(try-let assoc-if assoc-some letsc t/do-at transform match facts fact assoc render for-all))
-    (put-clojure-indent word 1)))
-
-(setq which-key-idle-delay 0.5)
-;; Disable flycheck lsp checker, it conflicts with kondo too much
-;; Enable for RUST, but disable for CLojure?
-;; Probably add or modify the predicate for the 'lsp checker
-;; (setq lsp-diagnostic-package :none)
-(evil-declare-not-repeat 'flycheck-next-error)
-(evil-declare-not-repeat 'flycheck-previous-error)
-
-(use-package! cider
+(use-package! clojure-mode
   :config
+
+  ;; TODO check fix and make a Doom PR?
+  (set-tree-sitter-lang! 'clojurescript-mode 'clojure)
+  (set-tree-sitter-lang! 'clojurec-mode 'clojure)
+
+  (after! clojure-mode
+    (dolist (word '(try-let assoc-if assoc-some letsc t/do-at transform match facts fact assoc render for-all))
+      (put-clojure-indent word 1)))
+
   (map!
    (:map (clojure-mode-map clojurescript-mode-map)
     :i "C-0" 'sp-forward-slurp-sexp
     :i "C-9" 'sp-forward-barf-sexp
     (:localleader
+     :n "e f" 'lsp-clojure-extract-function
+     :n "e t" 'lsp-clojure-expand-let
+     :n "n c" 'lsp-clojure-clean-ns
+     :n "n r" 'cider-ns-reload
+     :n "n R" 'cider-ns-reload-all
      (:prefix ("e" . "Eval")
       :n "e" 'cider-eval-list-at-point
-      :n "j" 'jet
       :n "l" 'cider-eval-last-sexp
       :n "r" nil
       :n "r l" 'yvh/rebl-eval-last-sexp
@@ -161,22 +157,21 @@
        :n "c" 'cider-pprint-eval-defun-to-comment
        :n "p" 'cider-pprint-eval-last-sexp))
      (:prefix ("t" . "Test")
+      "a" 'cider-test-rerun-test
       "l" 'cider-test-rerun-test
       "b" 'cider-test-run-ns-tests)
      (:prefix ("r" . "REPL / Refactor")
-      ;; "c" nil
-      ;; "c n" 'cljr-clean-ns
-      ;; TODO have entire cljr-map somewhere
-      "a m" 'cljr-add-missing-libspec
-      "t l" 'cljr-thread-last-all
-      "t f" 'cljr-thread-first-all)))))
+      :n "a m" 'lsp-clojure-add-missing-libspec
+      :n "t l" 'lsp-clojure-thread-last
+      :n "t L" 'lsp-clojure-thread-last-all
+      :n "t f" 'lsp-clojure-thread-first
+      :n "t F" 'lsp-clojure-thread-first-all)))
+   (:map cider-inspector-mode-map
+    :n "-" 'cider-inspector-pop)))
 
-(use-package! emmet-mode
-  :config
-  (map!
-   ;; Disable annoying default keybind
-   (:map emmet-mode-keymap
-    "C-j" nil)))
+
+(evil-declare-not-repeat 'flycheck-next-error)
+(evil-declare-not-repeat 'flycheck-previous-error)
 
 (use-package! markdown-mode
   :config
@@ -186,8 +181,6 @@
     (:localleader
      (:prefix ("t" . "align")
       :n "a" 'markdown-table-align)))))
-
-(setq +evil-want-o/O-to-continue-comments nil)
 
 (use-package! evil-cleverparens
   :hook ((clojure-mode clojurescript-mode cider-repl-mode emacs-lisp-mode)
@@ -215,16 +208,20 @@
 
   (use-package! cider-eval-sexp-fu))
 
-(use-package! clj-refactor
+(use-package emacs
   :init
-  (setq +clojure-load-clj-refactor-with-lsp t)
+  ;; TAB cycle if there are only few candidates
+  ;; Disabled because not sure if we should use it.
+  (setq completion-cycle-threshold 3
+        tab-always-indent 'complete
 
-  :config
-  (let ((cljr-map (make-sparse-keymap)))
-    (dolist (details cljr--all-helpers)
-      (define-key cljr-map (car details) (cadr details)))
-    (map! (:localleader "R" cljr-map))) )
+        ;; see uniquify--create-file-buffer-advice for more customisation
+        uniquify-buffer-name-style 'forward
+        uniquify-min-dir-content 3
 
+        +evil-want-o/O-to-continue-comments nil
+        which-key-idle-delay 0.5)
+  (global-display-fill-column-indicator-mode))
 
 (use-package! company
   :config
@@ -233,7 +230,6 @@
    (:map company-active-map
     "C-h" nil
     "C-d" 'company-show-doc-buffer)))
-(setq uniquify-buffer-name-style nil)
 
 (use-package! consult
   :config
@@ -255,6 +251,7 @@ This only works with orderless and for the first component of the search."
 
 (use-package! neotree
   :config
+  (setq doom-themes-neotree-file-icons t)
   (map!
    (:map
     neotree-mode-map
@@ -272,7 +269,7 @@ This only works with orderless and for the first component of the search."
   :config
   (setq git-link-open-in-browser t))
 
-(use-package popper
+(use-package! popper
   :init
   (setq popper-reference-buffers
         '("\\*Messages\\*"
@@ -283,31 +280,62 @@ This only works with orderless and for the first component of the search."
           "\\*cider-test-report\\*"
           "\\*cider-error\\*"
           "\\*cider-result\\*"
+          "\\*cider-inspect\\*"
           "\\*cider-repl.*"
           "\\*Embark Export:.*"
           "\\*Backtrace\\*"
           "\\*helpful.*"
           "\\*ert\\*"
+          "\\*shell\\*"
           help-mode
           compilation-mode))
 
   :config
+  (setq nrepl-use-ssh-fallback-for-remote-hosts t)
+
   (map!
    "M-p" 'popper-toggle-latest
    "M-P" 'popper-cycle
-   (:leader "t p" 'popper-toggle-type))
-
-  ;; Disable conflicting bindings in cider repl
-  (map!
-   :map cider-repl-mode-map
-   "M-p" nil
-   "M-P" nil)
+   (:leader "t p" 'popper-toggle-type)
+   ;; Disable M-p in shell
+   (:map comint-mode-map "M-p" nil)
+   ;; Disable M-p in cider repl
+   (:map cider-repl-mode-map
+    "M-p" nil
+    "M-P" nil))
 
   (popper-mode +1)
-  (popper-echo-mode +1))
+  (popper-echo-mode +1)
+
+  (add-to-list 'display-buffer-alist
+               `(,(rx bos "*Flycheck errors*" eos)
+                 (display-buffer-reuse-window
+                  display-buffer-below-selected)
+                 (reusable-frames . visible)
+                 (side            . bottom)
+                 (window-height   . 0.4)))
+
+  (setq display-buffer-alist nil)
+  ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Buffer-Display-Action-Alists.html
+  (dolist (buffer-regex (list (rx bos "*help" (zero-or-more any) eos)
+                              (rx bos "*messages*" eos)
+                              (rx bos "*cider-result*" eos)
+                              (rx bos "*cider-error*" eos)
+                              (rx bos "*cider-inspect*" eos)))
+    (add-to-list 'display-buffer-alist
+                 `(,buffer-regex
+                   ;; (display-buffer-reuse-window
+                   ;;  display-buffer-pop-up-window)
+                   (display-buffer-in-side-window)
+                   (reusable-frames . visible)
+                   (window-width . 0.5)
+                   (side . right)
+                   (slot . -1)))))
 
 (use-package embark
   :config
   ;; Enable fuzzy search
   ;; (setq orderless-matching-styles '(orderless-flex))
   (setq orderless-matching-styles '(orderless-literal orderless-regexp)))
+
+(use-package! glsl-mode)
