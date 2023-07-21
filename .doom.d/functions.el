@@ -341,6 +341,26 @@ next-actions in GTD"
   (cider-interactive-eval
    "(cognitect.rebl/ui)" nil (cider-last-sexp 'bounds) (cider--nrepl-print-request-map)))
 
+(defun yvh/window-store-configuration ()
+  (interactive)
+  (window-configuration-to-register ?1))
+
+(defun yvh/window-recall-configuration ()
+  (interactive)
+  (jump-to-register ?1))
+
+(defvar yvh/cider-use-completion nil
+  "Variable to control whether to use CIDER's completion at point.")
+
+(defun yvh/cider-toggle-completion ()
+  "Toggle between using CIDER's and eglot's completion at point."
+  (interactive)
+  (setq yvh/cider-use-completion (not yvh/cider-use-completion))
+  (if yvh/cider-use-completion
+      (progn (setq completion-at-point-functions '(cider-complete-at-point))
+             (message "Switch completion to CIDER"))
+    (progn (setq completion-at-point-functions '(eglot-completion-at-point))
+           (message "Switch completion to EGLOT"))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Useful macros
 

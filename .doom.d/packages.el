@@ -56,6 +56,8 @@
 (package! evil-escape :disable t)
 ;; We use lsp-clojure for refactorings
 (package! clj-refactor :disable t)
+;; Don't execute file commands via git like 'git rm ...'
+(package! dired-aux :disable t)
 
 (package! evil-cleverparens)
 (package! eval-sexp-fu)

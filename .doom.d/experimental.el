@@ -15,6 +15,16 @@
   (custom-set-faces! `(corfu-bar :background ,(doom-color 'magenta)))
   (custom-set-faces! `(corfu-current :background ,(doom-color 'magenta)))
 
+  (mapc #'evil-declare-ignore-repeat
+        '(corfu-next
+          corfu-previous
+          corfu-first
+          corfu-last))
+
+  (mapc #'evil-declare-change-repeat
+        '(corfu-insert
+          corfu-complete))
+
   (defun yvh/corfu-quit ()
     (interactive)
     (call-interactively 'corfu-quit)
@@ -61,15 +71,6 @@
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-;; See https://github.com/minad/corfu/wiki#basic-example-configuration-with-orderless
-;; (use-package! orderless
-;;   :init
-;;   ;; Tune the global completion style settings to your liking!
-;;   ;; This affects the minibuffer and non-lsp completion at point.
-;;   (setq completion-styles '(orderless partial-completion basic)
-;;         completion-category-defaults nil
-;;         completion-category-overrides nil))
-
 ;; (use-package lsp-mode
 ;;   :custom
 ;;   (lsp-completion-provider :none) ;; we use Corfu!
@@ -94,8 +95,10 @@
 
 (add-hook 'prog-mode-hook 'yvh/load-capf--programming)
 
-;; Add extensions
+;; Completion at point extension
 (use-package! cape
+  ;; Should work like this but doesn't, probably because eglot overwrites them
+  ;; or something?
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   (add-to-list 'completion-at-point-functions #'cape-file)

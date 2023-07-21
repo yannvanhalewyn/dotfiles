@@ -105,6 +105,7 @@ end)
 --------------------------------------------------------------------------------
 -- Thirds
 
+-- First 1/3's
 hs.hotkey.bind({"cmd", "alt"}, "1", function()
     resizeToScreen(function(frame, max)
         frame.x = max.x
@@ -115,6 +116,7 @@ hs.hotkey.bind({"cmd", "alt"}, "1", function()
     end)
 end)
 
+-- First 2/3's
 hs.hotkey.bind({"cmd", "alt", "shift"}, "1", function()
     resizeToScreen(function(frame, max)
         frame.x = max.x
@@ -125,6 +127,7 @@ hs.hotkey.bind({"cmd", "alt", "shift"}, "1", function()
     end)
 end)
 
+-- Middle 1/3'd
 hs.hotkey.bind({"cmd", "alt"}, "2", function()
     resizeToScreen(function(frame, max)
         frame.x = max.x + (max.w / 3)
@@ -135,6 +138,7 @@ hs.hotkey.bind({"cmd", "alt"}, "2", function()
     end)
 end)
 
+-- Last 1/3's
 hs.hotkey.bind({"cmd", "alt"}, "3", function()
     resizeToScreen(function(frame, max)
         frame.x = max.x + (max.w * 2 / 3)
@@ -145,6 +149,7 @@ hs.hotkey.bind({"cmd", "alt"}, "3", function()
     end)
 end)
 
+-- Last 2/3's
 hs.hotkey.bind({"cmd", "alt", "shift"}, "3", function()
     resizeToScreen(function(frame, max)
         frame.x = max.x + (max.w / 3)

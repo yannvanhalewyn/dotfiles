@@ -54,6 +54,8 @@
  :i "C-i" 'insert-char
  :n "[ r" 'lsp-ui-find-prev-reference
  :n "] r" 'lsp-ui-find-next-reference
+ :n "[ W" 'winner-undo
+ :n "] W" 'winner-redo
  ;; :n "[ e" 'flymake-goto-prev-error
  ;; :n "] e" 'flymake-goto-next-error
  :n "[ e" 'flycheck-previous-error
@@ -93,8 +95,13 @@
   "c t" 'yvh/comment-as-title
   "c r" '+lookup/references
   "c R" 'eglot-rename
+  ;; Toggles
+  "w p" 'yvh/window-recall-configuration
+  "w y" 'yvh/window-store-configuration
+  "t c" 'yvh/cider-toggle-completion
+  "t C" 'global-display-fill-column-indicator-mode ;; rebind from default 'c'
   "t s" 'flyspell-mode
-  "p t" 'projectile-toggle-between-implementation-and-test
+  "t t" 'projectile-toggle-between-implementation-and-test
   (:prefix "o"
    :desc "Capture inbox"
    "c" '(lambda () (interactive) (org-capture nil "t"))))
@@ -152,7 +159,7 @@
      :n "n r" 'cider-ns-reload
      :n "n R" 'cider-ns-reload-all
      (:prefix ("e" . "Eval")
-      :n "e" 'cider-eval-list-at-point
+      :n "e" 'cider-eval-sexp-at-point
       :n "l" 'cider-eval-last-sexp
       :n "r" nil
       :n "r l" 'yvh/rebl-eval-last-sexp
@@ -174,9 +181,14 @@
    (:map cider-inspector-mode-map
     :n "-" 'cider-inspector-pop)))
 
-
-(evil-declare-not-repeat 'flycheck-next-error)
-(evil-declare-not-repeat 'flycheck-previous-error)
+(use-package! flycheck
+  :config
+  (setq flycheck-idle-change-delay 0
+        flycheck-idle-buffer-switch-delay 0
+        flycheck-display-errors-delay 0)
+  (evil-declare-not-repeat 'flycheck-next-error)
+  (evil-declare-not-repeat 'flycheck-previous-error)
+  (flycheck-posframe-configure-pretty-defaults))
 
 (use-package! markdown-mode
   :config
@@ -333,4 +345,5 @@ This only works with orderless and for the first component of the search."
 
 (use-package! glsl-mode)
 
+(load! "fixes")
 (load-file "~/.doom.d/experimental.el")
