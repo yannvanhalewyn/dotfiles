@@ -125,6 +125,11 @@
 (custom-set-faces
  '(show-paren-match ((t (:background "#0E9E97" :weight bold)))))
 
+
+(use-package! eglot
+  :custom
+  (eglot-confirm-server-initiated-edits nil "Don't ask permission for a refactoring"))
+
 (use-package! clojure-mode
   :config
 
