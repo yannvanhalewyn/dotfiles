@@ -6,7 +6,6 @@
       (posframe-hide flycheck-posframe-buffer)))
 
   (defun yvh/fix-flycheck-posframe-not-hiding-immediately ()
-    (message "IN CUSTOM FLYCHECK POSFRAME NOT HIDE IMMEDIATELY")
     (cond (flycheck-posframe-mode
            (add-hook 'post-command-hook 'yvh/flycheck-posframe-monitor-post-command nil t))
           ((not flycheck-posframe-mode)

@@ -108,7 +108,7 @@
 
  (:prefix ("g" . "goto")
   :n "t" (yvh/find-file-i "~/Google Drive/My Drive/Documents/org/pilloxa_timesheet.org")
-  :n "i" (yvh/find-file-i 'yvh/gtd-inbox)
+  :n "i" 'yvh/find-icloud-documents
   :n "s" (yvh/find-file-i 'yvh/gtd-someday)
   :n "h" (yvh/find-file-i 'yvh/org-timesheet)))
 
@@ -132,6 +132,9 @@
 (custom-set-faces
  '(show-paren-match ((t (:background "#0E9E97" :weight bold)))))
 
+(custom-set-faces
+ '(cider-repl-stdout-face ((t (:inherit doom-theme-treemacs-file-face)))))
+
 
 (use-package! eglot
   :custom
@@ -153,6 +156,12 @@
     :i "C-0" 'sp-forward-slurp-sexp
     :i "C-9" 'sp-forward-barf-sexp
     (:localleader
+     "c" nil
+     (:prefix ("c" . "Connect")
+      :n "c" 'cider-connect-clj
+      :n "s" 'cider-connect-cljs
+      :n "C" 'cider-connect-sibling-clj
+      :n "S" 'cider-connect-sibling-cljs)
      :n "e f" 'lsp-clojure-extract-function
      :n "e t" 'lsp-clojure-expand-let
      :n "n c" 'lsp-clojure-clean-ns

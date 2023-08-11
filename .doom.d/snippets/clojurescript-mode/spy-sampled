@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: spy-sampled
+# key: spy-sampled
+# --
+(when (= (Math/floor (* (Math/random) 100)) 1)
+  (sc.api/spy))

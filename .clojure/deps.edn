@@ -42,4 +42,8 @@
   :new {:extra-deps {com.github.seancorfield/clj-new
                      {:mvn/version "1.2.381"}}
         :exec-fn clj-new/create
-        :exec-args {:template "app"}}}}
+        :exec-args {:template "app"}}
+
+  :lsp-references {:extra-deps {com.github.clojure-lsp/clojure-lsp {:mvn/version "2023.07.01-22.35.41"}}
+                   :exec-fn clojure-lsp.api/references
+                   :exec-args {:dry? false}}}}
