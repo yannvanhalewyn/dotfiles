@@ -38,3 +38,4 @@
 /.config/flipper/
 /.config/pgcli/history
 /.config/op/
+.clojure/.lsp/.cache
