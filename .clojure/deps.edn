@@ -4,19 +4,21 @@
 
  :aliases
  {:local-dev
-  {:extra-deps {vvvvalvalval/scope-capture {:mvn/version "0.3.2"}
+  {:extra-deps {vvvvalvalval/scope-capture {:mvn/version "0.3.3"}
                 vvvvalvalval/scope-capture-nrepl {:mvn/version "0.3.1"}
-                cider/cider-nrepl {:mvn/version "0.28.6"}}}
+                ;; Portal seems better:
+                ;; djblue/portal        {:mvn/version "0.38.0"}
+                io.github.nubank/morse {:git/tag "v2023.04.30.01" :git/sha "d99b09c"}}}
 
   :cider-nrepl
-  {:extra-deps {cider/cider-nrepl {:mvn/version "0.30.0"}}
+  {:extra-deps {cider/cider-nrepl {:mvn/version "0.44.0"}}
    :main-opts ["-m" "nrepl.cmdline"
                "--middleware"
                "[cider.nrepl/cider-middleware]"]}
 
   ;; Copied over from https://docs.cider.mx/cider-nrepl/usage.html not tested yet
   :cider-cljs
-  {:extra-deps {cider/cider-nrepl {:mvn/version "0.30.0"}
+  {:extra-deps {cider/cider-nrepl {:mvn/version "0.44.0"}
                 cider/piggieback {:mvn/version "0.5.3"}}
    :main-opts ["-m" "nrepl.cmdline" "--middleware"
                "[cider.nrepl/cider-middleware,cider.piggieback/wrap-cljs-repl]"]}
