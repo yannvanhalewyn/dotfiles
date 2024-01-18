@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: inspect
+# key: inspect
+# --
+(dev.nu.morse/inspect $0)
