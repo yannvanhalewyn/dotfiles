@@ -94,8 +94,8 @@
   "b a" 'persp-add-buffer
   "c d" 'lsp-ui-doc-show ;; 'code doc'
   "c t" 'yvh/comment-as-title
-  "c r" '+lookup/references
-  "c R" 'eglot-rename
+  "c r" 'lsp-find-references
+  ;; "c r" '+lookup/references
   ;; Toggles
   "w p" 'yvh/window-recall-configuration
   "w y" 'yvh/window-store-configuration
@@ -103,6 +103,7 @@
   "t C" 'global-display-fill-column-indicator-mode ;; rebind from default 'c'
   "t s" 'flyspell-mode
   "t t" 'projectile-toggle-between-implementation-and-test
+  "t T" 'yvh/view-test-file-in-other-window
   (:prefix "o"
    :desc "Capture inbox"
    "c" '(lambda () (interactive) (org-capture nil "t"))))
