@@ -6,7 +6,8 @@
       user-mail-address "yann.vanhalewyn@gmail.com"
       delete-by-moving-to-trash nil
 
-      doom-font (font-spec :family "Fira Code" :size 16)
+      ;; doom-font (font-spec :family "Fira Code" :size 16)
+      doom-font (font-spec :family "JetBrainsMonoNL Nerd Font Mono" :size 14)
       doom-theme 'doom-one
       doom-localleader-key ","
 
