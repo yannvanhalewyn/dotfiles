@@ -1,6 +1,4 @@
-{:mvn/repos {"my.datomic.com" {:url "https://my.datomic.com/repo"}
-             ;; For REBL. Also installed locally so not sure if necessary
-             "cognitect-dev-tools" {:url "https://dev-tools.cognitect.com/maven/releases/"}}
+{:mvn/repos {"my.datomic.com" {:url "https://my.datomic.com/repo"}}
 
  :aliases
  {:local-dev
@@ -23,29 +21,38 @@
    :main-opts ["-m" "nrepl.cmdline" "--middleware"
                "[cider.nrepl/cider-middleware,cider.piggieback/wrap-cljs-repl]"]}
 
-  :outdated {:extra-deps {olical/depot {:mvn/version "1.3.0"}}
-             :main-opts ["-m" "depot.outdated.main"]}
-
   :benchmark {:extra-deps {criterium/criterium {:mvn/version "0.4.4"}}}
 
-  :profiler {:extra-deps {nodisassemble/nodisassemble {:mvn/version "0.1.3"}}
-             :extra-paths ["/Applications/YourKit-Java-Profiler-2018.04.app/Contents/Resources/lib/yjp-controller-api-redist.jar"]
-             :jvm-opts ["-agentpath:/Applications/YourKit-Java-Profiler-2018.04.app/Contents/Resources/bin/mac/libyjpagent.jnilib"
-                        "-javaagent:/Users/yannvanhalewyn/.m2/repository/nodisassemble/nodisassemble/0.1.3/nodisassemble-0.1.3.jar"]}
-
-  :rebl {:extra-deps {com.cognitect/rebl          {:mvn/version "0.9.242"}
-                      org.openjfx/javafx-fxml     {:mvn/version "15-ea+6"}
-                      org.openjfx/javafx-controls {:mvn/version "15-ea+6"}
-                      org.openjfx/javafx-swing    {:mvn/version "15-ea+6"}
-                      org.openjfx/javafx-base     {:mvn/version "15-ea+6"}
-                      org.openjfx/javafx-web      {:mvn/version "15-ea+6"}}
-         :main-opts ["-m" "cognitect.rebl"]}
-
+  :neil {:deps {io.github.babashka/neil {:git/tag "v0.1.41"
+                                         :git/sha "77288d4"}}
+         :main-opts ["-m" "babashka.neil"]}
   :new {:extra-deps {com.github.seancorfield/clj-new
                      {:mvn/version "1.2.381"}}
         :exec-fn clj-new/create
         :exec-args {:template "app"}}
+  :profiler {:extra-deps {nodisassemble/nodisassemble {:mvn/version "0.1.3"}}
+             :extra-paths ["/Applications/YourKit-Java-Profiler-2018.04.app/Contents/Resources/lib/yjp-controller-api-redist.jar"]
+             :jvm-opts ["-agentpath:/Applications/YourKit-Java-Profiler-2018.04.app/Contents/Resources/bin/mac/libyjpagent.jnilib"
+                        "-javaagent:/Users/yannvanhalewyn/.m2/repository/nodisassemble/nodisassemble/0.1.3/nodisassemble-0.1.3.jar"]}}}
 
-  :lsp-references {:extra-deps {com.github.clojure-lsp/clojure-lsp {:mvn/version "2023.07.01-22.35.41"}}
-                   :exec-fn clojure-lsp.api/references
-                   :exec-args {:dry? false}}}}
+
+
+;; Outdated
+;; :lsp-references {:extra-deps {com.github.clojure-lsp/clojure-lsp {:mvn/version "2023.07.01-22.35.41"}}
+;;                  :exec-fn clojure-lsp.api/references
+;;                  :exec-args {:dry? false}}
+;; :rebl {:extra-deps {com.cognitect/rebl          {:mvn/version "0.9.242"}
+;;                     org.openjfx/javafx-fxml     {:mvn/version "15-ea+6"}
+;;                     org.openjfx/javafx-controls {:mvn/version "15-ea+6"}
+;;                     org.openjfx/javafx-swing    {:mvn/version "15-ea+6"}
+;;                     org.openjfx/javafx-base     {:mvn/version "15-ea+6"}
+;;                     org.openjfx/javafx-web      {:mvn/version "15-ea+6"}}
+;;        :main-opts ["-m" "cognitect.rebl"]}
+;;
+;; :outdated {:extra-deps {olical/depot {:mvn/version "1.3.0"}}
+;;            :main-opts ["-m" "depot.outdated.main"]}
+;;
+;; For REBL. Also installed locally so not sure if necessary
+;; :mvn/repos
+;; "cognitect-dev-tools" {:url "https://dev-tools.cognitect.com/maven/releases/"}}}}
+
