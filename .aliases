@@ -98,10 +98,17 @@ alias gvisit='open $(git config --get remote.origin.url | sed -E s#git@\(.+\):\(
 alias galiases="alias | grep -P \"(g|undopush)\w*='git\""
 alias gdotf='open "http://www.github.com/yannvanhalewyn/dotfiles"'
 
-alias v="vim"
+alias nv="neovide"
+alias v="nvim"
+alias v.="v ."
+alias vf="v -o \`fzf\`"
+alias vd="d && v."
+# For use with lazygit
+alias vserver="nvim --listen /tmp/nvim-server.pipe"
 alias e="emacs"
 alias ec="emacsclient"
 alias emacs-debug="emacs -q --load ~/.doom.d/debug.el"
+alias lg='lazygit'
 
 # Run the local npm module binaries
 alias npm-exec='PATH=$(npm bin):$PATH'
@@ -113,7 +120,10 @@ alias code='cd $HOME/code'
 alias dotf='cd $HOME/dotfiles'
 
 # Tmux
-alias ta='tmux attach'
+# -u forces UTF-8. This ensures that even when no UTF-8 is in LC_ALL, LC_TYPE
+# or LANG the powerline statusbar still renders properly
+alias tmux='tmux -u'
+alias ta='tmux -u attach'
 alias ts='tmux new-session -s'
 alias tl='tmux list-sessions'
 alias tkss='tmux kill-session -t'
@@ -188,13 +198,8 @@ alias NET='NODE_ENV=test'
 alias rspec='_rspec_command'
 alias rp='_rspec_command'
 
-# Lein
-alias lf='lein figwheel'
-alias lr='lein repl'
-alias br='bin/bm repl'
-alias bdr='boot dev repl'
-alias lc='lein clean'
-alias lcr='lein do clean, repl'
+# Clojure
+# alias neil="clj -M:neil"
 
 # some work projects
 alias zp='cd $HOME/brightin/zapp'
