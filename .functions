@@ -15,6 +15,23 @@ function md() {
   mkdir -p "$@" && cd "$@"
 }
 
+# Fussily jump to any directory of importance
+function d() {
+  # Config directories
+  local dirs="$HOME/dotfiles"
+  dirs+="\n$HOME/dotfiles/.config/nvim"
+  dirs+="\n$HOME/dotfiles/.config/nvim/lua/custom"
+
+  # Personal and work projects
+  for parent in ~/code ~/brightin ~/pilloxa ~/spronq
+  do
+    dirs+="\n"
+    dirs+=$(find $parent -type d -maxdepth 1 -mindepth 1)
+  done
+
+  cd $(echo $dirs | fzf)
+}
+
 # find shorthand
 function f() {
     mdfind -onlyin ./ "kMDItemDisplayName == $1"
