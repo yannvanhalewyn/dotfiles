@@ -23,8 +23,7 @@
 
   :benchmark {:extra-deps {criterium/criterium {:mvn/version "0.4.4"}}}
 
-  :neil {:deps {io.github.babashka/neil {:git/tag "v0.1.41"
-                                         :git/sha "77288d4"}}
+  :neil {:deps {io.github.babashka/neil {:git/tag "v0.2.63" :git/sha "076fb83"}}
          :main-opts ["-m" "babashka.neil"]}
   :new {:extra-deps {com.github.seancorfield/clj-new
                      {:mvn/version "1.2.381"}}
