@@ -120,3 +120,24 @@
 
 (setq ;; cider-ns-refresh-before-fn "bardistry.core/refresh"
  cider-ns-refresh-after-fn "dev/reset")
+
+(use-package! html-to-hiccup
+  ;; :bind (:localleader
+  ;;        :map clojure-mode-map
+  ;;        ("c h c" . html-to-hiccup-convert-region)
+  ;;        ("c h y" . html-to-hiccup-yank))
+  :config
+  (setq html-to-hiccup-use-shorthand-p t))
+
+(set-face-foreground 'line-number (face-foreground 'font-lock-doc-face))
+
+(setq display-line-numbers-type 'relative)
+
+;; (face-attribute 'font-lock-doc-face :background)
+
+;; (custom-set-faces
+;;  '(line-number ((t (:inherit font-lock-doc-face)))))
+
+(use-package! vundo
+  :config
+  (map! (:leader :n "s u" 'vundo)))

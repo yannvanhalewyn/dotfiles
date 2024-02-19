@@ -71,3 +71,9 @@
 (package! corfu :recipe (:files (:defaults "extensions/*.el")))
 (package! cape)
 (package! kind-icon)
+
+(package! html-to-hiccup)
+(package! origami)
+(package! harpoon)
+(package! clojure-ts-mode)
+(package! vundo)

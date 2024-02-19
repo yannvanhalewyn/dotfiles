@@ -341,6 +341,10 @@ next-actions in GTD"
   (cider-interactive-eval
    "(cognitect.rebl/ui)" nil (cider-last-sexp 'bounds) (cider--nrepl-print-request-map)))
 
+(defun yvh/integrant-reset ()
+  (interactive)
+  (cider-interactive-eval "(integrant.repl/reset)"))
+
 (defun yvh/window-store-configuration ()
   (interactive)
   (window-configuration-to-register ?1))
@@ -357,10 +361,16 @@ next-actions in GTD"
   (interactive)
   (setq yvh/cider-use-completion (not yvh/cider-use-completion))
   (if yvh/cider-use-completion
-      (progn (setq completion-at-point-functions '(cider-complete-at-point))
+      (progn (setq completion-at-point-functions '(cider-complete-at-point cape-yasnippet))
              (message "Switch completion to CIDER"))
-    (progn (setq completion-at-point-functions '(eglot-completion-at-point))
+    (progn (setq completion-at-point-functions '(eglot-completion-at-point cape-yasnippet))
            (message "Switch completion to EGLOT"))))
+
+(defun yvh/find-icloud-documents ()
+  "Opens a file finder in iCloud documents directory"
+  (interactive)
+  (doom-project-browse "~/Library/Mobile Documents/com~apple~CloudDocs/Documents/"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Useful macros
 

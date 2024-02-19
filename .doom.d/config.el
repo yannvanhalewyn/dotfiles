@@ -92,6 +92,7 @@
    "S" 'save-some-buffers
    "m" 'yvh/rename-current-buffer-file)
   "b a" 'persp-add-buffer
+  "b f" 'zprint ;; Buffer format
   "c d" 'lsp-ui-doc-show ;; 'code doc'
   "c t" 'yvh/comment-as-title
   "c r" 'lsp-find-references
@@ -138,9 +139,9 @@
  '(cider-repl-stdout-face ((t (:inherit doom-theme-treemacs-file-face)))))
 
 
-(use-package! eglot
-  :custom
-  (eglot-confirm-server-initiated-edits nil "Don't ask permission for a refactoring"))
+;; (use-package! eglot
+;;   :custom
+;;   (eglot-confirm-server-initiated-edits nil "Don't ask permission for a refactoring"))
 
 (use-package! clojure-mode
   :config
@@ -148,13 +149,21 @@
   ;; TODO check fix and make a Doom PR?
   (set-tree-sitter-lang! 'clojurescript-mode 'clojure)
   (set-tree-sitter-lang! 'clojurec-mode 'clojure)
+  (set-tree-sitter-lang! 'clojure-ts-mode 'clojure)
 
   (after! clojure-mode
     (dolist (word '(try-let assoc-if assoc-some letsc t/do-at transform match facts fact assoc render for-all))
       (put-clojure-indent word 1)))
 
+  (after! clojure-ts-mode
+    (dolist (word '(try-let assoc-if assoc-some letsc t/do-at transform match facts fact assoc render for-all))
+      (put-clojure-indent word 1)))
+
+  (setq cider-ns-refresh-before-fn "integrant.repl/halt"
+        cider-ns-refresh-after-fn "integrant.repl/go")
+
   (map!
-   (:map (clojure-mode-map clojurescript-mode-map)
+   (:map (clojure-mode-map clojurescript-mode-map clojure-ts-mode-map)
     :i "C-0" 'sp-forward-slurp-sexp
     :i "C-9" 'sp-forward-barf-sexp
     (:localleader
@@ -170,6 +179,7 @@
      :n "n r" 'cider-ns-reload
      :n "n R" 'cider-ns-reload-all
      (:prefix ("e" . "Eval")
+      :n "d" 'cider-eval-defun-at-point
       :n "e" 'cider-eval-sexp-at-point
       :n "l" 'cider-eval-last-sexp
       :n "r" nil
@@ -211,7 +221,7 @@
       :n "a" 'markdown-table-align)))))
 
 (use-package! evil-cleverparens
-  :hook ((clojure-mode clojurescript-mode cider-repl-mode emacs-lisp-mode)
+  :hook ((clojure-mode clojurescript-mode cider-repl-mode emacs-lisp-mode clojure-ts-mode)
          . evil-cleverparens-mode)
   :config
   ;; Evil CP overwrites "c" for change. This will re-enable "cs"
@@ -310,7 +320,7 @@ This only works with orderless and for the first component of the search."
   (setq nrepl-use-ssh-fallback-for-remote-hosts t)
 
   (map!
-   "M-p" 'popper-toggle-latest
+   "M-p" 'popper-toggle
    "M-P" 'popper-cycle
    (:leader "t p" 'popper-toggle-type)
    ;; Disable M-p in shell
@@ -356,5 +366,126 @@ This only works with orderless and for the first component of the search."
 
 (use-package! glsl-mode)
 
-(load! "fixes")
+;; LSP mode
+
+;; (use-package! eglot
+;;   :config
+;;   (map! (:leader "c R" 'eglot-rename))
+;;   :custom
+;;   (eglot-confirm-server-initiated-edits nil "Don't ask permission for a refactoring"))
+
+(use-package! lsp-ui
+  :config
+  (setq lsp-ui-sideline-show-code-actions nil))
+
+(use-package! lsp-mode
+  :config
+  (map! (:leader "c R" 'lsp-rename))
+  ;; :custom
+  ;; (lsp-completion-provider :none) ;; we use Corfu!
+  ;; :init
+  ;; (defun my/lsp-mode-setup-completion ()
+  ;;   (message "MY LSP MODE SETUP COMPLETION")
+  ;;   (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+  ;;         '(orderless))) ;; Configure orderless
+  ;; :hook
+  ;; (lsp-completion-mode . my/lsp-mode-setup-completion)
+  )
+
+(use-package! origami
+  :hook ((clojure-mode clojurescript-mode cider-repl-mode emacs-lisp-mode clojure-ts-mode)
+         . origami-mode)
+  :config
+  (map!
+   :n "[ <tab>" 'origami-close-node
+   :n "] <tab>" 'origami-open-node
+   :n "z f" 'origami-toggle-node
+   :n "z F" 'origami-toggle-all-nodes
+   :n "z c" 'origami-close-node
+   :n "z C" 'origami-close-all-nodes
+   :n "z o" 'origami-open-node
+   :n "z O" 'origami-open-all-nodes))
+
+(use-package! harpoon
+  :config
+  (setq harpoon-separate-by-branch nil)
+  (map!
+   (:leader
+    :n "b 1" 'harpoon-go-to-1
+    :n "b 2" 'harpoon-go-to-2
+    :n "b 3" 'harpoon-go-to-3
+    :n "b 4" 'harpoon-go-to-4
+    :n "b 5" 'harpoon-go-to-5
+    :n "b h" 'harpoon-toggle-quick-menu
+    :n "H"   'harpoon-quick-menu-hydra
+    :n "b H" 'harpoon-add-file)))
+
+(use-package! clojure-ts-mode
+  :hook (clojure-ts-mode . rainbow-delimiters-mode)
+  :config
+  (map!
+   (:localleader
+    (:map (clojure-mode-map clojurescript-mode-map clojurec-mode-map)
+          "'"  #'cider-jack-in-clj
+          "\"" #'cider-jack-in-cljs
+          "c"  #'cider-connect-clj
+          "C"  #'cider-connect-cljs
+          "m"  #'cider-macroexpand-1
+          "M"  #'cider-macroexpand-all
+          (:prefix ("d" . "debug")
+                   "d" #'cider-debug-defun-at-point)
+          (:prefix ("e" . "eval")
+                   "b" #'cider-eval-buffer
+                   "d" #'cider-eval-defun-at-point
+                   "D" #'cider-insert-defun-in-repl
+                   "e" #'cider-eval-last-sexp
+                   "E" #'cider-insert-last-sexp-in-repl
+                   "r" #'cider-eval-region
+                   "R" #'cider-insert-region-in-repl
+                   "u" #'cider-undef)
+          (:prefix ("g" . "goto")
+                   "b" #'cider-pop-back
+                   "g" #'cider-find-var
+                   "n" #'cider-find-ns)
+          (:prefix ("h" . "help")
+                   "n" #'cider-find-ns
+                   "a" #'cider-apropos
+                   "c" #'cider-clojuredocs
+                   "d" #'cider-doc
+                   "j" #'cider-javadoc
+                   "w" #'cider-clojuredocs-web)
+          (:prefix ("i" . "inspect")
+                   "e" #'cider-enlighten-mode
+                   "i" #'cider-inspect
+                   "r" #'cider-inspect-last-result)
+          (:prefix ("n" . "namespace")
+                   "n" #'cider-browse-ns
+                   "N" #'cider-browse-ns-all
+                   "r" #'cider-ns-refresh)
+          (:prefix ("p" . "print")
+                   "p" #'cider-pprint-eval-last-sexp
+                   "P" #'cider-pprint-eval-last-sexp-to-comment
+                   "d" #'cider-pprint-eval-defun-at-point
+                   "D" #'cider-pprint-eval-defun-to-comment
+                   "r" #'cider-pprint-eval-last-sexp-to-repl)
+          (:prefix ("r" . "repl")
+                   "n" #'cider-repl-set-ns
+                   "q" #'cider-quit
+                   "r" #'cider-ns-refresh
+                   "R" #'cider-restart
+                   "b" #'cider-switch-to-repl-buffer
+                   "B" #'+clojure/cider-switch-to-repl-buffer-and-switch-ns
+                   "c" #'cider-find-and-clear-repl-output
+                   "l" #'cider-load-buffer
+                   "L" #'cider-load-buffer-and-switch-to-repl-buffer)
+          (:prefix ("t" . "test")
+                   "a" #'cider-test-rerun-test
+                   "l" #'cider-test-run-loaded-tests
+                   "n" #'cider-test-run-ns-tests
+                   "p" #'cider-test-run-project-tests
+                   "r" #'cider-test-rerun-failed-tests
+                   "s" #'cider-test-run-ns-tests-with-filters
+                   "t" #'cider-test-run-test)))))
+
+;; (load! "fixes")
 (load-file "~/.doom.d/experimental.el")
