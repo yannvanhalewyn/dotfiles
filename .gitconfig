@@ -1,17 +1,18 @@
 [user]
-        name = Yann Vanhalewyn
-        email = yann.vanhalewyn@gmail.com
-        signinkey = AA16961320C8A130
+  name = Yann Vanhalewyn
+  email = yann.vanhalewyn@gmail.com
+  signinkey = AA16961320C8A130
 [core]
-        excludesfile = ~/.gitignore_global
+  excludesfile = ~/.gitignore_global
+  editor = nvim
 [difftool "sourcetree"]
-        cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-        path =
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path =
 [mergetool "sourcetree"]
-        cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-        trustExitCode = true
+  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
 [diff]
-        tool = nvimdiff
+  tool = nvimdiff
 [difftool "nvimdiff"]
   cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 [diff "lisp"]
@@ -19,23 +20,23 @@
 [diff "org"]
   xfuncname = "^(\\*+ +.*)$"
 [pull]
-        rebase = true
+  rebase = true
 [difftool]
-        prompt = true
+  prompt = true
 [alias]
-        d = difftool
-        undo-commit = reset --soft HEAD^
+  d = difftool
+  undo-commit = reset --soft HEAD^
 [push]
-        default = current
+  default = current
 [init]
-        templatedir = ~/.git_template
+  templatedir = ~/.git_template
 [commit]
-        gpgsign = true
+  gpgsign = true
 [github]
-	user = yann.vanhalewyn@gmail.com
+  user = yann.vanhalewyn@gmail.com
 [remote]
-        pushDefault = origin
+  pushDefault = origin
 [rebase]
-	autoStash = true
+  autoStash = true
 [credential]
-	helper = osxkeychain
+  helper = osxkeychain
