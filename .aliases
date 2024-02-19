@@ -15,19 +15,8 @@ alias mkcur='ln -snf `pwd` $HOME/code/curproj'
 
 # Easier navigation: .., ..., ~ and -
 alias ..="cd .."
-alias cd..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ~="cd ~" # `cd` is probably faster to type though
-alias -- -="cd -"
-
-
-# i <3 u cask
-alias cask='brew cask'
-
-#typos
-alias brwe=brew
 
 # be nice
 alias please=sudo
@@ -58,7 +47,6 @@ alias flush="dscacheutil -flushcache"
 
 # Recursively delete `.DS_Store` files
 alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
-alias cleanlogs="sudo rm -rf /private/var/log/asl/*.asl"
 
 # Get projects total linecount
 alias linecount="g ls-files | grep -v font | xargs wc -l"
@@ -111,7 +99,6 @@ alias emacs-debug="emacs -q --load ~/.doom.d/debug.el"
 alias lg='lazygit'
 
 # Run the local npm module binaries
-alias npm-exec='PATH=$(npm bin):$PATH'
 alias npml='npm ls --depth=0'
 alias npmlg='npm ls -g --depth=0'
 
@@ -144,18 +131,9 @@ alias blist="brew services list"
 alias bstart="brew services start"
 alias bstop="brew services stop"
 
-# Mysql
-alias mysqlstatus='mysqladmin -u root -p ping'
-alias msqs='mysql.server start'
-alias psqs='postgres -D pg &'
-
 # Elasticsearch
 alias es='elasticsearch'
 alias estest='elasticsearch --http.port=9250'
-
-# Mongodb
-alias mongol='mongod --fork --logpath /usr/local/var/log/mongod.log --dbpath /usr/local/var/mongodb/'
-alias mongologs='tail -f /usr/local/var/log/mongod.log'
 
 # Simple server
 alias simserv='open "http://localhost:8000"; python -m SimpleHTTPServer'
@@ -178,8 +156,6 @@ alias timestamp='date +%y-%m-%d_%Hh%Mm'
 # Count lines in project
 alias linecount='git ls-files | xargs wc -l'
 alias linecountjs='git ls-files | egrep ".jsx?$" | xargs wc -l'
-alias gulps="grep 'gulp.task(.*)' gulpfile.js | awk -F\' '{print $2}'"
-alias lint='git ls-files | grep -v "test" | egrep ".jsx?$" | xargs eslint'
 alias pg='pgcli'
 alias sha1='openssl sha1'
 
@@ -188,30 +164,8 @@ alias :vs='tmux splitw -h'
 alias :sp='tmux splitw'
 alias :q='tmux kill-pane'
 
-alias showAllDownloads="sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2 'select LSQuarantineDataURLString from LSQuarantineEvent'"
-
-# Node env's
-alias NEP='NODE_ENV=production'
-alias NED='NODE_ENV=development'
-alias NET='NODE_ENV=test'
-
-alias rspec='_rspec_command'
-alias rp='_rspec_command'
-
 # Clojure
-# alias neil="clj -M:neil"
-
-# some work projects
-alias zp='cd $HOME/brightin/zapp'
-alias zl='cd $HOME/brightin/zappelin'
-alias psg='cd $HOME/brightin/persgroep-campagneplanner'
-alias px='bash $HOME/pilloxa/app/bin/pilloxa'
-alias bm='bash $HOME/brightin/brightmotive/bin/bm'
-alias infra='cd $HOME/brightin/infrastructure'
-alias cep='cd $HOME/brightin/cep'
-alias nk='cd $HOME/brightin/nikon-elearning'
-alias bl='cd $HOME/brightin/brightlocal'
-alias adhoc='cd ~/code/adhoc && clj -M -m adhoc.core'
+alias transit='pbpaste | jet --from transit --to edn --pretty | less'
 
 # Rails stuff
 alias mpdi='mina production db:import'
@@ -236,4 +190,3 @@ alias alias-ideas="history | awk '{a[\$2]++}END{for(i in a){print a [i] \" \" i}
 alias pag='ps aux | grep'
 alias flushdns='dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
 alias tw='cat ~/tailwind-classes | fzf'
-alias transit='pbpaste | jet --from transit --to edn --pretty | less'
