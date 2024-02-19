@@ -38,4 +38,6 @@
 /.config/flipper/
 /.config/pgcli/history
 /.config/op/
-.clojure/.lsp/.cache
+/.clojure/.lsp/.cache
+/.clojure/.clj-kondo/.cache
+/.clj-kondo/.cache
