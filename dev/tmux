@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# https://ryan.himmelwright.net/post/scripting-tmux-workspaces/
+
+session="Dotfiles"
+
+session_exists=$(tmux list-sessions | grep $session)
+
+if [ "$session_exists" = "" ]
+then
+  echo "Creating new session"
+  tmux new-session -d -s $session
+
+  # REPL / Devtools
+  tmux rename-window -t $session:1 "Dotfiles"
+  tmux send-keys -t $session:1 "nvim ." C-m
+
+  # Editor
+  tmux new-window -t $session:2 -n "nvim"
+  tmux send-keys -t $session:2 "cd .config/nvim && nvim lua/init.lua" C-m
+
+  # Shell
+  tmux new-window -t $session:3 -n "Shell"
+else
+  echo "Session already exists"
+fi
+
+# Attach to session's editor pane
+echo "Attaching to session"
+tmux -u attach-session -t $session:1
