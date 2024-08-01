@@ -32,6 +32,9 @@ alias grep='grep --color=always'
 # List only directories
 alias lsd='ls -l | grep "^d"'
 
+# Eza
+alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions --group-directories-first"
+
 # IP addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias whatsmyip='curl "https://api6.ipify.org?format=json"'
@@ -65,11 +68,16 @@ alias undopush="git push -f origin HEAD^:master"
 alias g="git"
 alias ga="git add"
 alias gaa="git add -A"
+alias gb="git branch"
+alias gco="git checkout"
+alias gf="git fetch"
 alias gs="git status"
 alias gd="git diff"
+alias gp="git push"
 alias gpf='git push --force-with-lease'
 alias gdc="git diff --cached"
 alias grc='git rebase --continue'
+alias grhh='git reset HEAD --hard'
 alias gcl='git clean -fd'
 alias gro='[ -n "$(current_git_branch)" ] && git reset origin/$(current_git_branch)'
 alias groh='[ -n "$(current_git_branch)" ] && git reset origin/$(current_git_branch) --hard'
@@ -78,13 +86,16 @@ alias gstl="git stash list"
 alias gbd="git branch | cut -c 3- | pick | xargs git branch -d"
 alias gcb="git branch | cut -c 3- | pick | xargs git checkout"
 alias gcba="git branch --all --remote | cut -c 3- | pick | xargs git checkout"
+alias gbda="git branch --no-color --merged | command grep -vE \"^([+*]|\s*(master|main|develop)\s*$)\" | command xargs git branch -d 2>/dev/null"
 alias gpo="git fetch origin --prune" # git prune origin
 alias gprune="git branch --merged master | grep -v 'master$' | grep -v 'production$' | xargs git branch -d"
-alias gdorigin="git diff origin/master"
+alias gwta="git worktree add"
+alias gwtl="git worktree list"
+alias gwtr="git worktree remove"
+
 alias groot='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
 alias gvisit='open $(git config --get remote.origin.url | sed -E s#git@\(.+\):\(.+\)#http://www.\\1/\\2#)'
 alias galiases="alias | grep -P \"(g|undopush)\w*='git\""
-alias gdotf='open "http://www.github.com/yannvanhalewyn/dotfiles"'
 
 alias nv="neovide"
 alias v="nvim"
@@ -166,6 +177,7 @@ alias :q='tmux kill-pane'
 
 # Clojure
 alias transit='pbpaste | jet --from transit --to edn --pretty | less'
+# alias cljfmt='clj -Tcljfmt'
 
 # Rails stuff
 alias mpdi='mina production db:import'
@@ -179,6 +191,7 @@ alias yc='yarn check'
 alias yi='yarn install'
 
 alias dc='docker-compose'
+alias dup='docker-compose up -d'
 alias dclogs='docker-compose logs -f'
 alias pixel2='~/Library/Android/sdk/emulator/emulator "@Pixel_2_API_30"'
 alias androidshake="adb shell input keyevent 82"
