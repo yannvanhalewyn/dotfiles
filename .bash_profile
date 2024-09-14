@@ -35,5 +35,5 @@ export EDITOR=vim
 # True vim colors in neovim
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
 
-export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+. "$HOME/.cargo/env"

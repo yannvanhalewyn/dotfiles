@@ -5,26 +5,36 @@
 [core]
   excludesfile = ~/.gitignore_global
   editor = nvim
+
+# Difftastic
+[diff]
+  tool = difftastic
+[difftool]
+  prompt = false
+[difftool "difftastic"]
+  cmd = difft "$LOCAL" "$REMOTE"
+[pager]
+  difftool = true
+
 [difftool "sourcetree"]
   cmd = opendiff \"$LOCAL\" \"$REMOTE\"
   path =
 [mergetool "sourcetree"]
   cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
   trustExitCode = true
-[diff]
-  tool = nvimdiff
 [difftool "nvimdiff"]
   cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 [diff "lisp"]
   xfuncname = "^(\\(.*)$"
 [diff "org"]
   xfuncname = "^(\\*+ +.*)$"
+
 [pull]
   rebase = true
-[difftool]
-  prompt = true
 [alias]
   d = difftool
+  dlog = "-c diff.external=difft log -p --ext-diff"
+  dshow = "-c diff.external=difft show HEAD --ext-diff"
   undo-commit = reset --soft HEAD^
 [push]
   default = current

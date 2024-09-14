@@ -1,4 +1,4 @@
-#
+# vi: ft=bash
 # 8 8888888888   8 8888      88 b.             8     ,o888888o.8888888 8888888888 d888888o.
 # 8 8888         8 8888      88 888o.          8    8888     `88.    8 8888     .`8888:' `88.
 # 8 8888         8 8888      88 Y88888o.       8 ,8 8888       `8.   8 8888     8.`8888.   Y8
@@ -20,7 +20,8 @@ function d() {
   # Config directories
   local dirs="$HOME/dotfiles"
   dirs+="\n$HOME/dotfiles/.config/nvim"
-  dirs+="\n$HOME/dotfiles/.config/nvim/lua/custom"
+  dirs+="\n$HOME/.local/share/nvim/"
+  dirs+="\n~/Library/Mobile\ Documents/com\~apple\~CloudDocs"
 
   # Personal and work projects
   for parent in ~/code ~/brightin ~/pilloxa ~/spronq
@@ -29,7 +30,10 @@ function d() {
     dirs+=$(find $parent -type d -maxdepth 1 -mindepth 1)
   done
 
-  cd $(echo $dirs | fzf)
+  selected=$(echo $dirs | fzf --preview 'tree -L 1 -C {} | head -200')
+  if [ -n "$selected" ]; then
+    cd $selected
+  fi
 }
 
 # find shorthand
@@ -58,6 +62,10 @@ function server() {
   # Set the default Content-Type to `text/plain` instead of `application/octet-stream`
   # And serve everything as UTF-8 (although not technically correct, this doesn’t break anything for binary files)
   python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port"
+}
+
+function bat_themes() {
+  bat --list-themes | fzf --preview="bat --theme={} --color=always ${1}"
 }
 
 

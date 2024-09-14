@@ -2,7 +2,8 @@
 
  :aliases
  {:local-dev
-  {:extra-deps {vvvvalvalval/scope-capture {:mvn/version "0.3.3"}
+  {:extra-paths ["test"] ;; Temporarily needed because arqiver repl breaks after not finding some test ns somehow
+   :extra-deps {vvvvalvalval/scope-capture {:mvn/version "0.3.3"}
                 vvvvalvalval/scope-capture-nrepl {:mvn/version "0.3.1"}
                 ;; Portal seems better:
                 ;; djblue/portal        {:mvn/version "0.38.0"}

@@ -10,20 +10,17 @@
 #  ,8',8888'      `8b.  ;8.`8888 8 8888        8 8 8888   `8b.     8888     ,88'
 # ,8',8888888888888`Y8888P ,88P' 8 8888        8 8 8888     `88.    `8888888P'
 
-# =======
-# Antigen
-# =======
+# autoload -Uz compinit
+# compinit
 
-source /usr/local/share/antigen/antigen.zsh
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle git
-antigen apply
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/custom/.zsh-theme
 
 setopt PROMPT_SUBST
 setopt MENU_COMPLETE
 setopt extendedglob
+
 # Jump to first possible completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 # Highlight selected completion in suggestions list
@@ -32,7 +29,7 @@ zstyle ':completion:*' menu select
 # ========
 # History
 # ========
-HISTFILE=$HOME/.zhistory       # enable history saving on shell exit
+# HISTFILE=$HOME/.zhistory       # enable history saving on shell exit
 setopt APPEND_HISTORY          # append rather than overwrite history file.
 HISTSIZE=20000                 # lines of history to maintain memory
 SAVEHIST=20000                 # lines of history to maintain in history file.
@@ -41,8 +38,8 @@ export EDITOR='nvim'
 source "$HOME/.aliases"
 source "$HOME/.functions"
 
-bindkey '\e[A' history-beginning-search-backward
-bindkey '\e[B' history-beginning-search-forward
+# bindkey '\e[A' history-beginning-search-backward
+# bindkey '\e[B' history-beginning-search-forward
 
 # auto push dirs on stack
 setopt autopushd
@@ -70,8 +67,9 @@ export PATH="$HOME/repos/kibana-8.6.2/bin:$PATH"
 ################################################################################
 # RBENV
 
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-if which direnv > /dev/null; then eval "$(direnv hook zsh)"; fi
+# Disable rbenv while I don't use ruby
+# if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# if which direnv > /dev/null; then eval "$(direnv hook zsh)"; fi
 
 ################################################################################
 # JAVA
@@ -110,16 +108,54 @@ export PATH="$HOME/.emacs.d/bin:$PATH"     # Doom cli
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Not working yet but interesting
+# https://pragmaticpineapple.com/four-useful-fzf-tricks-for-your-terminal/
+_fzf_comprun() {
+  local command=$1
+  shift
 
-_bb_tasks() {
-    local matches=(`bb tasks | tail -n +3 | cut -f1 -d ' '`)
-    compadd -a matches
-    _files # autocomplete filenames as well
+  case "$command" in
+    cd)           fzf "$@" --preview 'tree -L 1 -C {} | head -200' ;;
+    *)            fzf "$@" --preview 'bat --color=always --line-range :500 {}';;
+  esac
 }
-compdef _bb_tasks bb
 
-# export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+# Bat
+export BAT_THEME='TwoDark'
+
+# https://thevaluable.dev/fzf-shell-integration/
+export FZF_CTRL_T_OPTS="--height 60% \
+--border sharp \
+--layout reverse \
+--prompt '∷ ' \
+--pointer ▶ \
+--marker ⇒
+--preview 'bat -n --color=always --line-range :500 {}'"
+
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+
+
+# Zoxide
+eval "$(zoxide init --cmd cd zsh)"
+
+# NVM
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Lazily load nvm
+if [ -s "$HOME/.nvm/nvm.sh" ]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+  alias nvm='unalias nvm node npm yarn && . "$NVM_DIR"/nvm.sh && nvm'
+  alias node='unalias nvm node npm yarn && . "$NVM_DIR"/nvm.sh && node'
+  alias npm='unalias nvm node npm yarn && . "$NVM_DIR"/nvm.sh && npm'
+  alias yarn='unalias nvm node npm yarn && . "$NVM_DIR"/nvm.sh && yarn'
+fi
+
+# _bb_tasks() {
+#     local matches=(`bb tasks |tail -n +3 |cut -f1 -d ' '`)
+#     compadd -a matches
+#     _files # autocomplete filenames as well
+# }
+# compdef _bb_tasks bb

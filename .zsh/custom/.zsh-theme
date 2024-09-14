@@ -3,6 +3,10 @@ user_color=blue
 machine_color=magenta
 date_color=magenta
 path_color=yellow
+git_color=green
+prompt_color=blue
+reset_color=$(tput sgr0)
+reset_attrs="\e[0m"
 
 # =======
 # UTILITY
@@ -39,18 +43,17 @@ datetime() {
 }
 
 path() {
-  prompt_segment "in"
+  # prompt_segment "in"
   prompt_segment "%~" $path_color
 }
 
 parse_git_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
-}
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/' }
 
 git_branch() {
   local branch=`parse_git_branch`
   if [[ -n $branch ]]; then
-    prompt_segment " $(parse_git_branch)" green
+    prompt_segment " $(parse_git_branch)" $git_color
   fi
 }
 
@@ -58,20 +61,21 @@ git_branch() {
 prompt() {
   [[ $(jobs -l | wc -l) -gt 0 ]] && prompt_segment "⚙" cyan
   [[ $RETVAL -ne 0 ]] && prompt_segment "✘" red
-  prompt_segment "$" green
+  prompt_segment "$" $prompt_color
 }
 
 build_prompt() {
   RETVAL=$?
   echo -n "\n"
-  user
-  datetime
+  # user
+  # datetime
   path
   git_branch
 
   # newline
   echo -n "\n"
   prompt
+  echo -n "$reset_attrs"
 }
 
 PROMPT='$(build_prompt)'
