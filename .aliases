@@ -99,11 +99,20 @@ alias groot='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cd
 alias gvisit='open $(git config --get remote.origin.url | sed -E s#git@\(.+\):\(.+\)#http://www.\\1/\\2#)'
 alias galiases="alias | grep -P \"(g|undopush)\w*='git\""
 
+# Graphite
+alias gtc="gt create"
+alias gtcm="gt create --message"
+alias gtl="gt log short"
+alias gtp="gt submit"
+alias gts="gt sync"
+
+# Neovim
 alias nv="neovide"
 alias v="nvim"
 alias v.="v ."
 alias vf="v -o \`fzf\`"
 alias vd="d && v."
+
 # For use with lazygit
 alias vserver="nvim --listen /tmp/nvim-server.pipe"
 alias e="emacs"
