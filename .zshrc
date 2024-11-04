@@ -10,8 +10,8 @@
 #  ,8',8888'      `8b.  ;8.`8888 8 8888        8 8 8888   `8b.     8888     ,88'
 # ,8',8888888888888`Y8888P ,88P' 8 8888        8 8 8888     `88.    `8888888P'
 
-# autoload -Uz compinit
-# compinit
+# Load Completions
+autoload -Uz compinit && compinit
 
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -152,9 +152,6 @@ if [ -s "$HOME/.nvm/nvm.sh" ]; then
   alias npm='unalias nvm node npm yarn && . "$NVM_DIR"/nvm.sh && npm'
   alias yarn='unalias nvm node npm yarn && . "$NVM_DIR"/nvm.sh && yarn'
 fi
-
-autoload -Uz compinit
-compinit
 
 #################################################################################
 # Babashka
