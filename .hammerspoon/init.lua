@@ -87,7 +87,7 @@ end)
 
 hs.hotkey.bind({"cmd", "alt"}, "down", function()
     resizeToScreen(function(frame, max)
-      frame.x = max.x 
+      frame.x = max.x
       frame.y = max.y + max.h / 2
       frame.w = max.w
       frame.h = max.h / 2

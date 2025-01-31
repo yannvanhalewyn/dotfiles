@@ -74,17 +74,18 @@ alias gbda="git branch --no-color --merged | command grep -vE \"^([+*]|\s*(maste
 alias gcb="git branch | cut -c 3- | pick | xargs git checkout"
 alias gcba="git branch --all --remote | cut -c 3- | pick | xargs git checkout"
 alias gcl='git clean -fd'
+alias gcm='git checkout master'
 alias gco="git checkout"
 alias gd="git difftool"
 alias gdc="git difftool --cached"
 alias gf="git fetch"
 alias gp="git push"
+alias ghd="gh dash"
 alias glog="git log --graph --oneline"
 alias gm='git merge'
 alias gpf='git push --force-with-lease'
 alias gpo="git fetch origin --prune" # git prune origin
 alias gprune="git branch --merged master | grep -v 'master$' | grep -v 'production$' | xargs git branch -d"
-alias grc='git rebase --continue'
 alias grhh='git reset HEAD --hard'
 alias gro='[ -n "$(current_git_branch)" ] && git reset origin/$(current_git_branch)'
 alias groh='[ -n "$(current_git_branch)" ] && git reset origin/$(current_git_branch) --hard'
@@ -101,6 +102,7 @@ alias galiases="alias | grep -P \"(g|undopush)\w*='git\""
 
 # Graphite
 alias gtc="gt create"
+alias gtco="gt checkout"
 alias gtcm="gt create --message"
 alias gtl="gt log short"
 alias gtp="gt submit"

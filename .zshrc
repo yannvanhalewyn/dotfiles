@@ -13,8 +13,11 @@
 # Load Completions
 autoload -Uz compinit && compinit
 
+# Load plugins
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Consider using zinit, see https://www.youtube.com/watch?v=ud7YxC33Z3w
+source ~/.zsh/fzf-tab/fzf-tab.plugin.zsh
 source ~/.zsh/custom/.zsh-theme
 
 setopt PROMPT_SUBST
@@ -23,16 +26,28 @@ setopt extendedglob
 
 # Jump to first possible completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 # Highlight selected completion in suggestions list
-zstyle ':completion:*' menu select
+zstyle ':completion:*' menu no
+# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always --group-directories-first --icons'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
 # ========
 # History
 # ========
 # HISTFILE=$HOME/.zhistory       # enable history saving on shell exit
-setopt APPEND_HISTORY          # append rather than overwrite history file.
-HISTSIZE=20000                 # lines of history to maintain memory
-SAVEHIST=20000                 # lines of history to maintain in history file.
+HISTSIZE=20000                   # lines of history to maintain memory
+SAVEHIST=20000                   # lines of history to maintain in history file.
+setopt appendhistory             # append rather than overwrite history file.
+setopt sharehistory              # share history between all sessions.
+setopt hist_ignore_space         # ignore commands that start with a space, used for sensitive commands
+setopt hist_ignore_dups          # ignore duplicated commands
+setopt hist_ignore_all_dups      # ignore duplicated commands
+setopt hist_save_no_dups         # don't save duplicated commands
+
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+
 
 export EDITOR='nvim'
 source "$HOME/.aliases"

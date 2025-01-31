@@ -2,18 +2,19 @@
 
  :aliases
  {:local-dev
-  {:extra-paths ["test"] ;; Temporarily needed because arqiver repl breaks after not finding some test ns somehow
-   :extra-deps {vvvvalvalval/scope-capture {:mvn/version "0.3.3"}
+  {:extra-deps {vvvvalvalval/scope-capture {:mvn/version "0.3.3"}
                 vvvvalvalval/scope-capture-nrepl {:mvn/version "0.3.1"}
-                ;; Portal seems better:
-                ;; djblue/portal        {:mvn/version "0.38.0"}
-                io.github.nubank/morse {:git/tag "v2023.04.30.01" :git/sha "d99b09c"}}}
+                djblue/portal        {:mvn/version "0.57.3"}
+                io.julienvincent/clojure-test {:mvn/version "0.2.0"}}}
+
+  :nrepl
+  {:extra-deps {nrepl/nrepl {:mvn/version "1.3.0"}}
+   :main-opts ["-m" "nrepl.cmdline"]}
+  ;; "--middleware" "[vvvvalvalval.scope-capture.nrepl/wrap-scope-capture]"]}
 
   :cider-nrepl
   {:extra-deps {cider/cider-nrepl {:mvn/version "0.44.0"}}
-   :main-opts ["-m" "nrepl.cmdline"
-               "--middleware"
-               "[cider.nrepl/cider-middleware]"]}
+   :main-opts ["-m" "nrepl.cmdline" "--middleware" "[cider.nrepl/cider-middleware]"]}
 
   ;; Copied over from https://docs.cider.mx/cider-nrepl/usage.html not tested yet
   :cider-cljs
@@ -22,20 +23,24 @@
    :main-opts ["-m" "nrepl.cmdline" "--middleware"
                "[cider.nrepl/cider-middleware,cider.piggieback/wrap-cljs-repl]"]}
 
-  :benchmark {:extra-deps {criterium/criterium {:mvn/version "0.4.4"}}}
+  :benchmark
+  {:extra-deps {criterium/criterium {:mvn/version "0.4.4"}}}
 
-  :neil {:deps {io.github.babashka/neil {:git/tag "v0.2.63" :git/sha "076fb83"}}
-         :main-opts ["-m" "babashka.neil"]}
-  :new {:extra-deps {com.github.seancorfield/clj-new
-                     {:mvn/version "1.2.381"}}
-        :exec-fn clj-new/create
-        :exec-args {:template "app"}}
-  :profiler {:extra-deps {nodisassemble/nodisassemble {:mvn/version "0.1.3"}}
-             :extra-paths ["/Applications/YourKit-Java-Profiler-2018.04.app/Contents/Resources/lib/yjp-controller-api-redist.jar"]
-             :jvm-opts ["-agentpath:/Applications/YourKit-Java-Profiler-2018.04.app/Contents/Resources/bin/mac/libyjpagent.jnilib"
-                        "-javaagent:/Users/yannvanhalewyn/.m2/repository/nodisassemble/nodisassemble/0.1.3/nodisassemble-0.1.3.jar"]}}}
+  :neil
+  {:deps {io.github.babashka/neil {:git/tag "v0.2.63" :git/sha "076fb83"}}
+   :main-opts ["-m" "babashka.neil"]}
 
+  :new
+  {:extra-deps {com.github.seancorfield/clj-new
+                {:mvn/version "1.2.381"}}
+   :exec-fn clj-new/create
+   :exec-args {:template "app"}}
 
+  :profiler
+  {:extra-deps {nodisassemble/nodisassemble {:mvn/version "0.1.3"}}
+   :extra-paths ["/Applications/YourKit-Java-Profiler-2018.04.app/Contents/Resources/lib/yjp-controller-api-redist.jar"]
+   :jvm-opts ["-agentpath:/Applications/YourKit-Java-Profiler-2018.04.app/Contents/Resources/bin/mac/libyjpagent.jnilib"
+              "-javaagent:/Users/yannvanhalewyn/.m2/repository/nodisassemble/nodisassemble/0.1.3/nodisassemble-0.1.3.jar"]}}}
 
 ;; Outdated
 ;; :lsp-references {:extra-deps {com.github.clojure-lsp/clojure-lsp {:mvn/version "2023.07.01-22.35.41"}}

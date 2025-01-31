@@ -142,7 +142,7 @@
                 },
                 {
                     "from": { "pointing_button": "button4" },
-                    "to": [{ "key_code": "f5" }]
+                    "to": [{ "key_code": "f4" }]
                 },
                 {
                     "from": { "pointing_button": "button5" },
@@ -151,7 +151,7 @@
             ],
             "virtual_hid_keyboard": {
                 "country_code": 0,
-                "keyboard_type_v2": "iso"
+                "keyboard_type_v2": "ansi"
             }
         }
     ]

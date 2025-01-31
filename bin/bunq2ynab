@@ -1,4 +1,4 @@
 #!/bin/sh
 
-echo '"Date","Inflow","Account","Counterparty","Payee","Memo"' > ynab.csv
+echo '"Date";"InterestDate";"Inflow";"Account";"Counterparty";"Payee";"Memo"' > ynab.csv
 sed '1d' $1 >> ynab.csv

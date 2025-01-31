@@ -16,7 +16,7 @@ then
 
   # Editor
   tmux new-window -t $session:2 -n "nvim"
-  tmux send-keys -t $session:2 "cd .config/nvim && nvim lua/init.lua" C-m
+  tmux send-keys -t $session:2 "cd .config/nvim && nvim init.lua" C-m
 
   # Shell
   tmux new-window -t $session:3 -n "Shell"

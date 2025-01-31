@@ -21,7 +21,7 @@ enable-normalization-opposite-orientation-for-nested-containers = true
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
 # The 'accordion-padding' specifies the size of accordion padding
 # You can set 0 to disable the padding feature
-accordion-padding = 16
+accordion-padding = 20
 
 # Possible values: tiles|accordion
 default-root-container-layout = 'tiles'
@@ -37,6 +37,8 @@ default-root-container-orientation = 'auto'
 # See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
 # Fallback value (if you omit the key): on-focused-monitor-changed = []
 on-focus-changed = 'move-mouse window-lazy-center'
+# Try enabling this as well see what happens
+# on-focused-monitor-changed = 'move-mouse monitor-lazy-center'
 
 # You can effectively turn off macOS "Hide application" (cmd-h) feature by toggling this flag
 # Useful if you don't use this macOS feature, but accidentally hit cmd-h or cmd-alt-h key
@@ -90,62 +92,72 @@ tell application "Arc"
 end tell'
 '''
 
+cmd-ctrl-r = '''exec-and-forget osascript -e '
+tell application "Arc"
+    reload (active tab of (window 1))
+end tell'
+'''
+
+# f1 = '''exec-and-forget osascript -e '
+# tell application "Arc"
+#     reload (active tab of (window 1))
+# end tell'
+# '''
+
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
-# cmd-alt-slash = 'layout tiles horizontal vertical'
-# cmd-alt-f = 'layout accordion horizontal vertical'
-cmd-alt-f = 'layout accordion tiles'
+cmd-ctrl-f = 'layout accordion tiles'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#focus
-cmd-alt-h = 'focus left'
-cmd-alt-j = 'focus down'
-cmd-alt-k = 'focus up'
-cmd-alt-l = 'focus right'
+cmd-ctrl-h = 'focus left'
+cmd-ctrl-j = 'focus down'
+cmd-ctrl-k = 'focus up'
+cmd-ctrl-l = 'focus right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move
 # This is actually annoying for text inputs.
-cmd-alt-left  = 'move left'
-cmd-alt-down  = 'move down'
-cmd-alt-up    = 'move up'
-cmd-alt-right = 'move right'
+cmd-ctrl-left  = 'move left'
+cmd-ctrl-down  = 'move down'
+cmd-ctrl-up    = 'move up'
+cmd-ctrl-right = 'move right'
 
-cmd-alt-shift-left  = 'join-with left'
-cmd-alt-shift-down  = 'join-with down'
-cmd-alt-shift-up    = 'join-with up'
-cmd-alt-shift-right = 'join-with right'
+cmd-ctrl-alt-left  = 'join-with left'
+cmd-ctrl-alt-down  = 'join-with down'
+cmd-ctrl-alt-up    = 'join-with up'
+cmd-ctrl-alt-right = 'join-with right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#resize
-cmd-alt-minus = 'resize smart -50'
-cmd-alt-equal = 'resize smart +50'
+cmd-ctrl-minus = 'resize smart -50'
+cmd-ctrl-equal = 'resize smart +50'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-alt-1 = 'workspace 1'
-alt-2 = 'workspace 2'
-alt-3 = 'workspace 3'
-alt-4 = 'workspace 4'
-alt-5 = 'workspace 5'
-alt-6 = 'workspace 6'
-alt-7 = 'workspace 7'
-alt-8 = 'workspace 8'
-alt-9 = 'workspace 9'
+cmd-ctrl-1 = 'workspace 1'
+cmd-ctrl-2 = 'workspace 2'
+cmd-ctrl-3 = 'workspace 3'
+cmd-ctrl-4 = 'workspace 4'
+cmd-ctrl-5 = 'workspace 5'
+cmd-ctrl-6 = 'workspace 6'
+cmd-ctrl-7 = 'workspace 7'
+cmd-ctrl-8 = 'workspace 8'
+cmd-ctrl-9 = 'workspace 9'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
-cmd-alt-1 = ['move-node-to-workspace 1', 'workspace 1']
-cmd-alt-2 = ['move-node-to-workspace 2', 'workspace 2']
-cmd-alt-3 = 'move-node-to-workspace 3'
-cmd-alt-4 = 'move-node-to-workspace 4'
-cmd-alt-5 = 'move-node-to-workspace 5'
-cmd-alt-6 = 'move-node-to-workspace 6'
-cmd-alt-7 = 'move-node-to-workspace 7'
-cmd-alt-8 = 'move-node-to-workspace 8'
-cmd-alt-9 = 'move-node-to-workspace 9'
+cmd-ctrl-alt-1 = ['move-node-to-workspace 1', 'workspace 1']
+cmd-ctrl-alt-2 = ['move-node-to-workspace 2', 'workspace 2']
+cmd-ctrl-alt-3 = ['move-node-to-workspace 3', 'workspace 3']
+cmd-ctrl-alt-4 = ['move-node-to-workspace 4', 'workspace 4']
+cmd-ctrl-alt-5 = ['move-node-to-workspace 5', 'workspace 5']
+cmd-ctrl-alt-6 = ['move-node-to-workspace 6', 'workspace 6']
+cmd-ctrl-alt-7 = ['move-node-to-workspace 7', 'workspace 7']
+cmd-ctrl-alt-8 = ['move-node-to-workspace 8', 'workspace 8']
+cmd-ctrl-alt-9 = ['move-node-to-workspace 9', 'workspace 9']
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+cmd-ctrl-tab = 'move-workspace-to-monitor --wrap-around next'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
-alt-shift-semicolon = 'mode service'
+cmd-ctrl-semicolon = 'mode service'
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -172,12 +184,28 @@ run = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.googlecode.iterm2'
-run = ['move-node-to-workspace 2']
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Music'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Notes'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'ru.keepcoder.Telegram'
+run = 'move-node-to-workspace 3'
 
 [[on-window-detected]]
 if.app-id = 'com.mojang.minecraftlauncher'
 run = ['layout floating', 'move-node-to-workspace 4']
 
 [[on-window-detected]]
+if.window-title-regex-substring = 'Minecraft'
+run = ['layout floating', 'move-node-to-workspace 4']
+
+[[on-window-detected]]
 if.app-id = 'com.ableton.live'
-run = ['move-node-to-workspace 4']
+run = 'move-node-to-workspace 4'

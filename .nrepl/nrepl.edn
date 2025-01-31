@@ -1,1 +1,1 @@
-{:middleware [cider.nrepl/cider-middleware]}
+{}
