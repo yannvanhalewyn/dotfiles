@@ -1,0 +1,38 @@
+#!/usr/bin/env bb
+
+(require '[babashka.process :as p])
+(require '[clojure.string :as str])
+
+(defn- get-tracked-branches []
+  (let [raw (-> (p/process {:out :string} "gt" "log" "short" "--all")
+                (deref)
+                (:out))]
+    (->>
+      raw
+     ;;(for [line (str/split-lines raw)]
+     ;;  (re-find #"[a-zA-Z]\S+" line))
+      (str/split-lines)
+      (remove #(str/includes? % "master")))))
+
+(defn- select-branch! [branches]
+  (-> (p/shell {:in (str/join "\n" (reverse branches))
+                :out :str}
+        "fzf")
+    :out
+    slurp))
+
+(defn- open-diff-in-neovim! [branchname]
+  (p/shell
+    "nvim" "-c" (str ":DiffviewOpen master..." branchname)))
+
+
+(defn -main []
+  (when-let [branch (->> (select-branch! (get-tracked-branches))
+                      ;; Original has ascii tree followed by branch name.
+                      ;; Find any alphabetical character until next whitespace
+                      (re-find #"[a-zA-Z]\S+"))]
+
+
+    (open-diff-in-neovim! branch)))
+
+(-main)
