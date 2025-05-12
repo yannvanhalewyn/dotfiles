@@ -91,7 +91,9 @@ alias gro='[ -n "$(current_git_branch)" ] && git reset origin/$(current_git_bran
 alias groh='[ -n "$(current_git_branch)" ] && git reset origin/$(current_git_branch) --hard'
 alias gs="git status"
 alias gsha="git rev-parse HEAD"
+alias gsta="git stash"
 alias gstl="git stash list"
+alias gstp="git stash pop"
 alias gwa="git worktree add"
 alias gwl="git worktree list"
 alias gwr="git worktree remove"
@@ -107,6 +109,26 @@ alias gtcm="gt create --message"
 alias gtl="gt log short"
 alias gtp="gt submit"
 alias gts="gt sync"
+
+# Git Machete
+alias gms="git machete status"
+alias gmd="git machete go down"
+alias gmu="git machete go up"
+alias gmr="git machete go root"
+alias gml="git machete go last"
+
+# Jujutsu
+alias j="jj log -n 5"
+alias jbl="jj bookmark list"
+alias jd="jj describe"
+alias je="jj edit"
+alias jl="jj log -n 10"
+# alias jll="jj log -r 'present(trunk())..@'"
+alias jll="jj log -r ::"          # Log all current ancestors and descendants
+alias jlm="jj log -r master-..@"  # Log all commits since master
+alias jn="jj new"
+alias js="jj show"
+alias jst="jj status"
 
 # Neovim
 alias nv="neovide"
@@ -129,6 +151,7 @@ alias npmlg='npm ls -g --depth=0'
 # Take me to my code/dotfiles folder
 alias code='cd $HOME/code'
 alias dotf='cd $HOME/dotfiles'
+alias obsidian="cd ~/Library/Mobile Documents/iCloud~md~obsidian/Documents"
 
 # Tmux
 # -u forces UTF-8. This ensures that even when no UTF-8 is in LC_ALL, LC_TYPE
@@ -191,17 +214,8 @@ alias :q='tmux kill-pane'
 # Clojure
 alias transit='pbpaste | jet --from transit --to edn --pretty | less'
 # alias cljfmt='clj -Tcljfmt'
+alias repl="clj -M:local-dev:nrepl"
 
-# Rails stuff
-alias mpdi='mina production db:import'
-alias rdsl='rake db:structure:load'
-alias rdfl='rake db:fixtures:load'
-alias nukeit='bin/rails db:environment:set RAILS_ENV=development && rake db:drop && rake db:create && rake db:structure:load && rake db:fixtures:load && rake db:test:prepare'
-alias rn-nukeit='npm cache clean && watchman watch-del-all && rm -rf node_modules && npm install && npm start -- --reset-cache'
-alias fs='foreman start'
-alias ys='yarn start'
-alias yc='yarn check'
-alias yi='yarn install'
 
 alias dc='docker-compose'
 alias dup='docker-compose up -d'

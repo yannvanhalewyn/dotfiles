@@ -177,6 +177,8 @@ _bb_tasks() {
     _files # autocomplete filenames as well
 }
 compdef _bb_tasks bb
+source <(jj util completion zsh)
+compdef _jj jj
 
 # Fixes strange codes in `gt log` timeline segment symbols
 export LANG=en_US.UTF-8

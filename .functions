@@ -327,3 +327,32 @@ function interval() {
     $@;
   done
 }
+
+function select_branch() {
+  git branch \
+    | grep -v "HEAD detached" \
+    | sed 's/^* //; s/^  //' \
+    | fzf \
+      --height 40% \
+      --reverse \
+      --header="Select a branch to bookmark" \
+      --preview "git log --color=always -n 10 {}"
+}
+
+# Jujutsu bookmark set
+function jbs() {
+  local ref="${1:-@}"
+  local branch=$(select_branch)
+
+  if [ -z "$branch" ]; then
+    echo "No branch selected, exiting."
+    return 1
+  fi
+
+  echo "Running: jj bookmark set $branch -r $ref"
+  jj bookmark set "$branch" -r "$ref $2"
+}
+
+function jlb() {
+  jj log -r master..$(select_branch)
+}
