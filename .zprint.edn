@@ -1,0 +1,51 @@
+;; Docs: https://github.com/kkinnear/zprint
+;; Copied from https://github.com/cohesic/cohesic-xtdb/blob/main/.zprint.edn
+;; As found from this reddit comment:
+;; https://www.reddit.com/r/Clojure/comments/xtjc82/comment/iqtzmhk/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+;; Consider using https://github.com/greglook/cljstyle
+{:cwd-zprintrc? true
+ :style [:community :how-to-ns :binding-nl]
+ :map {:comma? false :sort? false}
+ :comment {:inline-align-style :none}
+ :width 85
+ :fn-map
+ {"def" [:arg1-body {:vector {:wrap-coll? false}}]
+  "defn"
+  [:arg1-body
+   {:next-inner
+    {:map
+     {:force-nl? true :key-order [:pre :post] :sort-in-code? false :sort? true}
+     :next-inner {:map {:force-nl? false}}}}]
+  "cond->" [:arg1-pair-body {:pair {:indent 0 :nl-separator? true}}]
+  "cond" [:pair-fn
+          {:pair {:indent 0 :nl-separator? true} :pair-fn {:hang? false}}]
+  "try" :flow-body
+  "as->" [:arg2
+          {:fn-force-nl #{:arg2} :next-inner {:remove {:fn-force-nl #{:arg2}}}}]
+  "deftest" :arg1-body
+  "testing" [:arg1-body {:list {:respect-nl? true}}]
+  "extend" :arg1-extend
+  "comment" [:flow-body {:list {:respect-nl? true}}]
+  "extend-type" [:arg1-extend
+                 {:extend {:indent 0}
+                  :list {:indent-arg 2}
+                  :fn-map {:default :force-nl-body}}]
+  ;; remove when next release is out
+  ;; https://github.com/kkinnear/zprint/issues/176
+  ;; "defrecord" [:arg2-extend
+  ;;              {:list {:indent-arg 2} :next-inner {:list {:indent-arg 1}}}]
+  "defprotocol" [:arg1-force-nl
+                 {:fn-map {:default :flow}
+                  :list {:constant-pair? false :indent-arg 2}
+                  :next-inner {:list {:indent-arg 1}}
+                  :style :defprotocolguide}]
+  "with-meta" :flow-body
+  ;; clojure spec
+  "s/alt" :noarg1-body
+  "warn-keys" [:none
+               {:vector {:fn-format :flow}
+                :vector-fn {:constant-pair? false :indent 1}}]
+  "s/keys" [:none
+            {:vector {:fn-format :flow}
+             :vector-fn {:constant-pair? false :indent 1}}]
+  "with-instrument-disabled" :flow-body}}
