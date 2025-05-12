@@ -1,3 +1,4 @@
+,*
 .vim/undo/*
 !vim/undo/.keep
 .vim/plugged/
@@ -33,6 +34,7 @@
 /.config/gh/
 /.config/pgcli/log
 /.config/yarn/
+/.config/sanity/
 /.clj-kondo/.cache/v1/lock
 /.lsp/.cache/
 /.config/flipper/
@@ -42,3 +44,5 @@
 /.clojure/.clj-kondo/.cache
 /.clj-kondo/.cache
 .config/karabiner/automatic_backups/
+.config/jgit/
+.config/graphite/user_config
