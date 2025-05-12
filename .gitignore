@@ -41,3 +41,4 @@
 /.clojure/.lsp/.cache
 /.clojure/.clj-kondo/.cache
 /.clj-kondo/.cache
+.config/karabiner/automatic_backups/

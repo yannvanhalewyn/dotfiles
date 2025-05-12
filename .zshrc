@@ -16,11 +16,34 @@ autoload -Uz compinit && compinit
 # Load plugins
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# Consider using zinit, see https://www.youtube.com/watch?v=ud7YxC33Z3w
-source ~/.zsh/fzf-tab/fzf-tab.plugin.zsh
-source ~/.zsh/custom/.zsh-theme
 
-setopt PROMPT_SUBST
+################################################################################
+# FZF Tab
+
+# This section just needs to source fzf-tab, but also checks if it's installed
+# and installs it automatically if it's not for new machines.
+# Consider using zinit, see https://www.youtube.com/watch?v=ud7YxC33Z3w
+FZF_TAB_PLUGIN_ROOT="$HOME/repos/fzf-tab"
+FZF_TAB_PLUGIN="$FZF_TAB_PLUGIN_ROOT/fzf-tab.plugin.zsh"
+
+if [[ ! -f "$FZF_TAB_PLUGIN" ]]; then
+    echo "fzf-tab plugin not found. Installing..."
+    mkdir -p "$HOME/repos"
+    git clone https://github.com/Aloxaf/fzf-tab "$FZF_TAB_PLUGIN_ROOT"
+
+    if [[ $? -eq 0 ]]; then
+      echo "fzf-tab plugin successfully installed!"
+    else
+      echo "Error: Failed to install fzf-tab plugin."
+    fi
+fi
+source "$FZF_TAB_PLUGIN"
+
+################################################################################
+
+source ~/.zsh/prompt.zsh-theme
+
+setopt prompt_subst
 setopt MENU_COMPLETE
 setopt extendedglob
 
@@ -39,7 +62,6 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 HISTSIZE=20000                   # lines of history to maintain memory
 SAVEHIST=20000                   # lines of history to maintain in history file.
 setopt appendhistory             # append rather than overwrite history file.
-setopt sharehistory              # share history between all sessions.
 setopt hist_ignore_space         # ignore commands that start with a space, used for sensitive commands
 setopt hist_ignore_dups          # ignore duplicated commands
 setopt hist_ignore_all_dups      # ignore duplicated commands
@@ -76,8 +98,6 @@ export MANPAGER='less -s -M +Gg'
 
 export PATH="$HOME/bin:/usr/local/opt/grep/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="/Applications/SuperCollider.app/Contents/Resources:$PATH"
-export PATH="$HOME/repos/elasticsearch-8.6.2/bin:$PATH"
-export PATH="$HOME/repos/kibana-8.6.2/bin:$PATH"
 
 ################################################################################
 # RBENV
