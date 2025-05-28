@@ -330,13 +330,41 @@ function interval() {
 
 function select_branch() {
   git branch \
+    | sed 's/^* //; s/^  //; s/+ //' \
     | grep -v "HEAD detached" \
-    | sed 's/^* //; s/^  //' \
+    | grep -v "^\w*z_" \
     | fzf \
       --height 40% \
       --reverse \
       --header="Select a branch to bookmark" \
       --preview "git log --color=always -n 10 {}"
+}
+
+function prnew() {
+  local branch=$(select_branch)
+  if [ -z "$branch" ]; then
+    echo "No branch selected, exiting."
+    return 1
+  else
+    gh pr create --head $branch
+  fi
+}
+
+function killfzf() {
+  local pid=$(ps aux \
+    | fzf \
+        --header-lines 1 \
+        --preview-window down:80%:wrap \
+        --preview "printf '%s\n' {} | awk '{print \$2}' | xargs ps -p" \
+    | awk '{print $2}')
+
+  if [ -z "$pid" ]; then
+    echo "No pid selected, exiting."
+    return 1
+  else
+    echo "Killing $pid"
+    kill $pid
+  fi
 }
 
 # Jujutsu bookmark set

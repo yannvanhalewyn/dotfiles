@@ -122,7 +122,9 @@ alias j="jj log -n 5"
 alias jbl="jj bookmark list"
 alias jd="jj describe"
 alias jgf="jj git fetch"
-alias jpm="jj bookmark set master -r master@origin" # jj pull master
+alias jgp="jj git push --tracked"
+# like git pull master
+alias jp="jj git fetch && jj bookmark set master -r master@origin" # jj pull master
 alias je="jj edit"
 alias jl="jj log -n 10"
 # alias jll="jj log -r 'present(trunk())..@'"
@@ -183,6 +185,12 @@ alias bstop="brew services stop"
 # Elasticsearch
 alias es='elasticsearch'
 alias estest='elasticsearch --http.port=9250'
+
+# Kafka (via docker compose)
+alias kafka-topics='docker compose exec kafka kafka-topics --bootstrap-server localhost:9092'
+alias kafka-producer='docker compose exec kafka kafka-console-producer --bootstrap-server localhost:9092'
+alias kafka-consumer='docker compose exec kafka kafka-console-consumer --bootstrap-server localhost:9092'
+alias kafka-all-messages='kafka-consumer --property print.key=true --from-beginning --topic'
 
 # Simple server
 alias simserv='open "http://localhost:8000"; python -m SimpleHTTPServer'

@@ -7,8 +7,6 @@ date_color=magenta
 path_color=yellow
 vcs_color=green
 prompt_color=blue
-reset_color=$(tput sgr0)
-reset_attrs="\e[0m"
 
 # =======
 # UTILITY
@@ -21,7 +19,8 @@ prompt_segment() {
   else
     [[ -n $2 ]] && color="%F{$2}" || color="%f"
   fi
-  echo -n "${color}${1} "
+  # Use %f to reset color instead of raw escape sequence
+  echo -n "${color}${1}%f "
 }
 
 
@@ -107,7 +106,6 @@ build_prompt() {
   # newline
   echo -n "\n"
   prompt
-  echo -n "$reset_attrs"
 }
 
 PROMPT='$(build_prompt)'
