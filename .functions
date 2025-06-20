@@ -345,9 +345,16 @@ function prnew() {
   if [ -z "$branch" ]; then
     echo "No branch selected, exiting."
     return 1
-  else
-    gh pr create --head $branch
   fi
+
+  local base_branch=$(select_branch)
+
+  if [ -z "$base_branch" ]; then
+    echo "No base branch selected, exiting."
+    return 1
+  fi
+
+  gh pr create --head $branch --base $base_branch
 }
 
 function killfzf() {
