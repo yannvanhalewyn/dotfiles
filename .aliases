@@ -131,8 +131,12 @@ alias jl="jj log -n 10"
 alias jll="jj log -r ::"          # Log all current ancestors and descendants
 alias jlm="jj log -r master-..@"  # Log all commits since master
 alias jn="jj new"
-alias js="jj show"
+alias jr="jj rebase"
+alias jrh="jj rebase -h"
+alias js="jj squash"
+alias jsr="jj squash -r"
 alias jst="jj status"
+alias jsh="jj show"
 
 # Neovim
 alias nv="neovide"

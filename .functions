@@ -329,6 +329,7 @@ function interval() {
 }
 
 function select_branch() {
+  local prompt="${1:-Select a branch}"
   git branch \
     | sed 's/^* //; s/^  //; s/+ //' \
     | grep -v "HEAD detached" \
@@ -336,18 +337,18 @@ function select_branch() {
     | fzf \
       --height 40% \
       --reverse \
-      --header="Select a branch to bookmark" \
+      --header="$prompt" \
       --preview "git log --color=always -n 10 {}"
 }
 
 function prnew() {
-  local branch=$(select_branch)
+  local branch=$(select_branch "Select HEAD branch")
   if [ -z "$branch" ]; then
     echo "No branch selected, exiting."
     return 1
   fi
 
-  local base_branch=$(select_branch)
+  local base_branch=$(select_branch "Select BASE branch")
 
   if [ -z "$base_branch" ]; then
     echo "No base branch selected, exiting."
@@ -374,10 +375,11 @@ function killfzf() {
   fi
 }
 
-# Jujutsu bookmark set
+# Jujutsu bookmark set, optionally takes a ref
+# $ jbs <ref>
 function jbs() {
   local ref="${1:-@}"
-  local branch=$(select_branch)
+  local branch=$(select_branch "Select branch to bookmark")
 
   if [ -z "$branch" ]; then
     echo "No branch selected, exiting."
@@ -388,6 +390,19 @@ function jbs() {
   jj bookmark set "$branch" -r "$ref $2"
 }
 
+# jj log master until bookmark
 function jlb() {
   jj log -r master..$(select_branch)
+}
+
+# jj split -i -r <ref>. Also works without ref arg
+# $ jsi <ref>
+function jsi() {
+  local ref="$1"
+
+  if [ -n "$ref" ]; then
+    jj split -i -r "$ref"
+  else
+    jj split -i
+  fi
 }
