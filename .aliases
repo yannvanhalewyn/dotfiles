@@ -135,6 +135,7 @@ alias jr="jj rebase"
 alias jrh="jj rebase -h"
 alias js="jj squash"
 alias jsr="jj squash -r"
+alias jsi="jj split -i"
 alias jst="jj status"
 alias jsh="jj show"
 
