@@ -8,7 +8,6 @@
     - .aliases
     - .bash_profile
     - .bash_prompt
-    - bin
     - .cheat
     - .clojure
     - .config
@@ -20,6 +19,7 @@
     - .gitconfig
     - .gitignore_global
     - .hammerspoon
+    - .jjconfig.toml
     - .lein
     - .osx
     - .psqlrc
@@ -29,3 +29,4 @@
     - .vimrc
     - .zsh
     - .zshrc
+    - bin

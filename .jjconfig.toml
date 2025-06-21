@@ -1,0 +1,27 @@
+[user]
+name = "Yann Vanhalewyn"
+email = "yann.vanhalewyn@gmail.com"
+
+[ui]
+default-command = "log"
+diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
+
+[aliases]
+retrunk = ["rebase", "-s", "all:roots(main..@)", "-d", "main"]
+
+[templates]
+# Improve the default representation in the log. This colors
+# and changes the node icon for each.
+op_log_node = 'if(current_operation, "@", "◉")'
+log_node = '''
+label("node",
+  coalesce(
+    if(!self, label("elided", "⇋")),
+    if(current_working_copy, label("working_copy", "◉")),
+    if(conflict, label("conflict", "x")),
+    if(immutable, label("immutable", "◆")),
+    if(description.starts_with("wip: "), label("wip", "!")),
+    label("normal", "○")
+  )
+)
+'''
