@@ -227,3 +227,4 @@ _gt_yargs_completions()
 }
 compdef _gt_yargs_completions gt
 ###-end-gt-completions-###
+export PATH="/opt/homebrew/bin:$PATH"
