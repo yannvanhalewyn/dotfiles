@@ -124,13 +124,15 @@ alias jd="jj describe"
 alias jgf="jj git fetch"
 alias jgp="jj git push --tracked"
 # like git pull master
-alias jp="jj git fetch && jj bookmark set master -r master@origin" # jj pull master
+alias jj_pull="jj git fetch && jj bookmark set master -r master@origin" # jj pull master
 alias je="jj edit"
 alias jl="jj log -n 10"
 # alias jll="jj log -r 'present(trunk())..@'"
 alias jll="jj log -r ::"          # Log all current ancestors and descendants
 alias jlm="jj log -r master-..@"  # Log all commits since master
 alias jn="jj new"
+alias jna="jj new -A"
+alias jnaa="jj new -A @"
 alias jr="jj rebase"
 alias jrh="jj rebase -h"
 alias js="jj squash"
@@ -138,6 +140,7 @@ alias jsr="jj squash -r"
 alias jsi="jj split -i"
 alias jst="jj status"
 alias jsh="jj show"
+alias jj_stack="jj log -r 'trunk()::@ & bookmarks()' -T 'local_bookmarks ++ \"\n\"' --no-graph"
 
 # Neovim
 alias nv="neovide"
