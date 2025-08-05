@@ -32,15 +32,22 @@ function fish_prompt
     end
 
     # Get current change name and ref
-    set -l jj_info (jj status --no-pager 2>/dev/null)
+    set -l jj_info (jj status --no-pager 2>/dev/null | string split \n)
 
-    # Extract change ID (name) - look for the working copy line with (@)
-    set -l change_line (echo "$jj_info" | grep -E "Working copy.*@" | head -1)
-    set -l change_id (echo "$change_line" | awk '{print $3}')
-    set -l change_desc (echo "$change_line" | sed 's/.*@): //' | sed 's/^[^ ]* //')
+    # Extract change ID (name)
+    set -l change_line (printf '%s\n' $jj_info | grep -E "Working copy\s+\(@\)" | head -1)
+    set -l change_id (echo "$change_line" | awk '{print $5}')
+    set -l change_desc (echo "$change_line" | awk '{for(i=7;i<=NF;i++) printf "%s%s", $i, (i<NF?" ":"")}')
+
+    # Check if working copy has changes
+    set -l dirty ""
+    if echo "$jj_info" | grep -q "^M "
+      # Not really useful?
+      set dirty "*"
+    end
 
     # Print the formatted result
-    echo " ($change_desc)"
+    echo " $change_id $change_desc$dirty"
   end
 
   function git_branch
