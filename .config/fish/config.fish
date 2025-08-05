@@ -3,8 +3,8 @@ if status is-interactive
 end
 
 # Environment variables
-# set -gx EDITOR nvim
-# set -gx BAT_THEME TwoDark
+set -gx EDITOR nvim
+set -gx BAT_THEME TwoDark
 
 # FZF configuration
 set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
@@ -36,6 +36,12 @@ alias v="nvim"
 alias v.="v ."
 alias vf="v -o (fzf)"
 alias vd="d && v."
+
+# tmux
+alias ta='tmux -u attach'
+alias :vs='tmux splitw -h'
+alias :sp='tmux splitw'
+alias :q='tmux kill-pane'
 
 # Git
 alias g="git"
@@ -84,3 +90,57 @@ alias jsh="jj show"
 
 # Docker
 alias dup="docker-compose up -d"
+
+# NVM - Lazy loading for performance
+if test -d "$HOME/.nvm"
+  set -gx NVM_DIR "$HOME/.nvm"
+
+  function _load_nvm_and_run
+    set cmd $argv[1]
+
+    # Remove all the custom functions
+    functions -e nvm node npm npx yarn claude opencode 2>/dev/null
+
+    # Load NVM by sourcing it in a subshell and extracting the PATH
+    set -l nvm_output (bash -c "source '$NVM_DIR/nvm.sh' && echo \$PATH")
+    set -gx PATH $nvm_output
+
+    # Also set NODE_PATH if it exists
+    set -l node_path (bash -c "source '$NVM_DIR/nvm.sh' && echo \$NODE_PATH")
+    if test -n "$node_path"
+      set -gx NODE_PATH $node_path
+    end
+
+    # Run the original command
+    command $argv
+  end
+
+  # Create functions that will load NVM on first use
+  function nvm
+    _load_nvm_and_run nvm $argv
+  end
+
+  function node
+    _load_nvm_and_run node $argv
+  end
+
+  function npm
+    _load_nvm_and_run npm $argv
+  end
+
+  function npx
+    _load_nvm_and_run npx $argv
+  end
+
+  function yarn
+    _load_nvm_and_run yarn $argv
+  end
+
+  function claude
+    _load_nvm_and_run claude $argv
+  end
+
+  function opencode
+    _load_nvm_and_run opencode $argv
+  end
+end
