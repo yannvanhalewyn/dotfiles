@@ -53,11 +53,11 @@ function fish_prompt
   function git_branch
     set -l jj_info (jj_prompt_info)
     if test -n "$jj_info"
-      prompt_segment " $jj_info" $vcs_color
+      prompt_segment "$jj_info" green
     else
       set -l branch (parse_git_branch)
       if test -n "$branch"
-        prompt_segment " $branch" $vcs_color
+        prompt_segment " $branch" green
       end
     end
   end
