@@ -6,30 +6,11 @@ end
 set -gx EDITOR nvim
 set -gx BAT_THEME TwoDark
 
-# FZF configuration
-set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
+################################################################################
+# Aliases
 
-# FZF options for Ctrl+T (file search)
-set -gx FZF_CTRL_T_OPTS "--height 60% \
---border sharp \
---layout reverse \
---prompt '∷ ' \
---pointer ▶ \
---marker ⇒ \
---preview 'bat -n --color=always --line-range :500 {}'"
-
-# FZF options for Alt+C (directory search)
-set -gx FZF_ALT_C_OPTS "--preview 'eza --tree --color=always {} | head -200'"
-
-# Initialize FZF key bindings
-if command -v fzf >/dev/null
-    fzf --fish | source
-end
-
-# Zoxide (smart cd)
-if command -v zoxide >/dev/null
-    zoxide init --cmd cd fish | source
-end
+# Utils
+alias paths='echo $PATH | tr ":" "\n"'
 
 # Neovim
 alias v="nvim"
@@ -91,7 +72,39 @@ alias jsh="jj show"
 # Docker
 alias dup="docker-compose up -d"
 
-# NVM - Lazy loading for performance
+################################################################################
+# FZF
+
+set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
+
+# FZF options for Ctrl+T (file search)
+set -gx FZF_CTRL_T_OPTS "--height 60% \
+--border sharp \
+--layout reverse \
+--prompt '∷ ' \
+--pointer ▶ \
+--marker ⇒ \
+--preview 'bat -n --color=always --line-range :500 {}'"
+
+# FZF options for Alt+C (directory search)
+set -gx FZF_ALT_C_OPTS "--preview 'eza --tree --color=always {} | head -200'"
+
+# Initialize FZF key bindings
+if command -v fzf >/dev/null
+    fzf --fish | source
+end
+
+################################################################################
+# Zoxide
+
+if command -v zoxide >/dev/null
+    zoxide init --cmd cd fish | source
+end
+
+################################################################################
+# NVM
+
+# Lazy loading for performance
 if test -d "$HOME/.nvm"
   set -gx NVM_DIR "$HOME/.nvm"
 
