@@ -187,7 +187,6 @@ if [ -s "$HOME/.nvm/nvm.sh" ]; then
   alias node='unalias nvm node npm yarn claude opencode && . "$NVM_DIR"/nvm.sh && node'
   alias npm='unalias nvm node npm yarn claude opencode && . "$NVM_DIR"/nvm.sh && npm'
   alias yarn='unalias nvm node npm yarn claude opencode && . "$NVM_DIR"/nvm.sh && yarn'
-  alias claude='unalias nvm node npm yarn claude && . "$NVM_DIR"/nvm.sh && claude'
   alias opencode='unalias nvm node npm yarn claude opencode && . "$NVM_DIR"/nvm.sh && opencode'
 fi
 

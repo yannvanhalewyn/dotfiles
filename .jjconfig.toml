@@ -4,7 +4,7 @@ email = "yann.vanhalewyn@gmail.com"
 
 [ui]
 default-command = "log"
-diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
+diff-editor = ["/Users/yannvanhalewyn/repos/nvim-macos-x86_64/bin/nvim", "-c", "DiffEditor $left $right $output"]
 
 [aliases]
 retrunk = ["rebase", "-s", "all:roots(main..@)", "-d", "main"]

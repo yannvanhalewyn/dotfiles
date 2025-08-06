@@ -64,7 +64,7 @@ function fish_prompt
 
   # First line: path and git info
   echo
-  prompt_segment (prompt_pwd) $path_color
+  prompt_segment (prompt_pwd -D 5) $path_color
   git_branch
 
   # Second line: status indicators and prompt

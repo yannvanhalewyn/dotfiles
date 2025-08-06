@@ -3,8 +3,10 @@ if status is-interactive
 end
 
 # Environment variables
-set -gx EDITOR nvim
+set -gx EDITOR ~/repos/nvim-macos-x86_64/bin/nvim
 set -gx BAT_THEME TwoDark
+
+fish_add_path ~/bin
 
 ################################################################################
 # Aliases
@@ -13,10 +15,11 @@ set -gx BAT_THEME TwoDark
 alias paths='echo $PATH | tr ":" "\n"'
 
 # Neovim
-alias v="nvim"
+alias v="~/repos/nvim-macos-x86_64/bin/nvim"
 alias v.="v ."
 alias vf="v -o (fzf)"
 alias vd="d && v."
+alias vv="NVIM_APPNAME=nvim-nvchad nvim"
 
 # tmux
 alias ta='tmux -u attach'
