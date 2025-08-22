@@ -1,0 +1,76 @@
+#!/usr/bin/env bb
+
+;; A Babashka script that makes it easy to create or attach to a tmux session
+;; in a directory of interest.
+;; First it finds all directories of interest, offers them up as a selection
+;; via `fzf`. When making a selection it will attach to the session or create a
+;; new one if it doesn't exist.
+
+(require
+  '[babashka.process :as p]
+  '[clojure.string :as str]
+  '[clojure.java.io :as io])
+
+(def HOME (System/getenv "HOME"))
+
+(def parent-dirs
+  [(str HOME "/spronq")
+   (str HOME "/code")
+   (str HOME "/repos")])
+
+(def extra-dirs
+  [(str HOME "/dotfiles/")])
+
+(defn run-cmd [cmd]
+  (-> (p/process cmd {:out :string})
+    p/check
+    :out
+    str/trim))
+
+(defn find-subdirs [parent-dir]
+  (-> (run-cmd ["fd" "." parent-dir "--type=dir" "--max-depth=1" "--full-path"])
+    (str/split #"\n")))
+
+(defn select [{:keys [options prompt]}]
+  (->
+    (p/process
+      ["fzf"
+       "--layout" "reverse"
+       "--prompt" prompt]
+      {:in (str/join "\n" options)
+       :out :string})
+    p/check
+    :out
+    str/trim))
+
+(defn- session-exists [session-name]
+  (zero? (:exit @(p/process ["tmux" "has-session" "-t" session-name]))))
+
+(defn- tmux-dev-script
+  "Finds a dev/tmux script in the project"
+  [project-name]
+  (let [script (io/file (str HOME "/" project-name "dev/tmux"))]
+    (when (.exists script) script)))
+
+(defn main [_args]
+  (let [projects
+        (->> (mapcat find-subdirs parent-dirs)
+          (concat extra-dirs)
+          (map #(str/replace % (re-pattern (str "^" HOME "/")) "")))
+        selected
+        (select {:options projects
+                 :prompt "Select project: "})
+        session-name (last (str/split selected #"/"))]
+
+    ;; Create the session if it doesn't exist
+    (when-not (session-exists session-name)
+      (if-let [script (tmux-dev-script selected)]
+        (run-cmd script)
+        (run-cmd ["tmux" "new-session" "-ds" session-name "-c" (str HOME "/" selected)])))
+
+    ;; Switch or attach to the session
+    (if (System/getenv "TMUX")
+      (run-cmd ["tmux" "switch-client" "-t" session-name])
+      (p/shell "tmux" "attach-session" "-t" session-name))))
+
+(main *command-line-args*)

@@ -23,6 +23,8 @@ alias vv="NVIM_APPNAME=nvim-nvchad nvim"
 
 # tmux
 alias ta='tmux -u attach'
+alias tml='tmux list-sessions'
+alias td='tmux-dispensary'
 alias :vs='tmux splitw -h'
 alias :sp='tmux splitw'
 alias :q='tmux kill-pane'
