@@ -13,15 +13,15 @@ then
 
   # Editor
   tmux rename-window -t 1 "nvim"
-  tmux send-keys -t 1 "nvim" C-m
+  tmux send-keys -t 1 "\$EDITOR" C-m
 
   # LazyJJ
   tmux new-window -t $session -n "VCS"
-  tmux send-keys -t 1 "lazyjj" C-m
+  tmux send-keys -t 2 "lazyjj" C-m
 
-  # REPL / Devtools
+  # Devtools
   tmux new-window -t $session -n "Devtools"
-  tmux split-window -t 1 -v -l 8
+  tmux split-window -t 3 -v -l 8
 
   # Shell
   tmux new-window -t $session -n "Shell"
