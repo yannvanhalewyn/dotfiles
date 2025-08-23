@@ -2,26 +2,42 @@
   name = Yann Vanhalewyn
   email = yann.vanhalewyn@gmail.com
   signinkey = AA16961320C8A130
+
 [core]
   excludesfile = ~/.gitignore_global
   editor = nvim
+  pager = delta
+
+[interactive]
+  diffFilter = delta --color-only
+
+[merge]
+  conflictStyle = zdiff3
+
+[delta]
+  side-by-side = true
 
 # Difftastic
 [diff]
   tool = difftastic
 [difftool]
   prompt = false
+
+# Difftastic
 [difftool "difftastic"]
   cmd = difft --color always --syntax-highlight on "$LOCAL" "$REMOTE"
 [pager]
   difftool = true
 
+# Sourcetree
 [difftool "sourcetree"]
   cmd = opendiff \"$LOCAL\" \"$REMOTE\"
   path =
 [mergetool "sourcetree"]
   cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
   trustExitCode = true
+
+# Nvim diff
 [difftool "nvimdiff"]
   cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 [diff "lisp"]
