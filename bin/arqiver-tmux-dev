@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# https://ryan.himmelwright.net/post/scripting-tmux-workspaces/
+
+session="arqiver"
+
+session_exists=$(tmux list-sessions | grep $session)
+
+project_dir=$(realpath $0/../..)
+
+if [ "$session_exists" = "" ]
+then
+  echo "Creating new session"
+  tmux new-session -d -s $session -c $project_dir
+
+  # Editor
+  tmux rename-window -t 1 "nvim"
+  tmux send-keys -t 1 "\$EDITOR dev/user.clj" C-m
+  tmux split-window -t 1 -v -p 10 -c $project_dir
+  tmux send-keys -t 2 "dev/repl" C-m
+  tmux split-window -t 2 -h -c $project_dir
+  tmux send-keys -t 3 "yarn dev" C-m
+  tmux select-pane -t 1.1
+
+  # REPL / Devtools
+  tmux new-window -t $session -n "AI" -c $project_dir
+  tmux send-keys -t 1 "opencode" C-m
+
+  # LazyJJ
+  tmux new-window -t $session -n "jj" -c $project_dir
+  tmux send-keys -t 1 "lazyjj" C-m
+  tmux split-window -t 1 -v -p 10 -c $project_dir
+  tmux select-pane -t 3.1
+
+  # Shell
+  tmux new-window -t $session -n "shell" -c $project_dir
+
+  tmux select-window -t 1
+else
+  echo "Session already exists"
+fi
+
+# Attach to session's editor pane
+echo "Attaching to session"
+# tmux -u attach-session -t $SESSION:2
