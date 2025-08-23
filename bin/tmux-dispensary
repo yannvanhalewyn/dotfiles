@@ -7,9 +7,9 @@
 ;; new one if it doesn't exist.
 
 (require
-  '[babashka.process :as p]
-  '[clojure.string :as str]
-  '[clojure.java.io :as io])
+ '[babashka.process :as p]
+ '[clojure.string :as str]
+ '[clojure.java.io :as io])
 
 (def HOME (System/getenv "HOME"))
 
@@ -19,29 +19,30 @@
    (str HOME "/repos")])
 
 (def extra-dirs
-  [(str HOME "/dotfiles/")])
+  [(str HOME "/dotfiles/")
+   (str HOME "/Library/Mobile Documents/iCloud~md~obsidian")])
 
 (defn run-cmd [cmd]
   (-> (p/process cmd {:out :string})
-    p/check
-    :out
-    str/trim))
+      p/check
+      :out
+      str/trim))
 
 (defn find-subdirs [parent-dir]
   (-> (run-cmd ["fd" "." parent-dir "--type=dir" "--max-depth=1" "--full-path"])
-    (str/split #"\n")))
+      (str/split #"\n")))
 
 (defn select [{:keys [options prompt]}]
   (->
-    (p/process
-      ["fzf"
-       "--layout" "reverse"
-       "--prompt" prompt]
-      {:in (str/join "\n" options)
-       :out :string})
-    p/check
-    :out
-    str/trim))
+   (p/process
+    ["fzf"
+     "--layout" "reverse"
+     "--prompt" prompt]
+    {:in (str/join "\n" options)
+     :out :string})
+   deref
+   :out
+   str/trim))
 
 (defn- session-exists [session-name]
   (zero? (:exit @(p/process ["tmux" "has-session" "-t" session-name]))))
@@ -55,12 +56,16 @@
 (defn main [_args]
   (let [projects
         (->> (mapcat find-subdirs parent-dirs)
-          (concat extra-dirs)
-          (map #(str/replace % (re-pattern (str "^" HOME "/")) "")))
+             (concat extra-dirs)
+             (map #(str/replace % (re-pattern (str "^" HOME "/")) "")))
         selected
         (select {:options projects
                  :prompt "Select project: "})
         session-name (last (str/split selected #"/"))]
+
+    ;; User cancelled selection
+    (when (str/blank? selected)
+      (System/exit -1))
 
     ;; Create the session if it doesn't exist
     (when-not (session-exists session-name)
