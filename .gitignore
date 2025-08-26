@@ -46,3 +46,4 @@
 .config/karabiner/automatic_backups/
 .config/jgit/
 .config/graphite/user_config
+.config/tmux/plugins/
