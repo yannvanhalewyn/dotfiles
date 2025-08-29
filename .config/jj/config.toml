@@ -1,0 +1,38 @@
+[user]
+name = "Yann Vanhalewyn"
+email = "yann.vanhalewyn@gmail.com"
+
+[ui]
+default-command = "log"
+diff-editor = ["/Users/yannvanhalewyn/repos/nvim-macos-x86_64/bin/nvim", "-c", "DiffEditor $left $right $output"]
+# diff-formatter = ["difft", "--color=always", "--syntax-highlight", "on", "$left", "$right"]
+diff-formatter = ["delta", "--side-by-side", "$left", "$right"]
+merge-editor = "diffconflicts"
+
+[merge-tools.diffconflicts]
+program = "/Users/yannvanhalewyn/repos/nvim-macos-x86_64/bin/nvim"
+merge-args = [
+    "-c", "let g:jj_diffconflicts_marker_length=$marker_length",
+    "-c", "JJDiffConflicts!", "$output", "$base", "$left", "$right",
+]
+
+merge-tool-edits-conflict-markers = true
+[aliases]
+retrunk = ["rebase", "-s", "all:roots(main..@)", "-d", "main"]
+
+[templates]
+# Improve the default representation in the log. This colors
+# and changes the node icon for each.
+op_log_node = 'if(current_operation, "@", "◉")'
+log_node = '''
+label("node",
+  coalesce(
+    if(!self, label("elided", "⇋")),
+    if(current_working_copy, label("working_copy", "◉")),
+    if(conflict, label("conflict", "x")),
+    if(immutable, label("immutable", "◆")),
+    if(description.starts_with("wip: "), label("wip", "!")),
+    label("normal", "○")
+  )
+)
+'''
