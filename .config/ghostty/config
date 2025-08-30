@@ -3,3 +3,17 @@ macos-titlebar-style = hidden
 macos-option-as-alt = true
 # Adwaita Dark
 theme = tokyonight
+
+# Select TMUX panes with CMD bindings
+keybind = cmd+1=text:\x01\x31
+keybind = cmd+2=text:\x01\x32
+keybind = cmd+3=text:\x01\x33
+keybind = cmd+4=text:\x01\x34
+keybind = cmd+5=text:\x01\x35
+keybind = cmd+6=text:\x01\x36
+keybind = cmd+7=text:\x01\x37
+keybind = cmd+8=text:\x01\x38
+keybind = cmd+9=text:\x01\x39
+
+keybind = cmd+l=text:\x01\x01
+keybind = cmd+shift+l=text:\x01\x4C

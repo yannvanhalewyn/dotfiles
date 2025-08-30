@@ -195,6 +195,10 @@ if.app-id = 'com.apple.Mail'
 run = 'move-node-to-workspace 3'
 
 [[on-window-detected]]
+if.app-id = 'com.apple.reminders'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
 if.app-id = 'com.apple.Notes'
 run = 'layout floating'
 
