@@ -78,6 +78,26 @@ alias jsh="jj show"
 alias dup="docker-compose up -d"
 
 ################################################################################
+# Function
+
+function killfzf
+  set pid (ps aux \
+    | fzf \
+        --header-lines 1 \
+        --preview-window down:80%:wrap \
+        --preview "printf '%s\n' {} | awk '{print \$2}' | xargs ps -p" \
+    | awk '{print $2}')
+
+  if test -z "$pid"
+    echo "No pid selected, exiting."
+    return 1
+  else
+    echo "Killing $pid"
+    kill $pid
+  end
+end
+
+################################################################################
 # FZF
 
 set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'

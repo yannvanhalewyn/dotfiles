@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# timet: Time Tracker
+
+CATEGORIES=(
+  "arqiver"
+  "dotfiles"
+  "wasting"
+  "music"
+  "STOP"
+)
+
+selected=$(printf "%s\n" "${CATEGORIES[@]}" | fzf --prompt "Select project: ")
+
+if [[ -z "$selected" ]]; then
+  exit 1
+fi
+
+if [[ "$selected" == "STOP" ]]; then
+  timew stop
+  tmux set -g status-left ""
+else
+  timew start "$selected"
+  tmux set -g status-left "🕒 $selected "
+fi
