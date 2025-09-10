@@ -29,6 +29,13 @@ alias :vs='tmux splitw -h'
 alias :sp='tmux splitw'
 alias :q='tmux kill-pane'
 
+# Timewarrior
+alias tw="timew"
+alias tws="timew summary"
+alias twa="timew annotate"
+alias twd="timew day"
+alias tww="timew week"
+
 # Git
 alias g="git"
 alias ga="git add"
