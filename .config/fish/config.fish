@@ -35,6 +35,7 @@ alias tws="timew summary"
 alias twa="timew annotate"
 alias twd="timew day"
 alias tww="timew week"
+alias twm="timew month"
 
 # Git
 alias g="git"
@@ -80,6 +81,7 @@ alias jsr="jj squash -r"
 alias jsi="jj split -i"
 alias jst="jj status"
 alias jsh="jj show"
+alias lj="lazyjj"
 
 # Docker
 alias dup="docker-compose up -d"
@@ -91,7 +93,7 @@ function killfzf
   set pid (ps aux \
     | fzf \
         --header-lines 1 \
-        --preview-window down:80%:wrap \
+        --preview-window down:60%:wrap \
         --preview "printf '%s\n' {} | awk '{print \$2}' | xargs ps -p" \
     | awk '{print $2}')
 

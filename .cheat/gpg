@@ -1,0 +1,61 @@
+# GPG
+
+## Check keys
+
+Either view 'GPG Keychain' or using the command line:
+
+```sh
+gpg --list-keys
+gpg --list-keys KEY_ID (the one in .gitconfig)
+```
+
+To get the key ID, use:
+
+```sh
+gpg --list-secret-keys --keyid-format LONG
+```
+
+And look for the part after `sec rsa4096/<KEY_ID>`
+
+## Rotating key
+
+### Create new key
+
+```sh
+gpg --full-generate-key
+```
+
+- Choose RSA 4096 bits for signing and encryption.
+- Set expiration 2-4 years
+- Use same name / email "Yann Vanhalewyn yann.vanhalewyn@gmail.com"
+
+### Export new key
+
+```sh
+gpg --armor --export KEY_ID > my-new-key-public.asc
+```
+
+You can optionally export the private key for storage in 1Password:
+
+```sh
+gpg --armor --export-secret-keys KEY_ID > my-new-key-secret.asc
+```
+
+### Update the key in configs
+
+- Update the `.gitconfig` with new key ID
+
+```sh
+git config --global user.signinkey [NEW_KEY_ID]
+```
+
+- Do the same for Jujutsu and other tools
+
+### Test
+
+- Make a test commit for verify signing works
+- Check signature with `git log --show-signature`
+
+### Upload
+
+- Upload new key to GitHub.

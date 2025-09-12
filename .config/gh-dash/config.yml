@@ -60,14 +60,16 @@ keybindings:
   universal: []
   issues: []
   prs:
+    - key: n
+      name: Jujutsu New
+      command: >
+        jj new {{.HeadRefName}}@origin
     - key: d
-      # command: >
-      #   echo {{.PrNumber}} && sleep 1
+      name: Open Diff in new Tmux window
       command: >
         tmux new-window '
           tmux rename-window "#{{.PrNumber}}-diff" &&
-          (gh pr checkout {{.PrNumber}} || true) &&
-          nvim -c ":DiffviewOpen {{.BaseRefName}}...{{.HeadRefName}}"
+          $EDITOR -c ":DiffviewOpen {{.BaseRefName}}...origin/{{.HeadRefName}}"
         '
   branches: []
 repoPaths:
@@ -80,4 +82,4 @@ theme:
       compact: false
 pager:
   diff: nvim -d
-confirmQuit: false
+confirmQuit: true

@@ -1,7 +1,8 @@
 font-size = 18
 macos-titlebar-style = hidden
 macos-option-as-alt = true
-# Adwaita Dark
+# theme = Adwaita Dark
+# theme = Catppuccin Macchiato
 theme = tokyonight
 
 # Select TMUX panes with CMD bindings
@@ -15,5 +16,29 @@ keybind = cmd+7=text:\x01\x37
 keybind = cmd+8=text:\x01\x38
 keybind = cmd+9=text:\x01\x39
 
+keybind = ctrl+1=text:\x01\x31
+keybind = ctrl+2=text:\x01\x32
+keybind = ctrl+3=text:\x01\x33
+keybind = ctrl+4=text:\x01\x34
+keybind = ctrl+5=text:\x01\x35
+keybind = ctrl+6=text:\x01\x36
+keybind = ctrl+7=text:\x01\x37
+keybind = ctrl+8=text:\x01\x38
+keybind = ctrl+9=text:\x01\x39
+
+# Alt+Shift+p 'cmd'
+keybind = cmd+p=text:\x1b\x50
+# <C-a><C-P> 'prstack'
+keybind = cmd+p=text:\x01\x10
+# <C-a><C-j> 'jujutsu'
+keybind = cmd+j=text:\x01\x0a
+# <C-a><C-j> 'Github'
+keybind = cmd+g=text:\x01\x07
+# <C-a><C-a> 'Last Window'
 keybind = cmd+l=text:\x01\x01
+# <C-a>L 'Last Session'
 keybind = cmd+shift+l=text:\x01\x4C
+# <C-a><C-k> 'Kill FZF'
+keybind = cmd+shift+k=text:\x01\x0b
+# <C-a><C-l><return> 'Clear Pane'
+keybind = cmd+k=text:\x01\x0c\x0d
