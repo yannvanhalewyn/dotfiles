@@ -1,7 +1,7 @@
 [user]
   name = Yann Vanhalewyn
   email = yann.vanhalewyn@gmail.com
-  signinkey = AA16961320C8A130
+  signinkey = 7D36858A13CD5C82
 
 [core]
   excludesfile = ~/.gitignore_global

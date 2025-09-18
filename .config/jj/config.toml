@@ -2,6 +2,11 @@
 name = "Yann Vanhalewyn"
 email = "yann.vanhalewyn@gmail.com"
 
+[signing]
+behavior = "own"
+backend = "gpg"
+key = "7D36858A13CD5C82"
+
 [ui]
 default-command = "log"
 diff-editor = ["/Users/yannvanhalewyn/repos/nvim-macos-x86_64/bin/nvim", "-c", "DiffEditor $left $right $output"]
