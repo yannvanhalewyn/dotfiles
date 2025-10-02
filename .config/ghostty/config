@@ -27,9 +27,9 @@ keybind = ctrl+8=text:\x01\x38
 keybind = ctrl+9=text:\x01\x39
 
 # Alt+Shift+p 'cmd'
-keybind = cmd+p=text:\x1b\x50
-# <C-a><C-P> 'prstack'
 keybind = cmd+p=text:\x01\x10
+# <C-a><C-P> 'prstack'
+keybind = cmd+shift+p=text:\x01\x50
 # <C-a><C-j> 'jujutsu'
 keybind = cmd+j=text:\x01\x0a
 # <C-a><C-j> 'Github'
@@ -42,3 +42,5 @@ keybind = cmd+shift+l=text:\x01\x4C
 keybind = cmd+shift+k=text:\x01\x0b
 # <C-a><C-l><return> 'Clear Pane'
 keybind = cmd+k=text:\x01\x0c\x0d
+# <C-a><C-y> 'Yazi' popup
+keybind = cmd+f=text:\x01\x19

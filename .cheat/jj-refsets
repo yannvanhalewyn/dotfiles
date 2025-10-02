@@ -1,0 +1,158 @@
+# Jujutsu Revsets - Quick Reference
+
+A concise guide to Jujutsu's revset language for selecting commits.
+
+## Symbols
+
+| Symbol | Meaning |
+|--------|---------|
+| `@` | Working copy commit |
+| `workspace@` | Working copy in another workspace |
+| `name@remote` | Remote-tracking bookmark |
+| `abc123` | Commit ID (full or unique prefix) |
+| `xyz` | Change ID (full or unique prefix) |
+
+## Core Operators
+
+| Operator | Description | Example |
+|----------|-------------|---------|
+| `x-` | Parents of x | `@-` (parent of working copy) |
+| `x+` | Children of x | `@+` (children of working copy) |
+| `::x` | Ancestors of x (including x) | `::@` (all ancestors to working copy) |
+| `x::` | Descendants of x (including x) | `@::` (working copy and descendants) |
+| `..x` | Ancestors of x (excluding root) | `..@` |
+| `x..` | Non-ancestors of x | `main..` (commits not on main) |
+| `x::y` | Path from x to y | `main::@` (ancestry path) |
+| `x..y` | Commits in y but not x | `main..@` (commits ahead of main) |
+| `~x` | Not in x | `~main` (everything except main) |
+| `x & y` | In both x and y | `@- & main` |
+| `x \| y` | In either x or y | `@- \| main` |
+
+## Essential Functions
+
+### Navigation
+- `parents(x)` / `x-` - Parents
+- `children(x)` / `x+` - Children
+- `ancestors(x)` / `::x` - All ancestors
+- `descendants(x)` / `x::` - All descendants
+
+### Sets
+- `all()` - All visible commits
+- `none()` - Empty set
+- `heads(x)` - Commits in x with no children in x
+- `roots(x)` - Commits in x with no parents in x
+- `latest(x, count)` - Most recent commits in x
+
+### References
+- `bookmarks()` - All local bookmarks
+- `remote_bookmarks()` - All remote bookmarks
+- `tags()` - All tags
+- `trunk()` - Main branch (origin/main, master, etc.)
+
+### Content Search
+- `description(pattern)` - Commits matching description
+- `subject(pattern)` - Commits matching first line
+- `author(pattern)` - Commits by author
+- `files(path)` - Commits modifying files
+- `empty()` - Commits with no changes
+
+### State
+- `mine()` - Commits authored by current user
+- `merges()` - Merge commits
+- `conflicts()` - Commits with conflicts
+
+## Common Patterns
+
+### Basic Navigation
+```shell
+# Show working copy parent
+jj log -r @-
+
+# Show all ancestors (like git log)
+jj log -r ::@
+
+# Show recent commits
+jj log -r latest(all(), 10)
+```
+
+### Branch Management
+```shell
+# Commits not on any remote
+jj log -r 'remote_bookmarks()..'
+
+# Commits ahead of main
+jj log -r 'main..@'
+
+# Local commits and their descendants
+jj log -r '(remote_bookmarks()..@)::'
+```
+
+### Search and Filter
+```shell
+# My commits
+jj log -r mine()
+
+# Commits with "fix" in description
+jj log -r 'description(fix)'
+
+# Empty commits
+jj log -r empty()
+
+# Merge commits
+jj log -r merges()
+```
+
+### Complex Queries
+```shell
+# My commits not on main
+jj log -r 'mine() & main..'
+
+# Important commits (tags and bookmarks)
+jj log -r 'tags() | bookmarks()'
+
+# Commits by author containing keyword
+jj log -r 'author(john) & description(bugfix)'
+```
+
+## String Patterns
+
+| Pattern | Description | Example |
+|---------|-------------|---------|
+| `"text"` | Contains text | `description("fix bug")` |
+| `exact:"text"` | Exact match | `subject(exact:"Initial commit")` |
+| `glob:"pattern"` | Shell wildcards | `author(glob:"*@company.com")` |
+| `regex:"pattern"` | Regular expression | `description(regex:"fix(es)?")` |
+
+Add `-i` suffix for case-insensitive matching: `glob-i:"fix*"`
+
+## Date Patterns
+
+```shell
+# Commits after date
+author_date(after:"2024-01-01")
+
+# Commits before date
+committer_date(before:"yesterday")
+
+# Recent commits
+author_date(after:"1 week ago")
+```
+
+## Useful Aliases
+
+Add to your config file:
+```toml
+[revset-aliases]
+'HEAD' = '@-'
+'mine' = 'mine()'
+'recent' = 'latest(all(), 20)'
+'wip' = 'description(regex:"^(wip|WIP|temp)")'
+```
+
+## Pro Tips
+
+1. Use `present(x)` to avoid errors with non-existent refs
+2. The `all:` modifier allows large revsets: `jj rebase -d all:main+`
+3. Combine operators: `(main..@) & mine()` for your commits ahead of main
+4. Use parentheses for complex expressions: `(x & y) | z`
+5. Quote symbols with special chars: `"feature-branch"`
