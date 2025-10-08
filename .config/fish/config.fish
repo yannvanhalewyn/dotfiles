@@ -137,6 +137,20 @@ if command -v zoxide >/dev/null
 end
 
 ################################################################################
+# Yazi
+
+# Opens yazi and writes the cwd to a temp file. Then when yazi closes, cd's
+# into that latest cwd.
+function y
+  set tmp (mktemp -t "yazi-cwd.XXXXXX")
+  yazi $argv --cwd-file="$tmp"
+  if read -z cwd < "$tmp"; and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+    builtin cd -- "$cwd"
+  end
+  rm -f -- "$tmp"
+end
+
+################################################################################
 # NVM
 
 # Lazy loading for performance
