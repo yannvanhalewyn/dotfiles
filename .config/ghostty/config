@@ -26,21 +26,25 @@ keybind = ctrl+7=text:\x01\x37
 keybind = ctrl+8=text:\x01\x38
 keybind = ctrl+9=text:\x01\x39
 
-# Alt+Shift+p 'cmd'
+# cmd+s -> <C-a>s 'Switch session'
+keybind = cmd+s=text:\x01\x73
+# cmd+S -> <C-a>S 'Switch or start session using td (tmux dispensary)'
+keybind = cmd+shift+s=text:\x01\x53
+# cmd+p -> Alt+Shift+p 'cmd'
 keybind = cmd+p=text:\x01\x10
-# <C-a><C-P> 'prstack'
+# cmd+P -> <C-a><C-P> 'prstack'
 keybind = cmd+shift+p=text:\x01\x50
-# <C-a><C-j> 'jujutsu'
+# cmd+j -> <C-a><C-j> 'jujutsu'
 keybind = cmd+j=text:\x01\x0a
-# <C-a><C-j> 'Github'
+# cmd+g -> <C-a><C-j> 'Github'
 keybind = cmd+g=text:\x01\x07
-# <C-a><C-a> 'Last Window'
+# cmd+l -> <C-a><C-a> 'Last Window'
 keybind = cmd+l=text:\x01\x01
-# <C-a>L 'Last Session'
+# cmd+L -> <C-a>L 'Last Session'
 keybind = cmd+shift+l=text:\x01\x4C
-# <C-a><C-k> 'Kill FZF'
-keybind = cmd+shift+k=text:\x01\x0b
-# <C-a><C-l><return> 'Clear Pane'
+# cmd+k -> <C-a><C-l><return> 'Clear Pane'
 keybind = cmd+k=text:\x01\x0c\x0d
-# <C-a><C-y> 'Yazi' popup
-keybind = cmd+f=text:\x01\x19
+# cmd+K -> <C-a><C-k> 'Kill FZF'
+keybind = cmd+shift+k=text:\x01\x0b
+# cmd+f -> <C-a><C-f> 'File explorer'
+keybind = cmd+f=text:\x01\x06

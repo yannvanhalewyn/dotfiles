@@ -6,7 +6,7 @@
 ratio          = [ 1, 4, 3 ]
 sort_by        = "alphabetical"
 sort_sensitive = false
-sort_reverse 	 = false
+sort_reverse   = false
 sort_dir_first = true
 sort_translit  = false
 linemode       = "none"
@@ -37,6 +37,7 @@ edit = [
 open = [
 	{ run = 'xdg-open "$1"',                desc = "Open", for = "linux" },
 	{ run = 'open "$@"',                    desc = "Open", for = "macos" },
+	{ run = 'glow -p "$1"', block = true,   desc = "Glow", for = "macos" },
 	{ run = 'start "" "%1"', orphan = true, desc = "Open", for = "windows" },
 	{ run = 'termux-open "$1"',             desc = "Open", for = "android" },
 ]
@@ -121,7 +122,7 @@ preloaders = [
 previewers = [
 	{ name = "*/", run = "folder" },
 	# Code
-	{ mime = "text/markdown", run = "glow" },
+	# { mime = "text/markdown", run = "shell -- glow -p $1" },
 	{ mime = "text/*", run = "code" },
 	{ mime = "application/{mbox,javascript,wine-extension-ini}", run = "code" },
 	# JSON
