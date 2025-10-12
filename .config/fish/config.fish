@@ -87,6 +87,9 @@ alias lj="lazyjj"
 # Docker
 alias dup="docker-compose up -d"
 
+# Others
+alias ch="cheat"
+
 ################################################################################
 # Function
 

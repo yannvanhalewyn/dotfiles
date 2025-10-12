@@ -1,0 +1,13 @@
+# Create a new change between some parent and the megamerge
+jj new --after <change-id> --no-edit
+
+# Add a new parent to the megamerge
+jj rebase -s <merge-ref> -d "all:<merge-ref>-" -d <parent-ref>
+jj rebase -s <merge-ref> -d "all:<merge-ref>- | <parent-ref>"
+
+# Removing Parents
+jj rebase -s <merge-ref> -d "all:<merge-ref>- ~ <parent-ref>"
+
+# Rebase on latest trunk
+jj rebase -s "all:roots(main..@)" -d main
+
