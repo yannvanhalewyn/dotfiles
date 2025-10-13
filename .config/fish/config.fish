@@ -14,6 +14,11 @@ fish_add_path ~/bin
 # Utils
 alias paths='echo $PATH | tr ":" "\n"'
 
+function md
+  set dir $argv[1]
+  mkdir -p $dir && cd $dir
+end
+
 # Neovim
 alias v="~/repos/nvim-macos-x86_64/bin/nvim"
 alias v.="v ."
@@ -91,7 +96,7 @@ alias dup="docker-compose up -d"
 alias ch="cheat"
 
 ################################################################################
-# Function
+# Functions
 
 function killfzf
   set pid (ps aux \
@@ -108,6 +113,12 @@ function killfzf
     echo "Killing $pid"
     kill $pid
   end
+end
+
+function review
+  gh pr checkout $argv[1]
+  # TODO do it from head to base of PR
+  $EDITOR -c "DiffviewOpen origin/master...HEAD"
 end
 
 ################################################################################

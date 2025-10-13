@@ -1,0 +1,7 @@
+# Login contexts
+
+```sh
+kubectl config get-contexts
+kubectl config use-context <context-name>
+kubectil config rename-context <old-name> <new-name>
+```

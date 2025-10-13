@@ -8,5 +8,10 @@ use = "yazi-rs/plugins:no-status"
 rev = "d1c8baa"
 hash = "3e023d31f29201efdac2a6ae35fedb78"
 
+[[plugin.deps]]
+use = "yazi-rs/plugins:smart-paste"
+rev = "8f1d971"
+hash = "75fd60b2df7115e0a6ca31a6a804d320"
+
 [flavor]
 deps = []

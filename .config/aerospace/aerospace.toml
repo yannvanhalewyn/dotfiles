@@ -187,6 +187,10 @@ if.app-id = 'com.googlecode.iterm2'
 run = 'move-node-to-workspace 2'
 
 [[on-window-detected]]
+if.app-id = 'com.mitchellh.ghostty'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
 if.app-id = 'com.apple.Music'
 run = 'move-node-to-workspace 3'
 
@@ -221,6 +225,14 @@ run = ['layout floating', 'move-node-to-workspace 4']
 [[on-window-detected]]
 if.window-title-regex-substring = 'Minecraft'
 run = ['layout floating', 'move-node-to-workspace 4']
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'io.kopia.ui'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'NULL-APP-BUNDLE-ID'
+run = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.ableton.live'

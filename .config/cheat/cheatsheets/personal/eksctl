@@ -1,0 +1,19 @@
+# cluster-config.yaml
+
+```yaml
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: web-quickstart
+  region: <region-code>
+
+autoModeConfig:
+  enabled: true
+```
+
+# Create a cluster
+
+```sh
+eksctl create cluster -f cluster-config.yaml
+```
