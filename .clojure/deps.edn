@@ -6,7 +6,7 @@
                 vvvvalvalval/scope-capture-nrepl {:mvn/version "0.3.1"}
                 dev.weavejester/hashp            {:mvn/version "0.4.0"}
                 djblue/portal                    {:mvn/version "0.57.3"}
-                io.julienvincent/clojure-test    {:mvn/version "0.2.0"}
+                io.julienvincent/clojure-test    {:mvn/version "0.4.0"}
                 io.github.tonsky/clj-reload      {:mvn/version "0.9.8"}
                 criterium/criterium              {:mvn/version "0.4.6"}}}
 

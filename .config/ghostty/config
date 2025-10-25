@@ -47,4 +47,6 @@ keybind = cmd+k=text:\x01\x0c\x0d
 # cmd+K -> <C-a><C-k> 'Kill FZF'
 keybind = cmd+shift+k=text:\x01\x0b
 # cmd+f -> <C-a><C-f> 'File explorer'
-keybind = cmd+f=text:\x01\x06
+# keybind = cmd+f=text:\x01\x06
+# cmd+f -> <C-a>z 'Maximize window'
+keybind = cmd+f=text:\x01\x7a

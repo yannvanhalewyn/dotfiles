@@ -219,11 +219,19 @@ if.app-id = 'ru.keepcoder.Telegram'
 run = 'move-node-to-workspace 3'
 
 [[on-window-detected]]
+if.app-id = 'com.readdle.SparkDesktop'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
 if.app-id = 'com.mojang.minecraftlauncher'
 run = ['layout floating', 'move-node-to-workspace 4']
 
 [[on-window-detected]]
 if.window-title-regex-substring = 'Minecraft'
+run = ['layout floating', 'move-node-to-workspace 4']
+
+[[on-window-detected]]
+if.window-title-regex-substring = 'org.prismlauncher.PrismLauncher'
 run = ['layout floating', 'move-node-to-workspace 4']
 
 [[on-window-detected]]
