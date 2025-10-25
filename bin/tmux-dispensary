@@ -19,8 +19,9 @@
    (str HOME "/repos")])
 
 (def extra-dirs
-  [(str HOME "/dotfiles/")
-   (str HOME "/Library/Mobile Documents/iCloud~md~obsidian")])
+  [{:dir (str HOME "/dotfiles/")}
+   {:dir (str HOME "/Library/Mobile Documents/iCloud~md~obsidian/Documents")
+    :session-name "Obsidian"}])
 
 (defn run-cmd [cmd]
   (-> (p/process cmd {:out :string})
@@ -29,8 +30,9 @@
       str/trim))
 
 (defn find-subdirs [parent-dir]
-  (-> (run-cmd ["fd" "." parent-dir "--type=dir" "--max-depth=1" "--full-path"])
-      (str/split #"\n")))
+  (for [dir (-> (run-cmd ["fd" "." parent-dir "--type=dir" "--max-depth=1" "--full-path"])
+              (str/split-lines))]
+    {:dir dir}))
 
 (defn select [{:keys [options prompt]}]
   (->
@@ -53,11 +55,14 @@
   (let [script (io/file (str HOME "/" project-name "dev/tmux"))]
     (when (.exists script) script)))
 
+(defn- strip-home-dir [dirname]
+  (str/replace dirname (re-pattern (str "^" HOME "/")) ""))
+
 (defn main [_args]
   (let [projects
         (->> (mapcat find-subdirs parent-dirs)
              (concat extra-dirs)
-             (map #(str/replace % (re-pattern (str "^" HOME "/")) "")))
+             (map #(strip-home-dir (:dir %))))
         selected
         (select {:options projects
                  :prompt "Select project: "})
