@@ -7,6 +7,7 @@ set -gx EDITOR ~/repos/nvim-macos-x86_64/bin/nvim
 set -gx BAT_THEME TwoDark
 
 fish_add_path ~/bin
+source "$HOME/.cargo/env.fish"
 
 ################################################################################
 # Aliases
