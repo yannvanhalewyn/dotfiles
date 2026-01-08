@@ -50,3 +50,6 @@ keybind = cmd+shift+k=text:\x01\x0b
 # keybind = cmd+f=text:\x01\x06
 # cmd+f -> <C-a>z 'Maximize window'
 keybind = cmd+f=text:\x01\x7a
+
+# Insert newline with shift+enter in opencode
+# keybind = shift+enter=text:\x1b[13;2u

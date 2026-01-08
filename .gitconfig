@@ -3,67 +3,77 @@
   email = yann.vanhalewyn@gmail.com
   signinkey = 7D36858A13CD5C82
 
+[github]
+  user = yann.vanhalewyn@gmail.com
+
+[commit]
+  gpgsign = true
+
+[credential]
+  helper = osxkeychain
+
+[init]
+  defaultBranch = main
+
 [core]
   excludesfile = ~/.gitignore_global
-  editor = nvim
+  editor = /Users/yannvanhalewyn/repos/nvim-macos-x86_64/bin/nvim
   pager = delta
 
-[interactive]
-  diffFilter = delta --color-only
+[push]
+  default = current
+
+[pull]
+  rebase = true
 
 [merge]
   conflictStyle = zdiff3
 
-[delta]
-  side-by-side = true
+[rebase]
+  autoStash = true
 
-# Difftastic
-[diff]
-  tool = difftastic
-[difftool]
-  prompt = false
+[remote]
+  pushDefault = origin
 
-# Difftastic
-[difftool "difftastic"]
-  cmd = difft --color always --syntax-highlight on "$LOCAL" "$REMOTE"
 [pager]
   difftool = true
 
-# Sourcetree
-[difftool "sourcetree"]
-  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-  path =
-[mergetool "sourcetree"]
-  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-  trustExitCode = true
-
-# Nvim diff
-[difftool "nvimdiff"]
-  cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
-[diff "lisp"]
-  xfuncname = "^(\\(.*)$"
-[diff "org"]
-  xfuncname = "^(\\*+ +.*)$"
-
-[pull]
-  rebase = true
 [alias]
   d = difftool
   dlog = "-c diff.external=difft log -p --ext-diff"
   dshow = "-c diff.external=difft show HEAD --ext-diff"
   undo-commit = reset --soft HEAD^
-[push]
-  default = current
-[init]
-  templatedir = ~/.git_template
-	defaultBranch = main
-[commit]
-  gpgsign = true
-[github]
-  user = yann.vanhalewyn@gmail.com
-[remote]
-  pushDefault = origin
-[rebase]
-  autoStash = true
-[credential]
-  helper = osxkeychain
+
+###############################################################################
+## Diffs
+
+# [interactive]
+#   diffFilter = delta --color-only
+
+[delta]
+  side-by-side = true
+
+[diff]
+  tool = difftastic
+  # external = difft
+
+[diff "lisp"]
+  xfuncname = "^(\\(.*)$"
+
+[diff "org"]
+  xfuncname = "^(\\*+ +.*)$"
+
+[difftool]
+  prompt = false
+
+[difftool "difftastic"]
+  cmd = difft --color always --syntax-highlight on "$LOCAL" "$REMOTE"
+
+[difftool "sourcetree"]
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path =
+
+[mergetool "sourcetree"]
+  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
+

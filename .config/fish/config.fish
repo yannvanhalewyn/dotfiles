@@ -5,6 +5,7 @@ end
 # Environment variables
 set -gx EDITOR ~/repos/nvim-macos-x86_64/bin/nvim
 set -gx BAT_THEME TwoDark
+set -gx OPENCODE_DISABLE_DEFAULT_PLUGINS true
 
 fish_add_path ~/bin
 source "$HOME/.cargo/env.fish"
@@ -121,7 +122,8 @@ end
 function review
   gh pr checkout $argv[1]
   # TODO do it from head to base of PR
-  $EDITOR -c "DiffviewOpen origin/master...HEAD"
+  # $EDITOR -c "DiffviewOpen origin/master...HEAD"
+  $EDITOR -c "Difft master@origin..@"
 end
 
 ################################################################################
@@ -219,7 +221,11 @@ if test -d "$HOME/.nvm"
     _load_nvm_and_run claude $argv
   end
 
-  function opencode
-    _load_nvm_and_run opencode $argv
-  end
+  # function opencode
+  #   _load_nvm_and_run opencode $argv
+  # end
 end
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
