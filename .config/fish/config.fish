@@ -98,6 +98,7 @@ alias dup="docker-compose up -d"
 
 # Others
 alias ch="cheat"
+alias repl="clojure -M:dev:local-dev:nrepl"
 
 ################################################################################
 # Functions
