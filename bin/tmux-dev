@@ -2,7 +2,9 @@
 # https://ryan.himmelwright.net/post/scripting-tmux-workspaces/
 
 # Either the first argument or the current directory name
+# Replace dots with underscores (tmux doesn't allow dots in session names)
 session="${1:-$(basename $(pwd))}"
+session="${session//./_}"
 
 session_exists=$(tmux list-sessions | grep $session)
 

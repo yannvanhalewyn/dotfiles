@@ -127,6 +127,16 @@ function review
   $EDITOR -c "Difft master@origin..@"
 end
 
+function gco-forked-pr
+  set pr $argv[1]
+  # echo jj git fetch --remote origin --branch 'pull/$pr/head:pr-$pr'
+  # jj git fetch --remote origin --branch 'pull/$pr/head:pr-$pr'
+  echo git fetch origin pull/$pr/head:pr-$pr
+  git fetch origin pull/$pr/head:pr-$pr
+  echo jj new pr-$pr
+  jj new pr-$pr
+end
+
 ################################################################################
 # FZF
 
