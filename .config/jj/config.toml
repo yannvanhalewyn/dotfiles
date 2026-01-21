@@ -41,3 +41,6 @@ label("node",
   )
 )
 '''
+
+[revset-aliases]
+'trunk()' = 'main'

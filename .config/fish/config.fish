@@ -8,6 +8,13 @@ set -gx BAT_THEME TwoDark
 set -gx OPENCODE_DISABLE_DEFAULT_PLUGINS true
 
 fish_add_path ~/bin
+
+# GraalVM
+fish_add_path /Library/Java/JavaVirtualMachines/graalvm-25.jdk/Contents/Home/bin
+# Claude Code
+fish_add_path ~/.local/bin
+
+# Rust
 source "$HOME/.cargo/env.fish"
 
 ################################################################################
@@ -92,6 +99,12 @@ alias jsi="jj split -i"
 alias jst="jj status"
 alias jsh="jj show"
 alias lj="lazyjj"
+
+# PRStack
+alias prs="prstack"
+alias prsl="prstack list"
+alias prss="prstack sync"
+alias prsc="prstack create-prs"
 
 # Docker
 alias dup="docker-compose up -d"

@@ -1,0 +1,31 @@
+{
+  "lockVersion": 1,
+  "installed": {
+    "kdco/kdco-primitives": {
+      "registry": "kdco",
+      "version": "1.0.0",
+      "hash": "a0173f15872fcf504f4afd3efb4ebe52ec0c301ffb2e5eb72de7156139366906",
+      "files": [
+        "plugin/kdco-primitives/get-project-id.ts",
+        "plugin/kdco-primitives/with-timeout.ts",
+        "plugin/kdco-primitives/log-warn.ts",
+        "plugin/kdco-primitives/types.ts",
+        "plugin/kdco-primitives/mutex.ts",
+        "plugin/kdco-primitives/shell.ts",
+        "plugin/kdco-primitives/temp.ts",
+        "plugin/kdco-primitives/terminal-detect.ts",
+        "plugin/kdco-primitives/index.ts"
+      ],
+      "installedAt": "2026-01-29T19:14:32.358Z"
+    },
+    "kdco/notify": {
+      "registry": "kdco",
+      "version": "1.0.0",
+      "hash": "580e2fc0c65ebca1098a4dab1a7e35464bf1495c94f6d72e803dfab058871baf",
+      "files": [
+        "plugin/notify.ts"
+      ],
+      "installedAt": "2026-01-29T19:14:32.359Z"
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{:directories #{"~/Music/Ableton" "~/Documents/Live Projects"}, :search-depth 4, :db-path "~/Music/live-project-manager.db", :auto-scan true, :scan-interval 1800, :ui {:window-width 1400, :window-height 900, :theme :dark}}

@@ -1,0 +1,20 @@
+```sh
+git branch -v --all --format='%(refname:short)	%(objectname:short)	%(committerdate:short)	%(subject)'
+```
+
+Custom delimiter (e.g., pipe |):
+
+```sh
+git branch -v --all --format='%(refname:short)|%(objectname:short)|%(committerdate:iso)|%(subject)'
+```
+
+Useful format placeholders:
+- %(refname:short) - branch name
+- %(refname:lstrip=2) - strip "refs/heads/" prefix
+- %(objectname:short) - short commit hash
+- %(objectname) - full commit hash
+- %(upstream:short) - tracking remote branch
+- %(committerdate:short) - date (YYYY-MM-DD)
+- %(committerdate:iso) - ISO 8601 date
+- %(subject) - commit message subject
+- %(authorname) - author name

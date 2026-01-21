@@ -53,3 +53,5 @@ keybind = cmd+f=text:\x01\x7a
 
 # Insert newline with shift+enter in opencode
 # keybind = shift+enter=text:\x1b[13;2u
+
+keybind = global:cmd+;=toggle_quick_terminal

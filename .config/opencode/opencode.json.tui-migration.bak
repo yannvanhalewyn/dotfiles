@@ -14,4 +14,8 @@
   "plugin": [
     "opencode-anthropic-auth"
   ],
+  "keybinds": {
+    "input_submit": "return",
+    "input_newline": "shift+return"
+  },
 }

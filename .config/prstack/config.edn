@@ -1,0 +1,32 @@
+{:diffview-cmd
+ [#env "EDITOR" "-c" "Difft $from-sha..$to-sha"]
+ :diffview-cmd2
+ (do
+   "tmux popup -E -w 90% -h 90% git diff $from-sha..$to-sha"
+   #_
+   ["tmux" "popup" "-E" "-w" "90%" "-h" "90%"
+    "git diff $from-sha..$to-sha"]
+   ["sleep" "2"])
+ #_
+ "git diff $from-sha..$to-sha | delta --paging always"
+ :keybindings
+ {"y" (do "ls" "sleep 4")
+  ;; Review: fetch, checkout head-branch, open diff for review
+  "R" (do
+        ["jj" "git" "fetch"]
+        ["jj" "new" "$head-branch@origin"]
+        [#env "EDITOR" "-c" "DiffviewOpen $from-sha..$to-sha"])
+  "t" (pipe
+        ["git" "diff" "$from-sha..$to-sha"]
+        ["difft"])
+  "T" (do
+        ["git" "diff" "$from-sha..$to-sha"]
+        ["sleep" "2"])
+  "p" (do ["sleep" "2"] ["echo" "$pr-number"] ["sleep" "2"])
+  "D" (pipe
+        ["git" "diff" "$from-sha..$to-sha"]
+        ["opencode" "-p" "'Write a concise PR description for these changes'"]
+        ["gh" "pr" "edit" "$pr-number" "--body-file" "-"])
+  "x" (do
+        (pipe ["ls"] ["less"])
+        "sleep 2")}}

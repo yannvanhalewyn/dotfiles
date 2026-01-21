@@ -3,3 +3,7 @@
 exclude-*
 .envrc
 ,*
+.prstack/
+.nrepl-port
+.lsp/.cache/*
+.clj-kondo/.cache/*
