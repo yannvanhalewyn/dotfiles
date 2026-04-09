@@ -6,7 +6,7 @@
 ratio          = [ 1, 4, 3 ]
 sort_by        = "alphabetical"
 sort_sensitive = false
-sort_reverse   = false
+sort_reverse 	 = false
 sort_dir_first = true
 sort_translit  = false
 linemode       = "none"
@@ -19,7 +19,7 @@ title_format   = "Yazi: {cwd}"
 [preview]
 wrap            = "no"
 tab_size        = 2
-max_width       = 800
+max_width       = 600
 max_height      = 900
 cache_dir       = ""
 image_delay     = 30
@@ -30,31 +30,39 @@ ueberzug_offset = [ 0, 0, 0, 0 ]
 
 [opener]
 edit = [
-	{ run = '$EDITOR %s', desc = "$EDITOR", block = true, for = "unix" },
-	{ run = 'code %s',    orphan = true, desc = "code",           for = "windows" },
-	{ run = 'code -w %s', block = true,  desc = "code (block)",   for = "windows" },
-]
-open = [
-	{ run = 'xdg-open %s',                desc = "Open", for = "linux" },
-	{ run = 'open %s',                    desc = "Open", for = "macos" },
-	{ run = 'start "" %s', orphan = true, desc = "Open", for = "windows" },
-	{ run = 'termux-open %s',             desc = "Open", for = "android" },
-]
-reveal = [
-	{ run = 'xdg-open %d',           desc = "Reveal", for = "linux" },
-	{ run = 'open -R %s',                         desc = "Reveal", for = "macos" },
-	{ run = 'explorer /select,%s', orphan = true, desc = "Reveal", for = "windows" },
-	{ run = 'termux-open %d',        desc = "Reveal", for = "android" },
-	{ run = 'exiftool %s; echo "Press enter to exit"; read', block = true, desc = "Show EXIF", for = "unix" },
-]
-extract = [
-	{ run = 'ya pub extract --list %s', desc = "Extract here", for = "unix" },
-	{ run = 'ya pub extract --list %s',   desc = "Extract here", for = "windows" },
+	{ run = "${EDITOR:-vi} %s", desc = "$EDITOR",      for = "unix", block = true },
+	{ run = "code %s",          desc = "code",         for = "windows", orphan = true },
+	{ run = "code -w %s",       desc = "code (block)", for = "windows", block = true },
 ]
 play = [
-	{ run = 'mpv --force-window %s', orphan = true, for = "unix" },
-	{ run = 'mpv --force-window %s', orphan = true, for = "windows" },
-	{ run = 'mediainfo %s; echo "Press enter to exit"; read', block = true, desc = "Show media info", for = "unix" },
+	{ run = "xdg-open %s1",    desc = "Play", for = "linux", orphan = true },
+	{ run = "open %s",         desc = "Play", for = "macos" },
+	{ run = 'start "" %s1',    desc = "Play", for = "windows", orphan = true },
+	{ run = "termux-open %s1", desc = "Play", for = "android" },
+	# { run = 'mpv --force-window %s', orphan = true, for = "unix" },
+	# { run = 'mpv --force-window %s', orphan = true, for = "windows" },
+	{ run = "mediainfo %s1; echo 'Press enter to exit'; read _", block = true, desc = "Show media info", for = "unix" },
+	{ run = "mediainfo %s1 & pause", block = true, desc = "Show media info", for = "windows" },
+]
+open = [
+	{ run = "xdg-open %s1",    desc = "Open", for = "linux" },
+	{ run = "open %s",         desc = "Open", for = "macos" },
+	{ run = 'start "" %s1',    desc = "Open", for = "windows", orphan = true },
+	{ run = "termux-open %s1", desc = "Open", for = "android" },
+]
+reveal = [
+	{ run = "xdg-open %d1",         desc = "Reveal", for = "linux" },
+	{ run = "open -R %s1",          desc = "Reveal", for = "macos" },
+	{ run = "explorer /select,%s1", desc = "Reveal", for = "windows", orphan = true },
+	{ run = "termux-open %d1",      desc = "Reveal", for = "android" },
+	{ run = "clear; exiftool %s1; echo 'Press enter to exit'; read _", desc = "Show EXIF", for = "unix", block = true },
+]
+extract = [
+	{ run = "ya pub extract --list %s", desc = "Extract here" },
+]
+download = [
+	{ run = "ya emit download --open %S", desc = "Download and open" },
+	{ run = "ya emit download %S",        desc = "Download" },
 ]
 
 [open]
@@ -74,6 +82,8 @@ rules = [
 	{ mime = "*/javascript", use = [ "edit", "reveal" ] },
 	# Empty file
 	{ mime = "inode/empty", use = [ "edit", "reveal" ] },
+	# Virtual file system
+	{ mime = "vfs/{absent,stale}", use = "download" },
 	# Fallback
 	{ url = "*", use = [ "open", "reveal" ] },
 ]
@@ -83,7 +93,7 @@ micro_workers    = 10
 macro_workers    = 10
 bizarre_retry    = 3
 image_alloc      = 536870912  # 512MB
-image_bound      = [ 5000, 5000 ]
+image_bound      = [ 10000, 10000 ]
 suppress_preload = false
 
 [plugin]
@@ -92,6 +102,24 @@ fetchers = [
 	{ id = "mime", url = "*/",         run = "mime.dir", prio = "high" },
 	{ id = "mime", url = "local://*",  run = "mime.local", prio = "high" },
 	{ id = "mime", url = "remote://*", run = "mime.remote", prio = "high" },
+]
+spotters = [
+	{ url = "*/", run = "folder" },
+	# Code
+	{ mime = "text/*", run = "code" },
+	{ mime = "application/{mbox,javascript,wine-extension-ini}", run = "code" },
+	# Image
+	{ mime = "image/{avif,hei?,jxl}", run = "magick" },
+	{ mime = "image/svg+xml", run = "svg" },
+	{ mime = "image/*", run = "image" },
+	# Video
+	{ mime = "video/*", run = "video" },
+	# Virtual file system
+	{ mime = "vfs/*", run = "vfs" },
+	# Error
+	{ mime = "null/*", run = "null" },
+	# Fallback
+	{ url = "*", run = "file" },
 ]
 preloaders = [
 	# Image
@@ -134,6 +162,10 @@ previewers = [
 	{ mime = "application/ms-opentype", run = "font" },
 	# Empty file
 	{ mime = "inode/empty", run = "empty" },
+	# Virtual file system
+	{ mime = "vfs/*", run = "vfs" },
+	# Error
+	{ mime = "null/*", run = "null" },
 	# Fallback
 	{ url = "*", run = "file" },
 ]
@@ -188,16 +220,16 @@ delete_origin	= "center"
 delete_offset	= [ 0, 0, 70, 20 ]
 
 # overwrite
-overwrite_title   = "Overwrite file?"
-overwrite_content = "Will overwrite the following file:"
-overwrite_origin  = "center"
-overwrite_offset  = [ 0, 0, 50, 15 ]
+overwrite_title  = "Overwrite file?"
+overwrite_body   = "Will overwrite the following file:"
+overwrite_origin = "center"
+overwrite_offset = [ 0, 0, 50, 15 ]
 
 # quit
-quit_title   = "Quit?"
-quit_content = "The following tasks are still running, are you sure you want to quit?"
-quit_origin  = "center"
-quit_offset  = [ 0, 0, 50, 15 ]
+quit_title  = "Quit?"
+quit_body   = "There are unfinished tasks, quit anyway?\n(Open task manager with default key 'w')"
+quit_origin = "center"
+quit_offset = [ 0, 0, 50, 15 ]
 
 [pick]
 open_title  = "Open with:"

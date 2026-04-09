@@ -1,0 +1,8 @@
+[revset-aliases]
+"trunk()" = "master@origin"
+
+[snapshot]
+max-new-file-size = 18540104
+
+[jj-fzf]
+diff-mode = "diff-b"

@@ -1,3 +1,5 @@
+set --erase fish_greeting
+
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
@@ -8,6 +10,7 @@ set -gx EDITOR nvim
 set -gx BAT_THEME TwoDark
 set -gx OPENCODE_DISABLE_DEFAULT_PLUGINS true
 
+# User scripts
 fish_add_path ~/bin
 
 # GraalVM
@@ -16,7 +19,7 @@ fish_add_path /Library/Java/JavaVirtualMachines/graalvm-25.jdk/Contents/Home/bin
 fish_add_path ~/.local/bin
 
 # Rust
-source "$HOME/.cargo/env.fish"
+# source "$HOME/.cargo/env.fish"
 
 ################################################################################
 # Aliases
@@ -44,14 +47,6 @@ alias td='tmux-dispensary'
 alias :vs='tmux splitw -h'
 alias :sp='tmux splitw'
 alias :q='tmux kill-pane'
-
-# Timewarrior
-alias tw="timew"
-alias tws="timew summary"
-alias twa="timew annotate"
-alias twd="timew day"
-alias tww="timew week"
-alias twm="timew month"
 
 # Git
 alias g="git"
@@ -184,9 +179,11 @@ end
 ################################################################################
 # Yazi
 
+alias y="yazi"
+
 # Opens yazi and writes the cwd to a temp file. Then when yazi closes, cd's
 # into that latest cwd.
-function y
+function ycd
   set tmp (mktemp -t "yazi-cwd.XXXXXX")
   yazi $argv --cwd-file="$tmp"
   if read -z cwd < "$tmp"; and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
