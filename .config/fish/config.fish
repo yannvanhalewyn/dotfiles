@@ -3,7 +3,8 @@ if status is-interactive
 end
 
 # Environment variables
-set -gx EDITOR ~/repos/nvim-macos-x86_64/bin/nvim
+# set -gx EDITOR ~/repos/nvim-macos-x86_64/bin/nvim
+set -gx EDITOR nvim
 set -gx BAT_THEME TwoDark
 set -gx OPENCODE_DISABLE_DEFAULT_PLUGINS true
 
@@ -29,7 +30,8 @@ function md
 end
 
 # Neovim
-alias v="~/repos/nvim-macos-x86_64/bin/nvim"
+# alias v="~/repos/nvim-macos-x86_64/bin/nvim"
+alias v="nvim"
 alias v.="v ."
 alias vf="v -o (fzf)"
 alias vd="d && v."
