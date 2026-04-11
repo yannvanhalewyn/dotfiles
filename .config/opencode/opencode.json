@@ -11,7 +11,16 @@
       }
     },
   },
+  "provider": {
+    "anthropic": {
+      "options": {
+        "baseURL": "http://127.0.0.1:3456",
+        "apiKey": "dummy"
+      }
+    }
+  },
   "plugin": [
-    "opencode-anthropic-auth"
+    "opencode-with-claude"
+    // "opencode-anthropic-auth"
   ],
 }

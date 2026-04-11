@@ -104,7 +104,7 @@ alias prss="prstack sync"
 alias prsc="prstack create-prs"
 
 # Docker
-alias dup="docker-compose up -d"
+alias dup="docker compose up -d"
 
 # Others
 alias ch="cheat"

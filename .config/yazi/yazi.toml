@@ -64,11 +64,17 @@ download = [
 	{ run = "ya emit download --open %S", desc = "Download and open" },
 	{ run = "ya emit download %S",        desc = "Download" },
 ]
+glow = [
+	{ run = "glow -p %s", desc = "View with glow", block = true, for = "unix" },
+]
 
 [open]
 rules = [
 	# Folder
 	{ url = "*/", use = [ "edit", "open", "reveal" ] },
+	# Markdown
+	{ mime = "text/markdown", use = [ "edit", "glow", "reveal" ] },
+	{ url = "*.md", use = [ "edit", "glow", "reveal" ] },
 	# Text
 	{ mime = "text/*", use = [ "edit", "reveal" ] },
 	# Image

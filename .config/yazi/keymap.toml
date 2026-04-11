@@ -149,6 +149,7 @@ keymap = [
 	{ on = [ "g", "m" ],       run = "cd ~/Movies",         desc = "Go ~/Movies" },
 	{ on = [ "g", "w" ],       run = "cd ~/Library/Mobile\\ Documents/com~apple~CloudDocs/Wolftrap/Wolftrap\\ Shared", desc = "Go to Wolftrap Shared" },
 	{ on = [ "g", "i" ],       run = "cd ~/Library/Mobile\\ Documents/com~apple~CloudDocs", desc = "Go to iCloud" },
+	{ on = [ "g", "o" ],       run = "cd ~/Library/Mobile\\ Documents/iCloud~md~obsidian/Documents", desc = "Go to Obsidian" },
     { on = [ "g", "r" ],       run = 'shell -- ya emit cd "$(git rev-parse --show-toplevel)"' },
 	{ on = [ "g", "<Space>" ], run = "cd --interactive",    desc = "Jump interactively" },
 	{ on = [ "g", "f" ],       run = "follow",              desc = "Follow hovered symlink" },
@@ -390,3 +391,23 @@ keymap = [
 	# Filtering
 	{ on = "f", run = "filter", desc = "Filter help items" },
 ]
+
+[[mgr.prepend_keymap]]
+on = [ "m" ]
+run = "plugin bookmarks save"
+desc = "Save current position as a bookmark"
+
+[[mgr.prepend_keymap]]
+on = [ "'" ]
+run = "plugin bookmarks jump"
+desc = "Jump to a bookmark"
+
+[[mgr.prepend_keymap]]
+on = [ "b", "d" ]
+run = "plugin bookmarks delete"
+desc = "Delete a bookmark"
+
+[[mgr.prepend_keymap]]
+on = [ "b", "D" ]
+run = "plugin bookmarks delete_all"
+desc = "Delete all bookmarks"
