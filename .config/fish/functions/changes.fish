@@ -7,6 +7,9 @@ function changes --description "Pick a recent change (jj/git) and diff with diff
         echo ""
         echo "  Browse recent jj (or git) changes with fzf preview,"
         echo "  then open the selected change in difftastic."
+        echo "  Returns to the picker after the diff viewer exits."
+        echo ""
+        echo "  Navigation: j/k or arrow keys. q or Esc to quit."
         echo ""
         echo "  --nvim, -n   Open in Neovim with :Difft <id> instead"
         return 0
@@ -31,15 +34,17 @@ function changes --description "Pick a recent change (jj/git) and diff with diff
     switch $vcs
         case jj
             set selected (jj log --no-graph -n 50 \
-                -T 'change_id.shortest(8) ++ "\t" ++ if(description, description.first_line(), "(no description)") ++ "\n"' \
+                -T 'change_id.shortest(8) ++ "\t" ++ if(bookmarks, bookmarks.join(" ") ++ " ", "") ++ if(description, description.first_line(), "(no description)") ++ "\n"' \
                 | fzf $fzf_opts \
                     --prompt='[jj] change > ' \
-                    --preview 'jj show --summary --color=always {1}')
+                    --preview 'jj diff --stat --color=always -r {1}')
         case git
-            set selected (git log -n 50 --color=always --pretty=format:'%h%x09%s' \
+            set -l commits (git log -n 50 --color=always --pretty=format:'%h%x09%C(auto)%d %s')
+            git diff --quiet; or set -p commits 'HEAD\t(unstaged changes)'
+            set selected (printf '%s\n' $commits \
                 | fzf $fzf_opts \
                     --prompt='[git] change > ' \
-                    --preview 'git show --stat --color=always {1}')
+                    --preview '[ {1} = HEAD ] && git diff --stat --color=always || git show --format= --stat --color=always {1}')
     end
 
     test -n "$selected"; or return
@@ -47,13 +52,21 @@ function changes --description "Pick a recent change (jj/git) and diff with diff
     set -l id (string split -m1 \t -- $selected)[1]
 
     if set -q _flag_nvim
-        nvim -c "Difft $id"
+        if test $id = HEAD
+            nvim -c "Difft"
+        else
+            nvim -c "Difft $id"
+        end
     else
         switch $vcs
             case jj
                 jj diff --tool difft -r $id
             case git
-                GIT_EXTERNAL_DIFF=difft git show --ext-diff $id
+                if test $id = HEAD
+                    GIT_EXTERNAL_DIFF=difft git diff
+                else
+                    GIT_EXTERNAL_DIFF=difft git show --ext-diff $id
+                end
         end
     end
 end

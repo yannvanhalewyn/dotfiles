@@ -1,0 +1,7 @@
+# Herdr
+
+- prefix: `<C-b>`
+- prefix + `W` - rename workspace
+- prefix + `c` - new tab
+- prefix + `p` - prev tab
+- prefix + `n` - next tab

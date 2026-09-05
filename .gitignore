@@ -47,3 +47,8 @@
 .config/jgit/
 .config/graphite/user_config
 .config/tmux/plugins/
+/.config/herdr/herdr-client.log
+/.config/herdr/herdr-server.log
+/.config/herdr/.plugins.lock
+/.config/herdr/session.json
+/.config/herdr/plugins/*

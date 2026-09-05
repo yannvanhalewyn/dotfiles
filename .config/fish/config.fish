@@ -79,7 +79,7 @@ alias jbd="jj bookmark list -T 'name ++ \"\n\"' | fzf --prompt='Select branch: '
 alias jd="jj describe"
 alias jgf="jj git fetch"
 alias jgp="jj git push --tracked"
-alias jj_pull="jj git fetch && jj bookmark set master -r master@origin"
+alias jj_pull="jj git fetch && jj bookmark set main -r main@origin"
 alias je="jj edit"
 alias jl="jj log -n 10"
 alias jll="jj log -r ::"
@@ -96,6 +96,7 @@ alias jsi="jj split -i"
 alias jst="jj status"
 alias jsh="jj show"
 alias lj="lazyjj"
+alias lg="lazygit"
 
 # PRStack
 alias prs="prstack"
@@ -109,6 +110,10 @@ alias dup="docker compose up -d"
 # Others
 alias ch="cheat"
 alias repl="clojure -M:dev:local-dev:nrepl"
+alias th="treehouse"
+alias ths="treehouse status"
+alias the="treehouse enter"
+alias thpy="treehouse prune --yes"
 
 ################################################################################
 # Functions

@@ -67,14 +67,17 @@ download = [
 glow = [
 	{ run = "glow -p %s", desc = "View with glow", block = true, for = "unix" },
 ]
+readmd = [
+	{ run = "open -a 'Read.md' %s", desc = "Open in Read.md", for = "macos" },
+]
 
 [open]
 rules = [
 	# Folder
 	{ url = "*/", use = [ "edit", "open", "reveal" ] },
 	# Markdown
-	{ mime = "text/markdown", use = [ "edit", "glow", "reveal" ] },
-	{ url = "*.md", use = [ "edit", "glow", "reveal" ] },
+	{ mime = "text/markdown", use = [ "edit", "glow", "readmd", "reveal" ] },
+	{ url = "*.md", use = [ "edit", "glow", "readmd", "reveal" ] },
 	# Text
 	{ mime = "text/*", use = [ "edit", "reveal" ] },
 	# Image
