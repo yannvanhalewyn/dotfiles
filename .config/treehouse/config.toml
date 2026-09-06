@@ -1,0 +1,4 @@
+# vcs = "jj"
+
+[hooks]
+post_create = ["./script/setup-workspace.sh"]
