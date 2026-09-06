@@ -114,6 +114,8 @@ alias th="treehouse"
 alias ths="treehouse status"
 alias the="treehouse enter"
 alias thpy="treehouse prune --yes"
+alias bdr="bd ready"
+alias bdl="bd list"
 
 ################################################################################
 # Functions

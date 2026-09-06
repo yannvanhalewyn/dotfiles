@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+while true; do
+  selected=$(bd list | sed '/^---/,$d' | fzf --preview 'bd show {2}' --bind 'ctrl-b:preview-up,ctrl-f:preview-down' ) || break
+  [[ -z $selected ]] && continue
+  bd show "$(awk '{print $2}' <<< "$selected")"
+done

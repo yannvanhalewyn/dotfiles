@@ -2,6 +2,7 @@
 # tap 'clojure/tools'
 brew 'awscli'
 brew 'bat'
+brew 'beads'
 brew 'borkdude/brew/babashka'
 brew 'borkdude/brew/clj-kondo'
 brew 'borkdude/brew/jet'

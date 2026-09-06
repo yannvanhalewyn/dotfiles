@@ -52,3 +52,9 @@
 /.config/herdr/.plugins.lock
 /.config/herdr/session.json
 /.config/herdr/plugins/*
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
+.beads/proxieddb/
