@@ -71,6 +71,7 @@ alias gwhip="git commit -am 'WIP'"
 alias gunwhip="git reset HEAD~1 --soft && git reset HEAD"
 alias gamend="git commit --amend --no-edit"
 alias grhh="git reset HEAD --hard"
+alias lg="lazygit"
 
 # Jujutsu
 alias j="jj log -n 5"
@@ -96,7 +97,6 @@ alias jsi="jj split -i"
 alias jst="jj status"
 alias jsh="jj show"
 alias lj="lazyjj"
-alias lg="lazygit"
 
 # PRStack
 alias prs="prstack"
