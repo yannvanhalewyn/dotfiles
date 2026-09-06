@@ -1,3 +1,4 @@
+onboarding = false
 [ui.toast]
 delivery = "system"
 
@@ -7,7 +8,7 @@ show_agent_labels_on_pane_borders = false
 agent_panel_sort = "spaces"
 [keys]
 next_workspace = "prefix+shift+n"
-prev_workspace = "prefix+shift+p"
+previous_workspace = "prefix+shift+p"
 
 # Terminal annotations plugin
 [[keys.command]]
