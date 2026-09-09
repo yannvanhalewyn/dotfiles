@@ -10,8 +10,7 @@
  #_
  "git diff $from-sha..$to-sha | delta --paging always"
  :keybindings
- {"y" (do "ls" "sleep 4")
-  ;; Review: fetch, checkout head-branch, open diff for review
+ {;; Review: fetch, checkout head-branch, open diff for review
   "R" (do
         ["jj" "git" "fetch"]
         ["jj" "new" "$head-branch@origin"]
