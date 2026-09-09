@@ -3,7 +3,7 @@
   "agent": {
     "build": {
       "mode": "primary",
-      "model": "opus 4.6",
+      "model": "anthropic/claude-sonnet-5",
       "tools": {
         "write": true,
         "edit": true,
