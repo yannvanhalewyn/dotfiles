@@ -1,0 +1,23 @@
+Here are the main ones for the network editor (hover over the network pane so it has focus):
+
+Moving through the hierarchy
+
+U: go up one level, to the parent network
+I: dive into the selected COMP
+Alt+Left / Alt+Right: step back and forward through your previous network locations, like a browser history (I'm less certain of this one, so check it in Help > Shortcuts)
+
+Viewing, scaling and recentering
+
+H: Home, which fits all nodes in the current network to the pane
+Shift+H: Home Selected, which frames only the selected nodes
+Mouse wheel: zoom in and out around the cursor
+Middle-mouse drag: pan around the network
+
+Useful nearby
+
+Tab: open the operator create menu
+P: toggle the parameter dialog for the selected node
+A: toggle the live viewer on the selected node, so you can see its output inside the node
+Ctrl+F: find operators in the network
+
+Mac users swap Ctrl for Cmd where relevant. The full list is under Help > Shortcuts, and the TouchDesigner wiki has a "Shortcuts" page if you want the complete reference.
