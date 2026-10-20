@@ -15,11 +15,14 @@
 
 (def parent-dirs
   [(str HOME "/spronq")
+   (str HOME "/mediquest")
    (str HOME "/code")
    (str HOME "/repos")])
 
 (def extra-dirs
   [{:dir (str HOME "/dotfiles/")}
+   {:dir (str HOME "/mediquest/")}
+   {:dir (str HOME "/wolftrap/")}
    {:dir (str HOME "/Library/Mobile Documents/iCloud~md~obsidian/Documents")
     :session-name "Obsidian"}])
 
