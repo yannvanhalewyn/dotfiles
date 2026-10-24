@@ -70,16 +70,21 @@ glow = [
 readmd = [
 	{ run = "open -a 'Read.md' %s", desc = "Open in Read.md", for = "macos" },
 ]
+browser = [
+	{ run = "open -a Arc %s",  desc = "Arc",            for = "macos" },
+	{ run = "xdg-open %s",     desc = "Default browser", for = "linux" },
+	{ run = 'start "" %s',     desc = "Default browser", for = "windows", orphan = true },
+]
 
 [open]
 rules = [
 	# Folder
 	{ url = "*/", use = [ "edit", "open", "reveal" ] },
 	# Markdown
-	{ mime = "text/markdown", use = [ "edit", "glow", "readmd", "reveal" ] },
-	{ url = "*.md", use = [ "edit", "glow", "readmd", "reveal" ] },
+	{ mime = "text/markdown", use = [ "edit", "glow", "readmd", "browser", "reveal" ] },
+	{ url = "*.md", use = [ "edit", "glow", "readmd", "browser", "reveal" ] },
 	# Text
-	{ mime = "text/*", use = [ "edit", "reveal" ] },
+	{ mime = "text/*", use = [ "edit", "browser", "reveal" ] },
 	# Image
 	{ mime = "image/*", use = [ "open", "reveal" ] },
 	# Media
@@ -94,7 +99,7 @@ rules = [
 	# Virtual file system
 	{ mime = "vfs/{absent,stale}", use = "download" },
 	# Fallback
-	{ url = "*", use = [ "open", "reveal" ] },
+	{ url = "*", use = [ "open", "reveal", "browser" ] },
 ]
 
 [tasks]
