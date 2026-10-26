@@ -17,6 +17,8 @@ fish_add_path ~/bin
 fish_add_path /Library/Java/JavaVirtualMachines/graalvm-25.jdk/Contents/Home/bin
 # Claude Code
 fish_add_path ~/.local/bin
+# Mediquest (TODO move to other profile)
+source (brew --prefix)/share/google-cloud-sdk/path.fish.inc
 
 # Rust
 # source "$HOME/.cargo/env.fish"
