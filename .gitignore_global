@@ -8,3 +8,6 @@ exclude-*
 .lsp/.cache/*
 .clj-kondo/.cache/*
 .claude/*
+.lavish/*
+
+**/.claude/.cc-writes/
