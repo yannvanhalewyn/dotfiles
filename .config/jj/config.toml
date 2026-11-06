@@ -23,7 +23,7 @@ merge-args = [
 
 merge-tool-edits-conflict-markers = true
 [aliases]
-retrunk = ["rebase", "-s", "all:roots(main..@)", "-d", "main"]
+retrunk = ["rebase", "-s", "all:roots(trunk()..@)", "-d", "trunk()"]
 
 [templates]
 # Improve the default representation in the log. This colors
@@ -41,6 +41,3 @@ label("node",
   )
 )
 '''
-
-[revset-aliases]
-'trunk()' = 'main'
