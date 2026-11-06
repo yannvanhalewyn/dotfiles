@@ -53,12 +53,6 @@
 /.config/herdr/session.json
 /.config/herdr/plugins/*
 
-# Beads / Dolt files (added by bd init)
-.dolt/
-*.db
-.beads-credential-key
-.beads/proxieddb/
-
 # Machine-local app state and credentials (~/.config is symlinked here)
 /.config/gcloud/
 /.config/jj/repos/
