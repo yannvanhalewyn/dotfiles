@@ -188,11 +188,9 @@ end
 ################################################################################
 # Yazi
 
-alias y="yazi"
-
 # Opens yazi and writes the cwd to a temp file. Then when yazi closes, cd's
-# into that latest cwd.
-function ycd
+# into that latest cwd. Quit with `Q` to cd, `q` to stay put.
+function y
   set tmp (mktemp -t "yazi-cwd.XXXXXX")
   yazi $argv --cwd-file="$tmp"
   if read -z cwd < "$tmp"; and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]

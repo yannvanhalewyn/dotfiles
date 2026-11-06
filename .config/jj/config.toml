@@ -9,7 +9,7 @@ key = "7D36858A13CD5C82"
 
 [ui]
 default-command = "log"
-diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
+diff-editor = ["nvim", "-c", "HunkDiffEditor $left $right $output"]
 diff-formatter = ["difft", "--color=always", "--syntax-highlight", "on", "$left", "$right"]
 # diff-formatter = ["delta", "--side-by-side", "$left", "$right"]
 merge-editor = "diffconflicts"

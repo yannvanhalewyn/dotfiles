@@ -1,0 +1,10 @@
+;; jjtui global config. Keys left out fall back to the built-in defaults, and
+;; :diff-tools merges with the built-in tools (switch at runtime with `v`).
+{;; Diff viewer for `enter` (change / marks / file) and `D` (branch diff)
+ :diff-tool :nvim-difftastic
+
+ :diff-tools
+ {;; Neovim with clabby/difftastic.nvim: `:Difft <revset>` runs
+  ;; `jj diff -r <revset> --tool difft`, so ranges and marked sets work too.
+  ;; The plugin shows the whole revset; a file row opens the same view.
+  :nvim-difftastic ["nvim" "-c" "Difft $revset"]}}

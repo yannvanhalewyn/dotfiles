@@ -9,5 +9,6 @@ exclude-*
 .clj-kondo/.cache/*
 .claude/*
 .lavish/*
+.omp/*
 
 **/.claude/.cc-writes/
