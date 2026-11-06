@@ -58,3 +58,11 @@
 *.db
 .beads-credential-key
 .beads/proxieddb/
+
+# Machine-local app state and credentials (~/.config is symlinked here)
+/.config/gcloud/
+/.config/jj/repos/
+/.config/1Password/
+/.config/blender-mcp/
+/.config/herdr/release-notes.json
+/.config/opencode/service.json
