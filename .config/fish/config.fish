@@ -10,6 +10,9 @@ set -gx EDITOR nvim
 set -gx BAT_THEME TwoDark
 set -gx OPENCODE_DISABLE_DEFAULT_PLUGINS true
 
+# Ghostty CLI
+fish_add_path /Applications/Ghostty.app/Contents/MacOS
+
 # User scripts
 fish_add_path ~/bin
 
@@ -17,6 +20,8 @@ fish_add_path ~/bin
 fish_add_path /Library/Java/JavaVirtualMachines/graalvm-25.jdk/Contents/Home/bin
 # Claude Code
 fish_add_path ~/.local/bin
+# Homebrew (needed before `brew --prefix` below)
+fish_add_path /opt/homebrew/bin
 # Mediquest (TODO move to other profile)
 source (brew --prefix)/share/google-cloud-sdk/path.fish.inc
 
