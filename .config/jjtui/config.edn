@@ -7,4 +7,7 @@
  {;; Neovim with clabby/difftastic.nvim: `:Difft <revset>` runs
   ;; `jj diff -r <revset> --tool difft`, so ranges and marked sets work too.
   ;; The plugin shows the whole revset; a file row opens the same view.
-  :nvim-difftastic ["nvim" "-c" "Difft $revset"]}}
+  :nvim-difftastic ["nvim" "-c" "Difft $revset"]
+  ;; Neovim with sindrets/diffview.nvim on the commit range.
+  ;; Needs a colocated git repo ($from-sha / $to-sha are git commit ids).
+  :nvim-difftool ["nvim" "-c" "DiffviewOpen $from-sha..$to-sha"]}}
