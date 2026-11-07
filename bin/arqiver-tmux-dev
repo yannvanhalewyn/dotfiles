@@ -23,7 +23,7 @@ then
 
   # REPL / Devtools
   tmux new-window -t $session -n "AI" -c $project_dir
-  tmux send-keys -t 1 "opencode" C-m
+  tmux send-keys -t 1 "\$CODING_AGENT"
 
   # LazyJJ
   tmux new-window -t $session -n "jj" -c $project_dir

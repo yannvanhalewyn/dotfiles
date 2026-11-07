@@ -7,6 +7,7 @@ end
 # Environment variables
 # set -gx EDITOR ~/repos/nvim-macos-x86_64/bin/nvim
 set -gx EDITOR nvim
+set -gx CODING_AGENT omp
 set -gx BAT_THEME TwoDark
 set -gx OPENCODE_DISABLE_DEFAULT_PLUGINS true
 

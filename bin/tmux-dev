@@ -17,7 +17,7 @@ then
   tmux rename-window -t 1 "nvim"
   tmux send-keys -t 1 "\$EDITOR" C-m
   tmux split-window -h
-  tmux send-keys -t 1.2 "opencode" C-m
+  tmux send-keys -t 1.2 "\$CODING_AGENT"
 
   # Devtools
   tmux new-window -t $session -n "Devtools"
