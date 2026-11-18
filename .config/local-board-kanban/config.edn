@@ -1,0 +1,5 @@
+{:workspaces
+ [{:dir "~/code/janati"}
+  {:dir "~/code/local-board-kanban"}
+  {:dir "~/mediquest/home-repo" :id "mediquest"}
+  {:dir "~/wolftrap/home-repo" :id "wolftrap"}]}
