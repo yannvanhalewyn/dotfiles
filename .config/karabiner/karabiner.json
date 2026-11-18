@@ -151,11 +151,11 @@
                 },
                 {
                     "from": { "pointing_button": "button4" },
-                    "to": [{ "key_code": "f4" }]
+                    "to": [{ "key_code": "f2" }]
                 },
                 {
                     "from": { "pointing_button": "button5" },
-                    "to": [{ "key_code": "f3" }]
+                    "to": [{ "key_code": "f2" }]
                 }
             ],
             "virtual_hid_keyboard": {
