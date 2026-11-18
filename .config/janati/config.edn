@@ -1,14 +1,21 @@
 ;; Janati's user config (P14 in ~/code/janati/docs/plan.md): read by every
 ;; `janati` CLI command (`clojure -M:run …` in ~/code/janati) between the
 ;; defaults and --config. Data lives in ~/.local/share/janati (the default).
-{:app/name "Knowledge"
+{:app/name "Knowledge Base"
  :http/port 7700
  ;; whose drafts the watched bundle dirs feed (the user must exist)
  :watch/as "yann"
  ;; one space per knowledge base; created at startup when missing, each fed
  ;; from its bundle dir: file changes become yann's drafts, new artifacts go
  ;; to that space
- :spaces/seed [{:space/id "mq" :space/name "MediQuest Knowledge"
+ :spaces/seed [{:space/id "mq"
+                :space/name "MediQuest Knowledge"
                 :space/watch-dir "~/mediquest/mq-knowledge"}
-               {:space/id "janati" :space/name "Janati"
-                :space/watch-dir "~/code/janati/docs/kb"}]}
+               {:space/id "janati"
+                :space/name "Janati"
+                :space/watch-dir "~/code/janati/docs/kb"}
+               {:space/id "wolftrap"
+                :space/name "Wolftrap"
+                :space/watch-dir "~/wolftrap/home-repo/kb"}]
+ :cli/default "local"
+ :cli/remotes {"local" {:url "http://localhost:7700" :token "jnt_GZm5CqB3rx4EDWVefqAPAKnuoNrAoMeWv-rOpq8zJfY"}}}
