@@ -266,3 +266,12 @@ end
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
+
+# Lein bundles JNA 4.1.0, which has no arm64 build; lein-git-down needs it for ssh-agent.
+# Only necessary until I don't work on projects that use `lein-git-down` anymore
+set -l jna_dir $HOME/.m2/repository/net/java/dev/jna
+set -l jna_jars \
+    $jna_dir/jna/5.18.1/jna-5.18.1.jar \
+    $jna_dir/jna-platform/5.18.1/jna-platform-5.18.1.jar
+set -gx LEIN_USE_BOOTCLASSPATH no
+set -gx LEIN_JVM_OPTS "-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xbootclasspath/a:"(string join : $jna_jars)
