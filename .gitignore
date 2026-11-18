@@ -61,3 +61,13 @@
 /.config/herdr/release-notes.json
 /.config/opencode/service.json
 /.config/fish/fish_variables
+/nvim.log
+
+# Herdr app writes everything here except the user config kept below
+/.config/herdr-app/*
+!/.config/herdr-app/keys.json
+!/.config/herdr-app/settings.json
+!/.config/herdr-app/programs.json
+!/.config/herdr-app/themes/
+!/.config/herdr-app/layouts/
+/.config/herdr-app/layouts/.state/
