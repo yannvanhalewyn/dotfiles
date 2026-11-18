@@ -1,0 +1,80 @@
+================================================================================
+ AGENT SKILLS CHEATSHEET                                         idea -> ship
+================================================================================
+
+ THINKING: WHICH ONE?
+ -------------------------------------------------------------------------------
+ /grill-with-docs   Sharpen an idea by interview, IN a repo. Stateful: writes
+                    GLOSSARY.md + ADRs as it goes. Default start of a feature.
+ /grill-me          Same interview, NO repo. Saves nothing. Plans, writing,
+                    naming the project.
+ /domain-modeling   The WORDS are the problem: fuzzy or overloaded term, naming
+                    a feature/concept, editing GLOSSARY.md, recording an ADR.
+ /codebase-design   The SHAPE is the problem: where a seam goes, how deep a
+                    module is, what its interface exposes. Reference, not a
+                    session. Vocabulary only: no naming guidance.
+
+   in a repo? --no--> /grill-me
+       | yes
+   whole idea fuzzy? --yes--> /grill-with-docs   (drives /domain-modeling)
+       | no
+       +-- one word unclear ---------> /domain-modeling
+       +-- one module's shape -------> /codebase-design
+
+ MAIN FLOW
+ -------------------------------------------------------------------------------
+   /grill-with-docs --> [/prototype if a question needs running code]
+          |
+     multi-session build?
+          +-- no  --> /implement                       (same context window)
+          +-- yes --> /to-spec --> /to-tickets
+                         +--> /implement per ticket, /clear between each
+                         +--> /implement-spec  (parallel agents, one branch)
+
+   /implement = /tdd + /code-review   -->   /pr   -->   /retro
+
+ FEEDING THE THINKING
+ -------------------------------------------------------------------------------
+ /research          WHEN: you need facts (docs, APIs, specs), not opinions.
+                    HOW:  give it one question. A background agent reads
+                          PRIMARY sources and writes one cited .md in the repo.
+                          Keep working meanwhile; take the file into a grill.
+ /prototype         WHEN: a design question won't settle on paper.
+                    HOW:  logic/state -> one clickable HTML file;
+                          UI -> several variants on one route. Throwaway code;
+                          keep it on a side branch, fold the answer into main.
+ /to-questionnaire  WHEN: the answer is in someone else's head.
+
+ BUILDING AND CHECKING
+ -------------------------------------------------------------------------------
+ /tdd               One red -> green slice at a time. Agree the seams to test
+                    BEFORE writing tests. No refactoring inside the loop.
+ /code-review       Diff since a fixed point (branch, SHA, main), two separate
+                    reports: Standards (repo rules + code smells) and Spec.
+ /pr                Shapes the PR body. Agent reaches for it on its own.
+ /retro             After a build: fix the agent's environment, not the code.
+
+ ON-RAMPS
+ -------------------------------------------------------------------------------
+ /diagnosing-bugs   Hard bug. First build ONE fast command that goes red on
+                    this bug; no theories before that. Then 3-5 ranked
+                    hypotheses, fix, regression test.
+ /triage            Raw incoming issues you didn't write -> agent-ready.
+ /wayfinder         Too big and foggy for one session. Produces decisions,
+                    then hands off to /to-spec. Slow; not for scoped features.
+ /improve-codebase-architecture   Spare-moment upkeep; finds candidates to
+                    take into /grill-with-docs.
+
+ UTILITIES
+ -------------------------------------------------------------------------------
+ /wizard            Steps only a human can do (credentials, dashboards).
+ /wait-what         Last message didn't land: re-pitch in plain English.
+ /handoff           Portable .md for a new directory, harness or colleague.
+
+ CONTEXT RULES
+ -------------------------------------------------------------------------------
+ * Grill -> spec -> tickets: ONE unbroken window. No /clear, no /compact.
+ * Each /implement starts fresh from its ticket.
+ * Run /retro before clearing the session it looks back on.
+ * Near ~150k tokens: /compact at the next phase boundary, don't push on.
+================================================================================
