@@ -71,7 +71,7 @@ readmd = [
 	{ run = "open -a 'Read.md' %s", desc = "Open in Read.md", for = "macos" },
 ]
 browser = [
-	{ run = "open -a Arc %s",  desc = "Arc",            for = "macos" },
+	{ run = '''open -a "$(osascript -l JavaScript -e 'ObjC.import("AppKit"); $.NSWorkspace.sharedWorkspace.URLForApplicationToOpenURL($.NSURL.URLWithString("https:")).path.js')" %s''', desc = "Default browser", for = "macos" },
 	{ run = "xdg-open %s",     desc = "Default browser", for = "linux" },
 	{ run = 'start "" %s',     desc = "Default browser", for = "windows", orphan = true },
 ]
