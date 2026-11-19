@@ -82,7 +82,7 @@ alias grhh="git reset HEAD --hard"
 alias lg="lazygit"
 
 # Jujutsu
-alias jjt="jjtui"
+alias jt="jjtui"
 alias j="jj log -n 5"
 alias jbl="jj bookmark list -T 'name ++ \"\n\"' | fzf --prompt='Search branch: '"
 alias jbd="jj bookmark list -T 'name ++ \"\n\"' | fzf --prompt='Select branch: ' | xargs jj bookmark delete"
