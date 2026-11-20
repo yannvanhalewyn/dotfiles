@@ -52,6 +52,7 @@
 /.config/herdr/.plugins.lock
 /.config/herdr/session.json
 /.config/herdr/plugins/*
+/.config/cagent/
 
 # Machine-local app state and credentials (~/.config is symlinked here)
 /.config/gcloud/
