@@ -1,163 +1,79 @@
- ### Moving around
+---
+syntax: bash
+---
+# Yazi keybinds
 
- ┌───────────┬─────────────────────────────────────┐
- │ Key       │ Action                              │
- ├───────────┼─────────────────────────────────────┤
- │ j / k     │ Next / previous file                │
- ├───────────┼─────────────────────────────────────┤
- │ h / l     │ Go to parent dir / enter dir        │
- ├───────────┼─────────────────────────────────────┤
- │ H / L     │ Back / forward in directory history │
- ├───────────┼─────────────────────────────────────┤
- │ gg / G    │ Jump to top / bottom                │
- ├───────────┼─────────────────────────────────────┤
- │ C-u / C-d │ Move up / down half a page          │
- ├───────────┼─────────────────────────────────────┤
- │ z         │ Jump to a file or dir with fzf      │
- ├───────────┼─────────────────────────────────────┤
- │ Z         │ Jump to a dir with zoxide           │
- ├───────────┼─────────────────────────────────────┤
- │ g Space   │ Type a path to cd to                │
- ├───────────┼─────────────────────────────────────┤
- │ gf        │ Follow the hovered symlink          │
- └───────────┴─────────────────────────────────────┘
+# Moving around
+j / k                # next / previous file
+h / l                # go to parent dir / enter dir
+H / L                # back / forward in directory history
+gg / G               # jump to top / bottom
+C-u / C-d            # move up / down half a page
+z                    # jump to a file or dir with fzf
+Z                    # jump to a dir with zoxide
+g Space              # type a path to cd to
+gf                   # follow the hovered symlink
 
- ### Go-to shortcuts
+# Go-to shortcuts
+gh                   # ~
+gc                   # ~/.config
+gd                   # ~/Downloads
+gm                   # ~/Movies
+ga                   # ~/spronq/arqiver
+gw / gW              # ~/wolftrap / ~/wolftrap/music/2026/
+gi                   # iCloud
+go                   # Obsidian vault
+gr                   # git repo root
 
- ┌─────────┬─────────────────────────────────────┐
- │ Key     │ Dir                                 │
- ├─────────┼─────────────────────────────────────┤
- │ gh      │ ~                                   │
- ├─────────┼─────────────────────────────────────┤
- │ gc      │ ~/.config                           │
- ├─────────┼─────────────────────────────────────┤
- │ gd      │ ~/Downloads                         │
- ├─────────┼─────────────────────────────────────┤
- │ gm      │ ~/Movies                            │
- ├─────────┼─────────────────────────────────────┤
- │ ga      │ ~/spronq/arqiver                    │
- ├─────────┼─────────────────────────────────────┤
- │ gw / gW │ ~/wolftrap / ~/wolftrap/music/2026/ │
- ├─────────┼─────────────────────────────────────┤
- │ gi      │ iCloud                              │
- ├─────────┼─────────────────────────────────────┤
- │ go      │ Obsidian vault                      │
- ├─────────┼─────────────────────────────────────┤
- │ gr      │ Git repo root                       │
- └─────────┴─────────────────────────────────────┘
+# Selecting files
+Space                # select or unselect the file, then move down
+v / V                # visual select / visual unselect
+A or C-a             # select all
+C-r                  # invert the selection
+Esc                  # clear the selection, leave visual mode or cancel a search
 
- ### Selecting files
+# File operations
+o / Enter            # open the file
+O / S-Enter          # pick which app to open it with
+y / x                # copy / cut
+p                    # paste into the hovered dir or the current dir (smart-paste plugin)
+P                    # paste and overwrite
+Y / X                # cancel the copy or cut
+- / _                # symlink with absolute / relative path
+d / D                # move to Trash / delete permanently
+a                    # create a file (end the name with / to make a dir)
+r                    # rename
+cc cd cf cn          # copy the path / dir path / filename / name without extension
+C-p                  # Quick Look preview
+A-d / A-D            # diff 2 selected files with delta / Neovim
 
- ┌──────────┬───────────────────────────────────────────────────────────┐
- │ Key      │ Action                                                    │
- ├──────────┼───────────────────────────────────────────────────────────┤
- │ Space    │ Select or unselect the file, then move down               │
- ├──────────┼───────────────────────────────────────────────────────────┤
- │ v / V    │ Visual select / visual unselect                           │
- ├──────────┼───────────────────────────────────────────────────────────┤
- │ A or C-a │ Select all                                                │
- ├──────────┼───────────────────────────────────────────────────────────┤
- │ C-r      │ Invert the selection                                      │
- ├──────────┼───────────────────────────────────────────────────────────┤
- │ Esc      │ Clear the selection, leave visual mode or cancel a search │
- └──────────┴───────────────────────────────────────────────────────────┘
+# Search, filter, sort
+/ / ?                # find the next / previous match
+n / N                # next / previous match
+f                    # filter the current listing
+s / S                # search file names with fd / file contents with rg
+C-s                  # cancel the running search
+, + m/b/e/a/n/s/r    # sort by modified, created, extension, alphabetical, natural, size, random
+                     # (capital letter reverses)
+m + s/p/b/m/o/n      # extra column: size, permissions, created, modified, owner, none
+.                    # show or hide hidden files
 
- ### File operations
+# Preview
+J / K or C-f / C-b   # scroll the preview down / up 5 lines
+C-e / C-y            # scroll the preview down / up 1 line
+Tab                  # show file details ("spot"); h/l switch files, Tab closes
 
- ┌─────────────┬────────────────────────────────────────────────────────────────────┐
- │ Key         │ Action                                                             │
- ├─────────────┼────────────────────────────────────────────────────────────────────┤
- │ o / Enter   │ Open the file                                                      │
- ├─────────────┼────────────────────────────────────────────────────────────────────┤
- │ O / S-Enter │ Pick which app to open it with                                     │
- ├─────────────┼────────────────────────────────────────────────────────────────────┤
- │ y / x       │ Copy / cut                                                         │
- ├─────────────┼────────────────────────────────────────────────────────────────────┤
- │ p           │ Paste into the hovered dir or the current dir (smart-paste plugin) │
- ├─────────────┼────────────────────────────────────────────────────────────────────┤
- │ P           │ Paste and overwrite                                                │
- ├─────────────┼────────────────────────────────────────────────────────────────────┤
- │ Y / X       │ Cancel the copy or cut                                             │
- ├─────────────┼────────────────────────────────────────────────────────────────────┤
- │ - / _       │ Symlink with absolute / relative path                              │
- ├─────────────┼────────────────────────────────────────────────────────────────────┤
- │ d / D       │ Move to Trash / delete permanently                                 │
- ├─────────────┼────────────────────────────────────────────────────────────────────┤
- │ a           │ Create a file (end the name with / to make a dir)                  │
- ├─────────────┼────────────────────────────────────────────────────────────────────┤
- │ r           │ Rename                                                             │
- ├─────────────┼────────────────────────────────────────────────────────────────────┤
- │ cc cd cf cn │ Copy the path / dir path / filename / name without extension       │
- ├─────────────┼────────────────────────────────────────────────────────────────────┤
- │ C-p         │ Quick Look preview                                                 │
- ├─────────────┼────────────────────────────────────────────────────────────────────┤
- │ A-d / A-D   │ Diff 2 selected files with delta / Neovim                          │
- └─────────────┴────────────────────────────────────────────────────────────────────┘
+# Tabs
+t                    # new tab opened on the hovered dir (smart-tab plugin)
+1-9                  # go to tab N
+[ / ]                # previous / next tab
+{ / }                # move the tab left / right
+C-c                  # close the tab (quits if it's the last one)
 
- ### Search, filter, sort
-
- ┌───────────────────┬───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
- │ Key               │ Action                                                                                                                │
- ├───────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
- │ / / ?             │ Find the next / previous match                                                                                        │
- ├───────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
- │ n / N             │ Next / previous match                                                                                                 │
- ├───────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
- │ f                 │ Filter the current listing                                                                                            │
- ├───────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
- │ s / S             │ Search file names with fd / file contents with rg                                                                     │
- ├───────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
- │ C-s               │ Cancel the running search                                                                                             │
- ├───────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
- │ , + m/b/e/a/n/s/r │ Sort by modified time, created time, extension, alphabetical, natural order, size or random (capital letter reverses) │
- ├───────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
- │ m + s/p/b/m/o/n   │ Extra column: size, permissions, created time, modified time, owner or none                                           │
- ├───────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
- │ .                 │ Show or hide hidden files                                                                                             │
- └───────────────────┴───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-
- ### Preview
-
- ┌────────────────────┬───────────────────────────────────────────────────────────────────┐
- │ Key                │ Action                                                            │
- ├────────────────────┼───────────────────────────────────────────────────────────────────┤
- │ J / K or C-f / C-b │ Scroll the preview down / up 5 lines                              │
- ├────────────────────┼───────────────────────────────────────────────────────────────────┤
- │ C-e / C-y          │ Scroll the preview down / up 1 line                               │
- ├────────────────────┼───────────────────────────────────────────────────────────────────┤
- │ Tab                │ Show file details ("spot"); use h/l to switch files, Tab to close │
- └────────────────────┴───────────────────────────────────────────────────────────────────┘
-
- ### Tabs
-
- ┌───────┬──────────────────────────────────────────────────────┐
- │ Key   │ Action                                               │
- ├───────┼──────────────────────────────────────────────────────┤
- │ t     │ New tab opened on the hovered dir (smart-tab plugin) │
- ├───────┼──────────────────────────────────────────────────────┤
- │ 1–9   │ Go to tab N                                          │
- ├───────┼──────────────────────────────────────────────────────┤
- │ [ / ] │ Previous / next tab                                  │
- ├───────┼──────────────────────────────────────────────────────┤
- │ { / } │ Move the tab left / right                            │
- ├───────┼──────────────────────────────────────────────────────┤
- │ C-c   │ Close the tab (quits if it's the last one)           │
- └───────┴──────────────────────────────────────────────────────┘
-
- ### Shell, tasks and quitting
-
- ┌────────┬────────────────────────────────────────────────────────┐
- │ Key    │ Action                                                 │
- ├────────┼────────────────────────────────────────────────────────┤
- │ ; / :  │ Run a shell command / run it and wait for it to finish │
- ├────────┼────────────────────────────────────────────────────────┤
- │ w      │ Show the task list (x cancels a task)                  │
- ├────────┼────────────────────────────────────────────────────────┤
- │ q      │ Quit without changing your shell's directory           │
- ├────────┼────────────────────────────────────────────────────────┤
- │ Q      │ Quit and cd your shell into the current dir            │
- ├────────┼────────────────────────────────────────────────────────┤
- │ C-z    │ Suspend Yazi                                           │
- ├────────┼────────────────────────────────────────────────────────┤
- │ ~ / F1 │ Help (lists every key)                                 │
- └────────┴────────────────────────────────────────────────────────┘
+# Shell, tasks and quitting
+; / :                # run a shell command / run it and wait for it to finish
+w                    # show the task list (x cancels a task)
+q                    # quit without changing your shell's directory
+Q                    # quit and cd your shell into the current dir
+C-z                  # suspend Yazi
+~ / F1               # help (lists every key)
