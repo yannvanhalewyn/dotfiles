@@ -1,6 +1,7 @@
 {
     "diagnostics.globals": [
         "hs",
+        "rex",
         "vim",
         "fmt",
         "s",

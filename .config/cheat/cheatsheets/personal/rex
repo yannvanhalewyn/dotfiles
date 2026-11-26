@@ -1,0 +1,14 @@
+# Rex keybinds
+
+## Floats
+CMD p      - new float
+CMD Alt n  - minimize float (toggle)
+
+## Panes
+CMD shift ret - maximize pane
+
+## Splits
+cmd d       - new split right
+cmd shift d - new split bottom
+cmd ret     -  new split best fit
+
