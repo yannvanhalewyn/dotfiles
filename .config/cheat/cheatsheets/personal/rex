@@ -1,14 +1,16 @@
+---
+syntax: bash
+---
 # Rex keybinds
 
-## Floats
-CMD p      - new float
-CMD Alt n  - minimize float (toggle)
+# Floats
+Cmd-p              # new float
+Cmd-Alt-n          # minimize float (toggle)
 
-## Panes
-CMD shift ret - maximize pane
+# Panes
+Cmd-Shift-Return   # maximize pane
 
-## Splits
-cmd d       - new split right
-cmd shift d - new split bottom
-cmd ret     -  new split best fit
-
+# Splits
+Cmd-d              # new split right
+Cmd-Shift-d        # new split bottom
+Cmd-Return         # new split best fit
