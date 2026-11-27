@@ -106,7 +106,6 @@ function M.run(ctx)
     session_id = created.session_id
   end
 
-  -- Consider adding sessions.remember(...) to support go to last session
   rex.client.queue("session.select", { session_id = session_id })
 end
 
