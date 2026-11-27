@@ -1,5 +1,6 @@
 require("sessions")
 local popup = require("popup")
+local dispensary = require("dispensary")
 
 rex.bind("cmd+ctrl+r", "client.config.reload")
 
@@ -7,6 +8,8 @@ rex.bind("cmd+ctrl+r", "client.config.reload")
 rex.bind("cmd+shift+l", "session_last")
 rex.bind("cmd+k", "session_switch_tracked")
 rex.bind("cmd+ctrl+4", "session.rename") -- '4' similar to '$' in tmux
+dispensary.register("dispensary")
+rex.bind("cmd+shift+k", "dispensary")
 
 -- Tabs
 rex.bind("cmd+ctrl+,", "client.tab.rename")
