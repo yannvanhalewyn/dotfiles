@@ -14,3 +14,17 @@ Cmd-Shift-Return   # maximize pane
 Cmd-d              # new split right
 Cmd-Shift-d        # new split bottom
 Cmd-Return         # new split best fit
+
+
+## Detecting actions
+
+rex client ls                    # find the app's label
+rex -C <label> actions           # client actions (client.*, pane.*,
+session.*)
+rex -C <label> actions --json    # includes argument schemas
+rex actions                      # server actions: your init.lua ones like
+session_last, jjtui
+
+## Detecting keymaps
+
+rex keymap

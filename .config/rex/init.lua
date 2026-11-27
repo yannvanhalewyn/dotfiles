@@ -4,19 +4,20 @@ local popup = require("popup")
 rex.bind("cmd+ctrl+r", "client.config.reload")
 
 -- Sessions
-
 rex.bind("cmd+shift+l", "session_last")
 rex.bind("cmd+k", "session_switch_tracked")
+rex.bind("cmd+ctrl+4", "session.rename") -- '4' similar to '$' in tmux
 
 -- Tabs
 rex.bind("cmd+ctrl+,", "client.tab.rename")
 
--- Pane focus
+-- Panes
 rex.bind("cmd+ctrl+j", "pane.focus", { direction = "down" })
 rex.bind("cmd+ctrl+k", "pane.focus", { direction = "up" })
 rex.bind("cmd+ctrl+h", "pane.focus", { direction = "left" })
 rex.bind("cmd+ctrl+l", "pane.focus", { direction = "right" })
 rex.bind("cmd+ctrl+f", "pane.zoom")
+rex.bind("cmd+ctrl+1", "pane.move_to_new_tab") -- '1' similar to '!' in tmux
 
 -- Floats
 rex.bind("cmd+ctrl+p", "pane.new_floating")
@@ -34,11 +35,6 @@ rex.bind("cmd+p", "prstack")
 -- ctrl+a starts sequences, so pass it through on a double press.
 
 rex.bind("ctrl+a>ctrl+a", "pane.send_key", { key = "ctrl+a" })
--- Tabs and splits
-rex.bind("ctrl+a>c", "client.tab.new")
-rex.bind("ctrl+a>b", "pane.split", { direction = "right" })
-rex.bind("ctrl+a>v", "pane.split", { direction = "down" })
-rex.bind("ctrl+a>shift+b", "pane.move_to_new_tab")
 
 -- tmux `bind -r` bindings, as plain sequences
 rex.bind("ctrl+a>left", "pane.resize", { amount = 1, direction = "left" })
@@ -59,5 +55,3 @@ rex.bind("repeat/down", "pane.resize", { amount = 1, direction = "down" })
 rex.bind("repeat/up", "pane.resize", { amount = 1, direction = "up" })
 rex.bind("repeat/tab", "client.tab.next")
 rex.bind("repeat/shift+tab", "client.tab.previous")
-
--- Herdr: prefix ctrl+b
