@@ -27,8 +27,10 @@ rex.bind("cmd+ctrl+p", "pane.new_floating")
 
 popup.register("jjtui", "jjtui", { "jjtui" })
 popup.register("prstack", "PR Stack", { "prstack" })
+popup.register("yazi", "Yazi", { "yazi" })
 rex.bind("cmd+j", "jjtui")
 rex.bind("cmd+p", "prstack")
+rex.bind("cmd+y", "yazi")
 
 ---------------------------
 -- Agentic import from Tmux
